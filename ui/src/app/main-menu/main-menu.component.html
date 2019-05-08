@@ -1,0 +1,9 @@
+<p>
+  main-menu works!  qsdsqddd
+</p>
+<div *ngFor="let menuItem of menu | async" >
+    <a routerLink="/subMenu/{{menuItem.title}}">{{menuItem.title}}</a>
+</div>
+<div *ngIf="true">
+  <input [(ngModel)]="newTitle" placeholder="titre" /><button  (click)="addMenu()" >Add</button>
+</div>

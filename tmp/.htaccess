@@ -1,0 +1,15 @@
+
+# HTID:9424603: DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES BELOW
+php_value display_errors 1
+# DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES ABOVE HTID:9424603:
+
+php_value output_buffering 1
+RewriteEngine on
+
+
+RewriteBase "/"
+RewriteRule "^php/.*\.php" "/index.php?page=unknown"
+RewriteRule "^php/.*\.db" "/index.php?page=unknown"
+RewriteCond "%{DOCUMENT_ROOT}%{REQUEST_URI}" !-f
+RewriteRule "^/?([^/]+)/?(.*)$"  "index.php?page=$1&subPage=$2&%{QUERY_STRING}"
+

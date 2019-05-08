@@ -2,12 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
-
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RouteExampleComponent } from './route-example/route-example.component';
 
 import { AppService } from './app.service';
 import { AppHttpInterceptorService } from './http-interceptor.service';
+import { MainMenuComponent } from './main-menu/main-menu.component';
+import { SubMenuComponent } from './sub-menu/sub-menu.component';
 
 const routes: Routes = [
   {
@@ -22,8 +24,13 @@ const routes: Routes = [
   },
   {
     path: 'angular',
-    component: RouteExampleComponent,
-    data: { technology: 'Angular' }
+    component: MainMenuComponent,
+    data: { technology: 'prout' }
+  },
+  {
+    path: 'subMenu/:title',
+    component: SubMenuComponent,
+    data: { technology: 'prout' }
   },
   {
     path: '**',
@@ -35,10 +42,13 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    RouteExampleComponent
+    RouteExampleComponent,
+    MainMenuComponent,
+    SubMenuComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     HttpClientXsrfModule.withOptions({
       cookieName: 'Csrf-Token',
