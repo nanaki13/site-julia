@@ -4,7 +4,7 @@
   */
 object FrontendCommands {
   val dependencyInstall: String = "heroku run npm install"
-  val test: String = "heroku run npm run test:ci"
-  val serve: String = "heroku run npm run start"
-  val build: String = "heroku run npm run build:prod"
+  val test: String = "npm run test:ci"
+  val serve: String = "npm run start"
+  val build: String = "npm run build:prod"
 }
