@@ -8,8 +8,19 @@ GET     /                           controllers.FrontendController.index()
 # An example route (Prefix all API routes with apiPrefix defined in application.conf)
 GET     /api/summary                controllers.HomeController.appSummary
 
+# Get the image menu
+GET     /api/menu/images                    controllers.HomeController.getImageMenuLink()
 # Get the menu
 GET     /api/menu                    controllers.HomeController.getMenu()
+
+# Get the menu
+
+GET     /api/submenu                    controllers.HomeController.getSubMenu(sub : controllers.HomeController.SubMenuList)
+
+
+
+# Serve static assets under public directory
+GET     /image/*file.jpg                   controllers.HomeController.getImage(file)
 
 # Serve static assets under public directory
 GET     /*file                      controllers.FrontendController.assetOrDefault(file)
@@ -17,6 +28,15 @@ GET     /*file                      controllers.FrontendController.assetOrDefaul
 # Test post request
 POST    /api/postTest               controllers.HomeController.postTest()
 
+# Test post request
+POST    /api/image               controllers.HomeController.postImagesAction()
+
+# Test post request
+POST    /api/menu/images               controllers.HomeController.postImagesMenuAction()
+
 # add a menu
 POST     /api/menu                    controllers.HomeController.addMenu()
+
+# add a subMenu
+POST     /api/submenu              controllers.HomeController.addSubMenu()
 

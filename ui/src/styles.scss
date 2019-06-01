@@ -1,0 +1,43 @@
+/* You can add global styles to this file, and also import other style files */
+
+#root{
+  width: 100%;
+  color: black;
+}
+
+#leftbar{
+  position: fixed;
+  top : 0;
+  left: 0;
+  width: 20vw
+
+}
+body {
+  /* min-height: 900px; */
+  font-family: Lato, sans-serif;
+}
+
+.middle{
+
+
+   display: inline;
+
+}
+.middle-root{
+  height: 100%;
+  padding-top: 20vw;
+  padding-left: 20vw;
+
+}
+
+.right, .right_100 {
+  position: absolute;
+  /* display: inline-block; */
+  /* position: fixed; */
+  width: 80%;
+  /* float: left; */
+  height: 100%;
+  left: 20%;
+  top: 0;
+  overflow: hidden;
+}

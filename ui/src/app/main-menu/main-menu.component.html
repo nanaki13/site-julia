@@ -1,9 +1,21 @@
-<p>
-  main-menu works!  qsdsqddd
-</p>
-<div *ngFor="let menuItem of menu | async" >
-    <a routerLink="/subMenu/{{menuItem.title}}">{{menuItem.title}}</a>
+<div id=leftbar>
+    <div id="title">
+        <a style="text-decoration: none" routerLink="/home"><div id="title_main">Julia<br>Le&nbsp;Corre</div>
+        <div id="title_sub">Artiste</div>
+      </a>
+    </div>
+    <div id=menu>
+  <div   *ngFor="let menuItem of menu | async">
+    <a class="menu_item" routerLink="/subMenu/{{ menuItem.title }}/{{ menuItem.id }}">{{
+      menuItem.title
+    }}</a>
+  </div>
+  <div class="menu_item"  *ngIf="true">
+      <input  [(ngModel)]="newTitle" placeholder="titre" />
+      <button (click)="addMenu()">
+        Add
+      </button>
+    </div>
 </div>
-<div *ngIf="true">
-  <input [(ngModel)]="newTitle" placeholder="titre" /><button  (click)="addMenu()" >Add</button>
+
 </div>

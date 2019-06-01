@@ -4,6 +4,7 @@ target
 /.idea_modules
 /.classpath
 /.project
+/project/**/target
 /.settings
 /RUNNING_PID
 

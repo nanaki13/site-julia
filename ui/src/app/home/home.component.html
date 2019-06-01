@@ -1,0 +1,13 @@
+<div class="right_100">
+
+  <img *ngFor="let image of images; index as i" id="{{i+'img'}}" class="image_back" src="{{image}}" alt="1">
+
+  <div class="middle-root">
+      <div class="middle" >Pas d'image dans l'acceuil, tu peux en ajouter : <button (click)="addImageHome()">+</button>
+      <ng-container *ngIf="whantAddImage">
+        <app-image-upload [url]=url></app-image-upload>
+      </ng-container>
+      </div>
+  </div>
+
+</div>

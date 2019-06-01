@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,ParamMap } from '@angular/router';
 import { MainMenuService, MenuItem } from '../main-menu.service';
 import { Observable } from 'rxjs';
 
@@ -14,22 +14,25 @@ export class SubMenuComponent implements OnInit {
   newTitle : String
   menu: Observable<MenuItem[]>;
   title: string;
+  id: number;
   constructor(private route: ActivatedRoute,private mService : MainMenuService) { }
 
   ngOnInit() {
-   
+
       this.route.paramMap.subscribe( e => this.loadItem(e))
-     
-       
-   
+
+
+
   }
-  loadItem(e: import("@angular/router").ParamMap): void {
+  loadItem(e: ParamMap): void {
     this.title = e.get('title')
-    this.menu = this.mService.getSubMenu(this.title)
+    this.id = +e.get('id')
+    this.menu = this.mService.getSubMenu(this.id)
   }
-  
+
   addMenu(){
-    this.mService.addSubMenu(this.title,this.newTitle)
+    this.mService.addSubMenu(this.id,this.newTitle).subscribe( e => {console.log(e);this.ngOnInit()})
+
   }
 
 }

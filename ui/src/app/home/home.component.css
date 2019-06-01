@@ -1,0 +1,19 @@
+.right_100 {
+
+}
+.right, .right_100 {
+  position: absolute;
+  /* display: inline-block; */
+  /* position: fixed; */
+  width: 80%;
+  /* float: left; */
+  height: 100%;
+  left: 20%;
+  top: 0;
+  overflow: hidden;
+}
+.image_back {
+ z-index: -1000;
+  position: absolute;
+  width: 100%
+}
