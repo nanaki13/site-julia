@@ -17,7 +17,7 @@ import { SubMenuComponent } from "./sub-menu/sub-menu.component";
 import { ImageUploadComponent } from "./image-upload/image-upload.component";
 import { MessageComponent } from "./message/message.component";
 import { HomeComponent } from "./home/home.component";
-import { OeuvreComponent } from './oeuvre/oeuvre.component';
+import { OeuvreComponent } from "./oeuvre/oeuvre.component";
 
 const routes: Routes = [
   {
@@ -30,6 +30,12 @@ const routes: Routes = [
     component: SubMenuComponent,
     data: { technology: "prout" }
   },
+  {
+    path: "page/:title/:id",
+    component: OeuvreComponent,
+    data: { technology: "prout" }
+  },
+
   {
     path: "**",
     redirectTo: "/home",

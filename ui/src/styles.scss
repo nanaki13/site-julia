@@ -30,6 +30,10 @@ body {
 
 }
 
+.right_100 {
+
+    height:100%;
+}
 .right, .right_100 {
   position: absolute;
   /* display: inline-block; */
@@ -40,4 +44,517 @@ body {
   left: 20%;
   top: 0;
   overflow: hidden;
+}
+.bandeau {
+	/*position: absolute;*/
+	top: 0;
+	left: 0;
+}
+#logout{
+	position: absolute;
+	top: 10px;
+	left:10px;
+}
+#copyright{
+	position: fixed;
+	bottom: 10px;
+	left:10px;
+    font-size : 0.7em;
+}
+
+.gallery_inner_cont {
+	width: 30%;
+	display: inline-block;
+	vertical-align: top;
+	/*right:3%;*/
+/* 	text-align: center; */
+	margin: 0 7px 100px 7px;
+}
+
+.gallery_cont {
+		position: absolute;
+	/*display: inline-block;*/
+	/*	position: fixed;*/
+	width: 80%;
+	/*float:left ;*/
+	left: 20%;
+	top: 0;
+
+}
+
+body {
+	/*   min-height:900px; */
+	font-family: Lato, sans-serif;
+}
+
+.topright_background, .label {
+	display: none;
+/* 	position: absolute; */
+/* 	top: 0px; */
+	text-align: left;
+/* 	height: 200px; */
+/* 	width: 200px; */
+	background-color: black;
+	color: gold;
+	opacity: 0.5;
+}
+
+.label {
+	opacity: 1;
+	background-color: transparent;
+}
+
+.gallery {
+	margin-top : 14px;
+/* 	position: relative; */
+	z-index: 0;
+/* 	position: relative; */
+/* 	display: inline-block; */
+/* 	height: 200px; */
+	 	width: 100%;
+/* 	overflow: hidden; */
+/* 	text-align: center; */
+/* 	vertical-align: middle; */
+	/*     padding-top:-100px; */
+/* 	background-color: transparent; */
+/* 	margin: 10px; */
+}
+
+.gallery:hover>div {
+	display: block;
+}
+
+.gallery:hover {
+	z-index: 10;
+	/*   overflow:visible; */
+}
+
+.gallery_image {
+/* 	position: absolute; */
+	/*top:100px;*/
+	/*   width:auto; */
+	/*   height:auto; */
+	  width:100%;
+/* 	max-height: 400px; */
+/* 	min-width: 200px; */
+	/* padding-top:-100px;*/
+/* 	top: -50px; */
+/* 	left: -50px; */
+/* 	vertical-align: middle; */
+}
+
+.gallery_image_used {
+/* 	position: absolute; */
+	/*top:100px;*/
+	/*   width:auto; */
+	/*   height:auto; */
+	  width:100%;
+	  border-color: #73ff00;
+	  border-style: solid;
+/* 	max-height: 400px; */
+/* 	min-width: 200px; */
+	/* padding-top:-100px;*/
+/* 	top: -50px; */
+/* 	left: -50px; */
+/* 	vertical-align: middle; */
+}
+
+.gallery_all{
+	width : 200px;
+/* 	max-height: 200px; */
+	vertical-align: middle;
+	display: inline-block;
+}
+
+#root_slider {
+	display: none;
+}
+
+#background_slider {
+	top: 0px;
+	position: absolute;
+	background-color: black;
+	width: 100%;
+	display: block;
+	/* 	opacity:0.5; */
+}
+
+#btnRight {
+	top: 50%;
+	right: 0;
+	position: absolute;
+/*	background-color: gold;*/
+	width: 5%;
+	height: 5%;
+	display: block;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#btnRight>img{
+	width: 30px;
+
+}
+.upper{
+	font-size: 1.2em;
+}
+.italic {
+font-style: italic;
+
+}
+
+#btnLeft>img{
+	width: 30px;
+}
+
+#btnLeft {
+	text-align: center;
+	vertical-align: middle;
+	top: 50%;
+	left: 0;
+	position: absolute;
+/*	background-color: gold;*/
+	width: 5%;
+	height: 5%;
+	display: block;
+}
+
+#slider_description{
+	top: 60%;
+	left: 1%;
+	max-width:8%;
+	position: absolute;
+/* 	background-color: blue; */
+/* 	width: 5%; */
+/* 	height: 5%; */
+/* 	display: block;	 */
+	color: white;
+}
+
+.slider {
+	position: absolute;
+	top: 5%;
+	left: 0px;
+	width: 100%;
+}
+
+#current_image_div {
+	width: 90%;
+	margin: auto;
+	text-align: center;
+}
+
+#current_image {
+	width: auto;
+	max-width: 90%;
+    height: 600px;
+}
+.center{
+    text-align:center;
+}
+/*.current_image:hover{
+
+	width: 100%;
+	text-align:center;
+
+}*/
+.current_image {
+	/* 	width: 50%; */
+	/* 	height:500px; */
+	/* 	text-align:center; */
+
+}
+
+.legend_image {
+	font-size: 1em;
+	display: inline-block;
+	width: 30%;
+}
+
+#left {
+	position: fixed;
+	width: 20%;
+	/*float:left ;*/
+	top: 0px;
+	/*display: inline-block;*/
+}
+
+
+.title_main {
+	text-transform: uppercase;
+	letter-spacing: 6px;
+	font-size: 20px;
+	font-weight: 600;
+	margin: 32px 10px 0 10px;
+	line-height: 40px;
+	text-align: center;
+}
+
+.title_sub {
+	margin-top: 5%;
+	font-size: 8px;
+	letter-spacing: 6px;
+	font-weight: 600;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.menu {
+	margin-top: 60px;
+	margin-left: 12px;
+	margin-right: 12px;
+	/*	padding-left: 20%;*/
+
+	/*    text-transform: uppercase;*/
+	text-align: center;
+	/*	padding: 2% 0 2% 0;
+	margin: 2% 0 2% 0;*/
+	/*	text-align: center; */
+	/*background-image:url("/rsc/bandeau.jpg");
+	background-repeat:no-repeat;
+	background-position : center;
+	background-size: 100%;*/
+}
+
+.subMenu {
+
+	margin: auto;
+/* 	text-align: center; */
+}
+
+/* .subMenuItem { */
+/* 	text-decoration: none; */
+/* 	display: inline; */
+/* 	font-size: 1.5em; */
+/* 	color: gold; */
+/* } */
+
+/* .subMenuDiv { */
+/* 	display: inline-block; */
+/* 	position: background; */
+/* 	width: 20%; */
+/* 	max-width: 200px; */
+/* 	height: auto; */
+/* 	margin-left: 5em; */
+/* 	margin-right: 5em; */
+/* } */
+.inlineblock{
+	display: inline-block;
+}
+.vignetteDroite{
+	width: 200px;
+	height: auto;
+	display: inline-block;
+/* 	float: left; */
+}
+
+#apropos img{
+    width:20%;
+	display: inline;
+     margin-right : 10px;
+     margin-bottom : 10px;
+}
+#apropos{
+
+    margin-right:5%;
+}
+
+
+.text_link{
+    text-decoration:none;
+    color:black ;
+    text-align:center;
+
+}
+.text_link:hover{
+    color:gold;
+}
+.margtop{
+	margin-top: 100px;
+}
+.smallmargtop{
+	margin-top: 2em;
+}
+.margleft{
+	margin-left: 100px;
+}
+#contact{
+    height:100%;
+}
+.contact_email{
+   display : inline-block;
+
+   text-align: center;
+     line-height: 15px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    z-index:100;
+	margin: 10 10 10 10;
+	padding: 40 10 40 10;
+   /* margin-top: 1em;
+    margin-left: 30em;*/
+
+}
+.contact_image{
+    display : inline-block;
+     width:50%;
+
+
+    z-index:0;
+
+}
+.subMenuItem{
+	text-decoration: none;
+
+	font-size: 1.5em;
+	color: gold;
+    z-index:20;
+ }
+
+.subMenuDiv{
+	display:inline-block;
+	width: 300px;
+	height:300px;
+    overflow:hidden
+}
+.sub_menu_title{
+    position:absolute;
+    z-index:20;
+}
+.subMenuDivImg {
+	overflow:hidden;
+    z-index:0;
+    position:relative;
+
+}
+.subMenuDivImg>img {
+	width: 350px;
+    width: 350px;
+	position:relative
+}
+.title_text{
+
+    font-weight:bold;
+}
+.twocol
+{
+
+    -webkit-column-count:2; /* Opera, Safari, Google Chrome */
+
+    -moz-column-count: 2; /* Firefox */
+
+    column-count: 2; /* Internet Explorer */
+
+}
+.img_menu {
+	position: absolute;
+	top: 100px;
+	left: 75%;
+	z-index: -1;
+	width: 60px;
+	/* 	 -ms-transform: rotate(45deg); IE 9 */
+	/*     -webkit-transform: rotate(45deg); Chrome, Safari, Opera */
+	/*     transform: rotate(45deg); */
+}
+
+.img_menu_2 {
+	position: absolute;
+	top: 150px;
+	left: 15%;
+	z-index: -1;
+	width: 60px;
+
+
+	 -ms-transform: rotate(45deg);
+	    -webkit-transform: rotate(45deg);
+	    transform: rotate(45deg);
+
+
+}
+#img_menu_3 {
+/* 	position: absolute; */
+/* 	bottom: 0px; */
+/* 	left: 35%; */
+/* 	z-index: -1; */
+	margin-top : 50px;
+	width: 60px;
+
+
+/* 	 -ms-transform: rotate(45deg);  */
+/* 	    -webkit-transform: rotate(45deg);  */
+/* 	    transform: rotate(45deg); */
+
+
+}
+
+.menu_fleur {
+	width: 30px;
+	height: 30px;
+}
+
+.menu_item {
+	display: block;
+	/*	font-size: 20px ;*/
+	margin: 15% 0 0 0;
+	color: black;
+	text-decoration: none;
+	line-height: 15px;
+    font-size: 11px;
+	letter-spacing: 6px;
+	font-weight: 700;
+}
+
+.menu_item_div {
+	display: inline;
+}
+
+.menu_item:hover {
+	color: gold;
+}
+
+body {
+	background-color: white;
+	padding: 0;
+	margin: 0;
+}
+
+.root {
+	color: black;
+	width: 100%;
+	background-color: transparent;
+	padding: 0;
+	margin: 0;
+}
+
+.image_back {
+	/* 	height : 100%; */
+	position: absolute;
+	width: 100%;
+	/* 	height: 500px; */
+	/*	top:-50%;*/
+/* 	display: none; */
+	/* 	left:0; */
+	/*	margin:0.3%;*/
+	/*	padding:0%;*/
+	/*	vertical-align:top; */
+}
+#expo{
+	vertical-align: top;
+	margin-left: 30px;
+
+}
+#div_back {
+  /*  height:100%;
+    position : fixed;*/
+	/* 	overflow: hidden; */
+	/* 	height: 00%; */
+	/*z-index: -1;
+	width : 100%;
+
+
+	/*	text-align: center;*/
+	/*	margin-top : 3em;*/
+	/*left:0;*/
+
 }

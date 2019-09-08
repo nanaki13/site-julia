@@ -9,7 +9,7 @@ import { AppService } from '../app.service';
 export class ImageUploadComponent implements OnInit {
 
   private postRequestResponse: string;
-  private imgs: any[] = [];
+  imgs: any[] = [];
   @Input()
   url: string;
   event(f) {
