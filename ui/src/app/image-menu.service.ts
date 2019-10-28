@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
-import { of, Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { MessageInternService } from './message-intern.service';
+import { Injectable } from "@angular/core";
+import { of, Observable } from "rxjs";
+import { catchError, map } from "rxjs/operators";
+import { HttpClient } from "@angular/common/http";
+import { MessageInternService } from "./message-intern.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class ImageMenuService {
 
   private imgUrl = "/api/menu/images";
-private _images : Observable<string[]>= of([])
-constructor(private http : HttpClient,private ms : MessageInternService) { }
+private _images: Observable<string[]>= of([])
+constructor(private http: HttpClient,private ms: MessageInternService) { }
 
 
 /**

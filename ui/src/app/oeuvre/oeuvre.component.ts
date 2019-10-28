@@ -10,11 +10,12 @@ import { of } from 'rxjs';
 })
 export class OeuvreComponent implements OnInit {
 
+
   newTitle : String;
   title: string;
   id: number;
-
-  data = of( [ { title : "title" ,
+  oeuvres:  Oeuvre[][] = [];
+  dataObservable = of( [ { title : "title" ,
     date : "date",
     dimension : "dimension",
     description : "description",x : 1 , y : 0} as Oeuvre,{ title : "title" ,
@@ -28,7 +29,37 @@ export class OeuvreComponent implements OnInit {
     dimension : "dimension",
     description : "description",x : 0 , y : 0} as Oeuvre ])
 
-  constructor(private route: ActivatedRoute,private mService : MainMenuService) { }
+  constructor(private route: ActivatedRoute,private mService : MainMenuService) {
+    this.oeuvres = [];
+    this.dataObservable.subscribe(e => {
+        e.forEach( ele => {
+          while(this.oeuvres.length <= ele.x){
+            this.oeuvres.push(null);
+          }
+          if(!this.oeuvres[ele.x]){
+            this.oeuvres[ele.x] = [];
+          }
+          while(this.oeuvres.length <= ele.y){
+            this.oeuvres[ele.x].push(null);
+          }
+          this.oeuvres[ele.x][ele.y] = ele;
+        } );
+    });
+
+  }
+
+  set(set: Oeuvre) {
+    while(this.oeuvres.length <= set.x){
+      this.oeuvres.push(null);
+    }
+    if(!this.oeuvres[set.x]){
+      this.oeuvres[set.x] = [];
+    }
+    while(this.oeuvres.length <= set.y){
+      this.oeuvres[set.x].push(null);
+    }
+    this.oeuvres[set.x][set.y] = set;
+  }
 
   ngOnInit() {
 

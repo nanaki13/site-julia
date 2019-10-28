@@ -4,16 +4,15 @@ import java.io.{BufferedInputStream, FileInputStream}
 import java.nio.file.Paths
 
 import akka.util.CompactByteString
-import bon.jo.helloworld.juliasite.model._
-import bon.jo.helloworld.juliasite.pers._
+import controllers.SiteModel.{ImgLink, ImgLinkOb, MenuItem}
 import javax.inject._
 import play.api.http.HttpEntity
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json._
 import play.api.mvc._
+import controllers.services.Services.{ImageService, MenuService}
 
-import scala.concurrent.{Await, ExecutionContext}
-import scala.concurrent.duration.Duration
+import scala.concurrent.{ExecutionContext, Future}
 
 object HomeController {
 
@@ -38,8 +37,37 @@ object HomeController {
   }
 }
 
+object SiteModel {
+
+  case class MenuItem(var id: Option[Int] = None, title: String, parentTheme: Option[Int])
+
+  object MenuItem {
+    def apply(tup: (Option[Int], String, Option[Int])): MenuItem = {
+      MenuItem(tup._1, tup._2, tup._3)
+    }
+
+
+  }
+
+  case class ImgLinkOb(link: String)
+
+  object ImgLink {
+
+    def apply(id: Int, contentType: String): String =
+      s"image/${id}" + (contentType match {
+        case "image/jpeg" => ".jpg"
+        case "image/png" => ".png"
+        case _ => ".jpg"
+      })
+  }
+
+}
+
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class HomeController @Inject()(cc: ControllerComponents
+                               , menuService: MenuService
+                               , imageService: ImageService
+                              ) extends AbstractController(cc) {
 
 
   implicit val residentWrites: OWrites[MenuItem] = Json.writes[MenuItem]
@@ -47,10 +75,6 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
   implicit val readLnk: Reads[ImgLinkOb] = Json.reads[ImgLinkOb]
   implicit val lnkWrites: OWrites[ImgLinkOb] = Json.writes[ImgLinkOb]
   implicit val ctx: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
-  val dbConntext = new ApplicationPostgresProfile
-  val _import = dbConntext.profile.api
-
-  import _import._
 
 
   def appSummary: Action[AnyContent] = Action {
@@ -61,19 +85,8 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(Json.obj("content" -> "Post Request Test => Data Sending Success"))
   }
 
-  case class  ImgLinkOb(  link : String){
 
-  }
-  object ImgLink {
-
-    def apply(id: Int, contentType: String): String = s"image/${id}" + (contentType match {
-      case "image/jpeg" => ".jpg"
-      case "image/png" => ".png"
-      case _ => ".jpg"
-    })
-  }
-
-  def read(picture: MultipartFormData.FilePart[TemporaryFile]) = {
+  def read(picture: MultipartFormData.FilePart[TemporaryFile]): (Option[Array[Byte]], String) = {
     // only get the last part of the filename
     // otherwise someone can send a path like ../../home/foo/bar.txt to write to other files on the system
     val filename = Paths.get(picture.filename).getFileName
@@ -91,23 +104,19 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     (byttes, contentType)
   }
 
-  def postImages(request: Request[MultipartFormData[TemporaryFile]]) = {
+
+  def postImages(request: Request[MultipartFormData[TemporaryFile]]): Future[Result] = {
     request.body
       .file("file")
       .map { picture =>
-        val (byttes, contentType) = read(picture)
-        val dbOp = dbConntext.db.run((dbConntext.images += Images(0, contentType, byttes.get)) flatMap {
-          _ => {
-            dbConntext.images.map(e => (e.id, e.contentType)).sortBy(_._1.desc).result.headOption
-          } map {
-            case Some((id,ct)) => Ok(Json.obj("link" -> ImgLink(id, ct)))
-            case _ => NotFound(Json.obj("content" -> "Don't found the previous immage"))
-          }
-        })
-        Await.result(dbOp, Duration.Inf)
+        val (byttes: Option[Array[Byte]], contentType: String) = read(picture)
+        imageService.saveImage(byttes, contentType) map {
+          case Some((id, ct)) => Ok(Json.obj("link" -> ImgLink(id, ct)))
+          case _ => NotFound(Json.obj("content" -> "Don't found the previous immage"))
+        }
       }
       .getOrElse {
-        NotFound(Json.obj("content" -> "File not found in request"))
+        Future.successful(NotFound(Json.obj("content" -> "File not found in request")))
       }
   }
 
@@ -118,47 +127,42 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     }
   }
 
-  def postImagesMenuAction = Action(parse.multipartFormData) { request =>
-    request.body.file("file").map(f => {
+  def postImagesMenuAction = Action.async(parse.multipartFormData) { request =>
+    request.body.file("file").map { f => {
       val (byttes, contentType) = read(f)
-      val id = byttes match {
-        case Some(b) => dbConntext.addImagesMenu(b, contentType)
-        case _ => None
-      }
-      id match {
-        case Some((id,ct)) => Ok(Json.obj("content" -> "Element added", "link" -> ImgLink(id, ct)))
-        case None => NoContent
-      }
-    }).getOrElse(NotFound(Json.obj("content" -> "File not found in request")))
+      val b = byttes.getOrElse(NotFound(Json.obj("content" -> "File not found in request")))
+      b match {
+        case e: Array[Byte] => imageService.addImagesMenu(e, contentType).map {
+          case Some((id, ct)) => Ok(Json.obj("link" -> ImgLink(id, ct)))
+          case _ => NotFound(Json.obj("content" -> "Don't found the previous immage"))
 
-
-  }
-
-
-  def getMenu: Action[AnyContent] = Action {
-    var l: Seq[MenuItem] = Nil
-    Await.result(dbConntext.db.run(dbConntext.themes.filter(_.idThemeParent.isEmpty).result) map {
-      e => {
-        l = e.map(i => {
-          MenuItem(Option.apply(i._1), i._2, None)
-        })
+        }
       }
     }
-      , Duration.Inf)
-    Ok(Json.toJson(l))
+
+    }.getOrElse {
+      Future.successful(NotFound(Json.obj("content" -> "File not found in request")))
+    }
 
   }
 
-  def getSubMenu(sbList: HomeController.SubMenuList) = Action {
+
+  def getMenu: Action[AnyContent] = Action.async {
+
+    menuService.getMenu.map(z => Ok(Json.toJson(z)))
+
+  }
+
+  def getSubMenu(sbList: HomeController.SubMenuList) = Action.async {
 
     val parentId: Int = sbList.parentTheme
-    val menuItemSeq = Await.result(dbConntext.db.run(dbConntext.themes.filter(_.idThemeParent === parentId).result), Duration.Inf) map {
-      i => MenuItem(Option.apply(i._1), i._2, Some(parentId))
+    menuService.getSubMenu(parentId) map { l =>
+      Ok(Json.toJson(l))
     }
-    Ok(Json.toJson(menuItemSeq))
+
   }
 
-  def addSubMenu(): Action[AnyContent] = Action {
+  def addSubMenu(): Action[AnyContent] = Action.async {
     request: Request[AnyContent] =>
       val body: AnyContent = request.body
       val jsonBody: Option[JsValue] = body.asJson
@@ -167,28 +171,19 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
           addChildTheme(r);
 
         }
-        case e: JsError => BadRequest(JsError.toJson(e))
+        case e: JsError => Future.successful(BadRequest(JsError.toJson(e)))
       }
 
   }
 
-  def addChildTheme(t: MenuItem) = {
-    val insert = dbConntext.themes += (0, t.title, t.parentTheme)
-    val f = dbConntext.db.run(insert) flatMap (_ => {
-      dbConntext.db.run(dbConntext.themes.sortBy(_.id.desc).result.headOption.map(e => {
-        e match {
-          case Some(tuple) => Some(MenuItem.applyFromDv(tuple))
-          case _ => None
-        }
-      }))
-    })
-    Await.result(f, Duration.Inf) match {
+  def addChildTheme(t: MenuItem): Future[Result] = {
+    menuService.addChildTheme(t) map {
       case Some(v) => Ok(Json.toJson(v))
       case None => NotFound(Json.toJson(t))
     }
   }
 
-  def addMenu(): Action[AnyContent] = Action {
+  def addMenu(): Action[AnyContent] = Action.async {
     request: Request[AnyContent] =>
       val body: AnyContent = request.body
       val jsonBody: Option[JsValue] = body.asJson
@@ -197,50 +192,25 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
           addRootTheme(r);
 
         }
-        case e: JsError => BadRequest(JsError.toJson(e))
+        case e: JsError => Future.successful(BadRequest(JsError.toJson(e)))
       }
 
   }
-  def getImageMenuLink = Action {
-    val lk =   dbConntext.getImagesMenuLnk().map(e => ImgLinkOb( ImgLink(e._1, e._2))).toList
 
-      Ok(Json.toJson(lk))
+  def getImageMenuLink: Action[AnyContent] = Action.async {
+    imageService.imageMenuLink().map(e => Ok(Json.toJson(e)))
   }
-  def getImage(id: String): Action[AnyContent] = Action {
 
-    val nf = Some(NotFound);
-    var res: Option[Result] = Some(NotFound);
-    var resss: Option[Array[Byte]] = None;
-    val f = dbConntext.db.run(dbConntext.images.filter(_.id === Integer.parseInt(id)).map(_.imgData).result.headOption) map { ress =>
-      ress match {
-        case Some(x) => resss = Some(x)
-        case None => resss = None
-      }
-
-      resss match {
-        case Some(bites) => res = Some(new Result(ResponseHeader(200), HttpEntity.Strict(CompactByteString(bites), Some("image/jpeg"))))
-        case None => res = nf
-      }
+  def getImage(id: String): Action[AnyContent] = Action.async {
+    imageService.getImage(id) map {
+      case Some((bites, ctype)) => new Result(ResponseHeader(200), HttpEntity.Strict(CompactByteString(bites), Some(ctype)))
+      case None => NotFound
     }
-
-
-    Await.result(f, Duration.Inf)
-    res.get
-
   }
 
 
-  def addRootTheme(t: MenuItem) = {
-    val insert = dbConntext.themes += (0, t.title, None)
-    val f = dbConntext.db.run(insert) flatMap (_ => {
-      dbConntext.db.run(dbConntext.themes.sortBy(_.id.desc).result.headOption.map(e => {
-        e match {
-          case Some(tuple) => Some(MenuItem.applyFromDv(tuple))
-          case _ => None
-        }
-      }))
-    })
-    Await.result(f, Duration.Inf) match {
+  def addRootTheme(t: MenuItem): Future[Result] = {
+    imageService.addRootTheme(t) map {
       case Some(v) => Ok(Json.toJson(v))
       case None => NotFound(Json.toJson(t))
     }
@@ -250,33 +220,10 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
 }
 
 
-case class MenuItem(var id: Option[Int] = None, val title: String, val parentTheme: Option[Int]) {
-
-}
-
-object MenuItem {
 
 
-  def apply(tup: (Option[Int], String, Option[Int])): MenuItem = {
-    MenuItem(tup._1, tup._2, tup._3)
-  }
-
-  def applyFromDv(tup: (Int, String, Option[Int])): MenuItem = {
-    MenuItem(Option.apply(tup._1), tup._2, tup._3)
-  }
 
 
-}
 
-object Initilaizer extends App {
-  val dbConntext = new ApplicationPostgresProfile
 
-  def createDropCreate = {
-    dbConntext.createMissing()
-    println("coucou")
-    dbConntext.dropAll()
-   dbConntext.createMissing()
-  }
-  createDropCreate
 
-}
