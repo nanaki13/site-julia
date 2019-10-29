@@ -11,6 +11,7 @@ import play.api.libs.Files.TemporaryFile
 import play.api.libs.json._
 import play.api.mvc._
 import controllers.services.Services.{ImageService, MenuService}
+import ReaderWriter._
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -63,6 +64,11 @@ object SiteModel {
 
 }
 
+object ReaderWriter{
+  implicit val menuFormat: Format[MenuItem] = Json.format[MenuItem]
+  implicit val imgLinkForamt: Format[ImgLinkOb] = Json.format[ImgLinkOb]
+}
+
 @Singleton
 class HomeController @Inject()(cc: ControllerComponents
                                , menuService: MenuService
@@ -70,10 +76,7 @@ class HomeController @Inject()(cc: ControllerComponents
                               ) extends AbstractController(cc) {
 
 
-  implicit val residentWrites: OWrites[MenuItem] = Json.writes[MenuItem]
-  implicit val readMenuItem: Reads[MenuItem] = Json.reads[MenuItem]
-  implicit val readLnk: Reads[ImgLinkOb] = Json.reads[ImgLinkOb]
-  implicit val lnkWrites: OWrites[ImgLinkOb] = Json.writes[ImgLinkOb]
+
   implicit val ctx: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
 
 
