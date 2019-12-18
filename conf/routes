@@ -13,10 +13,13 @@ GET     /api/menu/images                    controllers.HomeController.getImageM
 # Get the menu
 GET     /api/menu                    controllers.HomeController.getMenu()
 
-# Get the menu
+# Get the sub  menu (theme with parent)
 
-GET     /api/submenu                    controllers.HomeController.getSubMenu(sub : controllers.HomeController.SubMenuList)
+GET     /api/submenu                    controllers.HomeController.getSubMenu(sub : controllers.HomeController.ThemeIdentifier)
 
+# Get oeuvre of a subMenu(Theme)
+
+GET     /api/oeuvre                    controllers.HomeController.getOeuvre(sub : controllers.HomeController.ThemeIdentifier)
 
 
 # Serve static assets under public directory

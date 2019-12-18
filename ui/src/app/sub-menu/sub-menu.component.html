@@ -1,6 +1,9 @@
 <div class="right_100">
 <div *ngFor="let menuItem of menu | async" >
-    <a routerLink="/page/{{menuItem.title}}/{{menuItem.id}}">{{menuItem.title}}</a>
+    <a routerLink="/{{menuItem.type}}/{{menuItem.title}}/{{menuItem.id}}">{{menuItem.title}}</a> <input [(ngModel)]="menuItem.type" list="typeList"/>
+    <datalist id="typeList">
+      <option *ngFor="let item of typeList" value="{{item}}">
+    </datalist>
 </div>
 <div *ngIf="true">
   <input [(ngModel)]="newTitle" placeholder="titre" /><button  (click)="addMenu()" >Add</button>

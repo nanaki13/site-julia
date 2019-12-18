@@ -3,101 +3,120 @@ import { of, Observable, interval } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { MessageInternService } from "./message-intern.service";
+import { environment } from "./../environments/environment";
+import { identifierModuleUrl } from "@angular/compiler";
+import { AutoMap, AutoId } from "./util";
 export class MenuItem {
-
-  public id: number;
-  constructor(protected  title: String,protected  parentTheme: number = null) {
-
+  public title: String;
+  public parentTheme: number = null;
+  public id = 0;
+  public type: string;
+  constructor(param?: {
+    title?: string;
+    parentTheme?: number;
+    id?: number;
+    type?: string;
+  }) {
+    this.id = param.id;
+    this.title = param.title;
+    this.parentTheme = param.parentTheme;
+    this.type = param.type;
   }
-
-
-
 }
-export const emptyMenu = [new MenuItem("No Menu",0)]
+
 @Injectable({
   providedIn: "root"
 })
 export class MainMenuService {
-
-  private serviceUrl = "/api/summary";
-  private dataPostTestUrl = "/api/postTest";
+  private serviceUrl = environment.serviceUrl;
   private menuUrl = "/api/menu";
   private subMenuUrl = "/api/submenu";
 
+  private rootMenuAutoId = new AutoId();
+  private fakeData: MenuItem[] = [];
+  private fakeSubMenu: AutoMap<Number, MenuItem[]> = new AutoMap(() => []);
 
+
+  constructor(private http: HttpClient, private ms: MessageInternService) {}
   /**
    * Makes a http get request to retrieve the welcome message from the backend service.
    */
   public getWelcomeMessage() {
-    return this.http.get(this.serviceUrl).pipe(
-      map(response => response)
-    );
-  }
- /**
-   * Makes a http get request to retrieve the welcome message from the backend service.
-   */
-  public getMenu(): Observable<MenuItem[]>  {
-    return this.http.get<MenuItem[]>(this.menuUrl).pipe(
-      catchError(err => {
-        console.log("Handling error", err);
-        this.ms.push({ content: "Error with server" });
-        return of(emptyMenu);
-      })
-    );
+    return this.http.get(this.serviceUrl).pipe(map(response => response));
   }
   /**
-   * Makes a http post request to send some data to backend & get response.
+   * Makes a http get request to retrieve the welcome message from the backend service.
    */
-  public sendData(): Observable<any> {
-    return this.http.post(this.dataPostTestUrl, {}).pipe(
-      catchError(err => {
-        console.log("Handling error", err);
-        this.ms.push({ content: "Error with server" });
-        return of([]);
-      })
-    );;
+  public getMenu(): Observable<MenuItem[]> {
+    if (environment.online) {
+      return this.http.get<MenuItem[]>(this.menuUrl).pipe(
+        catchError(err => {
+          console.log("Handling error", err);
+          this.ms.push({ content: "Error with server" });
+          return of(this.fakeData);
+        })
+      );
+    } else {
+      return of(this.fakeData);
+    }
   }
 
-
-
-
-
- // getMenu(): Observable<MenuItem[]> {
+  // getMenu(): Observable<MenuItem[]> {
   //  return interval(1000).pipe( map(i =>this.fakeData))
   // return of(this.fakeData)
   // }
 
   getSubMenu(parentTheme: number): Observable<MenuItem[]> {
-    return this.http.get<MenuItem[]>(this.subMenuUrl + "?parentTheme=" + parentTheme );
+    if (environment.online) {
+      return this.http
+        .get<MenuItem[]>(this.subMenuUrl + "?theme_key=" + parentTheme)
+        .pipe(
+          catchError(err => {
+            console.log("Handling error", err);
+            this.ms.push({ content: "Error with server" });
+            return of(this.fakeSubMenu.get(parentTheme));
+          })
+        );
+    } else {
+      return of(this.fakeSubMenu.get(parentTheme));
     }
-
-  constructor(private http: HttpClient,private ms : MessageInternService) {
-
-
   }
-  addMenu(title: String) {
-       const mi = new MenuItem(title);
-       return this.http.post(this.menuUrl, mi).pipe(
+
+  addMenu(title: string) {
+    const mi = new MenuItem({ title: title, id: this.rootMenuAutoId.getId() });
+    if (environment.online) {
+      return this.http.post<MenuItem>(this.menuUrl, mi).pipe(
+        catchError(err => {
+          console.log("Handling error", err);
+          this.fakeData.push(mi);
+          this.ms.push({ content: "Error with server" });
+          return of(mi);
+        })
+      );
+    } else {
+      this.fakeData.push(mi);
+      return of(mi);
+    }
+  }
+
+  addSubMenu(parentMenuKey: number, subMenuTitle: string) {
+    const mi = new MenuItem({
+      id: this.rootMenuAutoId.getId(),
+      title: subMenuTitle,
+      parentTheme: parentMenuKey
+    });
+    if (environment.online) {
+      return this.http.post(this.subMenuUrl, mi).pipe(
         catchError(err => {
           console.log("Handling error", err);
           this.ms.push({ content: "Error with server" });
-          return of([]);
+          this.fakeSubMenu.get(parentMenuKey).push(mi);
+          return of(mi);
         })
-      );;
-
+      );
+    } else {
+      this.fakeSubMenu.get(parentMenuKey).push(mi);
+      return of(mi);
+    }
   }
-
-  addSubMenu(parentMenuKey: number, subMenuTitle: String) {
-    const mi = new MenuItem(subMenuTitle, parentMenuKey);
-    return this.http.post(this.subMenuUrl, mi).pipe(
-      catchError(err => {
-        console.log("Handling error", err);
-        this.ms.push({ content: "Error with server" });
-        return of([]);
-      })
-    );;
 }
-}
-
-
-

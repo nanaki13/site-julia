@@ -2,7 +2,7 @@ package controllers
 
 import bon.jo.helloworld.juliasite.pers.H2Repo
 import controllers.SiteModel.MenuItem
-import controllers.services.Services.{ImageService, MenuService, SericeImpl, Service}
+import controllers.services.Services.{ImageService, MenuService, OeuvreService, SericeImpl, Service}
 import org.scalatestplus.play._
 import org.scalatestplus.play.guice._
 import play.api.libs.json.{Json, Reads}
@@ -22,7 +22,7 @@ import scala.concurrent.duration.Duration
 class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting {
 
 
-  trait serviceAll extends Service with ImageService with MenuService {
+  trait serviceAll extends Service with ImageService with MenuService with OeuvreService {
     override val dbc = dbConntext
   }
 
@@ -34,7 +34,7 @@ class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting
       "service can createz" should {
 
         "create a root theme" in {
-          val controller = new HomeController(stubControllerComponents(), serviceImpl, serviceImpl)
+          val controller = new HomeController(stubControllerComponents(), serviceImpl, serviceImpl, serviceImpl)
           val home = controller.appSummary().apply(FakeRequest(GET, "/summary"))
 
           status(home) mustBe OK

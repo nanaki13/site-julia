@@ -1,6 +1,6 @@
 package controllers.services
 
-import bon.jo.helloworld.juliasite.model.Images
+import bon.jo.helloworld.juliasite.model.{Images, Oeuvre}
 import bon.jo.helloworld.juliasite.pers.{RepositoryContext, SiteRepository}
 import controllers.SiteModel.{ImgLink, ImgLinkOb, MenuItem}
 import slick.dbio.Effect.Write
@@ -8,7 +8,8 @@ import slick.sql.FixedSqlAction
 
 import scala.concurrent.{ExecutionContext, Future}
 
-object Services{
+object Services {
+
   class SericeImpl(override val dbConntext: RepositoryContext with SiteRepository) extends Service {
     override implicit val ctx: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
   }
@@ -22,7 +23,7 @@ object Services{
       val insert = dbConntext.themes += (0, t.title, t.parentTheme)
       dbConntext.db.run(insert) flatMap (_ => {
         dbConntext.db.run(dbConntext.themes.sortBy(_.id.desc).result.headOption.map {
-          case Some(tuple) => Some(MenuItem.apply((Some(tuple._1),tuple._2,tuple._3)))
+          case Some(tuple) => Some(MenuItem.apply((Some(tuple._1), tuple._2, tuple._3)))
           case _ => None
         })
       })
@@ -49,6 +50,24 @@ object Services{
     implicit val ctx: ExecutionContext
 
     def dbConntext: RepositoryContext with SiteRepository
+  }
+
+  object OeuvreService {
+
+    case class OeuvreAndPosition(oeuvre: Oeuvre, x: Int, y: Int)
+
+  }
+
+  trait OeuvreService extends Service {
+
+    val dbc = dbConntext
+
+    import dbc.profile.api._
+    import OeuvreService._
+
+    def getOeuvres(parentId: Int): Future[Seq[OeuvreAndPosition]] = {
+      dbConntext.db.run(dbc.getOuevresByTheme(parentId).result.map(e => e.map(OeuvreAndPosition.tupled)))
+    }
   }
 
   trait ImageService extends Service {
@@ -88,11 +107,12 @@ object Services{
       val insert = dbConntext.themes += (0, theme.title, None)
       dbConntext.db.run(insert) flatMap (_ => {
         dbConntext.db.run(dbConntext.themes.sortBy(_.id.desc).result.headOption.map {
-          case Some(tuple)  => Some(MenuItem.apply((Some(tuple._1),tuple._2,tuple._3)))
+          case Some(tuple) => Some(MenuItem.apply((Some(tuple._1), tuple._2, tuple._3)))
           case _ => None
         })
       })
 
     }
   }
+
 }

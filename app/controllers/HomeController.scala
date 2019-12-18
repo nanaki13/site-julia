@@ -10,30 +10,32 @@ import play.api.http.HttpEntity
 import play.api.libs.Files.TemporaryFile
 import play.api.libs.json._
 import play.api.mvc._
-import controllers.services.Services.{ImageService, MenuService}
+import controllers.services.Services.{ImageService, MenuService, OeuvreService}
 import ReaderWriter._
+import bon.jo.helloworld.juliasite.model.Oeuvre
+import controllers.services.Services.OeuvreService.OeuvreAndPosition
 
 import scala.concurrent.{ExecutionContext, Future}
 
 object HomeController {
 
-  case class SubMenuList(parentTheme: Int) {}
+  case class ThemeIdentifier(themeKey: Int) {}
 
-  implicit def queryStringBindable(implicit intBinder: QueryStringBindable[Int]) = new QueryStringBindable[SubMenuList] {
-    override def bind(key: String, params: Map[String, Seq[String]]): Option[Either[String, SubMenuList]] = {
+  implicit def queryStringBindable(implicit intBinder: QueryStringBindable[Int]) = new QueryStringBindable[ThemeIdentifier] {
+    override def bind(key: String, params: Map[String, Seq[String]]): Option[Either[String, ThemeIdentifier]] = {
       for {
-        from <- intBinder.bind("parentTheme", params)
+        from <- intBinder.bind("theme_key", params)
 
       } yield {
         from match {
-          case Right(from) => Right(SubMenuList(from))
+          case Right(from) => Right(ThemeIdentifier(from))
           case _ => Left("Unable to bind an SubMenuList")
         }
       }
     }
 
-    override def unbind(key: String, ageRange: SubMenuList): String = {
-      intBinder.unbind("parentTheme", ageRange.parentTheme)
+    override def unbind(key: String, ageRange: ThemeIdentifier): String = {
+      intBinder.unbind("parentTheme", ageRange.themeKey)
     }
   }
 }
@@ -64,15 +66,27 @@ object SiteModel {
 
 }
 
-object ReaderWriter{
+object ReaderWriter {
   implicit val menuFormat: Format[MenuItem] = Json.format[MenuItem]
   implicit val imgLinkForamt: Format[ImgLinkOb] = Json.format[ImgLinkOb]
+  implicit val oeuvreFormat: Format[Oeuvre] = Json.format[Oeuvre]
+  implicit val oeuvreAndPosFormat: Format[OeuvreAndPosition] = Json.format[OeuvreAndPosition]
+
+
+
 }
 
+object MniTest extends App{
+
+
+  println(Json.toJson(Oeuvre(1, "test", "description test", 1.2f, 1.5f, 123)))
+  println(Json.toJson(OeuvreAndPosition(Oeuvre(1, "test", "description test", 1.2f, 1.5f, 123), 1, 2)))
+}
 @Singleton
 class HomeController @Inject()(cc: ControllerComponents
                                , menuService: MenuService
                                , imageService: ImageService
+                               , oeuvreService: OeuvreService
                               ) extends AbstractController(cc) {
 
 
@@ -156,10 +170,19 @@ class HomeController @Inject()(cc: ControllerComponents
 
   }
 
-  def getSubMenu(sbList: HomeController.SubMenuList) = Action.async {
+  def getSubMenu(sbList: HomeController.ThemeIdentifier): Action[AnyContent] = Action.async {
 
-    val parentId: Int = sbList.parentTheme
+    val parentId: Int = sbList.themeKey
     menuService.getSubMenu(parentId) map { l =>
+      Ok(Json.toJson(l))
+    }
+
+  }
+
+  def getOeuvres(sbList: HomeController.ThemeIdentifier): Action[AnyContent] = Action.async {
+
+    val parentId: Int = sbList.themeKey
+   oeuvreService.getOeuvres(parentId) map { l =>
       Ok(Json.toJson(l))
     }
 
@@ -219,7 +242,7 @@ class HomeController @Inject()(cc: ControllerComponents
     }
   }
 
-  def okJson(mes: String) = Ok(Json.obj("content" -> mes))
+  def okJson(mes: String): Result = Ok(Json.obj("content" -> mes))
 }
 
 

@@ -10,8 +10,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./sub-menu.component.css']
 })
 export class SubMenuComponent implements OnInit {
-
-  newTitle : String
+  typeList = ["page","subMenu"]
+  newTitle : string;
   menu: Observable<MenuItem[]>;
   title: string;
   id: number;

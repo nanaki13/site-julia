@@ -7,6 +7,10 @@ import { Injectable } from "@angular/core";
 export class MessageInternService {
   static inter:  number;
   static checkInter = false;
+  private _messages: { content: string; serverity?: string }[] = [
+    { content: "no message" }
+  ];
+
   static removeFirst(mes: Array<any>) {
     if (mes.length > 0) {
       mes.shift()
@@ -21,7 +25,7 @@ export class MessageInternService {
   }
   push(message: { content: string }) {
     this._messages.push(message)
-    if(!MessageInternService.checkInter){
+    if( !MessageInternService.checkInter){
       MessageInternService.checkInter = true;
       MessageInternService.inter = window.setInterval(MessageInternService.removeFirst,1200,this._messages)
     }
@@ -30,11 +34,7 @@ export class MessageInternService {
   }
 
 
-  private _messages: { content: string; serverity?: string }[] = [
-    { content: "no message" }
-  ];
 
-
-  get messages() {return this._messages}
+  get messages() {return this._messages; }
   constructor() {}
 }

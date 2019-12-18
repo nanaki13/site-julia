@@ -12,7 +12,7 @@ import { catchError, map } from "rxjs/operators";
 export class MainMenuComponent implements OnInit {
   menu: Observable<MenuItem[]>;
 
-  newTitle: String;
+  newTitle: string;
   constructor(
     private mainManuService: MainMenuService,
     private ms: MessageInternService

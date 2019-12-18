@@ -1,11 +1,53 @@
-<div class="right_100">
-<div class="gallery_inner_cont" id="gal_div_0">
-		<div *ngFor="let dd of oeuvres"  class="gallery" id="gal_div_14">
-        <div *ngFor="let d of dd"  class="gallery" id="gal_div_14">
-    <img class="gallery_image" id="gal_14" src="/rsc//img/sans_nom_g_acc.jpg"/>
+<div class="right">
+  <div class="container gallery_inner_cont">
+    <div *ngIf="true">
+      <input [(ngModel)]="newTitle" placeholder="title" /><button
+        class="btn btn-primary"
+        (click)="addOeuvre()"
+      >
+        Add
+      </button>
+      <button class="btn btn-primary {{ show(edit) }}" (click)="drag = !drag">
+        Enable Drag
+      </button>
+      <button class="btn btn-primary {{ show(drag) }}" (click)="edit = !edit">
+        Enable Edit
+      </button>
+      <div>{{ edit ? "edit mode" : "drag mode" }}</div>
+    </div>
+    <div *ngFor="let dd of oeuvres" class="w-25 d-inline-block align-top">
+      <div
+        *ngFor="let d of dd"
+        (mousemove)="move($event)"
+        (mouseover)="over(d, $event)"
+        (mousedown)="up(d)"
+        (mouseup)="down(d)"
+        [style]="style()"
+      >
+        <img class="gallery_image" src="/rsc//img/sans_nom_g_acc.jpg" />
 
-    <div class="label"><span class="italic">{{d.title}}</span><br/>{{d.date}}<br/>{{d.dimension}}<br/>{{d.description}}</div>
-  </div>
+        <div *ngIf="description(d) as desc; else empty" class="container">
+          <span class="italic">{{ desc.title }}</span
+          ><br />{{ desc.date }}<br />{{ desc.dimension }}<br />{{
+            desc.description
+          }}
+          <div *ngIf="edit">
+            <label for="title">Titre</label>
+            <input name="title" type="text" [(ngModel)]="desc.title" />
+            <label for="date">Date</label>
+            <input name="date" type="text" [(ngModel)]="desc.date" />
+            <label for="dimension">Dimension</label>
+            <input name="dimension" type="text" [(ngModel)]="desc.dimension" />
+            <label for="description">Description</label>
+            <input
+              name="description"
+              type="text"
+              [(ngModel)]="desc.description"
+            />
+          </div>
+        </div>
+        <ng-template #empty><div>Empty Slot</div></ng-template>
+      </div>
+    </div>
   </div>
 </div>
-

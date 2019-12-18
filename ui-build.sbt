@@ -40,7 +40,8 @@ def executeUiTests(implicit dir: File): Int = ifNodeModulesInstalled(runOnComman
 
 // Execute frontend prod build task. Update to change the frontend prod build task.
 def executeProdBuild(implicit dir: File): Int = ifNodeModulesInstalled(runOnCommandline(FrontendCommands.build))
-
+// Execute frontend prod build task. Update to change the frontend prod build task.
+def executeServe(implicit dir: File): Int = ifNodeModulesInstalled(runOnCommandline(FrontendCommands.serve))
 
 // Create frontend build tasks for prod, dev and test execution.
 
@@ -58,6 +59,15 @@ lazy val `ui-prod-build` = taskKey[Unit]("Run UI build when packaging the applic
   if (executeProdBuild != Success) throw new Exception("Oops! UI Build crashed.")
 }
 
+lazy val `ui-serve-test` = taskKey[Unit]("Serce UI for dev.")
+
+`ui-serve-test` := {
+  implicit val userInterfaceRoot = baseDirectory.value / "ui"
+  if (executeServe != Success) throw new Exception("Oops! UI serve crashed.")
+}
+
+
+
 // Execute frontend prod build task prior to play dist execution.
 dist := (dist dependsOn `ui-prod-build`).value
 
@@ -66,3 +76,5 @@ stage := (stage dependsOn `ui-prod-build`).value
 
 // Execute frontend test task prior to play test execution.
 test := ((test in Test) dependsOn `ui-test`).value
+
+
