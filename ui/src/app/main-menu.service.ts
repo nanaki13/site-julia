@@ -17,10 +17,13 @@ export class MenuItem {
     id?: number;
     type?: string;
   }) {
-    this.id = param.id;
-    this.title = param.title;
-    this.parentTheme = param.parentTheme;
-    this.type = param.type;
+    if(param){
+      this.id = param.id;
+      this.title = param.title;
+      this.parentTheme = param.parentTheme;
+      this.type = param.type;
+    }
+
   }
 }
 
@@ -99,24 +102,20 @@ export class MainMenuService {
     }
   }
 
-  addSubMenu(parentMenuKey: number, subMenuTitle: string) {
-    const mi = new MenuItem({
-      id: this.rootMenuAutoId.getId(),
-      title: subMenuTitle,
-      parentTheme: parentMenuKey
-    });
+  addSubMenu( m:MenuItem) {
+    m.id = this.rootMenuAutoId.getId()
     if (environment.online) {
-      return this.http.post(this.subMenuUrl, mi).pipe(
+      return this.http.post(this.subMenuUrl, m).pipe(
         catchError(err => {
           console.log("Handling error", err);
           this.ms.push({ content: "Error with server" });
-          this.fakeSubMenu.get(parentMenuKey).push(mi);
-          return of(mi);
+          this.fakeSubMenu.get(m.parentTheme).push(m);
+          return of(m);
         })
       );
     } else {
-      this.fakeSubMenu.get(parentMenuKey).push(mi);
-      return of(mi);
+      this.fakeSubMenu.get(m.parentTheme).push(m);
+      return of(m);
     }
   }
 }

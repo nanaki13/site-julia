@@ -16,15 +16,16 @@
       <div>{{ edit ? "edit mode" : "drag mode" }}</div>
     </div>
     <div *ngFor="let dd of oeuvres" class="w-25 d-inline-block align-top">
-      <div
+      <!-- <div
         *ngFor="let d of dd"
         (mousemove)="move($event)"
         (mouseover)="over(d, $event)"
         (mousedown)="up(d)"
         (mouseup)="down(d)"
         [style]="style()"
-      >
-        <img class="gallery_image" src="/rsc//img/sans_nom_g_acc.jpg" />
+      > -->
+      <div  *ngFor="let d of dd" (click)="up(d)" (mousemove)="over(d,$event)" >
+        <a *ngIf="description(d) as desc;" routerLink="/galery/{{desc.title}}/{{desc.id}}" [state]=desc ><img class="gallery_image" src="/rsc//img/sans_nom_g_acc.jpg" /></a>
 
         <div *ngIf="description(d) as desc; else empty" class="container">
           <span class="italic">{{ desc.title }}</span

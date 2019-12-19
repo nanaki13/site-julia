@@ -1,11 +1,13 @@
 <div class="right_100">
 <div *ngFor="let menuItem of menu | async" >
-    <a routerLink="/{{menuItem.type}}/{{menuItem.title}}/{{menuItem.id}}">{{menuItem.title}}</a> <input [(ngModel)]="menuItem.type" list="typeList"/>
-    <datalist id="typeList">
-      <option *ngFor="let item of typeList" value="{{item}}">
-    </datalist>
+    <a routerLink="/{{menuItem.type}}/{{menuItem.title}}/{{menuItem.id}}">{{menuItem.title}}</a>
 </div>
-<div *ngIf="true">
-  <input [(ngModel)]="newTitle" placeholder="titre" /><button  (click)="addMenu()" >Add</button>
+
+<div class="form-inline" *ngIf="true">
+  <input [(ngModel)]="newItem.title" class="d-inline form-control"  placeholder="titre"  /><select   class="d-inline form-control" [(ngModel)]="newItem.type" >
+    <option *ngFor="let item of typeList" value="{{item}}">{{item}}</option>
+    </select><button  (click)="addMenu()" >Add</button>
+
 </div>
+
 </div>

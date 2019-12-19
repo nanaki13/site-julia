@@ -98,15 +98,15 @@ export class OeuvreComponent implements OnInit {
       return undefined;
     }
   }
-  move(e: MouseEvent) {
-    if (this.drag && this.draged) {
-      const toMove = e.currentTarget as any;
-      this.st = toMove.style as CSSStyleDeclaration;
-      this.st.position = "fixed";
-      this.st.top = e.y - +toMove.offsetHeight / 2 + "px";
-      this.st.left = e.x - +toMove.offsetWidth / 2 + "px";
-    }
-  }
+  // move(e: MouseEvent) {
+  //   if (this.drag && this.draged) {
+  //     const toMove = e.currentTarget as any;
+  //     this.st = toMove.style as CSSStyleDeclaration;
+  //     this.st.position = "fixed";
+  //     this.st.top = e.y - +toMove.offsetHeight / 2 + "px";
+  //     this.st.left = e.x - +toMove.offsetWidth / 2 + "px";
+  //   }
+  // }
   style() {
     if (this.x) {
       return `position : fixed; left:${this.x};top:${this.y}`;
@@ -115,8 +115,12 @@ export class OeuvreComponent implements OnInit {
     }
   }
   up(o: OeuvreInTable) {
-    if (this.drag && !this.draged) {
-      this.draged = o;
+    if (this.drag) {
+      if (!this.draged) {
+        this.draged = o;
+      } else {
+        this.st.zIndex = "-1000";
+      }
     }
   }
   over(o: OeuvreInTable, e: MouseEvent) {
@@ -134,7 +138,7 @@ export class OeuvreComponent implements OnInit {
     } else if (this.draged === o) {
       const toMove = e.currentTarget as any;
       this.st = toMove.style as CSSStyleDeclaration;
-
+      this.st.position = "fixed";
       this.st.top = e.y - +toMove.offsetHeight / 2 + "px";
       this.st.left = e.x - +toMove.offsetWidth / 2 + "px";
     }
