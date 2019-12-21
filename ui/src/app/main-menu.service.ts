@@ -6,27 +6,7 @@ import { MessageInternService } from "./message-intern.service";
 import { environment } from "./../environments/environment";
 import { identifierModuleUrl } from "@angular/compiler";
 import { AutoMap, AutoId } from "./util";
-export class MenuItem {
-  public title: String;
-  public parentTheme: number = null;
-  public id = 0;
-  public type: string;
-  constructor(param?: {
-    title?: string;
-    parentTheme?: number;
-    id?: number;
-    type?: string;
-  }) {
-    if(param){
-      this.id = param.id;
-      this.title = param.title;
-      this.parentTheme = param.parentTheme;
-      this.type = param.type;
-    }
-
-  }
-}
-
+import { MenuItem } from './MenuItem';
 @Injectable({
   providedIn: "root"
 })
@@ -81,6 +61,7 @@ export class MainMenuService {
           })
         );
     } else {
+
       return of(this.fakeSubMenu.get(parentTheme));
     }
   }
@@ -102,19 +83,27 @@ export class MainMenuService {
     }
   }
 
-  addSubMenu( m:MenuItem) {
+  saveLocalContext(){
+  //  localStorage.setItem("ov",JSON.stringify(this.dataFake.getData) );
+  }
+
+  restoreLocalContext(){
+//    const back = JSON.parse(localStorage.getItem("ov")) as Oeuvre[];
+    debugger;
+  }
+  addSubMenu( m:MenuItem):Observable<MenuItem> {
     m.id = this.rootMenuAutoId.getId()
     if (environment.online) {
-      return this.http.post(this.subMenuUrl, m).pipe(
+      return this.http.post<MenuItem>(this.subMenuUrl, m).pipe(
         catchError(err => {
           console.log("Handling error", err);
           this.ms.push({ content: "Error with server" });
-          this.fakeSubMenu.get(m.parentTheme).push(m);
+          this.fakeSubMenu.get(m.themeKey).push(m);
           return of(m);
         })
       );
     } else {
-      this.fakeSubMenu.get(m.parentTheme).push(m);
+      this.fakeSubMenu.get(m.themeKey).push(m);
       return of(m);
     }
   }

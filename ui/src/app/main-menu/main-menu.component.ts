@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { MainMenuService, MenuItem } from "../main-menu.service";
+import { MainMenuService } from "../main-menu.service";
+import { MenuItem } from "../MenuItem";
 import { Observable, of } from "rxjs";
 import { MessageInternService } from "../message-intern.service";
 import { catchError, map } from "rxjs/operators";

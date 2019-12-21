@@ -1,3 +1,4 @@
+import { PageElementDisplay } from "src/app/PageElementDisplay";
 
 
 // This file can be replaced during build by using the `fileReplacements` array.
@@ -11,7 +12,8 @@ export const environment = {
   menuUrl : "/api/menu",
   subMenuUrl : "/api/submenu",
   oeuvreUrl : "/api/oeuvre",
-  online : false
+  online : false,
+  pDisplay : new PageElementDisplay()
 };
 
 /*

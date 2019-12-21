@@ -1,21 +1,53 @@
 <div class="right">
-  <div class="container gallery_inner_cont">
-    <div *ngIf="true">
-      <input [(ngModel)]="newTitle" placeholder="title" /><button
-        class="btn btn-primary"
-        (click)="addOeuvre()"
-      >
+  <form class="form-inline" *ngIf="true">
+    <ng-container *ngIf="!pDisplay.navigation">
+      <input
+        class="form-control"
+        [(ngModel)]="newTitle"
+        placeholder="title"
+        name="title"
+      /><button class="btn btn-primary" (click)="addOeuvre()">
         Add
       </button>
-      <button class="btn btn-primary {{ show(edit) }}" (click)="drag = !drag">
-        Enable Drag
+      <select  class="d-inline form-control" name="column" [(ngModel)]="addIncolumn">
+        <option *ngFor="let yy of [1,2,3]" value="{{ yy }}" [selected]="yy === 1">{{
+          yy
+        }}</option> </select
+      >
+      <button
+        class="btn btn-primary {{ pDisplay.show(pDisplay.edit) }}"
+        (click)="pDisplay.drag = !pDisplay.drag"
+      >
+        Placement
       </button>
-      <button class="btn btn-primary {{ show(drag) }}" (click)="edit = !edit">
-        Enable Edit
+      <button
+        class="btn btn-primary {{ pDisplay.show(pDisplay.drag) }}"
+        (click)="pDisplay.edit = !pDisplay.edit"
+      >
+        Edition
       </button>
-      <div>{{ edit ? "edit mode" : "drag mode" }}</div>
+    </ng-container>
+    <button
+      class="btn btn-primary "
+      (click)="pDisplay.navigation = !pDisplay.navigation"
+    >
+      Mode Navigation
+    </button>
+    <div
+      class="alert alert-info d-inline-block w-25 ml-5"
+      role="alert"
+      *ngIf="!pDisplay.navigation"
+    >
+      {{
+        pDisplay.edit
+          ? "Edite tes oeuvres"
+          : "Clique sur une oeuvre puis sur une autre pour les intervertire"
+      }}
     </div>
-    <div *ngFor="let dd of oeuvres" class="w-25 d-inline-block align-top">
+  </form>
+
+  <div class="">
+    <div *ngFor="let dd of oeuvres" class="column-o d-inline-block align-top">
       <!-- <div
         *ngFor="let d of dd"
         (mousemove)="move($event)"
@@ -24,15 +56,26 @@
         (mouseup)="down(d)"
         [style]="style()"
       > -->
-      <div  *ngFor="let d of dd" (click)="up(d)" (mousemove)="over(d,$event)" >
-        <a *ngIf="description(d) as desc;" routerLink="/galery/{{desc.title}}/{{desc.id}}" [state]=desc ><img class="gallery_image" src="/rsc//img/sans_nom_g_acc.jpg" /></a>
-
+      <div
+        *ngFor="let d of dd"
+        (click)="click(d, $event)"
+        (mousemove)="mousemove(d, $event)"
+        (mouseover)="moushover(d, $event)"
+        class="{{ class(d) }}"
+      >
+        <app-page-element-table
+          [element]="d"
+          [pDisplay]="pDisplay"
+        ></app-page-element-table>
+        <!-- <a *ngIf="link(d) as desc; else  noLink" routerLink="/galery/{{desc.title}}/{{desc.id}}" [state]=desc >
+          <img class="gallery_image" src="{{src(d)}}" alt="{{alt(d)}}"/></a>
+          <ng-template #noLink> <img class="gallery_image" src="{{src(d)}}" alt="{{alt(d)}}"/></ng-template>
         <div *ngIf="description(d) as desc; else empty" class="container">
           <span class="italic">{{ desc.title }}</span
           ><br />{{ desc.date }}<br />{{ desc.dimension }}<br />{{
             desc.description
           }}
-          <div *ngIf="edit">
+          <div *ngIf="edit && !navigation">
             <label for="title">Titre</label>
             <input name="title" type="text" [(ngModel)]="desc.title" />
             <label for="date">Date</label>
@@ -47,7 +90,7 @@
             />
           </div>
         </div>
-        <ng-template #empty><div>Empty Slot</div></ng-template>
+        <ng-template #empty><div>Empty Slot</div></ng-template> -->
       </div>
     </div>
   </div>

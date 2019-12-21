@@ -1,39 +1,53 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, ParamMap } from "@angular/router";
-import { MainMenuService, MenuItem } from "../main-menu.service";
+import { MainMenuService } from "../main-menu.service";
+import { MenuItem } from "../MenuItem";
 import { Observable } from "rxjs";
+import { PageComponentBase } from "../util";
 
 @Component({
   selector: "app-sub-menu",
   templateUrl: "./sub-menu.component.html",
   styleUrls: ["./sub-menu.component.css"]
 })
-export class SubMenuComponent implements OnInit {
+export class SubMenuComponent extends PageComponentBase implements OnInit {
   typeList = ["page", "subMenu"];
 
-  menu: Observable<MenuItem[]>;
   title: string;
-  id: number;
+
   newItem = new MenuItem();
   constructor(
     private route: ActivatedRoute,
     private mService: MainMenuService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(e => this.loadItem(e));
+    this.route.paramMap.subscribe(e =>{
+
+      this.oeuvres = [];
+      this.loadItem(e)
+    });
   }
   loadItem(e: ParamMap): void {
     this.title = e.get("title");
-    this.newItem.parentTheme = +e.get("id");
-    this.menu = this.mService.getSubMenu(this.newItem.parentTheme);
+    this.newItem.themeKey = +e.get("id");
+    this.mService.getSubMenu(this.newItem.themeKey).subscribe(m => {
+      m.forEach(ele => {
+        this.addInTable(ele);
+      });
+    });
   }
 
   addMenu() {
+    this.newItem.x = this.addIncolumn - 1;
     this.mService.addSubMenu(this.newItem).subscribe(e => {
-      console.log(e);
+
+      this.newItem.y = 0;
+      this.addInTable(e);
       this.newItem = new MenuItem();
-      this.ngOnInit();
+
     });
   }
 }

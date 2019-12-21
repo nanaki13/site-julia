@@ -1,6 +1,12 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div id=root>
+
   <app-main-menu></app-main-menu>
   <router-outlet></router-outlet>
   <app-message></app-message>
+  <div class="local-context">
+  <button class="btn btn-primary" (click)=save()>Save</button>
+  <button class="btn btn-primary" (click)=load()>Load</button>
 </div>
+</div>
+

@@ -18,7 +18,8 @@ import { ImageUploadComponent } from "./image-upload/image-upload.component";
 import { MessageComponent } from "./message/message.component";
 import { HomeComponent } from "./home/home.component";
 import { OeuvreComponent } from "./oeuvre/oeuvre.component";
-import { OeuvreGalComponent } from './oeuvre-gal/oeuvre-gal.component';
+import { OeuvreGalComponent } from "./oeuvre-gal/oeuvre-gal.component";
+import { PageElementTableComponent } from "./page-element-table/page-element-table.component";
 
 const routes: Routes = [
   {
@@ -49,37 +50,37 @@ const routes: Routes = [
 ];
 
 @NgModule({
-
   imports: [
-   BrowserModule,
-   FormsModule,
-   HttpClientModule,
-   HttpClientXsrfModule.withOptions({
-     cookieName: 'Csrf-Token',
-     headerName: 'Csrf-Token',
-   }),
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: "Csrf-Token",
+      headerName: "Csrf-Token"
+    }),
 
-   RouterModule.forRoot(routes)
- ],
- declarations: [
-   AppComponent,
-   RouteExampleComponent,
-   MainMenuComponent,
-   SubMenuComponent,
-   ImageUploadComponent,
-   MessageComponent,
-   HomeComponent,
-   OeuvreComponent,
-   OeuvreGalComponent
-],
- providers: [
-   AppService,
-   {
-     multi: true,
-     provide: HTTP_INTERCEPTORS,
-     useClass: AppHttpInterceptorService
-   }
- ],
- bootstrap: [AppComponent]
+    RouterModule.forRoot(routes)
+  ],
+  declarations: [
+    AppComponent,
+    RouteExampleComponent,
+    PageElementTableComponent,
+    MainMenuComponent,
+    SubMenuComponent,
+    ImageUploadComponent,
+    MessageComponent,
+    HomeComponent,
+    OeuvreComponent,
+    OeuvreGalComponent
+  ],
+  providers: [
+    AppService,
+    {
+      multi: true,
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptorService
+    }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
