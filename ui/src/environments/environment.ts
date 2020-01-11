@@ -12,7 +12,8 @@ export const environment = {
   menuUrl : "/api/menu",
   subMenuUrl : "/api/submenu",
   oeuvreUrl : "/api/oeuvre",
-  online : false,
+  imageUrl : "/api/image",
+  online : true,
   pDisplay : new PageElementDisplay()
 };
 

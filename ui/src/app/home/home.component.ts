@@ -8,7 +8,7 @@ import * as $ from "jquery";
 })
 export class HomeComponent implements OnInit {
 
-  url = "/api/menu/images";
+
   inter = new Map()
   //images: string[] = ["assets/img/mamie_muguette_acc.jpg"]
   images: string[] = []

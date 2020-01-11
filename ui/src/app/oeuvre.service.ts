@@ -33,7 +33,7 @@ export class OeuvreService {
           })
         );
     } else {
-      debugger;
+
       return this.dataFake
         .asObservable()
         .pipe(map(e => e.filter(pe => pe.themeKey === themeKey)));

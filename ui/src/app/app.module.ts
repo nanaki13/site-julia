@@ -29,17 +29,17 @@ const routes: Routes = [
   {
     path: "home",
     component: HomeComponent,
-    data: { technology: "prout" }
+
   },
   {
     path: "subMenu/:title/:id",
     component: SubMenuComponent,
-    data: { technology: "prout" }
+
   },
   {
     path: "page/:title/:id",
     component: OeuvreComponent,
-    data: { technology: "prout" }
+
   },
 
   {

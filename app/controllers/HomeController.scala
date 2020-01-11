@@ -12,7 +12,7 @@ import play.api.libs.json._
 import play.api.mvc._
 import controllers.services.Services.{ImageService, MenuService, OeuvreService}
 import ReaderWriter._
-import bon.jo.helloworld.juliasite.model.Oeuvre
+import bon.jo.juliasite.model.Oeuvre
 import controllers.services.Services.OeuvreService.OeuvreAndPosition
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -76,12 +76,7 @@ object ReaderWriter {
 
 }
 
-object MniTest extends App{
 
-
-  println(Json.toJson(Oeuvre(1, "test", "description test", 1.2f, 1.5f, 123)))
-  println(Json.toJson(OeuvreAndPosition(Oeuvre(1, "test", "description test", 1.2f, 1.5f, 123), 1, 2)))
-}
 @Singleton
 class HomeController @Inject()(cc: ControllerComponents
                                , menuService: MenuService

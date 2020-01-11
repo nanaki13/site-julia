@@ -54,6 +54,10 @@ export class MainMenuService {
       return this.http
         .get<MenuItem[]>(this.subMenuUrl + "?theme_key=" + parentTheme)
         .pipe(
+        map(e => {
+
+              return e.map( mi => Object.assign(new MenuItem(), mi));
+            }),
           catchError(err => {
             console.log("Handling error", err);
             this.ms.push({ content: "Error with server" });
@@ -89,7 +93,7 @@ export class MainMenuService {
 
   restoreLocalContext(){
 //    const back = JSON.parse(localStorage.getItem("ov")) as Oeuvre[];
-    debugger;
+
   }
   addSubMenu( m:MenuItem):Observable<MenuItem> {
     m.id = this.rootMenuAutoId.getId()

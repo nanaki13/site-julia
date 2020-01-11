@@ -1,23 +1,45 @@
-name := """scala-play-angular-seed"""
+import Dependencies.scalaTest
+
+name := "site-julia"
 lazy val commonSettings = Seq(
   organization := "bon.jo",
   version := "0.1.0-SNAPSHOT",
-  scalaVersion := "2.12.8"
+  scalaVersion := "2.13.1"
 )
-version := "1.0-SNAPSHOT"
-lazy val wr = (project in file("works-repository")).settings(
+
+lazy val wsName = "works-service"
+lazy val wrName = "works-repository"
+lazy val wr = (project in file(wrName))
+  .settings(
+    name := wrName,
     commonSettings,
-    // other settings
+    libraryDependencies ++= Seq( scalaTest % Test,
+      "com.typesafe.slick" %% "slick" % "3.3.2",
+      "com.h2database" % "h2" % "1.4.192"
+      ,"org.postgresql" % "postgresql" %"42.2.5")
   )
-lazy val root = (project in file(".")).settings(
+
+lazy val ws = (project in file(wsName)).settings(
+  name := wsName,
+  commonSettings,
+  mainClass in Compile := Some("Main"),
+  libraryDependencies ++= Seq(
+    scalaTest % Test,
+    "com.typesafe.akka" %% "akka-http" % "10.1.11",
+    "com.typesafe.akka" %% "akka-stream" % "2.6.1",
+    "com.typesafe.akka" %% "akka-slf4j" % "2.6.1",
+    "ch.qos.logback" % "logback-classic" % "1.2.3",
+    "org.json4s" %% "json4s-native" % "3.6.7"),
+  
+  // other settings
+).dependsOn(wr)
+lazy val root = (project in file(".")).aggregate(wr, ws).settings(
   commonSettings,
   watchSources ++= (baseDirectory.value / "public/ui" ** "*").get
-).dependsOn(wr).enablePlugins(PlayScala)
+).enablePlugins(JavaAppPackaging)
+  //.enablePlugins(PlayScala)
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-libraryDependencies += guice
-libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
-libraryDependencies += "com.h2database" % "h2" % "1.4.196"
-libraryDependencies +="net.codingwell" %% "scala-guice" % "4.2.6"
+
 

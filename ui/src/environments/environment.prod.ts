@@ -1,3 +1,5 @@
+
+import { PageElementDisplay } from "src/app/PageElementDisplay";
 export const environment = {
   production: true,
   serviceUrl : "/api/summary",
@@ -5,6 +7,8 @@ export const environment = {
   menuUrl : "/api/menu",
   subMenuUrl : "/api/submenu",
   oeuvreUrl : "/api/oeuvre",
-  online : false
+   imageUrl : "/api/image",
+  online : false,
+   pDisplay : new PageElementDisplay()
 };
 

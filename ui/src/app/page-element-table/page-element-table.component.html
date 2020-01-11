@@ -1,0 +1,30 @@
+<a *ngIf="pDisplay.link(element) as desc; else  noLink" routerLink="{{pDisplay.buildLink(desc)}}" [state]=desc >
+  <img class="gallery_image" src="{{pDisplay.src(element)}}" alt="{{pDisplay.alt(element)}}"/></a>
+  <ng-template #noLink> <img class="gallery_image" src="{{pDisplay.src(d)}}" alt="{{pDisplay.alt(element)}}"/></ng-template>
+<div *ngIf="pDisplay.description(element) as desc; else tryMenu" class="container">
+  <span class="italic">{{ desc.title }}</span
+  ><br />{{ desc.date }}<br />{{ desc.dimension }}<br />{{
+    desc.description
+  }}
+  <div *ngIf="pDisplay.edit && !pDisplay.navigation">
+    <label for="title">Titre</label>
+    <input name="title" type="text" [(ngModel)]="desc.title" />
+    <label for="date">Date</label>
+    <input name="date" type="text" [(ngModel)]="desc.date" />
+    <label for="dimension">Dimension</label>
+    <input name="dimension" type="text" [(ngModel)]="desc.dimension" />
+    <label for="description">Description</label>
+    <input
+      name="description"
+      type="text"
+      [(ngModel)]="desc.description"
+    />
+  </div>
+</div>
+<ng-template #tryMenu><div *ngIf="pDisplay.menu(element) as menu; else empty" class="container">
+  <span class="italic">{{ menu.title }}</span>
+  <div *ngIf="pDisplay.edit && !pDisplay.navigation">
+    <label for="title">Titre</label>
+    <input name="title" type="text" [(ngModel)]="menu.title" />
+  </div> </div></ng-template>
+<ng-template #empty><div>Empty Slot</div></ng-template>

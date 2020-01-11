@@ -1,4 +1,4 @@
-import bon.jo.helloworld.juliasite.pers.{PostgresRepo, RepositoryContext, SiteRepository}
+import bon.jo.juliasite.pers.{PostgresRepo, RepositoryContext, SiteRepository}
 import com.google.inject.{AbstractModule, Provides}
 import controllers.services.Services.{ImageService, MenuService}
 import net.codingwell.scalaguice.ScalaModule

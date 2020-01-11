@@ -215,6 +215,7 @@ export class PageComponentBase {
   }
 
   addInTable(ele: PageElement) {
+
     while (this.oeuvres.length <= ele.x) {
       this.oeuvres.push([]);
     }

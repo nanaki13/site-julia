@@ -1,12 +1,14 @@
-package controllers.services
+package bon.jo
 
-import bon.jo.helloworld.juliasite.model.{Images, Oeuvre}
-import bon.jo.helloworld.juliasite.pers.{RepositoryContext, SiteRepository}
-import controllers.SiteModel.{ImgLink, ImgLinkOb, MenuItem}
+import bon.jo.SiteModel.{ImgLink, ImgLinkOb, MenuItem}
+import bon.jo.juliasite.model.{Images, Oeuvre}
+import bon.jo.juliasite.pers.{PostgresRepo, RepositoryContext, SiteRepository}
 import slick.dbio.Effect.Write
 import slick.sql.FixedSqlAction
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.util.Success
 
 object Services {
 
@@ -15,15 +17,15 @@ object Services {
   }
 
   trait MenuService extends Service {
-    val dbc = dbConntext
 
-    import dbc.profile.api._
+    import dbConntext.profile.api._
 
-    def addChildTheme(t: MenuItem): Future[Option[MenuItem]] = {
-      val insert = dbConntext.themes += (0, t.title, t.parentTheme)
+    def addMenu(t: MenuItem): Future[Option[MenuItem]] = {
+
+      val insert = dbConntext.themes += (0, t.title, t.themeKey, t.x, t.y)
       dbConntext.db.run(insert) flatMap (_ => {
         dbConntext.db.run(dbConntext.themes.sortBy(_.id.desc).result.headOption.map {
-          case Some(tuple) => Some(MenuItem.apply((Some(tuple._1), tuple._2, tuple._3)))
+          case Some(tuple) => Some(MenuItem(Some(tuple._1), tuple._2, tuple._3, tuple._4, tuple._5))
           case _ => None
         })
       })
@@ -33,14 +35,14 @@ object Services {
     def getMenu: Future[Seq[MenuItem]] = dbConntext.db.run(dbConntext.themes.filter(_.idThemeParent.isEmpty).result) map {
       e => {
         e.map(i => {
-          MenuItem(Option.apply(i._1), i._2, None)
+          MenuItem(Option.apply(i._1), i._2, None, i._4, i._5)
         })
       }
     }
 
     def getSubMenu(parentId: Int): Future[Seq[MenuItem]] = {
       dbConntext.db.run(dbConntext.themes.filter(_.idThemeParent === parentId).result) map {
-        l => l.map(i => MenuItem(Option.apply(i._1), i._2, Some(parentId)))
+        l => l.map(i => MenuItem(Option.apply(i._1), i._2, Some(parentId), i._4, i._5))
       }
     }
 
@@ -49,7 +51,8 @@ object Services {
   trait Service {
     implicit val ctx: ExecutionContext
 
-    def dbConntext: RepositoryContext with SiteRepository
+    val dbConntext: RepositoryContext with SiteRepository
+
   }
 
   object OeuvreService {
@@ -60,24 +63,21 @@ object Services {
 
   trait OeuvreService extends Service {
 
-    val dbc = dbConntext
 
-    import dbc.profile.api._
     import OeuvreService._
+    import dbConntext.profile.api._
 
     def getOeuvres(parentId: Int): Future[Seq[OeuvreAndPosition]] = {
-      dbConntext.db.run(dbc.getOuevresByTheme(parentId).result.map(e => e.map(OeuvreAndPosition.tupled)))
+      dbConntext.db.run(dbConntext.getOuevresByTheme(parentId).result.map(e => e.map(OeuvreAndPosition.tupled)))
     }
   }
 
   trait ImageService extends Service {
 
 
-    val dbc = dbConntext
+    import dbConntext.profile.api._
 
     def addImagesMenu(b: Array[Byte], contentType: String): Future[Option[(Int, String)]] = dbConntext.addImagesMenu(b, contentType)
-
-    import dbc.profile.api._
 
     /**
       *
@@ -104,10 +104,10 @@ object Services {
     }
 
     def addRootTheme(theme: MenuItem): Future[Option[MenuItem]] = {
-      val insert = dbConntext.themes += (0, theme.title, None)
+      val insert = dbConntext.themes += (0, theme.title, None,theme.x,theme.y)
       dbConntext.db.run(insert) flatMap (_ => {
         dbConntext.db.run(dbConntext.themes.sortBy(_.id.desc).result.headOption.map {
-          case Some(tuple) => Some(MenuItem.apply((Some(tuple._1), tuple._2, tuple._3)))
+          case Some(tuple) => Some(MenuItem(Some(tuple._1), tuple._2, tuple._3,tuple._4,tuple._5))
           case _ => None
         })
       })
@@ -115,4 +115,23 @@ object Services {
     }
   }
 
+
+  def imageService(implicit ctxp: ExecutionContext): ImageService = {
+    new ImageService {
+      override implicit val ctx: ExecutionContext = ctxp
+
+      override val dbConntext: RepositoryContext with SiteRepository = PostgresRepo
+    }
+  }
+
+  def menuService(implicit ctxp: ExecutionContext): MenuService = {
+    new MenuService {
+      override implicit val ctx: ExecutionContext = ctxp
+
+      override val dbConntext: RepositoryContext with SiteRepository = PostgresRepo
+    }
+  }
+
 }
+
+

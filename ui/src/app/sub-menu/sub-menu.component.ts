@@ -35,17 +35,25 @@ export class SubMenuComponent extends PageComponentBase implements OnInit {
     this.newItem.themeKey = +e.get("id");
     this.mService.getSubMenu(this.newItem.themeKey).subscribe(m => {
       m.forEach(ele => {
+        if(!ele.x){
+          ele.x = 0 ;
+        }
+        if(!ele.y){
+           ele.y = 0 ;
+       }
         this.addInTable(ele);
       });
     });
   }
 
+
+
   addMenu() {
     this.newItem.x = this.addIncolumn - 1;
+    this.newItem.y = this.oeuvres[this.newItem.x] ? this.oeuvres[this.newItem.x].length : 0;
+     this.addInTable(this.newItem);
     this.mService.addSubMenu(this.newItem).subscribe(e => {
-
-      this.newItem.y = 0;
-      this.addInTable(e);
+     this.newItem.id = e.id;
       this.newItem = new MenuItem();
 
     });

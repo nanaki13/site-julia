@@ -10,8 +10,7 @@ export class ImageUploadComponent implements OnInit {
 
   private postRequestResponse: string;
   imgs: any[] = [];
-  @Input()
-  url: string;
+
   event(f) {
     console.log(f);
   }
@@ -24,6 +23,7 @@ export class ImageUploadComponent implements OnInit {
 
 
   handleFileInput(fileInput: any) {
+  debugger;
     this.fileData = fileInput[0];
   }
 
@@ -31,7 +31,8 @@ export class ImageUploadComponent implements OnInit {
     const formData = new FormData();
 
     formData.append("file", this.fileData);
-    this.appService.sendImageTo(formData,this.url).subscribe((data: any) => {
+   //  formData.append("contentType", this.fileData);
+    this.appService.sendImageTo(formData).subscribe((data: any) => {
       this.postRequestResponse = data.link;
       this.imgs.push(data);
     });

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs/index';
 import { MessageInternService } from './message-intern.service';
+import { environment } from "./../environments/environment";
 
 /**
  * Class representing application service.
@@ -35,25 +36,15 @@ export class AppService {
     return this.http.post(this.dataPostTestUrl, data);
   }
 
-   /**
-     * Makes a http post request to send some data to backend & get response.
-     */
-    public sendImage(data): Observable<any> {
-      return this.http.post(this.dataPostImage, data).pipe(
-        catchError(err => {
-          console.log("Handling error", err);
-          this.ms.push({ content: "Error with server, dev mode" });
-          return of({link : "FAKE LINK"});
-        })
-      );
-    }
+
 
      /**
      * Makes a http post request to send some data to backend & get response.
      */
-    public sendImageTo(data,url): Observable<any> {
-      return this.http.post(url, data).pipe(
+    public sendImageTo(data): Observable<any> {
+      return this.http.post(environment.imageUrl, data).pipe(
         catchError(err => {
+
           console.log("Handling error", err);
           this.ms.push({ content: "Error with server, dev mode" });
           return of({link : "FAKE LINK"});
