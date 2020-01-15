@@ -5,7 +5,10 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.{Directives, RequestContext, Route}
 import akka.http.scaladsl.unmarshalling.FromEntityUnmarshaller
 import akka.stream.Materializer
+import bon.jo.Services.OeuvreService.OeuvreAndPosition
+import bon.jo.Services.{ServiceFactory, WebServiceCrud}
 import bon.jo.SiteModel._
+import bon.jo.juliasite.pers.{PostgresRepo, RepositoryContext, SiteRepository}
 
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
@@ -13,6 +16,64 @@ import scala.util.{Failure, Success}
 
 object Routes extends Directives with JsonOut with JsonIn {
 
+
+  object ServiceFactoryImpl extends ServiceFactory {
+    override def dbContext: RepositoryContext with SiteRepository = PostgresRepo
+  }
+
+  trait RootCreator[WebMessage <: OkResponse] {
+
+    self: WebServiceCrud[WebMessage] =>
+
+
+    def crudRoot(
+                  implicit executionContext: ExecutionContext,
+                  manifest: Manifest[WebMessage],
+                  m: Materializer
+                ): Route = {
+      implicit def inJson: FromEntityUnmarshaller[WebMessage] = unMarsh[WebMessage]
+
+      path(ressourceName) {
+        concat(
+          path(IntNumber) { id: Int =>
+            concat(get {
+              implicit val st = StatusCodes.OK
+              handle(self.read(id), s"error when getting ${ressourceName}")
+            },
+              Directives.delete {
+                implicit val st = StatusCodes.Accepted
+
+                handle(self.delete(id).map(Operation.apply), s"error when delete  ${ressourceName}")
+              })
+          },
+          get {
+            implicit val st = StatusCodes.OK
+            handle(self.readAll, s"error when getting  ${ressourceName}")
+          },
+          post {
+            entity(as[WebMessage]) { e => {
+              implicit val ok = StatusCodes.Created
+              handle(create(e),
+                s"error adding  ${ressourceName}",
+                s"cant find cretaed  ${ressourceName}", StatusCodes.NotFound)
+            }
+            }
+
+          },
+          patch {
+            implicit val okStatus = StatusCodes.NoContent
+            entity(as[WebMessage]) { forPatch =>
+              handle(self.update(forPatch),
+                s"error when update  ${ressourceName}",
+                "update not donz", StatusCodes.NotModified)
+
+            }
+          }
+        )
+      }
+
+    }
+  }
 
   /*
     menuUrl : "/api/menu",
@@ -37,26 +98,23 @@ object Routes extends Directives with JsonOut with JsonIn {
     e
   })
 
-  def posteMenu(implicit m: Materializer,
-                ec: ExecutionContext, ms: Services.MenuService): Route = post {
-    entity(as[MenuItem]) {
-      mi => {
-        implicit val ok = StatusCodes.Created
-        handle(ms.addMenu(mi),
-          "error adding menu",
-          "cant find cretaed menu", StatusCodes.NotFound)
-      }
-    }
-
-  }
-
 
   def doWithContext(ctx: RequestContext): Route = {
     implicit val m: Materializer = ctx.materializer
     implicit val ec: ExecutionContext = ctx.executionContext
 
-    implicit val ms: Services.MenuService = Services.menuService
-    implicit val imageService: Services.ImageService = Services.imageService
+    implicit object ms extends ServiceFactoryImpl.WebMenuSevice with RootCreator[MenuItem] {
+      override implicit val ctx: ExecutionContext = ec
+    }
+    implicit object imageService extends ServiceFactoryImpl.WebImageSevice with RootCreator[ImgLinkOb] {
+      override implicit val ctx: ExecutionContext = ec
+    }
+    implicit object oeuvreService extends ServiceFactoryImpl.WebOeuvreService with RootCreator[OeuvreAndPosition] {
+      override implicit val ctx: ExecutionContext = ec
+    }
+
+    def baseCrudRoute: Route = concat(ms.crudRoot, imageService.crudRoot, oeuvreService.crudRoot)
+
     val log = ctx.log
 
 
@@ -65,32 +123,17 @@ object Routes extends Directives with JsonOut with JsonIn {
     concat(path("menu") {
       concat(get {
         implicit val st = StatusCodes.OK
-        handle(ms.getMenu, "error when getting menu")
-      }
-        ,
-        post {
-          posteMenu
+        parameters('theme_key.?) {
+          case Some(v) => handle(ms.getSubMenu(v.toInt), "error when getting submenu")
+          case _ => handle(ms.getMenu, "error when getting menu")
+
         }
+
+      }
+
       )
     }
       ,
-      path("submenu") {
-        concat(get {
-          parameters('theme_key) { tk =>
-            implicit val st = StatusCodes.OK
-            handle(ms.getSubMenu(tk.toInt), "error when getting submenu")
-          }
-        },
-          post {
-            posteMenu
-          })
-      }
-      ,
-      path("oeuvre") {
-        get {
-          complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "oeuvre"))
-        }
-      },
       path("image" / Segment) { filenameOrId =>
         concat(
           get {
@@ -107,11 +150,6 @@ object Routes extends Directives with JsonOut with JsonIn {
               case Success(v) => complete(v)
               case Failure(exception) => complete(MyFailure(s"error : $exception"))
             }
-          },
-
-          delete {
-            implicit val st = StatusCodes.Accepted
-            handle(imageService.deleteImage(filenameOrId.toInt).map(Operation.apply), "error when delete image")
           }
         )
 
@@ -161,7 +199,7 @@ object Routes extends Directives with JsonOut with JsonIn {
           }
 
         )
-      }
+      }, baseCrudRoute
     )
   }
 
