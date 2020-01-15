@@ -1,0 +1,51 @@
+
+<div class="right">
+  <!--div>
+    <div class="">
+      <div>nombre d'image : {{allImages.length}}</div>
+      <div>nombre d'image par page : <input [(ngModel)]=offset/></div>
+      <div>nombre de page : {{nbPage()}}</div>
+    </div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item {{previousStyle()}}">
+          <button (click)=previous() class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </button>
+        </li>
+        <li class="page-item"><button class="page-link" href="#">{{currentPage}}</button></li>
+        <li  class="page-item {{nextStyle(1)}}"><button (click)=next(1) class="page-link" href="#">{{currentPageNext(1)}}</button></li>
+        <li class="page-item {{nextStyle(2)}}"><button (click)=next(2)  class="page-link" href="#">{{currentPageNext(2)}}</button></li>
+        <li class="page-item {{nextStyle(1)}}">
+          <button (click)=next() class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div-->
+  <app-page-navigation [(allElementsObs)]=allImages (viewElements)="viewChange($event)"></app-page-navigation>
+  <button (click)=back()>back</button>
+  <app-image-upload (newImage)=newImage($event)></app-image-upload>
+  <div   *ngFor="let img of currentImage"  class="w-25 d-inline-block">
+    <button (click)="delete(img.id)"  type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <app-image-select (unSelected)=unselected($event) (selected)=selected($event) [selectable]=img></app-image-select>
+    <img src="{{img.link}}"  class="w-100" />
+    {{img.name}}
+    <input type="text" (change)="updatedImageName(img,$event)" [(ngModel)]=img.name class="form-control w-50">
+    <button class="btn btn-secondary mr-1 {{img.updated ? '' : 'd-none'}}" (click)="update(img)" >Mettre à jour</button><ng-container *ngIf="img.updateStatus === true; else unOrFale">
+      update Ok
+    </ng-container>
+    <ng-template #unOrFale>
+      <ng-container *ngIf="img.updateStatus === false">l'image n'a pas été mise à jour</ng-container>
+    </ng-template>
+
+
+  </div>
+
+</div>
+<p>
+  image-view works!
+</p>

@@ -10,6 +10,11 @@
       menuItem.title
     }}</a>
   </div>
+  <div>
+    <a class="menu_item" routerLink="/admin/image">
+      image
+    </a>
+  </div>
   <div class="menu_item"  *ngIf="true">
       <input  [(ngModel)]="newTitle" placeholder="titre" />
       <button (click)="addMenu()">

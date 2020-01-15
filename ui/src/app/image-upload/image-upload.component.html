@@ -1,18 +1,23 @@
 <div class="container">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <h3>Choose File (image)</h3>
-      <form (ngSubmit)="onSubmit()">
+      <h4>Envoi une image</h4>
+      <form  [formGroup]="fileForm"   (ngSubmit)="onSubmit()" class="was-validated">
         <div class="form-group">
-          <input type="file" name="image" (change)="handleFileInput($event.target.files)"/>
+          <label class="pr-2" for="file">Image</label><input type="file"  class="form-control-file" formControlName="file"  required/>
+          <div *ngIf="file.errors && file.errors.required" class="invalid-feedback">
+            Choisit un fichier
+          </div>
+
+        <label class="pr-2" for="fileName">Nom de l'image</label><input name="fileName" type="text" class="form-control"
+          formControlName="fileName"  required/>
+          <div *ngIf="fileName.errors && fileName.errors.required"  class="invalid-feedback">
+            Choisit un nom
+          </div>
         </div>
         <div class="form-group">
-          <button class="btn btn-primary">Submit</button>
+          <button class="btn btn-primary" [disabled]="submitiSDisable()">Submit</button>
         </div>
       </form>
-    </div>
-  </div>
+
+
 </div>
-<div *ngIf="imgs != null">
-  <img *ngFor="let img of imgs" src="{{img.link}}" alt="cant get {{img.link}}" >
-</div>
+
