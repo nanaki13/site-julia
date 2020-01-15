@@ -1,30 +1,78 @@
 import { Id } from "../util";
 import { MenuItem } from '../MenuItem';
+import { Image, ImageService } from '../image.service';
+import { Identifiers } from '@angular/compiler';
 export interface PageElement extends Id {
   x: number;
   y: number;
-  src: string;
+
   alt: string;
   title: string;
   type: string;
   themeKey: number;
+  image: Image;
+  src: string;
   isNonEmpty(): boolean;
   isOeuvre(): boolean;
   isMenu(): boolean;
   asOeuvre(): Oeuvre;
   asMenu(): MenuItem;
+
+}
+export abstract class AbstractPageElement implements Id,PageElement{
+  id: number;
+  x: number;
+  y: number;
+  get src(): string {
+
+    if(this.title === "Avec Image"){
+      console.log(this)
+    }
+
+    if(this.image && this.image.link){
+      return this.image.link;
+    }else{
+      return "";
+    }
+  }
+  get alt(): string {
+    if(this.image && this.image.link){
+      return "";
+    }else{
+      return "no image";
+    }
+  }
+  title: string;
+  type: string;
+  themeKey: number;
+  image: Image = new Image();
+ abstract isNonEmpty(): boolean;
+ abstract isOeuvre(): boolean;
+ abstract isMenu(): boolean;
+ abstract asOeuvre(): Oeuvre;
+ abstract asMenu(): MenuItem;
+ constructor(param?: {
+  title?: string;
+  themeKey?: number;
+  id?: number;
+  type?: string;
+}) {
+  if (param) {
+    this.id = param.id;
+    this.title = param.title;
+    this.themeKey = param.themeKey;
+    this.type = param.type;
+  }
+}
 }
 
-export class Oeuvre implements Id, PageElement {
-  id: number;
-  themeKey: number;
+export class Oeuvre extends AbstractPageElement {
+
+
   title: string;
   date: string;
   dimension: string;
   description: string;
-  x: number;
-  y: number;
-  src: string;
   type = "oeuvre";
 
   get alt(): string {
@@ -47,13 +95,13 @@ export class Oeuvre implements Id, PageElement {
   }
 }
 
-export class EmptyOeuvre implements Id, PageElement {
-  src = "";
-  alt = "X";
-  title = "XX";
+export class EmptyOeuvre extends AbstractPageElement  {
+
+
+
   type = "empty";
-  themeKey: number;
-  constructor(public x: number, public y: number, public id: number) {}
+
+  constructor(public x: number, public y: number, public id: number) {super()}
   isNonEmpty() {
     return false;
   }

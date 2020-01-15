@@ -20,6 +20,10 @@ import { HomeComponent } from "./home/home.component";
 import { OeuvreComponent } from "./oeuvre/oeuvre.component";
 import { OeuvreGalComponent } from "./oeuvre-gal/oeuvre-gal.component";
 import { PageElementTableComponent } from "./page-element-table/page-element-table.component";
+import { ImageViewComponent } from "./image-view/image-view.component";
+import { ReactiveFormsModule } from '@angular/forms';
+import { PageNavigationComponent } from './page-navigation/page-navigation.component';
+import { ImageSelectComponent } from './image-select/image-select.component';
 
 const routes: Routes = [
   {
@@ -28,20 +32,20 @@ const routes: Routes = [
   },
   {
     path: "home",
-    component: HomeComponent,
-
+    component: HomeComponent
   },
   {
     path: "subMenu/:title/:id",
-    component: SubMenuComponent,
-
+    component: SubMenuComponent
   },
   {
     path: "page/:title/:id",
-    component: OeuvreComponent,
-
+    component: OeuvreComponent
   },
-
+  {
+    path: "admin/image",
+    component: ImageViewComponent
+  },
   {
     path: "**",
     redirectTo: "/home",
@@ -50,37 +54,43 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    HttpClientXsrfModule.withOptions({
-      cookieName: "Csrf-Token",
-      headerName: "Csrf-Token"
-    }),
-
-    RouterModule.forRoot(routes)
-  ],
-  declarations: [
-    AppComponent,
-    RouteExampleComponent,
-    PageElementTableComponent,
-    MainMenuComponent,
-    SubMenuComponent,
-    ImageUploadComponent,
-    MessageComponent,
-    HomeComponent,
-    OeuvreComponent,
-    OeuvreGalComponent
-  ],
-  providers: [
+   declarations: [
+      AppComponent,
+      RouteExampleComponent,
+      PageElementTableComponent,
+      MainMenuComponent,
+      SubMenuComponent,
+      ImageUploadComponent,
+      MessageComponent,
+      HomeComponent,
+      OeuvreComponent,
+      OeuvreGalComponent,
+      ImageViewComponent,
+      PageNavigationComponent,
+      ImageSelectComponent
+   ],
+   providers: [
     AppService,
     {
       multi: true,
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptorService
     }
-  ],
-  bootstrap: [AppComponent]
+   ],
+   bootstrap: [
+      AppComponent
+   ],
+   imports: [
+      BrowserModule,
+      FormsModule,
+      ReactiveFormsModule,
+      HttpClientModule,
+      HttpClientXsrfModule.withOptions({
+        cookieName: "Csrf-Token",
+        headerName: "Csrf-Token"
+      }),
+
+      RouterModule.forRoot(routes)
+    ]
 })
 export class AppModule {}

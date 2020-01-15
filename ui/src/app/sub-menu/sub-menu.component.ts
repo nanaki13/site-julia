@@ -4,6 +4,7 @@ import { MainMenuService } from "../main-menu.service";
 import { MenuItem } from "../MenuItem";
 import { Observable } from "rxjs";
 import { PageComponentBase } from "../util";
+import { ImageService } from '../image.service';
 
 @Component({
   selector: "app-sub-menu",
@@ -15,24 +16,36 @@ export class SubMenuComponent extends PageComponentBase implements OnInit {
 
   title: string;
 
-  newItem = new MenuItem();
+  newItem ;
   constructor(
     private route: ActivatedRoute,
-    private mService: MainMenuService
+    private mService: MainMenuService,
+    private imageService : ImageService
   ) {
     super();
+
   }
 
   ngOnInit() {
+
+    this.newItem = this.mService.currentMenuItem;
     this.route.paramMap.subscribe(e =>{
 
       this.oeuvres = [];
       this.loadItem(e)
     });
+
+    this.imageService.lastSelectedImage.subscribe(s =>{
+      this.newItem.image = s
+
+    })
+
   }
   loadItem(e: ParamMap): void {
+
     this.title = e.get("title");
     this.newItem.themeKey = +e.get("id");
+
     this.mService.getSubMenu(this.newItem.themeKey).subscribe(m => {
       m.forEach(ele => {
         if(!ele.x){

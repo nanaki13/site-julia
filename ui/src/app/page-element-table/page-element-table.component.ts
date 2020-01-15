@@ -15,6 +15,8 @@ export class PageElementTableComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.element);
+      console.log(this.pDisplay.src(this.element));
   }
+
+  src(): string  {return this.pDisplay.src(this.element)}
 }

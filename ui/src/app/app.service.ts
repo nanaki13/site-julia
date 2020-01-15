@@ -38,17 +38,5 @@ export class AppService {
 
 
 
-     /**
-     * Makes a http post request to send some data to backend & get response.
-     */
-    public sendImageTo(data): Observable<any> {
-      return this.http.post(environment.imageUrl, data).pipe(
-        catchError(err => {
 
-          console.log("Handling error", err);
-          this.ms.push({ content: "Error with server, dev mode" });
-          return of({link : "FAKE LINK"});
-        })
-      );
-    }
 }

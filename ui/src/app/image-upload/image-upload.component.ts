@@ -1,40 +1,54 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { AppService } from '../app.service';
+import { Component, OnInit, Input, HostListener, Output, EventEmitter } from "@angular/core";
+import { AppService } from "../app.service";
+import { FormGroup, FormControl, FormBuilder, Validators } from "@angular/forms";
+import { Image, ImageService } from '../image.service';
 
 @Component({
-  selector: 'app-image-upload',
-  templateUrl: './image-upload.component.html',
-  styleUrls: ['./image-upload.component.css']
+  selector: "app-image-upload",
+  templateUrl: "./image-upload.component.html",
+  styleUrls: ["./image-upload.component.css"]
 })
 export class ImageUploadComponent implements OnInit {
-
-  private postRequestResponse: string;
-  imgs: any[] = [];
-
-  event(f) {
-    console.log(f);
-  }
-
+  imageName = "";
+  @Output() newImage = new EventEmitter<Image>();
   fileData = null;
-  constructor(private appService: AppService) { }
+  sending = false;
+  fileForm = this.fb.group({
+    fileName: ["", Validators.required],
+    file: ["", Validators.required]
+  });
 
-  ngOnInit() {
-  }
 
+  get file() {return this.fileForm.get("file")}
+  get fileName() {return this.fileForm.get("fileName")}
+
+
+  constructor(private imageService: ImageService, private fb: FormBuilder) {}
+
+  ngOnInit() {}
 
   handleFileInput(fileInput: any) {
-  debugger;
     this.fileData = fileInput[0];
   }
 
+  @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
+    if(event){
+      this.fileData  = event && event.item(0);
+    }
+  }
   onSubmit() {
     const formData = new FormData();
-
     formData.append("file", this.fileData);
-   //  formData.append("contentType", this.fileData);
-    this.appService.sendImageTo(formData).subscribe((data: any) => {
-      this.postRequestResponse = data.link;
-      this.imgs.push(data);
-    });
+    formData.append("image_name", this.fileName.value);
+    this.sending = true;
+    this.imageService.sendImageTo(formData).subscribe((data) => {
+        this.newImage.emit(data);
+        this.sending = false;
+      });
+
+  }
+
+  submitiSDisable(){
+      return !this.fileForm.valid || this.sending ;
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { of, Observable, interval } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
@@ -19,6 +19,10 @@ export class MainMenuService {
   private fakeData: MenuItem[] = [];
   private fakeSubMenu: AutoMap<Number, MenuItem[]> = new AutoMap(() => []);
 
+  private _currentMenuItem = new MenuItem({title : "current"});
+  get currentMenuItem(): MenuItem {
+    return this._currentMenuItem;
+  }
 
   constructor(private http: HttpClient, private ms: MessageInternService) {}
   /**
@@ -56,7 +60,13 @@ export class MainMenuService {
         .pipe(
         map(e => {
 
-              return e.map( mi => Object.assign(new MenuItem(), mi));
+              return e.map( mi =>
+                {
+                  const n =new MenuItem();
+                  Object.assign(n , mi);
+
+                  return n;
+                });
             }),
           catchError(err => {
             console.log("Handling error", err);

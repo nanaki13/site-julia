@@ -1,6 +1,6 @@
 import { PageElement, Oeuvre } from "./model/Oeuvre";
 import { environment } from "src/environments/environment";
-import { MenuItem } from './MenuItem';
+import { MenuItem } from "./MenuItem";
 export class PageElementDisplay {
   _navigation = false;
   _drag = false;
@@ -13,21 +13,24 @@ export class PageElementDisplay {
     this.drag = !this._edit;
   }
   src(e: PageElement): string {
+
     if (environment.online && e && e.isNonEmpty()) {
-      return (e as Oeuvre).src;
-    }
-    else {
+      if (e.src) {
+        return e.src;
+      } else {
+        return "/assets/img/mamie_muguette_acc.jpg";
+      }
+
+    } else {
       return "/assets/img/mamie_muguette_acc.jpg";
     }
   }
   buildLink(e: PageElement): string {
     if (e.isMenu()) {
       return `/${e.type}/${e.title}/${e.id}`;
-    }
-    else if (e.isNonEmpty) {
+    } else if (e.isNonEmpty) {
       return `/gallery/${e.title}/${e.id}`;
-    }
-    else {
+    } else {
       return "";
     }
   }
@@ -35,32 +38,28 @@ export class PageElementDisplay {
   link(o: PageElement): PageElement {
     if (this.navigation) {
       return o;
-    }
-    else {
+    } else {
       return undefined;
     }
   }
   get islink(): boolean {
     if (this.edit) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
   description(e: PageElement): Oeuvre {
     if (e && e.isOeuvre()) {
       return e.asOeuvre();
-    }
-    else {
+    } else {
       return undefined;
     }
   }
   menu(e: PageElement): MenuItem {
     if (e && e.isMenu()) {
       return e.asMenu();
-    }
-    else {
+    } else {
       return undefined;
     }
   }
@@ -74,8 +73,7 @@ export class PageElementDisplay {
     if (b) {
       this._drag = false;
       this._edit = false;
-    }
-    else {
+    } else {
       this._drag = false;
       this._edit = true;
     }

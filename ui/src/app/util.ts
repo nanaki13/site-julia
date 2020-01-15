@@ -119,9 +119,9 @@ export class PageComponentBase {
     this.pDisplay = environment.pDisplay;
   }
   sDefaultColumn(e: number) {
-    console.log(e);
+
     if (e === 1) {
-      console.log("true");
+
       return "selected";
     } else {
       return false;
@@ -168,6 +168,7 @@ export class PageComponentBase {
 
           const oo = this.oeuvres[x];
           const y = oo.length;
+          debugger;
           oo.push(new EmptyOeuvre(x, y, -1));
 
           x++;

@@ -24,7 +24,7 @@ export class MainMenuComponent implements OnInit {
   }
   addMenu() {
     this.mainManuService.addMenu(this.newTitle).subscribe(e => {
-      console.log(e);
+
       this.ngOnInit();
     });
   }

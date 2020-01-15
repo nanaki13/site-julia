@@ -1,16 +1,13 @@
 package bon.jo
 
 import akka.http.scaladsl.marshalling.ToResponseMarshaller
-import akka.http.scaladsl.model.{ContentType, ContentTypes, HttpEntity, MediaType, MediaTypes, Multipart, StatusCode, StatusCodes}
-import akka.http.scaladsl.server.directives.DebuggingDirectives
+import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.{Directives, RequestContext, Route}
 import akka.http.scaladsl.unmarshalling.FromEntityUnmarshaller
 import akka.stream.Materializer
-import akka.util.ByteString
-import bon.jo.Services.ImageService
-import bon.jo.SiteModel.{ImgLinkOb, MenuItem, OkResponse}
-import akka.event.Logging
+import bon.jo.SiteModel._
 
+import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
@@ -24,13 +21,14 @@ object Routes extends Directives with JsonOut with JsonIn {
   imageUrl : "/api/image",
    */
 
-  implicit def out[T <: OkResponse]: ToResponseMarshaller[T] = jsonEntity[T]
 
-  implicit def outList[T <: Seq[OkResponse]]: ToResponseMarshaller[T] = jsonEntity[T]
+  implicit def out[T <: OkResponse](implicit statusCode: StatusCode): ToResponseMarshaller[T] = jsonEntity[T]
+
+  implicit def outList[T <: Seq[OkResponse]](implicit statusCode: StatusCode): ToResponseMarshaller[T] = jsonEntity[T]
 
   implicit def outError: ToResponseMarshaller[MyFailure] = jsonEntityWithStatus(StatusCodes.InternalServerError)
 
-  implicit def inJson[Ok](implicit manifest: Manifest[Ok], m: Materializer, ec: ExecutionContext): FromEntityUnmarshaller[Ok] = unMarsh[Ok]
+  implicit def inJson[R <: OkResponse](implicit manifest: Manifest[R], m: Materializer, ec: ExecutionContext): FromEntityUnmarshaller[R] = unMarsh[R]
 
   def toJson[Other](implicit statusCode: StatusCode): ToResponseMarshaller[Other] = jsonEntityWithStatus(statusCode)
 
@@ -43,19 +41,13 @@ object Routes extends Directives with JsonOut with JsonIn {
                 ec: ExecutionContext, ms: Services.MenuService): Route = post {
     entity(as[MenuItem]) {
       mi => {
-        onComplete(ms.addMenu(mi)) {
-          case Success(v) if v.isDefined => complete(v.get)
-          case Failure(exception) => complete(MyFailure(s"error : $exception"))
-          case _ => cJson(MyFailure("can't find new menu"))(StatusCodes.NotModified)
-        }
+        implicit val ok = StatusCodes.Created
+        handle(ms.addMenu(mi),
+          "error adding menu",
+          "cant find cretaed menu", StatusCodes.NotFound)
       }
     }
 
-  }
-
-  def saveImage(e: ByteString)(implicit imageService: ImageService): ImgLinkOb = {
-    // imageService.saveImage(Some(e.toArray))
-    null
   }
 
 
@@ -66,13 +58,14 @@ object Routes extends Directives with JsonOut with JsonIn {
     implicit val ms: Services.MenuService = Services.menuService
     implicit val imageService: Services.ImageService = Services.imageService
     val log = ctx.log
+
+
+
     //implicit val actor : Actor = ctx.actor
     concat(path("menu") {
       concat(get {
-        onComplete(ms.getMenu) {
-          case Success(value) => complete(value)
-          case Failure(exception) => complete(MyFailure(s"error : $exception"))
-        }
+        implicit val st = StatusCodes.OK
+        handle(ms.getMenu, "error when getting menu")
       }
         ,
         post {
@@ -80,17 +73,12 @@ object Routes extends Directives with JsonOut with JsonIn {
         }
       )
     }
-
       ,
       path("submenu") {
         concat(get {
-          parameters('theme_key) { tk => {
-            onComplete(ms.getSubMenu(tk.toInt)) {
-              case Success(v) => complete(v)
-              case Failure(exception) => complete(MyFailure(s"error : $exception"))
-              case _ => cJson(MyFailure("can't find sub menu"))(StatusCodes.NotModified)
-            }
-          }
+          parameters('theme_key) { tk =>
+            implicit val st = StatusCodes.OK
+            handle(ms.getSubMenu(tk.toInt), "error when getting submenu")
           }
         },
           post {
@@ -102,48 +90,101 @@ object Routes extends Directives with JsonOut with JsonIn {
         get {
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "oeuvre"))
         }
-      }, path("image" / Segment) { filename =>
-        println(filename)
-        onComplete(
-          for (fStart <- imageService.getImage(filename.substring(0, filename.lastIndexOf('.')))
-          ) yield {
-            fStart.map(e => {
-              val md: MediaType.Binary = MediaType.parse(e._2).getOrElse(MediaTypes.`application/octet-stream`).asInstanceOf[MediaType.Binary]
-              val ct: ContentType = ContentType(md)
-              HttpEntity.apply(ct, e._1)
-            })
-          }) {
-          case Success(v) => complete(v)
-          case Failure(exception) => complete(MyFailure(s"error : $exception"))
-        }
+      },
+      path("image" / Segment) { filenameOrId =>
+        concat(
+          get {
+
+            onComplete(
+              for (fStart <- imageService.getImage(filenameOrId.substring(0, filenameOrId.lastIndexOf('.')))
+              ) yield {
+                fStart.map(e => {
+                  val md: MediaType.Binary = MediaType.parse(e._2).getOrElse(MediaTypes.`application/octet-stream`).asInstanceOf[MediaType.Binary]
+                  val ct: ContentType = ContentType(md)
+                  HttpEntity.apply(ct, e._1)
+                })
+              }) {
+              case Success(v) => complete(v)
+              case Failure(exception) => complete(MyFailure(s"error : $exception"))
+            }
+          },
+
+          delete {
+            implicit val st = StatusCodes.Accepted
+            handle(imageService.deleteImage(filenameOrId.toInt).map(Operation.apply), "error when delete image")
+          }
+        )
+
       },
       path("image") {
         concat(get {
-          onComplete(imageService.imageMenuLink()) {
-            case Success(value) => complete(value)
-            case Failure(exception) => complete(MyFailure(s"error : $exception"))
-          }
+          implicit val okStatus = StatusCodes.OK
+          handle(imageService.imagesLink(), "error when getting image")
         },
           post {
-            fileUpload("file") {
-              bs =>
-                println(bs._1.fileName)
-                onComplete {
-                  bs._2.runReduce(_ ++ _).map(agg =>
-                    imageService.saveImage(Some(agg.toArray), bs._1.contentType.toString()).map(e => {
-                      ImgLinkOb(s"/api/image/${e.get._1}.${e.get._2.split("/")(1)}")
-                    })
-                  )
-                } {
-                  case Success(value) => complete(value)
-                  case Failure(exception) => complete(MyFailure(s"error when reading file: $exception"))
-                }
+
+            entity(as[Multipart.FormData]) {
+              formData =>
+                val formMap: Future[Map[String, Any]] = formData.parts.mapAsync[(String, Any)](1) {
+
+                  case b: Multipart.BodyPart if b.name == "file" =>
+
+                    b.entity.dataBytes.runReduce(_ ++ _).map(bs => b.name -> (bs.toArray, b.entity.contentType.toString()))
+                  case b: Multipart.BodyPart =>
+                    // collect form field values
+
+                    b.toStrict(2.seconds).map(strict =>
+                      b.name -> strict.entity.data.utf8String)
+                }.runFold(Map.empty[String, Any])((map, tuple) => map + tuple)
+
+                val processParsed = formMap.flatMap(parsedMap => {
+                  val (data, ct) = parsedMap("file").asInstanceOf[(Array[Byte], String)]
+                  val name = parsedMap("image_name").toString
+                  imageService.saveImage(Some(data), ct, name).map(e => {
+                    Some(ImgLinkOb(e.get._1, e.get._2, ImgLink(e.get._1, e.get._2), name))
+                  })
+                })
+                implicit val okStatus = StatusCodes.Created
+                handle(processParsed,
+                  "error when create image",
+                )
+            }
+          },
+          patch {
+            implicit val okStatus = StatusCodes.NoContent
+            entity(as[ImgLinkOb]) { forPatch =>
+              handle(imageService.update(forPatch),
+                "error when update",
+                "update not donz", StatusCodes.NotModified)
 
             }
-          })
+          }
+
+        )
       }
     )
   }
+
+  def handle(process: Future[IterableOnce[OkResponse]], errorMessage: String, noneMessage: String = "not found", noneStatus: StatusCode = StatusCodes.NotFound)(implicit okStatus: StatusCode): Route = {
+    onComplete(process) {
+      case Success(value) => value match {
+        case Some(v) => complete(v)
+        case l: Seq[OkResponse] => complete(l)
+        case None => cJson(MyFailure(s"$noneMessage"))(noneStatus)
+      }
+      case Failure(exception) => cJson(MyFailure(s"$errorMessage : $exception"))(StatusCodes.InternalServerError)
+    }
+
+  }
+
+  def handle(process: Future[OkResponse], errorMessage: String)(implicit okStatus: StatusCode): Route = {
+    onComplete(process) {
+      case Success(value) => complete(value)
+      case Failure(exception) => cJson(MyFailure(s"$errorMessage : $exception"))(StatusCodes.InternalServerError)
+    }
+
+  }
+
 
   def allRoutes(implicit ec: ExecutionContext): Route = {
 
