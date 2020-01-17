@@ -1,6 +1,8 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { PageElement } from "../model/Oeuvre";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { PageElement } from "../model/PageElement";
 import { PageElementDisplay } from "../PageElementDisplay";
+import { Updatable } from '../Updatable';
+import { SourceService } from '../source.service';
 
 @Component({
   selector: "app-page-element-table",
@@ -12,11 +14,32 @@ export class PageElementTableComponent implements OnInit {
   element: PageElement;
   @Input()
   pDisplay: PageElementDisplay;
-  constructor() {}
+  @Output()
+  updateElement= new EventEmitter< PageElement>();
+  @Output()
+  deleteElement= new EventEmitter< number>();
+  constructor(private sourceService : SourceService) {}
 
   ngOnInit() {
-      console.log(this.pDisplay.src(this.element));
+      console.log(this.element);
+
   }
 
   src(): string  {return this.pDisplay.src(this.element)}
+
+  update(element: PageElement){
+    this.updateElement.emit(element)
+  }
+
+  change(img: Updatable, event: Event) {
+    img.updated = true;
+  }
+
+  delete(id : number){
+    this.deleteElement.emit(id);
+  }
+
+  click(event){
+   this.sourceService.source = this.element;
+  }
 }

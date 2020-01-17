@@ -3,10 +3,16 @@
     <ng-container *ngIf="!pDisplay.navigation">
       <input
         class="form-control"
-        [(ngModel)]="newTitle"
+        [(ngModel)]="newItem.title"
         placeholder="title"
         name="title"
-      /><button class="btn btn-primary" (click)="addOeuvre()">
+      />
+
+      <a  [routerLink]="['/admin/image']"  >
+        <img *ngIf="newItem.image" src="{{newItem.src}}" alt="{{newItem.alt}}" class="img-thumbnail _200">
+        image de l'oevre
+      </a>
+      <button class="btn btn-primary" (click)="addOeuvre()">
         Add
       </button>
       <select  class="d-inline form-control" name="column" [(ngModel)]="addIncolumn">
@@ -66,6 +72,8 @@
         <app-page-element-table
           [element]="d"
           [pDisplay]="pDisplay"
+          (updateElement)="update($event)"
+          (deleteElement)="delete($event)"
         ></app-page-element-table>
         <!-- <a *ngIf="link(d) as desc; else  noLink" routerLink="/galery/{{desc.title}}/{{desc.id}}" [state]=desc >
           <img class="gallery_image" src="{{src(d)}}" alt="{{alt(d)}}"/></a>

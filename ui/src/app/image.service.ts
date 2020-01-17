@@ -4,6 +4,7 @@ import { catchError, map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { MessageInternService } from "./message-intern.service";
 import { environment } from "src/environments/environment";
+import { Image } from "./Image";
 
 @Injectable({
   providedIn: "root"
@@ -27,6 +28,10 @@ export class ImageService {
   }
 
   imageSelected(img: Image) {
+    if (history.state) {
+      console.log(history);
+      history.state.image =img;
+    }
     this._lastSelectedImage.emit(img);
   }
 
@@ -77,16 +82,4 @@ export class ImageService {
       })
     );
   }
-}
-
-export interface Updatable {
-  updateStatus: boolean;
-  updated: boolean;
-}
-export class Image implements Updatable {
-  id: number;
-  link: string;
-  name: string;
-  updateStatus: boolean;
-  updated: boolean;
 }

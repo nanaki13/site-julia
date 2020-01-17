@@ -1,10 +1,12 @@
-import { PageElement, Oeuvre, AbstractPageElement } from "./model/Oeuvre";
-import { Id } from './util';
+import { Oeuvre } from "./model/Oeuvre";
+import { AbstractPageElement } from "./model/AbstractPageElement";
+import { PageElement } from "./model/PageElement";
+import { Id } from "./Id";
 
 export class MenuItem extends AbstractPageElement {
 
 
-  type : string;
+  type : string = "menu";
   public title: string;
   themeKey: number;
   public id = 0;

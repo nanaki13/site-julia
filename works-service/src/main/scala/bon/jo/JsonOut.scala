@@ -8,7 +8,7 @@ trait JsonOut {
 
   import org.json4s.native.Serialization.write
 
-  implicit val formatsOut = DefaultFormats
+  implicit val formatsOut = DefaultFormats+ LocalDateSerializer
 
   def jsonEntity[Ok]: ToResponseMarshaller[Ok] =
     Marshaller.withFixedContentType(MediaTypes.`application/json`) { item =>

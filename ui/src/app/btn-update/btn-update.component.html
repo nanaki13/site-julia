@@ -1,0 +1,6 @@
+<button class="btn btn-secondary mr-1 {{element.updated ? '' : 'd-none'}}" (click)="update(element)" >Mettre à jour</button><ng-container *ngIf="element.updateStatus === true; else unOrFale">
+  update Ok
+</ng-container>
+<ng-template #unOrFale>
+  <ng-container *ngIf="element.updateStatus === false">{{elementName}} n'a pas été mise à jour</ng-container>
+</ng-template>

@@ -5,16 +5,18 @@ import { HttpClient } from "@angular/common/http";
 import { MessageInternService } from "./message-intern.service";
 import { environment } from "./../environments/environment";
 import { identifierModuleUrl } from "@angular/compiler";
-import { AutoMap, AutoId } from "./util";
+import { AutoMap } from "./util";
+import { AutoId } from "./AutoId";
 import { MenuItem } from './MenuItem';
+import { Service } from './image-view/image-view.component';
 @Injectable({
   providedIn: "root"
 })
-export class MainMenuService {
-  private serviceUrl = environment.serviceUrl;
-  private menuUrl = "/api/menu";
-  private subMenuUrl = "/api/submenu";
+export class MainMenuService implements Service {
 
+  private serviceUrl = environment.serviceUrl;
+  private menuUrl = environment.menuUrl;
+  private subMenuUrl =environment.subMenuUrl;
   private rootMenuAutoId = new AutoId();
   private fakeData: MenuItem[] = [];
   private fakeSubMenu: AutoMap<Number, MenuItem[]> = new AutoMap(() => []);
@@ -47,7 +49,38 @@ export class MainMenuService {
       return of(this.fakeData);
     }
   }
-
+  delete(id : number):Observable<boolean>{
+    return this.http.delete<any>(`${environment.menuUrl}/${id}`).pipe(
+      catchError(err => {
+        console.log("Handling error", err);
+        this.ms.push({ content: "Error with server, see log" });
+        return of(false);
+      }),
+      map(e => {
+        if (e === false) {
+          return e;
+        } else {
+          return true;
+        }
+      })
+    );
+  }
+  update(t: MenuItem): Observable<boolean> {
+    return this.http.patch<any>(environment.menuUrl, t).pipe(
+      catchError(err => {
+        console.log("Handling error", err);
+        this.ms.push({ content: "Error with server, see log" });
+        return of(false);
+      }),
+      map(e => {
+        if (e === false) {
+          return e;
+        } else {
+          return true;
+        }
+      })
+    );
+  }
   // getMenu(): Observable<MenuItem[]> {
   //  return interval(1000).pipe( map(i =>this.fakeData))
   // return of(this.fakeData)

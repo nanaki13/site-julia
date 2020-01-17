@@ -3,8 +3,9 @@ import { ActivatedRoute, ParamMap } from "@angular/router";
 import { MainMenuService } from "../main-menu.service";
 import { MenuItem } from "../MenuItem";
 import { Observable } from "rxjs";
-import { PageComponentBase } from "../util";
+import { PageComponentBase } from "../PageComponentBase";
 import { ImageService } from '../image.service';
+import { Service } from '../image-view/image-view.component';
 
 @Component({
   selector: "app-sub-menu",
@@ -25,7 +26,9 @@ export class SubMenuComponent extends PageComponentBase implements OnInit {
     super();
 
   }
-
+  mainService(): Service {
+    return this.mService;
+  }
   ngOnInit() {
 
     this.newItem = this.mService.currentMenuItem;

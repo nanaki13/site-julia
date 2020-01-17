@@ -24,6 +24,7 @@ import { ImageViewComponent } from "./image-view/image-view.component";
 import { ReactiveFormsModule } from '@angular/forms';
 import { PageNavigationComponent } from './page-navigation/page-navigation.component';
 import { ImageSelectComponent } from './image-select/image-select.component';
+import { BtnUpdateComponent } from './btn-update/btn-update.component';
 
 const routes: Routes = [
   {
@@ -67,7 +68,8 @@ const routes: Routes = [
       OeuvreGalComponent,
       ImageViewComponent,
       PageNavigationComponent,
-      ImageSelectComponent
+      ImageSelectComponent,
+      BtnUpdateComponent
    ],
    providers: [
     AppService,

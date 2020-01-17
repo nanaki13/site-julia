@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, HostListener, Output, EventEmitter } from "@angular/core";
 import { AppService } from "../app.service";
 import { FormGroup, FormControl, FormBuilder, Validators } from "@angular/forms";
-import { Image, ImageService } from '../image.service';
+import {  ImageService } from '../image.service';
+import { Image } from "../Image";
 
 @Component({
   selector: "app-image-upload",

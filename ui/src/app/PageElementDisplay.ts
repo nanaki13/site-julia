@@ -1,4 +1,5 @@
-import { PageElement, Oeuvre } from "./model/Oeuvre";
+import { Oeuvre } from "./model/Oeuvre";
+import { PageElement } from "./model/PageElement";
 import { environment } from "src/environments/environment";
 import { MenuItem } from "./MenuItem";
 export class PageElementDisplay {
@@ -28,15 +29,17 @@ export class PageElementDisplay {
   buildLink(e: PageElement): string {
     if (e.isMenu()) {
       return `/${e.type}/${e.title}/${e.id}`;
-    } else if (e.isNonEmpty) {
+    } else if (e.isNonEmpty && !this.edit) {
       return `/gallery/${e.title}/${e.id}`;
+    } else if(this.edit) {
+      return "/admin/image";
     } else {
       return "";
     }
   }
 
   link(o: PageElement): PageElement {
-    if (this.navigation) {
+    if (this.navigation || this.edit) {
       return o;
     } else {
       return undefined;
@@ -92,3 +95,5 @@ export class PageElementDisplay {
     }
   }
 }
+
+export const pDisplay = new PageElementDisplay()

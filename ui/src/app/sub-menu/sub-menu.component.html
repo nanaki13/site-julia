@@ -106,6 +106,8 @@
         <app-page-element-table
           [element]="d"
           [pDisplay]="pDisplay"
+          (updateElement)="update($event)"
+          (deleteElement)="delete($event)"
         ></app-page-element-table>
         <!-- <a *ngIf="link(d) as desc; else  noLink" routerLink="/galery/{{desc.title}}/{{desc.id}}" [state]=desc >
           <img class="gallery_image" src="{{src(d)}}" alt="{{alt(d)}}"/></a>

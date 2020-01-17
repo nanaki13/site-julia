@@ -1,34 +1,38 @@
-<a *ngIf="pDisplay.link(element) as desc; else  noLink" routerLink="{{pDisplay.buildLink(desc)}}" [state]=desc >
+<button (click)="delete(element.id)"  type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<a *ngIf="pDisplay.link(element) as desc; else  noLink" routerLink="{{pDisplay.buildLink(desc)}}" (click)=click($event) >
   <img class="gallery_image" src="{{src()}}" alt="{{pDisplay.alt(element)}}"/></a>
   <ng-template #noLink> <img class="gallery_image" src="{{src()}}" alt="{{pDisplay.alt(element)}}"/></ng-template>
 <div *ngIf="pDisplay.description(element) as desc; else tryMenu" class="container">
   <span class="italic">{{ desc.title }}</span
-  ><br />{{ desc.date }}<br />{{ desc.dimension }}<br />{{
+  ><br />{{ desc.creation }}<br />{{ desc.dimensionX }} cm  {{ desc.dimensionY }} cm<br />{{
     desc.description
   }}
   <div *ngIf="pDisplay.edit && !pDisplay.navigation">
     <label for="title">Titre</label>
-    <input name="title" type="text" [(ngModel)]="desc.title" />
+    <input name="title" type="text" [(ngModel)]="desc.title" (keyup)=change(desc,$event) />
     <label for="date">Date</label>
-    <input name="date" type="text" [(ngModel)]="desc.date" />
-    <label for="dimension">Dimension</label>
-    <input name="dimension" type="text" [(ngModel)]="desc.dimension" />
+    <input name="date" type="number" [(ngModel)]="desc.creation" (keyup)=change(desc,$event) placeholder="2020"/>
+    <label for="dimensionX">Hauteur</label>
+    <input name="dimensionX" type="number" [(ngModel)]="desc.dimensionX" (keyup)=change(desc,$event)/>
+    <label for="dimensionY">Largeur</label>
+    <input name="dimensionY" type="number" [(ngModel)]="desc.dimensionY" (keyup)=change(desc,$event)/>
     <label for="description">Description</label>
     <input
       name="description"
       type="text"
       [(ngModel)]="desc.description"
+      (keyup)=change(desc,$event)
     />
+
+    <app-btn-update [element] = desc (elementOut)=update($event)></app-btn-update>
+
   </div>
 </div>
 <ng-template #tryMenu><div *ngIf="pDisplay.menu(element) as menu; else empty" class="container">
   <span class="italic">{{ menu.title }}</span>
   <div *ngIf="pDisplay.edit && !pDisplay.navigation">
     <label for="title">Titre</label>
-    <input name="title" type="text" [(ngModel)]="menu.title" />
+    <input name="title" type="text" [(ngModel)]="menu.title" (change)=change(menu,$event) />
+    <app-btn-update [element] =menu (elementOut)=update($event)></app-btn-update>
   </div> </div></ng-template>
-<ng-template #empty><div>qsddddddddd
-  qsdqsd
-
-  qsdqsd
-  qsdsqdEmpty Slot</div></ng-template>
+<ng-template #empty><div>Empty Slot</div></ng-template>

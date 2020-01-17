@@ -1,80 +1,30 @@
-import { Id } from "../util";
-import { MenuItem } from '../MenuItem';
-import { Image, ImageService } from '../image.service';
-import { Identifiers } from '@angular/compiler';
-export interface PageElement extends Id {
-  x: number;
-  y: number;
-
-  alt: string;
-  title: string;
-  type: string;
-  themeKey: number;
-  image: Image;
-  src: string;
-  isNonEmpty(): boolean;
-  isOeuvre(): boolean;
-  isMenu(): boolean;
-  asOeuvre(): Oeuvre;
-  asMenu(): MenuItem;
-
-}
-export abstract class AbstractPageElement implements Id,PageElement{
-  id: number;
-  x: number;
-  y: number;
-  get src(): string {
-
-    if(this.title === "Avec Image"){
-      console.log(this)
-    }
-
-    if(this.image && this.image.link){
-      return this.image.link;
-    }else{
-      return "";
-    }
-  }
-  get alt(): string {
-    if(this.image && this.image.link){
-      return "";
-    }else{
-      return "no image";
-    }
-  }
-  title: string;
-  type: string;
-  themeKey: number;
-  image: Image = new Image();
- abstract isNonEmpty(): boolean;
- abstract isOeuvre(): boolean;
- abstract isMenu(): boolean;
- abstract asOeuvre(): Oeuvre;
- abstract asMenu(): MenuItem;
- constructor(param?: {
-  title?: string;
-  themeKey?: number;
-  id?: number;
-  type?: string;
-}) {
-  if (param) {
-    this.id = param.id;
-    this.title = param.title;
-    this.themeKey = param.themeKey;
-    this.type = param.type;
-  }
-}
-}
-
+import { MenuItem } from "../MenuItem";
+import { ImageService } from "../image.service";
+import { Identifiers } from "@angular/compiler";
+import { AbstractPageElement } from "./AbstractPageElement";
 export class Oeuvre extends AbstractPageElement {
-
-
+  creation: number;
   title: string;
-  date: string;
-  dimension: string;
+  dimensionX: number;
+  dimensionY: number;
   description: string;
   type = "oeuvre";
 
+  constructor(param?: {
+    title: string,
+    themeKey?: number,
+    id?: number,
+    type?: string,
+    description: string,
+    dimensionX: number,
+    dimensionY: number,
+    creation: number
+  }) {
+    super(null);
+    if (param) {
+      Object.assign(this, param);
+    }
+  }
   get alt(): string {
     return this.title;
   }
@@ -85,36 +35,12 @@ export class Oeuvre extends AbstractPageElement {
     return true;
   }
   asOeuvre(): Oeuvre {
-    return this  ;
+    return this;
   }
   asMenu(): MenuItem {
     throw new Error("I can't");
   }
   isMenu(): boolean {
-    return false;
-  }
-}
-
-export class EmptyOeuvre extends AbstractPageElement  {
-
-
-
-  type = "empty";
-
-  constructor(public x: number, public y: number, public id: number) {super()}
-  isNonEmpty() {
-    return false;
-  }
-  isMenu() {
-    return false;
-  }
-  asOeuvre() : Oeuvre{
-    throw new Error("I can't");
-  }
-  asMenu() : MenuItem{
-    throw new Error("I can't");
-  }
-  isOeuvre() {
     return false;
   }
 }

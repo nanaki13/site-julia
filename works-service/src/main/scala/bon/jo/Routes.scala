@@ -25,6 +25,47 @@ object Routes extends Directives with JsonOut with JsonIn {
 
     self: WebServiceCrud[WebMessage] =>
 
+    def stadard(
+                 implicit executionContext: ExecutionContext,
+                 manifest: Manifest[WebMessage],
+                 m: Materializer
+               ): Route = {
+
+      concat(pathSuffix(IntNumber) { id: Int =>
+        concat(get {
+          implicit val st = StatusCodes.OK
+          handle(self.readEntity(id), s"error when getting ${ressourceName}")
+        },
+          delete {
+            implicit val st = StatusCodes.Accepted
+
+            handle(self.deleteEntity(id).map(Operation.apply), s"error when delete  ${ressourceName}")
+          })
+      },
+        get {
+          implicit val st = StatusCodes.OK
+          handle(self.readAll, s"error when getting  ${ressourceName}")
+        },
+        post {
+          entity(as[WebMessage]) { e => {
+            implicit val ok = StatusCodes.Created
+            handle(createEntity(e),
+              s"error adding  ${ressourceName}",
+              s"cant find cretaed  ${ressourceName}", StatusCodes.NotFound)
+          }
+          }
+
+        },
+        patch {
+          implicit val okStatus = StatusCodes.NoContent
+          entity(as[WebMessage]) { forPatch =>
+            handle(self.updateEntity(forPatch),
+              s"error when update  ${ressourceName}",
+              "update not donz", StatusCodes.NotModified)
+
+          }
+        })
+    }
 
     def crudRoot(
                   implicit executionContext: ExecutionContext,
@@ -33,46 +74,18 @@ object Routes extends Directives with JsonOut with JsonIn {
                 ): Route = {
       implicit def inJson: FromEntityUnmarshaller[WebMessage] = unMarsh[WebMessage]
 
-      path(ressourceName) {
-        concat(
-          path(IntNumber) { id: Int =>
-            concat(get {
-              implicit val st = StatusCodes.OK
-              handle(self.read(id), s"error when getting ${ressourceName}")
-            },
-              Directives.delete {
-                implicit val st = StatusCodes.Accepted
-
-                handle(self.delete(id).map(Operation.apply), s"error when delete  ${ressourceName}")
-              })
-          },
-          get {
-            implicit val st = StatusCodes.OK
-            handle(self.readAll, s"error when getting  ${ressourceName}")
-          },
-          post {
-            entity(as[WebMessage]) { e => {
-              implicit val ok = StatusCodes.Created
-              handle(create(e),
-                s"error adding  ${ressourceName}",
-                s"cant find cretaed  ${ressourceName}", StatusCodes.NotFound)
-            }
-            }
-
-          },
-          patch {
-            implicit val okStatus = StatusCodes.NoContent
-            entity(as[WebMessage]) { forPatch =>
-              handle(self.update(forPatch),
-                s"error when update  ${ressourceName}",
-                "update not donz", StatusCodes.NotModified)
-
-            }
-          }
-        )
+      before match {
+        case Some(v) => pathPrefix(ressourceName) {
+          concat(
+            v, stadard)
+        }
+        case _ => pathPrefix(ressourceName) {
+          stadard
+        }
       }
-
     }
+
+    def before: Option[Route]
   }
 
   /*
@@ -101,45 +114,29 @@ object Routes extends Directives with JsonOut with JsonIn {
 
   def doWithContext(ctx: RequestContext): Route = {
     implicit val m: Materializer = ctx.materializer
-    implicit val ec: ExecutionContext = ctx.executionContext
+    val ec: ExecutionContext = ctx.executionContext
 
-    implicit object ms extends ServiceFactoryImpl.WebMenuSevice with RootCreator[MenuItem] {
+    implicit object menuService extends ServiceFactoryImpl.WebMenuSevice with RootCreator[MenuItem] {
       override implicit val ctx: ExecutionContext = ec
+
+      override def before: Option[Route] = Some {
+        get {
+          implicit val st = StatusCodes.OK
+          parameters('theme_key.?) {
+            case Some(v) => handle(getSubMenu(v.toInt), "error when getting oeuvre of threme")
+            case _ => handle(getMenu, "error when getting all oeuvres")
+          }
+        }
+      }
     }
     implicit object imageService extends ServiceFactoryImpl.WebImageSevice with RootCreator[ImgLinkOb] {
       override implicit val ctx: ExecutionContext = ec
-    }
-    implicit object oeuvreService extends ServiceFactoryImpl.WebOeuvreService with RootCreator[OeuvreAndPosition] {
-      override implicit val ctx: ExecutionContext = ec
-    }
 
-    def baseCrudRoute: Route = concat(ms.crudRoot, imageService.crudRoot, oeuvreService.crudRoot)
-
-    val log = ctx.log
-
-
-
-    //implicit val actor : Actor = ctx.actor
-    concat(path("menu") {
-      concat(get {
-        implicit val st = StatusCodes.OK
-        parameters('theme_key.?) {
-          case Some(v) => handle(ms.getSubMenu(v.toInt), "error when getting submenu")
-          case _ => handle(ms.getMenu, "error when getting menu")
-
-        }
-
-      }
-
-      )
-    }
-      ,
-      path("image" / Segment) { filenameOrId =>
-        concat(
-          get {
-
+      override def before: Option[Route] = Some {
+        concat( get {
+          pathSuffix( Segment) { filenameOrId =>
             onComplete(
-              for (fStart <- imageService.getImage(filenameOrId.substring(0, filenameOrId.lastIndexOf('.')))
+              for (fStart <- getImage(filenameOrId.substring(0, filenameOrId.lastIndexOf('.')))
               ) yield {
                 fStart.map(e => {
                   val md: MediaType.Binary = MediaType.parse(e._2).getOrElse(MediaTypes.`application/octet-stream`).asInstanceOf[MediaType.Binary]
@@ -151,16 +148,8 @@ object Routes extends Directives with JsonOut with JsonIn {
               case Failure(exception) => complete(MyFailure(s"error : $exception"))
             }
           }
-        )
-
-      },
-      path("image") {
-        concat(get {
-          implicit val okStatus = StatusCodes.OK
-          handle(imageService.imagesLink(), "error when getting image")
         },
           post {
-
             entity(as[Multipart.FormData]) {
               formData =>
                 val formMap: Future[Map[String, Any]] = formData.parts.mapAsync[(String, Any)](1) {
@@ -178,7 +167,7 @@ object Routes extends Directives with JsonOut with JsonIn {
                 val processParsed = formMap.flatMap(parsedMap => {
                   val (data, ct) = parsedMap("file").asInstanceOf[(Array[Byte], String)]
                   val name = parsedMap("image_name").toString
-                  imageService.saveImage(Some(data), ct, name).map(e => {
+                  saveImage(Some(data), ct, name).map(e => {
                     Some(ImgLinkOb(e.get._1, e.get._2, ImgLink(e.get._1, e.get._2), name))
                   })
                 })
@@ -187,20 +176,32 @@ object Routes extends Directives with JsonOut with JsonIn {
                   "error when create image",
                 )
             }
-          },
-          patch {
-            implicit val okStatus = StatusCodes.NoContent
-            entity(as[ImgLinkOb]) { forPatch =>
-              handle(imageService.update(forPatch),
-                "error when update",
-                "update not donz", StatusCodes.NotModified)
 
-            }
+          })
+      }
+    }
+    implicit object oeuvreService extends ServiceFactoryImpl.WebOeuvreService with RootCreator[OeuvreAndPosition] {
+      override implicit val ctx: ExecutionContext = ec
+
+      override def before: Option[Route] = Some {
+        get {
+          implicit val st = StatusCodes.OK
+          parameters('theme_key.?) {
+            case Some(v) => handle(getOeuvres(v.toInt), "error when getting oeuvre of threme")
+            case _ => handle(readAll, "error when getting all oeuvres")
           }
+        }
+      }
+    }
+    {
+      implicit val eccc: ExecutionContext = ec
 
-        )
-      }, baseCrudRoute
-    )
+
+
+      concat( imageService.crudRoot,menuService.crudRoot,oeuvreService.crudRoot)
+
+    }
+
   }
 
   def handle(process: Future[IterableOnce[OkResponse]], errorMessage: String, noneMessage: String = "not found", noneStatus: StatusCode = StatusCodes.NotFound)(implicit okStatus: StatusCode): Route = {

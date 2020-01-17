@@ -10,11 +10,11 @@ export const environment = {
   serviceUrl : "/api/summary",
   dataPostTestUrl : "/api/postTest",
   menuUrl : "/api/menu",
-  subMenuUrl : "/api/submenu",
+  subMenuUrl : "/api/menu",
   oeuvreUrl : "/api/oeuvre",
   imageUrl : "/api/image",
   online : true,
-  pDisplay : new PageElementDisplay()
+
 };
 
 /*
