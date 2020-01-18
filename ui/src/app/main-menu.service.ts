@@ -21,7 +21,7 @@ export class MainMenuService implements Service {
   private fakeData: MenuItem[] = [];
   private fakeSubMenu: AutoMap<Number, MenuItem[]> = new AutoMap(() => []);
 
-  private _currentMenuItem = new MenuItem({title : "current"});
+  private _currentMenuItem = new MenuItem({});
   get currentMenuItem(): MenuItem {
     return this._currentMenuItem;
   }
@@ -138,7 +138,7 @@ export class MainMenuService implements Service {
 //    const back = JSON.parse(localStorage.getItem("ov")) as Oeuvre[];
 
   }
-  addSubMenu( m:MenuItem):Observable<MenuItem> {
+  createEntity( m:MenuItem):Observable<MenuItem> {
     m.id = this.rootMenuAutoId.getId()
     if (environment.online) {
       return this.http.post<MenuItem>(this.subMenuUrl, m).pipe(

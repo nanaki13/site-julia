@@ -17,32 +17,24 @@ import { SourceService } from "../source.service";
   styleUrls: ["./oeuvre.component.css"]
 })
 export class OeuvreComponent extends PageComponentBase implements OnInit {
-  newItem: Oeuvre;
+
 
   constructor(
     private route: ActivatedRoute,
-    private mService: OeuvreService,
+    private oeuvreService: OeuvreService,
     private imageService: ImageService,
     private sourceService: SourceService
   ) {
     super();
     this.oeuvres = [];
   }
-  addOeuvre() {
-    this.newItem.y = 0;
-    this.newItem.x = this.addIncolumn - 1;
-    this.newItem.themeKey = this.currentThemeKey;
-    this.mService.add(this.newItem).subscribe(e => {
-      this.addInTable(e);
-    });
-  }
 
   mainService(): Service {
-    return this.mService;
+    return this.oeuvreService;
   }
 
   ngOnInit() {
-    this.newItem = this.mService.currentItem;
+    this.newItem = this.oeuvreService.currentItem;
     const ss = this.sourceService.source;
     if(ss){
       ss.updated = true;
@@ -50,7 +42,7 @@ export class OeuvreComponent extends PageComponentBase implements OnInit {
     this.route.paramMap.subscribe(par => {
       this.currentThemeKey = +par.get("id");
 
-      this.mService.oauvres(this.currentThemeKey).subscribe(e => {
+      this.oeuvreService.oauvres(this.currentThemeKey).subscribe(e => {
         e.forEach(ele => {
           if (!ss || ss.id != ele.id ) {
             this.addInTable(ele);

@@ -1,0 +1,30 @@
+   <button
+    class="btn btn-primary  m-1 {{ pDisplay.show(pDisplay.edit) }}"
+    (click)="pDisplay.drag = !pDisplay.drag"
+  >
+    Placement
+  </button>
+  <button
+    class="btn btn-primary  m-1 {{ pDisplay.show(pDisplay.drag) }}"
+    (click)="pDisplay.edit = !pDisplay.edit"
+  >
+    Edition
+  </button>
+  <button
+    class="btn btn-primary "
+    (click)="pDisplay.navigation = !pDisplay.navigation"
+  >
+    Mode Navigation
+  </button>
+  <div
+    class="alert alert-info d-inline-block w-25 ml-5"
+    role="alert"
+    *ngIf="!pDisplay.navigation"
+  >
+    {{
+      pDisplay.edit
+        ? textEdit
+        : textPlacement
+    }}
+  </div>
+

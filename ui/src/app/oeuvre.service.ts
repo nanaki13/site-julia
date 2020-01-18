@@ -18,7 +18,22 @@ export class OeuvreService implements Service {
   private _currentItem = new Oeuvre({id : 0, title : "" ,description : "",dimensionX : 0, dimensionY : 0,creation : 2020});
 
   get currentItem() {return this._currentItem;}
+  public createEntity(o :Oeuvre): Observable<Oeuvre> {
 
+    if (environment.online) {
+      return this.http.post<Oeuvre>(`${environment.oeuvreUrl}`, o).pipe(map(e=> new Oeuvre(e)),
+        catchError(err => {
+          console.log("Handling error", err);
+          this.ms.push({ content: "Error with server" });
+          this.dataFake.set(o.id, o);
+          return of(o);
+        })
+      );
+    } else {
+      this.dataFake.set(o.id, o);
+      return of(o);
+    }
+  }
   update(o: Oeuvre): Observable<boolean> {
     o.updateStatus = undefined;
     o.updated = undefined;
@@ -99,20 +114,5 @@ export class OeuvreService implements Service {
   filterOnThmeKey(themeKey: number) {
     return (pe: PageElement) => pe.themeKey === themeKey;
   }
-  public add(o :Oeuvre): Observable<Oeuvre> {
 
-    if (environment.online) {
-      return this.http.post<Oeuvre>(`${environment.oeuvreUrl}`, o).pipe(map(e=> new Oeuvre(e)),
-        catchError(err => {
-          console.log("Handling error", err);
-          this.ms.push({ content: "Error with server" });
-          this.dataFake.set(o.id, o);
-          return of(o);
-        })
-      );
-    } else {
-      this.dataFake.set(o.id, o);
-      return of(o);
-    }
-  }
 }

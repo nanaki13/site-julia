@@ -8,6 +8,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 import { Updatable } from "../Updatable";
 import { Image } from "../Image";
+import { PageElement } from "../model/PageElement";
 @Component({
   selector: "app-image-view",
   templateUrl: "./image-view.component.html",
@@ -67,9 +68,9 @@ export class ImageViewComponent implements OnInit {
 export interface Service {
   update(t: Updatable): Observable<boolean>;
   delete(t: number): Observable<boolean>;
+  createEntity(t: Updatable): Observable<PageElement>;
 }
 export abstract class ComponentUtil {
-
   incomingDelete = new EventEmitter<number>();
   abstract mainService(): Service;
 
@@ -85,6 +86,10 @@ export abstract class ComponentUtil {
   delete(img: number) {
     this.mainService()
       .delete(img)
-      .subscribe(e => {this.incomingDelete.emit(img)});
+      .subscribe(e => {
+        if (e) {
+          this.incomingDelete.emit(img);
+        }
+      });
   }
 }

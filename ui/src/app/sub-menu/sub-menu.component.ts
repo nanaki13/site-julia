@@ -17,7 +17,7 @@ export class SubMenuComponent extends PageComponentBase implements OnInit {
 
   title: string;
 
-  newItem ;
+
   constructor(
     private route: ActivatedRoute,
     private mService: MainMenuService,
@@ -42,14 +42,15 @@ export class SubMenuComponent extends PageComponentBase implements OnInit {
       this.newItem.image = s
 
     })
+    this.incomingDelete.subscribe(e=> this.removeFromView(e))
 
   }
   loadItem(e: ParamMap): void {
 
     this.title = e.get("title");
-    this.newItem.themeKey = +e.get("id");
+    this.currentThemeKey = +e.get("id");
 
-    this.mService.getSubMenu(this.newItem.themeKey).subscribe(m => {
+    this.mService.getSubMenu( this.currentThemeKey ).subscribe(m => {
       m.forEach(ele => {
         if(!ele.x){
           ele.x = 0 ;
@@ -62,16 +63,4 @@ export class SubMenuComponent extends PageComponentBase implements OnInit {
     });
   }
 
-
-
-  addMenu() {
-    this.newItem.x = this.addIncolumn - 1;
-    this.newItem.y = this.oeuvres[this.newItem.x] ? this.oeuvres[this.newItem.x].length : 0;
-     this.addInTable(this.newItem);
-    this.mService.addSubMenu(this.newItem).subscribe(e => {
-     this.newItem.id = e.id;
-      this.newItem = new MenuItem();
-
-    });
-  }
 }

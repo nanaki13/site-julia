@@ -25,6 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PageNavigationComponent } from './page-navigation/page-navigation.component';
 import { ImageSelectComponent } from './image-select/image-select.component';
 import { BtnUpdateComponent } from './btn-update/btn-update.component';
+import { DisplayModeCommandComponent } from './display-mode-command/display-mode-command.component';
+import { CreateFormComponent } from './create-form/create-form.component';
 
 const routes: Routes = [
   {
@@ -69,7 +71,9 @@ const routes: Routes = [
       ImageViewComponent,
       PageNavigationComponent,
       ImageSelectComponent,
-      BtnUpdateComponent
+      BtnUpdateComponent,
+      DisplayModeCommandComponent,
+      CreateFormComponent
    ],
    providers: [
     AppService,

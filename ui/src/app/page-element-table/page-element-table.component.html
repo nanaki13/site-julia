@@ -1,4 +1,4 @@
-<button (click)="delete(element.id)"  type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<button (click)="delete(element.id)"   type="button" class="close bck" aria-label="Close"><span class="bck">&times;</span></button>
 <a *ngIf="pDisplay.link(element) as desc; else  noLink" routerLink="{{pDisplay.buildLink(desc)}}" (click)=click($event) >
   <img class="gallery_image" src="{{src()}}" alt="{{pDisplay.alt(element)}}"/></a>
   <ng-template #noLink> <img class="gallery_image" src="{{src()}}" alt="{{pDisplay.alt(element)}}"/></ng-template>

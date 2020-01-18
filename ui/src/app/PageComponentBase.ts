@@ -1,7 +1,7 @@
 import { EmptyOeuvre } from "./model/EmptyOeuvre";
 import { PageElement } from "./model/PageElement";
 import { PageElementDisplay, pDisplay } from "./PageElementDisplay";
-import { ComponentUtil } from './image-view/image-view.component';
+import { ComponentUtil } from "./image-view/image-view.component";
 export abstract class PageComponentBase extends ComponentUtil {
   x: number = undefined;
   y: number = undefined;
@@ -10,9 +10,11 @@ export abstract class PageComponentBase extends ComponentUtil {
   switchCandidate: PageElement;
   oeuvres: PageElement[][] = [];
   pDisplay: PageElementDisplay;
-  addIncolumn = 1;
+
   _navigation = false;
   currentThemeKey: number;
+  newItem: PageElement;
+
   constructor() {
     super();
     this.pDisplay = pDisplay;
@@ -20,13 +22,24 @@ export abstract class PageComponentBase extends ComponentUtil {
   sDefaultColumn(e: number) {
     if (e === 1) {
       return "selected";
-    }
-    else {
+    } else {
       return false;
     }
   }
-  removeFromView(id : number){
+  getFreeY(x: number): number {
+    return this.oeuvres[x] ? this.oeuvres[x].length : 0;
+  }
+  createEntity() {
 
+    this.newItem.y = this.getFreeY( this.newItem.x);
+    this.newItem.themeKey = this.currentThemeKey;
+    this.mainService().createEntity(this.newItem).subscribe(e => {
+      this.newItem.id = e.id;
+      this.addInTable(this.newItem);
+    });
+  }
+
+  removeFromView(id: number) {
     let x = 0;
     for (const o of this.oeuvres) {
       let y = 0;
@@ -78,8 +91,7 @@ export abstract class PageComponentBase extends ComponentUtil {
           oo.push(new EmptyOeuvre(x, y, -1));
           x++;
         }
-      }
-      else {
+      } else {
         this.st.zIndex = "-1000";
       }
     }
@@ -88,15 +100,12 @@ export abstract class PageComponentBase extends ComponentUtil {
     if (this.pDisplay.drag) {
       if (this.draged === o) {
         return "dragged";
-      }
-      else {
+      } else {
         return "notdragged";
       }
-    }
-    else if (this.pDisplay.edit) {
+    } else if (this.pDisplay.edit) {
       return "edit";
-    }
-    else if (this.pDisplay.navigation) {
+    } else if (this.pDisplay.navigation) {
       return "p-5";
     }
   }
