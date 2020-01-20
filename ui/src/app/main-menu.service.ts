@@ -26,6 +26,10 @@ export class MainMenuService implements Service {
     return this._currentMenuItem;
   }
 
+  needNew(): MenuItem{
+      this._currentMenuItem = new MenuItem({});
+      return this._currentMenuItem;
+  }
   constructor(private http: HttpClient, private ms: MessageInternService) {}
   /**
    * Makes a http get request to retrieve the welcome message from the backend service.

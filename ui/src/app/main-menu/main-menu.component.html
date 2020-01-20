@@ -1,26 +1,32 @@
-<div id=leftbar>
-    <div id="title">
-        <a style="text-decoration: none" routerLink="/home"><div id="title_main">Julia<br>Le&nbsp;Corre</div>
-        <div id="title_sub">Artiste</div>
-      </a>
-    </div>
-    <div id=menu>
-  <div   *ngFor="let menuItem of menu | async">
-    <a class="menu_item" routerLink="/subMenu/{{ menuItem.title }}/{{ menuItem.id }}">{{
-      menuItem.title
-    }}</a>
-  </div>
-  <div>
-    <a class="menu_item" routerLink="/admin/image">
-      image
+<div id="leftbar">
+  <div id="title">
+    <a class="text-link" routerLink="/home"
+      ><div id="title_main">Julia<br />Le&nbsp;Corre</div>
+      <div id="title_sub">Artiste</div>
     </a>
   </div>
-  <div class="menu_item"  *ngIf="true">
-      <input  [(ngModel)]="newTitle" placeholder="titre" />
+  <div id="menu">
+    <div class="container" *ngFor="let menuItem of menu | async">
+      <div class="menu_item">
+        <a  class="text-link" routerLink="/subMenu/{{ menuItem.title }}/{{ menuItem.id }}">{{
+          menuItem.title
+        }}</a
+        >
+        <span (click)="delete(menuItem.id)" style="cursor: pointer;"
+          >&times;</span
+        >
+      </div>
+    </div>
+    <div>
+      <a class="menu_item" routerLink="/admin/image">
+        image
+      </a>
+    </div>
+    <div class="menu_item" *ngIf="true">
+      <input [(ngModel)]="newTitle" placeholder="titre" />
       <button (click)="addMenu()">
         Add
       </button>
     </div>
-</div>
-
+  </div>
 </div>

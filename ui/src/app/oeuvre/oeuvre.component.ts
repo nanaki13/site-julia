@@ -1,15 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, ParamMap } from "@angular/router";
-import { of } from "rxjs";
-import { EmptyOeuvre } from "../model/EmptyOeuvre";
-import { Oeuvre } from "../model/Oeuvre";
-import { PageElement } from "../model/PageElement";
-import { OeuvreService } from "../oeuvre.service";
-import { environment } from "src/environments/environment";
-import { PageComponentBase } from "../PageComponentBase";
+import { ActivatedRoute } from "@angular/router";
 import { Service } from "../image-view/image-view.component";
 import { ImageService } from "../image.service";
+import { OeuvreService } from "../oeuvre.service";
+import { PageComponentBase } from "../PageComponentBase";
 import { SourceService } from "../source.service";
+import {PageElementDisplay,pDisplay} from "../PageElementDisplay";
 
 @Component({
   selector: "app-oeuvre",
@@ -57,6 +53,7 @@ export class OeuvreComponent extends PageComponentBase implements OnInit {
         ss.image = s;
       } else {
         this.newItem.image = s;
+        this.pDisplay.showAdd= true;
       }
     });
     this.incomingDelete.subscribe(e=> this.removeFromView(e))

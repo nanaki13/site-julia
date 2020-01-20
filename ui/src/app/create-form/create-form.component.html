@@ -1,12 +1,12 @@
 <div class="d-inline-block align-top">
   <div class="c_form pl-5">
-    <button (click)="showAdd(!_showAdd)" class="btn btn-light">
-      {{ _showAdd ? "-" : "+" }}
+    <button (click)="pDisplay.showAdd = !pDisplay.showAdd" class="btn btn-light">
+      {{ pDisplay.showAdd ? "-" : "+" }}
     </button>
     <div>
-      <div class="position-absolute bg-light">
+      <div class="position-absolute bg-light c_form_div">
         <form
-          *ngIf="_showAdd"
+          *ngIf="pDisplay.showAdd"
           class="form border border-primary rounded p-4"
           name="form_item"
         >

@@ -1,32 +1,34 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PageElement } from '../model/PageElement';
-
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { PageElement } from "../model/PageElement";
+import { PageElementDisplay } from "../PageElementDisplay";
 
 @Component({
-  selector: 'app-create-form',
-  templateUrl: './create-form.component.html',
-  styleUrls: ['./create-form.component.css']
+  selector: "app-create-form",
+  templateUrl: "./create-form.component.html",
+  styleUrls: ["./create-form.component.css"]
 })
 export class CreateFormComponent implements OnInit {
-  _showAdd: boolean =true;
+  @Input()
+  pDisplay: PageElementDisplay;
+
   addIncolumn = 1;
   @Input()
-  newItem : PageElement;
+  newItem: PageElement;
 
   @Input()
-  typeList: string[] ;
+  typeList: string[];
   @Output()
   create = new EventEmitter<PageElement>();
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  showAdd(n: boolean) {
+    this.pDisplay.showAdd = n;
   }
 
-  showAdd(n : boolean) { this._showAdd = n;}
-
-  createEntity(){
+  createEntity() {
     this.newItem.x = this.addIncolumn - 1;
     this.create.emit(this.newItem);
   }
-
 }

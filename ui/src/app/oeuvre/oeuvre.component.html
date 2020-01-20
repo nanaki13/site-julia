@@ -1,12 +1,9 @@
-<div class="right">
-  <app-display-mode-command textEdit="Edite les oeuvres" textPlacement="Clique sur une oeuvre puis sur une autre pour les intervertire"></app-display-mode-command>
+<div class="right o-vis">
+  <ng-container *ngIf="!pDisplay.navigation">
+    <app-create-form (create)="createEntity()" [newItem]=newItem [pDisplay]=pDisplay></app-create-form>
+   </ng-container>
 
-    <ng-container *ngIf="!pDisplay.navigation">
-      <ng-container *ngIf="!pDisplay.navigation">
-        <app-create-form (create)="createEntity()" [newItem]=newItem ></app-create-form>
-       </ng-container>
-    </ng-container>
-
+    <app-display-mode-command textEdit="Edite les oeuvres" textPlacement="Clique sur une oeuvre puis sur une autre pour les intervertire"></app-display-mode-command>
 
   <div class="">
     <div *ngFor="let dd of oeuvres" class="column-o d-inline-block align-top">

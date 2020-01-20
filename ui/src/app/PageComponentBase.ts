@@ -30,13 +30,15 @@ export abstract class PageComponentBase extends ComponentUtil {
     return this.oeuvres[x] ? this.oeuvres[x].length : 0;
   }
   createEntity() {
-
-    this.newItem.y = this.getFreeY( this.newItem.x);
+    this.newItem.y = this.getFreeY(this.newItem.x);
     this.newItem.themeKey = this.currentThemeKey;
-    this.mainService().createEntity(this.newItem).subscribe(e => {
-      this.newItem.id = e.id;
-      this.addInTable(this.newItem);
-    });
+    this.mainService()
+      .createEntity(this.newItem)
+      .subscribe(e => {
+        this.newItem.id = e.id;
+        this.addInTable(this.newItem);
+        this.newItem = this.mainService().needNew() as PageElement;
+      });
   }
 
   removeFromView(id: number) {
@@ -118,6 +120,11 @@ export abstract class PageComponentBase extends ComponentUtil {
       this.st.left = "0";
       this.st = undefined;
       this.swap(this.draged, this.switchCandidate);
+      this.draged.updated = true;
+      this.update(this.draged);
+      if (this.switchCandidate.isNonEmpty()) {
+        this.switchCandidate.updated = true;
+      }
       this.switchCandidate = undefined;
       this.draged = undefined;
       this.removeEmpty();
@@ -130,11 +137,24 @@ export abstract class PageComponentBase extends ComponentUtil {
       this.st.left = e.x - 50 + "px"; // - +toMove.offsetWidth / 2 + "px";
     }
   }
+  reindex() {
+    for (let i = 0; i < this.oeuvres.length; i++) {
+      this.oeuvres[i] = this.oeuvres[i].filter(e => e != null && e.isNonEmpty());
+      for (let j = 0; j < this.oeuvres.length[i]; j++) {
+        const o = this.oeuvres[i][j];
+        if (o.y !== j) {
+          o.y = j;
+          o.updated = true;
+        }
+      }
+    }
+  }
   addInTable(ele: PageElement) {
     while (this.oeuvres.length <= ele.x) {
       this.oeuvres.push([]);
     }
     while (this.oeuvres[ele.x].length < ele.y) {
+
       this.oeuvres[ele.x].push(null);
     }
     const prev = this.oeuvres[ele.x][ele.y];

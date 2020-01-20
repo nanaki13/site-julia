@@ -1,0 +1,11 @@
+img{
+  max-width: 150px;
+  width: 10em;
+
+}
+
+.select-elements{
+  width: 20em;
+  height: 20em;
+  background-color: aquamarine;
+}

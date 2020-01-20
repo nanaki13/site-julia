@@ -1,6 +1,6 @@
-<div class="right">
+<div class="right o-vis">
   <ng-container *ngIf="!pDisplay.navigation">
-   <app-create-form (create)="createEntity()" [newItem]=newItem [typeList]=typeList></app-create-form>
+   <app-create-form (create)="createEntity()" [newItem]=newItem [typeList]=typeList [pDisplay]=pDisplay></app-create-form>
   </ng-container>
   <app-display-mode-command textEdit="Edite le menu" textPlacement="Clique sur un menu puis sur un autre pour les intervertire" ></app-display-mode-command>
   <div class="">
@@ -21,4 +21,5 @@
       </div>
     </div>
   </div>
+  <app-selector [elements]=oeuvres[0]></app-selector>
 </div>

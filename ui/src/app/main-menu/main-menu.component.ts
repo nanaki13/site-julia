@@ -22,6 +22,14 @@ export class MainMenuComponent implements OnInit {
   ngOnInit() {
     this.menu = this.mainManuService.getMenu();
   }
+
+  delete(m : number){
+    this.mainManuService.delete(m).subscribe(res => {
+      if(res){
+        this.ngOnInit();
+      }
+    })
+  }
   addMenu() {
     this.mainManuService.addMenu(this.newTitle).subscribe(e => {
 

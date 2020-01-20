@@ -131,7 +131,7 @@ object Services {
 
     def oeuvreImages = dbContext.oeuvreImages
 
-    def themesOeuvres = dbContext.oeuvresThemes
+    def themesOeuvres = dbContext.themesOeuvres
 
     def themeImages = dbContext.themeImages
 
@@ -347,10 +347,17 @@ object Services {
         )
       }
 
-      import scala.collection.compat.Factory._
+
       override def updateEntity(m: OeuvreAndPosition): Future[Option[OeuvreAndPosition]] = {
         val mi: Future[Int] = for {
           o <- run(oeuvres.filter(_.id === m.id).update(m.toOeuvre))
+          ot <- m.themeKey match {
+            case Some(v) => run(DBIO.sequence(List(
+              themesOeuvres.filter(_.idOeuvre === m.id).delete,
+              themesOeuvres += (v,m.id,m.x,m.y)
+            ))).map(e=>e.sum)
+            case _ => Future.successful(0)
+          }
           oi <- m.image match {
             case Some(v) => run(DBIO.sequence(List(
               oeuvreImages.filter(_.idOeuvre === m.id).delete,
@@ -359,7 +366,7 @@ object Services {
             case _ => Future.successful(0)
           }
         } yield {
-          o + oi
+          o + oi +ot
         }
         mi.map {
           e =>

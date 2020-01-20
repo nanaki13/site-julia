@@ -27,6 +27,7 @@ import { ImageSelectComponent } from './image-select/image-select.component';
 import { BtnUpdateComponent } from './btn-update/btn-update.component';
 import { DisplayModeCommandComponent } from './display-mode-command/display-mode-command.component';
 import { CreateFormComponent } from './create-form/create-form.component';
+import { SelectorComponent } from './selector/selector.component';
 
 const routes: Routes = [
   {
@@ -73,7 +74,8 @@ const routes: Routes = [
       ImageSelectComponent,
       BtnUpdateComponent,
       DisplayModeCommandComponent,
-      CreateFormComponent
+      CreateFormComponent,
+      SelectorComponent
    ],
    providers: [
     AppService,

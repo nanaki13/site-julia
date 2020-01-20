@@ -18,6 +18,10 @@ export class OeuvreService implements Service {
   private _currentItem = new Oeuvre({id : 0, title : "" ,description : "",dimensionX : 0, dimensionY : 0,creation : 2020});
 
   get currentItem() {return this._currentItem;}
+  needNew(): Oeuvre{
+    this._currentItem =  new Oeuvre({id : 0, title : "" ,description : "",dimensionX : 0, dimensionY : 0,creation : 2020});
+    return this._currentItem;
+}
   public createEntity(o :Oeuvre): Observable<Oeuvre> {
 
     if (environment.online) {

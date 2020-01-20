@@ -6,6 +6,13 @@ export class PageElementDisplay {
   _navigation = false;
   _drag = false;
   _edit = true;
+  _showAdd = false;
+  get showAdd() {
+    return this._showAdd;
+  }
+  set showAdd(b: boolean) {
+    this._showAdd = b;
+  }
   get edit() {
     return this._edit;
   }
@@ -70,7 +77,7 @@ export class PageElementDisplay {
     return this._navigation;
   }
   alt(e: PageElement): string {
-    return e.alt;
+    return e ? e.alt : undefined;
   }
   set navigation(b: boolean) {
     if (b) {

@@ -1,0 +1,21 @@
+<div class="container select-elements">
+<ng-container  *ngFor="let e of elements; index as i" >
+  <ng-template #cell>
+    <div class="col d-inline-block">
+      <img
+      src="{{ pDisplay.src(e) }}"
+      alt="{{ pDisplay.alt(e) }}"
+      class="img-thumbnail"
+    />
+    <input
+      type="checkbox"
+      [(ngModel)]="state[i]"
+      (change)="change(e, $event.target.value === 'on')"
+    />
+    </div>
+  </ng-template>
+  <div *ngIf="i % 3 ===0; else cell" class="row">
+    <ng-container *ngTemplateOutlet="cell"></ng-container>
+  </div>
+  </ng-container>
+</div>

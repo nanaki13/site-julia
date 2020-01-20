@@ -69,6 +69,7 @@ export interface Service {
   update(t: Updatable): Observable<boolean>;
   delete(t: number): Observable<boolean>;
   createEntity(t: Updatable): Observable<PageElement>;
+  needNew(): Updatable;
 }
 export abstract class ComponentUtil {
   incomingDelete = new EventEmitter<number>();
