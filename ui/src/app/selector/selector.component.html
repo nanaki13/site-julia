@@ -1,6 +1,11 @@
 <div class="container select-elements">
-<ng-container  *ngFor="let e of elements; index as i" >
-  <ng-template #cell>
+<ng-container  *ngFor="let e of elementsBy3; index as i" >
+  <div *ngIf="i % 3 ===0; else cell" class="row">
+    <ng-container *ngTemplateOutlet="cell" data-="e[0]">
+
+    </ng-container>
+  </div>
+ <ng-template #cell let-el></ng-template>
     <div class="col d-inline-block">
       <img
       src="{{ pDisplay.src(e) }}"
@@ -13,9 +18,7 @@
       (change)="change(e, $event.target.value === 'on')"
     />
     </div>
-  </ng-template>
-  <div *ngIf="i % 3 ===0; else cell" class="row">
-    <ng-container *ngTemplateOutlet="cell"></ng-container>
-  </div>
+
+
   </ng-container>
 </div>
