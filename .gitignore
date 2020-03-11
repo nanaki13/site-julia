@@ -1,11 +1,11 @@
-logs
-target
-/.idea
-/.idea_modules
-/.classpath
-/.project
-/project/**/target
-/.settings
+logs/
+target/
+.idea/
+.idea_modules/
+.classpath/
+.project/
+target/
+.settings/
 /RUNNING_PID
 
 ui/.metals/metals.log
