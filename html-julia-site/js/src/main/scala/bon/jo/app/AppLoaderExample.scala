@@ -1,23 +1,23 @@
 package bon.jo.app
 
-import bon.jo.SiteModel.ProvidedId
+import bon.jo.SiteModel.{MenuItem, ProvidedId}
 import bon.jo.html.DomShell._
 import bon.jo._
 import bon.jo.game.html.Template
-import bon.jo.html.DomShell
+import bon.jo.html.{DomShell, InDom, OnClick, XmlHtmlView}
 import bon.jo.html.util.Anim
 import bon.jo.test.Test
-import org.scalajs.dom.document
-import org.scalajs.dom.html.Div
+import org.scalajs.dom.{Event, document}
+import org.scalajs.dom.html.{Div, Link}
 import org.scalajs.dom.raw.Element
+
+import scala.scalajs.js
+import scala.scalajs.js.annotation.{JSExportTopLevel, JSGlobal}
+import scala.xml.{Group, Node}
 
 object AppLoaderExample extends App {
 
 
-
-  val idp = new ProvidedId
-  DomShell.deb()
- println(idp.apply())
   val apps = List("app-game", "app-test-socket", "app-test")
 
   val conf: Map[String, HtmlAppFactory[_]] = Map(
@@ -63,11 +63,51 @@ object AppLoaderExample extends App {
     Anim.start()
   }
 
-  loads(apps)
-  val appInit = document.getElementsByTagName("app-game")(0)
 
+  org.scalajs.dom.window.addEventListener("load", (_: Event) => {
+    DomShell.log("loaded")
+    loads(apps)
+    val appInit = document.getElementsByTagName("app-game")(0)
+  })
+}
 
+@JSGlobal("Service")
+@js.native
+object Service extends js.Object {
+  val siteModel: SiteModel = js.native
+}
 
+case class ManiMenuItemView(menuItem: MenuItem) extends XmlHtmlView[Div] with OnClick[Div] {
 
+  override def xml(): Node = <div><a>
+    {menuItem.text}
+  </a></div>
 
+  override def id: String = menuItem.text.replaceAll("\\s+", "-")
+}
+
+case class SiteModelView(model: SiteModel) extends XmlHtmlView[Div] with InDom {
+  var d: Div = _
+  val itemsView: List[ManiMenuItemView] = model.items.map(ManiMenuItemView)
+
+  override def xml(): Node = Group(<div id="side-menu">
+    {itemsView.map(_.xml())}
+  </div> <div id="current-view"></div>)
+
+  override def id: String = "root"
+
+  itemsView.foreach(i => {
+    DomShell.log(i.id)
+    i.onClick((_: Event) => {
+      DomShell.deb()
+      d.innerHTML = i.xml().mkString
+    }
+    )
+  })
+
+  override def updateView(): Unit = {
+    d = $[Div]("current-view")
+    DomShell.deb()
+    itemsView.foreach(_.updateView())
+  }
 }

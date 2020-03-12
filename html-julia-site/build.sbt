@@ -4,13 +4,12 @@ import java.nio.file.Paths
 import scala.sys.process._
 
 
-
 enablePlugins(ScalaJSPlugin)
 val sharedSettings = Seq(version := "0.1.0-SNAPSHOT",
   organization := "bon.jo",
-  scalaVersion := "2.13.1" )
+  scalaVersion := "2.13.1")
 name := "html-julia-site"
-  // or any other Scala version >= 2.11.12
+// or any other Scala version >= 2.11.12
 
 lazy val shared =
 // select supported platforms
@@ -18,7 +17,7 @@ lazy val shared =
     .crossType(CrossType.Pure) // [Pure, Full, Dummy], default: CrossType.Full
     .settings(sharedSettings)
 
-    .jvmSettings(libraryDependencies += "org.scala-js" %% "scalajs-stubs" % "1.0.0" % "provided")
+    .jvmSettings(libraryDependencies += "org.scala-js" %%% "scalajs-stubs" % "1.0.0" % "provided")
 // configure Scala-Native settings
 // .nativeSettings(/* ... */) // defined in sbt-scala-native
 
@@ -39,9 +38,7 @@ lazy val js =
     ).dependsOn(shared) // defined in sbt-scalajs-crossproject
 
 
-
-
-lazy val chromePath =  Paths.get("""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe""")
+lazy val chromePath = Paths.get("""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe""")
 lazy val chrome = taskKey[Unit]("open fast in chrome")
 
 chrome := {

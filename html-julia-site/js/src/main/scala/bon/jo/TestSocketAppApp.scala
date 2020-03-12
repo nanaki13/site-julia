@@ -7,11 +7,5 @@ import bon.jo.util.SocketKeeper.SocketContext
 import org.scalajs.dom.html.Div
 
 class TestSocketAppApp(app: Div, template: Template) extends HtmlApp[TestSocketTemplate](app: Div, template: Template) {
-  typedTemplate.myButton.onClick(_ => {
-    val p = typedTemplate.getParam()
-    implicit val sc: SocketContext = SocketContext("send", p.url, (e) => {
-      typedTemplate.msg(e.data.toString)
-    })
-    SocketKeeper.send(p.send)
-  })
+
 }
