@@ -73,7 +73,7 @@ case class SiteModel(title : SiteTitle = SiteTitle("Julia le Corre artiste")){
 
   def fake(): Unit = {
     val m1 =  new MenuItem("Les a","")
-    m1.items = List(new MenuItem("Les a",""),new MenuItem("Les a",""),new MenuItem("Les a",""))
+    m1.items = List(new MenuItem("Les a1",""),new MenuItem("Les a2",""),new MenuItem("Les a4",""))
     val mainMenu = List(
       new MenuItem("Acceuil",""),
       m1,

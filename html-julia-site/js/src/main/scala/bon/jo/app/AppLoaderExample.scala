@@ -79,7 +79,7 @@ object Service extends js.Object {
 
 case class ManiMenuItemView(menuItem: MenuItem) extends XmlHtmlView[Div] with OnClick[Div] {
 
-  override def xml(): Node = <div><a>
+  override def xml(): Node = <div><a id={id}>
     {menuItem.text}
   </a></div>
 
@@ -100,7 +100,7 @@ case class SiteModelView(model: SiteModel) extends XmlHtmlView[Div] with InDom {
     DomShell.log(i.id)
     i.onClick((_: Event) => {
       DomShell.deb()
-      d.innerHTML = i.xml().mkString
+      d.innerHTML = i.menuItem.items.map(ManiMenuItemView).map(_.xml().mkString).mkString
     }
     )
   })
