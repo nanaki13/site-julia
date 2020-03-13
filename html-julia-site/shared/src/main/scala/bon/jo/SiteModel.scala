@@ -28,7 +28,7 @@ object SiteModel {
 
 
   @JSExportAll
-  abstract class SiteElement {
+  abstract class SiteElement(id:Int) {
 //    override val id: Int = idp()
   }
 
@@ -36,23 +36,23 @@ object SiteModel {
 
   @JSExportTopLevel("SiteTitle")
   @JSExportAll
-  case class SiteTitle( text: String)  extends SiteElement
+  case class SiteTitle( id:Int,text: String)  extends SiteElement(id)
 
   @JSExportTopLevel("Image")
   @JSExportAll
-  case class Image( link: String) extends SiteElement
+  case class Image(id:Int, link: String) extends SiteElement(id)
 
   @JSExportTopLevel("Oeuvre")
   @JSExportAll
-  case class Oeuvre( image: Image, name: String, val dimension: Dimension, date: Int) extends SiteElement
+  case class Oeuvre(id:Int, image: Image, name: String, val dimension: Dimension, date: Int,theme : Option[Theme] = None) extends SiteElement(id)
 
   @JSExportTopLevel("Theme")
   @JSExportAll
-  case class Theme() extends SiteElement
+  case class Theme(id:Int, name: String) extends SiteElement(id)
 
   @JSExportTopLevel("Dimension")
   @JSExportAll
-  case class Dimension( x: Float,  y: Float) extends SiteElement
+  case class Dimension( x: Float,  y: Float)
   @JSExportTopLevel("MenuItem")
   @JSExportAll
   case class MenuItem(  text: String,  link: String, image: Option[Image] ){
@@ -66,13 +66,13 @@ object SiteModel {
   class ContactMenuItem extends MenuItem("Contact","/contact",None)
   def rs: String =  Random.nextString(5)
   def randomOeuvre(size : Int):Seq[Oeuvre] = for(_ <- 0 until size) yield{
-    Oeuvre(Image(rs),rs,Dimension(10,10),2020)
+    Oeuvre(0,Image(0,rs),rs,Dimension(10,10),2020)
   }
 }
 
 @JSExportTopLevel("SiteModel")
 @JSExportAll
-case class SiteModel(title : SiteTitle = SiteTitle("Julia le Corre artiste")){
+case class SiteModel(title : SiteTitle = SiteTitle(0,"Julia le Corre artiste")){
 
   var items: List[MenuItem] = List[MenuItem]()
   def add(menuItem: MenuItem): Unit = {

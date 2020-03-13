@@ -1,6 +1,6 @@
 package bon.jo.app
 
-import bon.jo.SiteModel.{Dimension, MenuItem, Oeuvre, ProvidedId}
+import bon.jo.SiteModel.{Dimension, MenuItem, Oeuvre, ProvidedId, Theme}
 import bon.jo.html.DomShell._
 import bon.jo._
 import bon.jo.game.html.Template
@@ -94,9 +94,9 @@ object DimensionConv {
 
   def apply(s: String): Dimension = {
     s match {
-      case reg(x, y) => Try( Dimension(x.trim.toFloat, y.trim.toFloat)) match {
+      case reg(x, y) => Try(Dimension(x.trim.toFloat, y.trim.toFloat)) match {
         case Success(s) => s
-        case Failure(f) => Dimension(x.trim.replace(",",".").toFloat, y.trim.replace(",",".").toFloat)
+        case Failure(_) => Dimension(x.trim.replace(",", ".").toFloat, y.trim.replace(",", ".").toFloat)
       }
       case _ => DomShell.log("cant parse : " + s); Dimension(0, 0)
     }
@@ -104,10 +104,21 @@ object DimensionConv {
 }
 
 object OeuvreConv {
-  def apply(oeuvreRaw: OeuvreRaw): Oeuvre = new Oeuvre(null, oeuvreRaw.title, DimensionConv(oeuvreRaw.dimension), oeuvreRaw.date.toInt)
+  def apply(oeuvreRaw: OeuvreRaw): Oeuvre = Oeuvre(0,null, oeuvreRaw.title, DimensionConv(oeuvreRaw.dimension), oeuvreRaw.date.toInt)
 }
 
 case class SiteModelView(model: SiteModel) extends XmlHtmlView[Div] with InDom {
+  val AllTheme: js.Array[Theme] = themes.map(ThemeConv)
+  val AllOeuvre: js.Array[Oeuvre] = oeuvres.map(e => {
+    if (e.theme_key != null) {
+      OeuvreConv(e).copy(theme = themes.find(_.id == e.theme_key).map(ThemeConv))
+    } else {
+      OeuvreConv(e)
+    }
+
+  })
+  def ThemeConv(themeRaw: ThemeRaw): Theme = Theme(themeRaw.id.toInt, themeRaw.name)
+
   var mainContent: Div = _
   val itemsView: List[ManiMenuItemView] = model.items.map(ManiMenuItemView)
 
@@ -117,8 +128,7 @@ case class SiteModelView(model: SiteModel) extends XmlHtmlView[Div] with InDom {
 
   override def id: String = "root"
 
-  val AllOeuvre: oeuvres.type = oeuvres
-  val AllTheme: themes.type = themes
+
 
 
   itemsView.foreach(i => {
@@ -143,10 +153,10 @@ case class SiteModelView(model: SiteModel) extends XmlHtmlView[Div] with InDom {
     mainContent = $[Div]("current-view")
     DomShell.deb()
     itemsView.foreach(_.updateView())
-    val htmlO = AllOeuvre.map(OeuvreConv.apply).map(OeuvreView).map(_.html())
-    htmlO.foreach(d => {
-      mainContent.parentNode.appendChild(d)
-    })
+//    val htmlO = AllOeuvre.map(OeuvreConv.apply).map(OeuvreView).map(_.html())
+//    htmlO.foreach(d => {
+//      mainContent.parentNode.appendChild(d)
+//    })
   }
 
 
