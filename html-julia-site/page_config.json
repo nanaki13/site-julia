@@ -1,0 +1,145 @@
+[
+    {
+        "css": "",
+        "haveGallery": "",
+        "haveMenu": "1",
+        "haveSubMenu": "0",
+        "js": "",
+        "name": "accueil",
+        "parent": "",
+        "subTitle": "Artiste",
+        "title": "Julia Le&nbsp;Corre"
+    },
+    {
+        "css": "",
+        "haveGallery": "",
+        "haveMenu": "1",
+        "haveSubMenu": "1",
+        "js": "",
+        "name": "gravure",
+        "parent": "",
+        "subTitle": "Artiste",
+        "title": "Julia Le&nbsp;Corre"
+    },
+    {
+        "css": "",
+        "haveGallery": "1",
+        "haveMenu": "1",
+        "haveSubMenu": "0",
+        "js": "",
+        "name": "Les amoureuses en Fleurs",
+        "parent": "",
+        "subTitle": "Artiste",
+        "title": "Julia Le&nbsp;Corre"
+    },
+    {
+        "css": "",
+        "haveGallery": "",
+        "haveMenu": "1",
+        "haveSubMenu": "1",
+        "js": "",
+        "name": "peinture",
+        "parent": "",
+        "subTitle": "Artiste",
+        "title": "Julia Le&nbsp;Corre"
+    },
+    {
+        "css": "",
+        "haveGallery": "1",
+        "haveMenu": "1",
+        "haveSubMenu": "0",
+        "js": "",
+        "name": "Illustrations",
+        "parent": "",
+        "subTitle": "Artiste",
+        "title": "Julia Le&nbsp;Corre"
+    },
+    {
+        "css": "",
+        "haveGallery": "",
+        "haveMenu": "0",
+        "haveSubMenu": "0",
+        "js": "",
+        "name": "login",
+        "parent": "",
+        "subTitle": "",
+        "title": ""
+    },
+    {
+        "css": "",
+        "haveGallery": "",
+        "haveMenu": "1",
+        "haveSubMenu": "0",
+        "js": "",
+        "name": "images",
+        "parent": "admin",
+        "subTitle": "",
+        "title": ""
+    },
+    {
+        "css": "",
+        "haveGallery": "",
+        "haveMenu": "1",
+        "haveSubMenu": "0",
+        "js": "",
+        "name": "upload",
+        "parent": "admin",
+        "subTitle": "",
+        "title": ""
+    },
+    {
+        "css": "",
+        "haveGallery": "",
+        "haveMenu": "1",
+        "haveSubMenu": "1",
+        "js": "",
+        "name": "admin",
+        "parent": "",
+        "subTitle": "",
+        "title": ""
+    },
+    {
+        "css": "",
+        "haveGallery": "",
+        "haveMenu": "1",
+        "haveSubMenu": "",
+        "js": "",
+        "name": "creation_theme",
+        "parent": "admin",
+        "subTitle": "",
+        "title": ""
+    },
+    {
+        "css": "",
+        "haveGallery": "",
+        "haveMenu": "1",
+        "haveSubMenu": "0",
+        "js": "",
+        "name": "createArtFromPath",
+        "parent": "admin",
+        "subTitle": "",
+        "title": ""
+    },
+    {
+        "css": "",
+        "haveGallery": "",
+        "haveMenu": "1",
+        "haveSubMenu": "",
+        "js": "",
+        "name": "contact",
+        "parent": "",
+        "subTitle": "Artiste",
+        "title": "Julia Le&nbsp;Corre"
+    },
+    {
+        "css": "",
+        "haveGallery": "",
+        "haveMenu": "1",
+        "haveSubMenu": "",
+        "js": "",
+        "name": "apropos",
+        "parent": "",
+        "subTitle": "Artiste",
+        "title": "Julia Le&nbsp;Corre"
+    }
+]

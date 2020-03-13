@@ -8,6 +8,7 @@ import scala.annotation.meta.field
 import scala.collection.mutable
 import scala.scalajs.js
 import scala.scalajs.js.annotation._
+import scala.util.Random
 
 
 object SiteModel {
@@ -58,8 +59,15 @@ object SiteModel {
     def this(text: String,  link: String) = this(text,link,None)
     var items: List[MenuItem] = List[MenuItem]()
     var oeuvres : List[Oeuvre] = List[Oeuvre]()
+    def randomOeuvre(size : Int): Unit = {
+      oeuvres = SiteModel.randomOeuvre(size).toList
+    }
   }
-
+  class ContactMenuItem extends MenuItem("Contact","/contact",None)
+  def rs: String =  Random.nextString(5)
+  def randomOeuvre(size : Int):Seq[Oeuvre] = for(_ <- 0 until size) yield{
+    Oeuvre(Image(rs),rs,Dimension(10,10),2020)
+  }
 }
 
 @JSExportTopLevel("SiteModel")
@@ -74,6 +82,7 @@ case class SiteModel(title : SiteTitle = SiteTitle("Julia le Corre artiste")){
   def fake(): Unit = {
     val m1 =  new MenuItem("Les a","")
     m1.items = List(new MenuItem("Les a1",""),new MenuItem("Les a2",""),new MenuItem("Les a4",""))
+    m1.items.foreach(_.randomOeuvre(Random.nextInt(5)))
     val mainMenu = List(
       new MenuItem("Acceuil",""),
       m1,

@@ -21,7 +21,14 @@ lazy val shared =
 // configure Scala-Native settings
 // .nativeSettings(/* ... */) // defined in sbt-scala-native
 
+lazy val jvm =
+// select supported platforms
+  crossProject(JVMPlatform)
+    .crossType(CrossType.Pure) // [Pure, Full, Dummy], default: CrossType.Full
+    .settings(sharedSettings)
+    .settings(libraryDependencies ++= Seq(  "org.xerial" % "sqlite-jdbc" % "3.21.0"))
 
+   .dependsOn(shared)
 lazy val js =
 // select supported platforms
   crossProject(JSPlatform)

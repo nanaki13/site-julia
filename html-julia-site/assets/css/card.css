@@ -1,0 +1,208 @@
+.fullscreen{
+    position:fixed;
+    left : 0;
+    width:100%;
+    height:100%;
+    z-index:-100
+}
+.background{
+  z-index :-200;
+}
+.img-plateau{
+ width:100%;
+}
+.plateau{
+
+ margin-top: 50vh; /* poussé de la moitié de hauteur de viewport */
+  transform: translateY(-50%); /* tiré de la moitié de sa propre hauteur */
+    width:95%;
+    margin-left :  auto;
+     margin-right :  auto;
+}
+.attack-card{
+    position:relative;
+    float : left;
+    display: inline-flex;
+    z-index : 0;
+}
+
+.my-card-footer{
+    position: relative;
+ width : 100%;
+    height:2em;
+
+}
+.my-card-header{
+    position: relative;
+ width : 100%;
+    height:7em;
+
+}
+.my-card-body{
+    position: relative;
+ width : 100%;
+    height:2em;
+
+}
+.send-element{
+ padding-left:2em;
+
+
+    position:absolute;
+    width:12%;
+    max-height :200px;
+
+    top:10%;
+}
+.pv-card{
+    position:relative;
+    float : right;
+    display: inline-flex;
+    z-index : 0;
+}
+.draw{
+    border-color : red!important;
+}
+.middle{
+    margin-left:auto;
+    margin-right:auto;
+    width: fit-content;
+}
+.pad-middle{
+    padding-left:auto;
+    padding-right:auto;
+}
+.enemy{
+    position:absolute;
+    width:100%;
+    top:5%;
+}
+.board-enemy{
+    position:absolute;
+    width:100%;
+    top:15%;
+}
+.board{
+    position:absolute;
+    width:100%;
+    top:50%;
+}
+.player{
+    position:absolute;
+    width:100%;
+    top:70%;
+}
+._80{
+    max-width :  81vh;
+}
+.chat-element{
+
+
+    padding-left:2vh;
+
+
+    position:absolute;
+    width:12%;
+    max-height :200px;
+     overflow-y: scroll;
+    top:50%;
+}
+.hand{
+    position:absolute;
+    width:100%;
+    top:80%;
+}
+.choixCarte{
+    position:absolute;
+    max-width:20%;
+    top:80%;
+    padding-left:2vh;
+
+
+}
+.c-fond {
+
+}
+.fond{
+      position: absolute;
+    z-index: -1;
+    color: white;
+    margin-left: auto;
+
+}
+.w-fond{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color : white;
+  opacity: 0.5;
+  z-index : -100;
+}
+.pv-player{
+    position:relative;
+    text-align: center;
+}
+.value-card{
+    position:relative;
+    text-align: center;
+}
+.mana-card{
+    position : relative;
+    float : left;
+    display: inline-block;
+    width : 2em;
+     height : 2em;
+    z-index : 0;
+}
+#join_ct{
+ color :white;
+}
+.form-label{
+ color :white;
+}
+.my-card{
+    z-index :10;
+    display : inline-grid;
+    width :8.66em;
+    /* height : 12em;*/
+    margin : 0 0.4em 0 0.4em
+}
+.card-player{
+display : inline-block;width :  8.66em;/*height : 7em;*/
+}
+.control-player{
+padding-top:10%;
+   max-width:40%;
+
+}
+.label{
+    max-width:200px;
+
+ }
+ .name-card{
+
+    text-align : center;
+ }
+
+
+
+ .card-band{
+
+    width : 80%;
+ }
+.btn-clipboard {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    z-index: 10;
+    display: block;
+    padding: .25rem .5rem;
+    font-size: 75%;
+    color: #818a91;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    border-radius: .25rem;
+}
