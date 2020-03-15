@@ -1,15 +1,39 @@
 package bon.jo
 
-import bon.jo.app.{Service, SiteModelView}
 import bon.jo.game.html.Template
+import bon.jo.html.{ButtonHtml, DomShell}
+import bon.jo.view.SiteModelView
+import org.scalajs.dom.raw.HTMLElement
+
+import scala.scalajs.js
+import scala.scalajs.js.JSON
 
 class TestSocketTemplate extends Template {
 
-  val site : SiteModelView = SiteModelView(Service.siteModel)
-  override def updateView(): Unit = {
-    site.updateView()
+
+  private var _site: SiteModelView = _
+
+  def site_=(s : SiteModelView): Unit ={
+
+    _site = s
   }
-  override def body: String = site.xml().mkString
+  def site: SiteModelView = _site
+  override def updateView(): Unit = {
+    _site.updateView()
 
 
+
+  }
+
+  val button = ButtonHtml("btn-export","export")
+  override def body: String = (<div id="root"><div id="ex"></div></div>).mkString
+
+  override def init(p : HTMLElement): Unit = {
+    button.onClick(_ => {
+    })
+    button.addTo("ex")
+
+    _site.init(me)
+
+  }
 }

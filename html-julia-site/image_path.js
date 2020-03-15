@@ -1,4 +1,4 @@
-[
+const image_path = [
     {
         "height": "-1",
         "image_key": "1",

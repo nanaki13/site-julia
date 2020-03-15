@@ -2,10 +2,16 @@ package bon.jo
 
 import bon.jo.app.HtmlApp
 import bon.jo.game.html.Template
-import bon.jo.util.SocketKeeper
-import bon.jo.util.SocketKeeper.SocketContext
+import bon.jo.service.SiteService
+import bon.jo.view.SiteModelView
 import org.scalajs.dom.html.Div
 
 class TestSocketAppApp(app: Div, template: Template) extends HtmlApp[TestSocketTemplate](app: Div, template: Template) {
+
+  val service = new SiteService
+
+  val site: SiteModelView = SiteModelView(service.siteModel)(service)
+  typedTemplate.site = site
+  app.appendChild(site.html())
 
 }
