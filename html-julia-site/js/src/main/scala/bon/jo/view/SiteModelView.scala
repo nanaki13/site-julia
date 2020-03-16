@@ -33,7 +33,7 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
   val makeNewSubItem: SimpleInput = SimpleInput("newSubItem", "nom du menu")
 
   makeNewItem.confirm.onClick(_ => {
-    val newItem = MenuItem(0, makeNewItem.value(), "", None, None)
+    val newItem = siteService.createNewMainMenuItem(makeNewItem.value())
     val newItemView = ManiMenuItemView(newItem)
 
     model.items = model.items :+ newItem
@@ -43,7 +43,7 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
   })
   makeNewSubItem.confirm.onClick(_ => {
     implicit val siteModelView: SiteModelView = this
-    val newItem = MenuItem(0, makeNewSubItem.value(), "", None, Some(currentItem.menuItem))
+    val newItem = siteService.createNewSubMenuItem(makeNewSubItem.value(),currentItem.menuItem)
     val newItemView = SubMenuItemView(newItem)
 
     createNavigation(newItemView)
@@ -65,19 +65,20 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
 
   val choseItem: Ref[Div] = Ref("choseItem")
 
+
   def updateMainContent(i: MenuItem): Any = {
 
     if (i.items.nonEmpty) {
       var fresh: List[SubMenuItemView] = Nil
       mainContent.ref.innerHTML = i.items.map(SubMenuItemView.apply).map(iHtml => {
         fresh = iHtml :: fresh
-        iHtml.onClick((_: Event) => {
+        iHtml.link.onClick((_: Event) => {
           mainContent.ref.innerHTML = iHtml.menuItem.oeuvres.map(OeuvreView).map(_.xml().mkString).mkString
         })
         iHtml
       }
       ).map(_.xml().mkString).mkString
-      fresh.foreach(_.updateView())
+      fresh.foreach(_.init(me))
     } else if (i.oeuvres.nonEmpty) {
       mainContent.ref.innerHTML = i.oeuvres.map(OeuvreView).map(_.xml().mkString).mkString
     } else {
@@ -87,7 +88,7 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
 
   def createNavigation(i: MenuItemView): MenuItemView = {
 
-    i.onClick((_: Event) => {
+    i.link.onClick((_: Event) => {
       currentItem = i
       updateMainContent(i.menuItem)
     }
@@ -102,8 +103,6 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
     makeNewItem.addTo(addMainMenu.ref)
     makeNewSubItem.addTo(addSubMenu.ref)
     itemsView.map(createNavigation).foreach(e => e.addTo(sideMdenu.ref))
-
-
   }
 
   def contentChange(to: MenuItem): Unit = {
@@ -125,7 +124,9 @@ trait ValueConsumer[V] {
   def consume(v: V): Unit
 }
 
-class ChoooseMenuItem(valueConsumer: ValueConsumer[MenuItem])(implicit val siteService: SiteService, val siteModelView: SiteModelView) extends ParentComponent[Div] with ValueView[MenuItem] {
+class ChoooseMenuItem(valueConsumer: ValueConsumer[MenuItem])
+                     (implicit val siteService: SiteService, val siteModelView: SiteModelView)
+  extends ParentComponent[Div] with ValueView[MenuItem] {
 
 
   private var _value: MenuItem = _
@@ -141,14 +142,14 @@ class ChoooseMenuItem(valueConsumer: ValueConsumer[MenuItem])(implicit val siteS
     })
   }
 
-  private var listens = List[RefComp[Div, MenuItemView]]()
+  private var listens = List[RefComp[Div, IdMenuItemVew]]()
 
   override def xml(): Node = <div id={id}>
-    {siteService.siteModel.items.map(ManiMenuItemView.apply).map(e => {
-      listens = Ref[Div, MenuItemView](e) :: listens
+    {siteService.siteModel.items.map(i => IdMenuItemVew(id+"-"+i.id, i)).map(e => {
+      listens = Ref[Div, IdMenuItemVew](e) :: listens
       val child = e.menuItem.items.map(ee => {
-        val v = SubMenuItemView(ee)
-        listens = Ref[Div, MenuItemView](v) :: listens
+        val v = IdMenuItemVew(id+"-"+ee.id, ee)
+        listens = Ref[Div, IdMenuItemVew](v) :: listens
         v
       }).map(_.xml())
       <div>

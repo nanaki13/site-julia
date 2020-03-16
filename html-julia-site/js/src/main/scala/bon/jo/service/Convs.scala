@@ -22,7 +22,7 @@ object Convs {
     }
   }
 
-  def OeuvreConv(oeuvreRaw: OeuvreRaw): Oeuvre = Oeuvre(0, null, oeuvreRaw.title, DimensionConv(oeuvreRaw.dimension), oeuvreRaw.date.toInt)
+  def OeuvreConv(oeuvreRaw: OeuvreRaw): Oeuvre = Oeuvre(oeuvreRaw.id.toInt, null, oeuvreRaw.title, DimensionConv(oeuvreRaw.dimension), oeuvreRaw.date.toInt)
 
 
   def MenuItemConv(themeRaw: ThemeRaw): MenuItem = MenuItem(themeRaw.id.toInt, themeRaw.name, "", None, None)

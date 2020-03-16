@@ -12,6 +12,7 @@ class TestSocketAppApp(app: Div, template: Template) extends HtmlApp[TestSocketT
 
   val site: SiteModelView = SiteModelView(service.siteModel)(service)
   typedTemplate.site = site
+  typedTemplate.service = service
   app.appendChild(site.html())
 
 }
