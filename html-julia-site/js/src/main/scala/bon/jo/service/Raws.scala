@@ -1,5 +1,7 @@
 package bon.jo.service
 
+import bon.jo.SiteModel.Image
+
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSGlobal
 
@@ -32,6 +34,13 @@ object Raws {
     val path: String
     val width: String
 
+  }
+  object ImageRaw{
+    def apply(i : Image): ImageRaw = js.Dynamic.literal(
+
+      path = i.link,
+      image_key = i.link
+    ).asInstanceOf[ImageRaw]
   }
 
   @JSGlobal("oeuvres")

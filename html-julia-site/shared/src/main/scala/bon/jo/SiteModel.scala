@@ -2,7 +2,7 @@ package bon.jo
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import bon.jo.SiteModel.{MenuItem, Oeuvre, SiteTitle}
+import bon.jo.SiteModel.{Image, MenuItem, Oeuvre, SiteTitle}
 
 import scala.reflect.ClassTag
 import scala.scalajs.js.annotation._
@@ -26,22 +26,34 @@ object SiteModel {
 
 
   @JSExportAll
-  abstract class SiteElement(id: Int) {
-    //    override val id: Int = idp()
+  abstract class SiteElement(val id: Int) {
+    implicit def toKeyValue: (Int, this.type) = id -> this
+
+
   }
 
 
   @JSExportTopLevel("SiteTitle")
   @JSExportAll
-  case class SiteTitle(id: Int, text: String) extends SiteElement(id)
+  case class SiteTitle(override val id: Int, text: String) extends SiteElement(id)
 
   @JSExportTopLevel("Image")
   @JSExportAll
-  case class Image(id: Int, link: String) extends SiteElement(id)
+  case class Image(override val id: Int, link: String) extends SiteElement(id)
+
+  object Image {
+
+    trait Ev[R <: SiteElement] extends (R => (Int, R)) {
+      override def apply(v1: R): (Int, R) = v1.id -> v1
+    }
+
+    implicit object imageConv extends Ev[Image]
+
+  }
 
   @JSExportTopLevel("Oeuvre")
   @JSExportAll
-  case class Oeuvre(id: Int, image: Image, name: String, val dimension: Dimension, date: Int, theme: Option[MenuItem] = None) extends SiteElement(id)
+  case class Oeuvre(override val id: Int, image: Image, name: String, val dimension: Dimension, date: Int, theme: Option[MenuItem] = None) extends SiteElement(id)
 
   /* @JSExportTopLevel("Theme")
    @JSExportAll
@@ -53,7 +65,7 @@ object SiteModel {
 
   @JSExportTopLevel("OeuvreExport")
   @JSExportAll
-  case class OeuvreExport(id: Int, image: Image, name: String, dimension: Dimension, date: Int, theme: Option[Int] = None) extends SiteElement(id)
+  case class OeuvreExport(override val id: Int, image: Image, name: String, dimension: Dimension, date: Int, theme: Option[Int] = None) extends SiteElement(id)
 
   @JSExportTopLevel("Dimension")
   @JSExportAll
@@ -61,7 +73,7 @@ object SiteModel {
 
   @JSExportTopLevel("MenuItem")
   @JSExportAll
-  case class MenuItem(id: Int, text: String, link: String, image: Option[Image], var parent: Option[MenuItem]) extends SiteElement(id) {
+  case class MenuItem(override val id: Int, text: String, link: String, image: Option[Image], var parent: Option[MenuItem]) extends SiteElement(id) {
     def this(text: String, link: String, parent: Option[MenuItem]) = this(0, text, link, None, parent)
 
     var items: List[MenuItem] = List[MenuItem]()
@@ -74,8 +86,12 @@ object SiteModel {
     def flatten[R](implicit c: ClassTag[R]): List[R] = {
       (if (c == ClassTag(classOf[MenuItem])) {
         this :: items
+      } else if (c == ClassTag(classOf[Image])) {
+        val fromItem: List[Option[Image]] = this.items.flatMap(e => e.flatten[Image]).map(e => Some(e))
+        val l: List[Option[Image]] = (this.image :: this.oeuvres.map(e => Some(e.image))) ++ fromItem
+        l.flatten
       } else {
-        oeuvres
+        oeuvres ++ items.flatMap(e => e.flatten[Oeuvre])
       }).asInstanceOf[List[R]]
     }
   }
@@ -90,7 +106,9 @@ object SiteModel {
 @JSExportTopLevel("SiteModel")
 @JSExportAll
 case class SiteModel(title: SiteTitle = SiteTitle(0, "Julia le Corre artiste")) {
-  def allOeuvres: List[Oeuvre]  = items.flatMap(_.flatten[Oeuvre])
+  def allImages: List[Image] = items.flatMap(_.flatten[Image])
+
+  def allOeuvres: List[Oeuvre] = items.flatMap(_.flatten[Oeuvre])
 
 
   var items: List[MenuItem] = List[MenuItem]()
