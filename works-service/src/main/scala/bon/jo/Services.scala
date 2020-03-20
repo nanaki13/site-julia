@@ -1,11 +1,11 @@
 package bon.jo
 
-import java.time.LocalDate
-
-import bon.jo.Services.OeuvreService.OeuvreAndPosition
-import bon.jo.SiteModel.{ImgLink, ImgLinkOb, MenuItem, OkResponse}
+import bon.jo.RawImpl.OeuvreRawExport
+import bon.jo.SiteModel.{ImgLink, ImgLinkOb, OkResponse}
 import bon.jo.juliasite.model.Schema
 import bon.jo.juliasite.pers.{RepositoryContext, SiteRepository}
+import org.json4s.JsonAST.{JInt, JNothing, JNull, JString}
+import org.json4s.{CustomSerializer, DefaultFormats, Formats}
 import slick.dbio.Effect.Write
 import slick.dbio.{DBIOAction, NoStream}
 import slick.lifted.TableQuery
@@ -22,81 +22,74 @@ object Services {
 
     override def newBuilder: mutable.Builder[Int, List[Int]] = new mutable.ListBuffer[Int]()
   }
-  def themeMapping(themeDB: Schema.Themes): MenuItem = {
-    MenuItem(Some(themeDB._1), themeDB._2, themeDB._3, themeDB._4, themeDB._5, None, Type(themeDB._6))
+
+  def themeMapping(themeDB: Schema.Themes): RawImpl.ItemRawExport = {
+    // (id, name,idThemeParent,x,y, final_theme)
+    RawImpl.ItemRawExport(themeDB._1, themeDB._2, "", js.BigInt.Null, js.BigInt(themeDB._3), js.BigInt(themeDB._4), js.BigInt(themeDB._5))
   }
 
-  def themeWithImage(themeDB: Schema.Themes, imgDb: Option[Schema.ImagesWithoutData]): MenuItem = {
-    themeMapping(themeDB).copy(image = imgDb.map(imageMapping))
+  def themeWithImage(themeDB: Schema.Themes, imgDb: Option[Schema.ImagesWithoutData]): RawImpl.ItemRawExport = {
+    themeMapping(themeDB).copy(image = imgDb.map(_._1).map(js.BigInt(_)).getOrElse(js.BigInt.Null))
   }
 
-  def imageMapping(imgDb: Schema.ImagesWithoutData): ImgLinkOb = {
-    ImgLinkOb(imgDb._1, imgDb._2, ImgLink(imgDb._1, imgDb._2), imgDb._3)
+  def imageMapping(imgDb: Schema.ImagesWithoutData): Int = {
+    imgDb._1
   }
 
 
-  trait MenuService extends Service[MenuItem] {
+  trait MenuService extends Service[RawImpl.ItemRawExport] {
 
     import dbContext.profile.api._
 
-    def crealteImageLink(mOption: Option[MenuItem]): Option[FixedSqlAction[Int, NoStream, Write]] = for {
+    def crealteImageLink(mOption: Option[RawImpl.ItemRawExport]): Option[FixedSqlAction[Int, NoStream, Write]] = for {
       i <- mOption
-      iId <- i.id
-      img <- i.image
+      imgId <- i.image.asOption
     } yield {
-      val imgId = img.id
-      dbContext.themeImages += (iId, imgId)
+      dbContext.themeImages += (i.id, imgId)
     }
 
-    def addMenu(t: MenuItem): Future[Option[MenuItem]] = {
+    def Type(option: Option[Int]): Boolean = option match {
+      case Some(value) => true
+      case None => false
+    }
 
+    def addMenu(t: RawImpl.ItemRawExport): Future[Option[RawImpl.ItemRawExport]] = {
 
-      val insert = dbContext.themes += (0, t.title, t.themeKey, t.x, t.y, Type(t.`type`))
-      dbContext.db.run(insert) flatMap (_ => {
-        dbContext.db.run(dbContext.themes.sortBy(_.id.desc).result.headOption.map {
-          case Some(tuple) => Some(MenuItem(Some(tuple._1), tuple._2, tuple._3, tuple._4, tuple._5, t.image, t.`type`))
-          case _ => None
-        } map { e => {
-          val createLink = crealteImageLink(e)
-          createLink map {
-            e => dbContext.db.run(e)
-          }
-          e
-        }
-        })
-      })
+      // (Int, String,Option[Int],Int,Int,Boolean)
+      val insert = dbContext.themes += (t.id, t.text, t.parent.asOption, t.x.v, t.y.v, Type(t.parent.asOption))
+      run(insert map {case 1 => Some(t);case 0 => None} )
     }
 
 
-    def getMenu: Future[Seq[MenuItem]] = dbContext.db.run(dbContext.themes.filter(_.idThemeParent.isEmpty).result) map {
-      e => {
-        e.map(i => {
-          MenuItem(Option.apply(i._1), i._2, None, i._4, i._5, None, "")
-        })
-      }
-    }
+    //    def getMenu: Future[Seq[MenuItem]] = dbContext.db.run(dbContext.themes.filter(_.idThemeParent.isEmpty).result) map {
+    //      e => {
+    //        e.map(i => {
+    //          MenuItem(Option.apply(i._1), i._2, None, i._4, i._5, None, "")
+    //        })
+    //      }
+    //    }
 
 
-    def getSubMenu(parentId: Int): Future[Seq[MenuItem]] = {
-      val select = for {
-        ((t, _), i) <- dbContext.themes.filter(_.idThemeParent === parentId).joinLeft(dbContext.themeImages).on(_.id === _.idTheme)
-          .joinLeft(dbContext.images.map(ee => (ee.id, ee.contentType, ee.name))).on(_._2.map(_.idImage) === _._1)
-      } yield (t, i)
-
-      for {
-        rowResSeq: Seq[((Int, String, Option[Int], Int, Int, Boolean), Option[(Int, String, String)])] <- dbContext.db.run(select.result)
-      } yield {
-        for {
-          rowRes <- rowResSeq
-          theme: Schema.Themes = rowRes._1
-          image: Option[ImgLinkOb] = rowRes._2.map { e: (Int, String, String) =>
-            imageMapping(e)
-          }
-        } yield {
-          themeMapping(theme).copy(image = image)
-        }
-      }
-    }
+    //    def getSubMenu(parentId: Int): Future[Seq[MenuItem]] = {
+    //      val select = for {
+    //        ((t, _), i) <- dbContext.themes.filter(_.idThemeParent === parentId).joinLeft(dbContext.themeImages).on(_.id === _.idTheme)
+    //          .joinLeft(dbContext.images.map(ee => (ee.id, ee.contentType, ee.name))).on(_._2.map(_.idImage) === _._1)
+    //      } yield (t, i)
+    //
+    //      for {
+    //        rowResSeq: Seq[((Int, String, Option[Int], Int, Int, Boolean), Option[(Int, String, String)])] <- dbContext.db.run(select.result)
+    //      } yield {
+    //        for {
+    //          rowRes <- rowResSeq
+    //          theme: Schema.Themes = rowRes._1
+    //          image: Option[ImgLinkOb] = rowRes._2.map { e: (Int, String, String) =>
+    //            imageMapping(e)
+    //          }
+    //        } yield {
+    //          themeMapping(theme).copy(image = image)
+    //        }
+    //      }
+    //    }
   }
 
   def Type(boolean: Boolean): String = {
@@ -158,29 +151,29 @@ object Services {
 
 
   object OeuvreService {
-
-    object OeuvreAndPosition {
-      def apply(o: Schema.Oeuvre, x: Int = 0, y: Int = 0, image: Option[ImgLinkOb] = None, tk: Option[Int] = None): OeuvreAndPosition = OeuvreAndPosition(o.id,
-        o.title,
-        o.description,
-        o.dimensionX,
-        o.dimensionY,
-        o.creation,
-        x,
-        y,
-        image,
-        tk)
-    }
-
-    case class OeuvreAndPosition(id: Int, title: String, description: String, dimensionX: Float, dimensionY: Float,
-                                 creation: Int, x: Int, y: Int, image: Option[ImgLinkOb], themeKey: Option[Int]) extends OkResponse {
-      def toOeuvre: Schema.Oeuvre = Schema.Oeuvre(id, title, description, dimensionX, dimensionY, creation)
-    }
+    //
+    //    object OeuvreAndPosition {
+    //      def apply(o: Schema.Oeuvre, x: Int = 0, y: Int = 0, image: Option[ImgLinkOb] = None, tk: Option[Int] = None): OeuvreAndPosition = OeuvreAndPosition(o.id,
+    //        o.title,
+    //        o.description,
+    //        o.dimensionX,
+    //        o.dimensionY,
+    //        o.creation,
+    //        x,
+    //        y,
+    //        image,
+    //        tk)
+    //    }
+    //
+    //    case class OeuvreAndPosition(id: Int, title: String, description: String, dimensionX: Float, dimensionY: Float,
+    //                                 creation: Int, x: Int, y: Int, image: Option[ImgLinkOb], themeKey: Option[Int]) extends OkResponse {
+    //      def toOeuvre: Schema.Oeuvre = Schema.Oeuvre(id, title, description, dimensionX, dimensionY, creation)
+    //    }
 
 
   }
 
-  trait OeuvreService extends Service[OeuvreAndPosition] with WebServiceCrud[OeuvreAndPosition]
+  trait OeuvreService extends Service[RawImpl.OeuvreRawExport] with WebServiceCrud[RawImpl.OeuvreRawExport]
 
   trait ServiceFactory {
     def dbContext: RepositoryContext with SiteRepository
@@ -189,27 +182,27 @@ object Services {
 
     import _dbContext.profile.api._
 
-    trait WebImageSevice extends ImageService with WebServiceCrud[ImgLinkOb] {
-      override def createEntity(m: ImgLinkOb): Future[Option[ImgLinkOb]] = saveImage(Some(new Array[Byte](0)), m.contentType, m.name).map(e => {
+    trait WebImageSevice extends ImageService with WebServiceCrud[RawImpl.ImageRawExport] {
+      override def createEntity(m: RawImpl.ImageRawExport): Future[Option[RawImpl.ImageRawExport]] = saveImage(Some(new Array[Byte](0)), m.id, m.link.substring(m.link.lastIndexOf('.') + 1), m.link.substring(0, m.link.lastIndexOf('.'))).map(e => {
         e map { ee =>
           m.copy(ee._1)
         }
       })
 
 
-      override def readEntity(m: Int): Future[Option[ImgLinkOb]] = {
+      override def readEntity(m: Int): Future[Option[RawImpl.ImageRawExport]] = {
         val selectAndMap = dbContext.images.filter(_.id === m).map(t => (t.id, t.contentType, t.name)).result.headOption.map(ee =>
           ee map { e =>
-            ImgLinkOb(e._1, e._2, ImgLink(e._1, e._2), e._3)
+            RawImpl.ImageRawExport(e._1, e._1 + "." + e._2.substring(e._2.lastIndexOf('/') + 1))
           }
         )
         dbContext.db.run(selectAndMap)
       }
 
-      override def readAll: Future[IterableOnce[ImgLinkOb]] = {
+      override def readAll: Future[IterableOnce[RawImpl.ImageRawExport]] = {
         val selectAndMap = dbContext.images.map(t => (t.id, t.contentType, t.name)).result.map(ee =>
           ee map { e =>
-            ImgLinkOb(e._1, e._2, ImgLink(e._1, e._2), e._3)
+            RawImpl.ImageRawExport(e._1, e._1 + "." + e._2.substring(e._2.lastIndexOf('/') + 1))
           }
         )
         dbContext.db.run(selectAndMap)
@@ -225,107 +218,83 @@ object Services {
       override val dbContext = _dbContext
     }
 
-    trait WebOeuvreService extends OeuvreService with WebServiceCrud[OeuvreAndPosition] {
+    trait WebOeuvreService extends OeuvreService with WebServiceCrud[RawImpl.OeuvreRawExport] {
       override val dbContext = _dbContext
 
-      def getOeuvres(parentId: Int): Future[Seq[OeuvreAndPosition]] = {
-        val oAndPos = oeuvres join themesOeuvres.filter(_.idTheme === parentId) on (_.id === _.idOeuvre)
-        val relationImage = oeuvreImages.sortBy(_.idOeuvre.desc)
-        val img = images map dbContext.imageWithoutDataProjection
-        val oeurvreAndImgRelation = oAndPos joinLeft relationImage on (_._1.id === _.idOeuvre)
-        val join2 = oeurvreAndImgRelation joinLeft img on (_._2.map(_.idImage) === _._1)
 
-        val s = for {
-          ((o, _), i) <- join2
-        } yield (o, i)
-        run(s.result).map(e => e.map(toOeuvreWithTheme _ tupled _))
-      }
+      def toOeuvre(m: RawImpl.OeuvreRawExport): Schema.Oeuvre = Schema.Oeuvre(m.id, m.name, m.description, m.dimension.x, m.dimension.y, m.date)
 
-      override def createEntity(m: OeuvreAndPosition): Future[Option[OeuvreAndPosition]] = {
-        val create = oeuvres += m.toOeuvre
-        run(create) flatMap {
-          cnt =>
-            if (cnt == 1) {
-              val findId = oeuvres sortBy (_.id.desc) filter (_.title === m.title) map (_.id)
-              val createRes: Future[Option[OeuvreAndPosition]] = run(findId.result.headOption) map {
-                id =>
-                  id.map(e => m.copy(id = e))
+      override def createEntity(m: RawImpl.OeuvreRawExport): Future[Option[RawImpl.OeuvreRawExport]] = {
+        val create = oeuvres += toOeuvre(m)
+        val linkImage = oeuvreImages += (m.id, m.image)
+        val linkOeuvre = themesOeuvres += (m.theme, m.id, 0, 0)
 
-              }
-              val creteLink: Int => Option[FixedSqlAction[Int, NoStream, Write]] = (oId: Int) => m.image map {
-                i =>
-                  oeuvreImages += (oId, i.id)
-              }
-              val createThemeLink: Int => Option[Future[Boolean]] = (oId: Int) => for {
-                tk <- m.themeKey
+        val q = (for {
+          cCount <- create
+          cImage <- linkImage
+          cOeuvre <- linkOeuvre
+        } yield (cCount, cImage, cOeuvre))
 
-              } yield {
-                run {
-                  for {
-                    op <- themesOeuvres += (tk, oId, m.x, m.y)
-                  } yield {
-                    op == 1
-                  }
-                }
-
-              }
-              createRes flatMap { miO => {
-                miO match {
-                  case Some(mi) => {
-                    val l = creteLink(mi.id) map run match {
-                      case Some(v) => v
-                      case _ => Future.successful(0)
-                    }
-                    l flatMap { _ =>
-                      createThemeLink(mi.id) match {
-                        case Some(v) => v.map(_ => miO)
-                        case _ => Future.successful(miO)
-                      }
-                    }
-                  }
-                  case e => Future.successful(e)
-                }
-              }
-              }
-            } else {
-              Future.successful(None)
-            }
+        val finalQ = q.map {
+          case (1, 1, 1) =>
+            Some(m)
+          case _ => None
         }
 
+        run(finalQ)
+
+
       }
 
-      def toOeuvreWithTheme(ot: (Schema.Oeuvre, Schema.OeuvresThemes), img: Option[Schema.ImagesWithoutData]): OeuvreAndPosition = {
-        OeuvreAndPosition(ot._1, ot._2._3, ot._2._4, img map imageMapping, Some(ot._2._1))
+      def createOeuvreRawExport(o: Schema.Oeuvre, i: Schema.OeuvresImages, t: Schema.OeuvresThemes): RawImpl.OeuvreRawExport = {
+        RawImpl.OeuvreRawExport(o.id, i._2, o.title, RawImpl.DimemsionExport(o.dimensionX, o.dimensionY), o.creation, t._1, o.description)
       }
 
-      def toOeuvre(o: Schema.Oeuvre, img: Option[Schema.ImagesWithoutData]): OeuvreAndPosition = {
-        OeuvreAndPosition(o, 0, 0, img map imageMapping, None)
+
+      def qBase(m: Int): this.dbContext.QueryBaseType = {
+        for {
+          o <- oeuvres.filter(_.id === m)
+          i <- oeuvreImages if (o.id === i.idOeuvre)
+          t <- themesOeuvres if (o.id === t.idOeuvre)
+        } yield (o, i, t)
       }
 
-      override def readEntity(m: Int): Future[Option[OeuvreAndPosition]] = {
-        val oeuvreBase = oeuvres.filter(_.id === m)
-        val relationImage = oeuvreImages.sortBy(_.idOeuvre.desc)
-        val img = images map dbContext.imageWithoutDataProjection
-        val oeurvreAndImgRelation = oeuvreBase joinLeft relationImage on (_.id === _.idOeuvre)
-        val join2 = oeurvreAndImgRelation joinLeft img on (_._2.map(_.idImage) === _._1)
-
-        val s = for {
-          ((o, _), i) <- join2
-        } yield (o, i)
-        run(s.result.headOption).map(e => e.map(toOeuvre _ tupled _))
+      def qBase: this.dbContext.QueryBaseType = {
+        for {
+          o <- oeuvres
+          i <- oeuvreImages if (o.id === i.idOeuvre)
+          t <- themesOeuvres if (o.id === t.idOeuvre)
+        } yield (o, i, t)
       }
 
-      override def readAll: Future[IterableOnce[OeuvreAndPosition]] = {
-        val oeuvreBase = oeuvres
-        val relationImage = oeuvreImages.sortBy(_.idOeuvre.desc)
-        val img = images map dbContext.imageWithoutDataProjection
-        val oeurvreAndImgRelation = oeuvreBase joinLeft relationImage on (_.id === _.idOeuvre)
-        val join2 = oeurvreAndImgRelation joinLeft img on (_._2.map(_.idImage) === _._1)
+      def uBase(o: OeuvreRawExport): this.dbContext.UBase = {
+        uBase(Schema.Oeuvre(o.id, o.name, o.description, o.dimension.x, o.dimension.y, o.date), o.theme, o.image)
+      }
 
-        val s = for {
-          ((o, _), i) <- join2
-        } yield (o, i)
-        run(s.result).map(e => e.map(toOeuvre _ tupled _))
+      def uBase(o: Schema.Oeuvre, th: Int, img: Int): this.dbContext.UBase = {
+        for {
+          ou <- oeuvres.filter(_.id === o.id).update(o)
+          _ <- themesOeuvres.filter(_.idOeuvre === o.id).delete
+          ot <- themesOeuvres += (th, o.id, 0, 0)
+          _ <- oeuvreImages.filter(_.idOeuvre === o.id).delete
+          oi <- oeuvreImages += o.id -> img
+        } yield {
+          ou + ot + oi > 0
+        }
+      }
+
+
+      override def readEntity(m: Int): Future[Option[RawImpl.OeuvreRawExport]] = {
+        run(qBase(m).result.headOption map {
+          case Some(v) => Some(createOeuvreRawExport _ tupled v)
+          case None => None
+        })
+
+      }
+
+
+      override def readAll: Future[IterableOnce[RawImpl.OeuvreRawExport]] = {
+        run(qBase.result.map(e => e.map(v => createOeuvreRawExport _ tupled v)))
       }
 
       override def deleteEntity(m: Int): Future[Boolean] = {
@@ -338,54 +307,21 @@ object Services {
         })
       }
 
-      def extractRowUpdate(m: OeuvreAndPosition): (Schema.Oeuvre, Option[Int]) = {
-        val o = m.toOeuvre
-        (
-          o, {
-          m.image map (_.id)
-        }
-        )
-      }
 
-
-      override def updateEntity(m: OeuvreAndPosition): Future[Option[OeuvreAndPosition]] = {
-        val mi: Future[Int] = for {
-          o <- run(oeuvres.filter(_.id === m.id).update(m.toOeuvre))
-          ot <- m.themeKey match {
-            case Some(v) => run(DBIO.sequence(List(
-              themesOeuvres.filter(_.idOeuvre === m.id).delete,
-              themesOeuvres += (v,m.id,m.x,m.y)
-            ))).map(e=>e.sum)
-            case _ => Future.successful(0)
-          }
-          oi <- m.image match {
-            case Some(v) => run(DBIO.sequence(List(
-              oeuvreImages.filter(_.idOeuvre === m.id).delete,
-              oeuvreImages += (m.id,v.id)
-            ))).map(e=>e.sum)
-            case _ => Future.successful(0)
-          }
-        } yield {
-          o + oi +ot
-        }
-        mi.map {
-          e =>
-            if (e > 0) {
-              Some(m)
-            } else {
-              None
-            }
-        }
-
+      override def updateEntity(m: RawImpl.OeuvreRawExport): Future[Option[RawImpl.OeuvreRawExport]] = {
+        run(uBase(m) map {
+          case true => Some(m)
+          case false => None
+        })
       }
 
       override def ressourceName: String = "oeuvre"
     }
 
-    trait WebMenuSevice extends MenuService with WebServiceCrud[MenuItem] {
-      override def createEntity(m: MenuItem): Future[Option[MenuItem]] = addMenu(m)
+    trait WebMenuSevice extends MenuService with WebServiceCrud[RawImpl.ItemRawExport] {
+      override def createEntity(m: RawImpl.ItemRawExport): Future[Option[RawImpl.ItemRawExport]] = addMenu(m)
 
-      override def readEntity(m: Int): Future[Option[MenuItem]] = {
+      override def readEntity(m: Int): Future[Option[RawImpl.ItemRawExport]] = {
         val select = for {
           ((t, _), i) <- themes.filter(_.id === m).joinLeft(themeImages).on(_.id === _.idTheme)
             .joinLeft(images.map(dbContext.imageWithoutDataProjection)).on(_._2.map(_.idImage) === _._1)
@@ -393,55 +329,94 @@ object Services {
         run(select.result.headOption).map(e => e.map(themeWithImage _ tupled _))
       }
 
-      override def readAll: Future[IterableOnce[MenuItem]] = {
-        val select = for {
-          ((t, _), i) <- themes.joinLeft(themeImages).on(_.id === _.idTheme)
-            .joinLeft(images.map(dbContext.imageWithoutDataProjection)).on(_._2.map(_.idImage) === _._1)
-        } yield (t, i)
-        run(select.result).map(e => e.map(themeWithImage _ tupled _))
+
+      def groupBy1(q: Query[(Rep[Int], Rep[Int]), (Int, Int), Seq]) = q.result.map(e =>
+        e.groupMap(e => e._1)(a => a._2)
+      )
+
+      override def readAll: Future[IterableOnce[RawImpl.ItemRawExport]] = {
+        val themesOeuvresQueryRaw = for {
+          o <- themesOeuvres
+        } yield (o.idTheme, o.idOeuvre)
+
+        val themesOeuvresQuery = themesOeuvresQueryRaw.result.map(e =>
+          e.groupMap(e => e._1)(a => a._2)
+        )
+        val themeImagesQueryRaw = for {
+          ti <- themeImages
+        } yield (ti.idTheme, ti.idImage)
+
+        val themeImagesQuery = groupBy1(themeImagesQueryRaw)
+
+        val themeThemeQueryRaw = for {
+          ti <- themes.filter(_.idThemeParent.isDefined)
+        } yield (ti.idThemeParent.get, ti.id)
+
+        val themeThemeQuery = groupBy1(themeThemeQueryRaw)
+
+        val r = dbContext.run(for {
+          t <- themes.result.map(_.map(themeMapping))
+          tt <- themeThemeQuery
+          ti <- themeImagesQuery
+          to <- themesOeuvresQuery
+        } yield {
+          t.map {
+            e =>
+              val imgOption = ti.get(e.id).map(_.head)
+              val child = tt.get(e.id).map(_.toList).getOrElse(Nil)
+              val oeuvresc = to.get(e.id).map(_.toList).getOrElse(Nil)
+              val cp = e.copy(image = js.BigInt(imgOption)
+                , children = child, oeuvres = oeuvresc)
+
+              cp
+
+          }
+        })
+
+        r
       }
 
-
-
       override def deleteEntity(m: Int): Future[Boolean] = {
-        run(DBIO.sequence(List(   themes.filter(_.idThemeParent === m).delete, themeImages.filter(_.idTheme === m).delete,
+        run(DBIO.sequence(List(themes.filter(_.idThemeParent === m).delete, themeImages.filter(_.idTheme === m).delete,
           themes.filter(_.id === m).delete))).map {
           res => res.sum > 0
         }
       }
 
 
-      def extractRowUpdate(m: MenuItem): (Schema.Themes, Option[Int]) = {
-        (
-          (m.id.get, m.title, m.themeKey, m.x, m.y, Type(m.`type`)), {
-          m.image map (_.id)
-        }
-        )
-      }
+      //      def extractRowUpdate(m: MenuItem): (Schema.Themes, Option[Int]) = {
+      //        (
+      //          (m.id.get, m.title, m.themeKey, m.x, m.y, Type(m.`type`)), {
+      //          m.image map (_.id)
+      //        }
+      //        )
+      //      }
 
-      def menuUpdate(m: MenuItem): Schema.Themes = (m.id.get, m.title, m.themeKey, m.x, m.y, Type(m.`type`))
+      def menuUpdate(m: RawImpl.ItemRawExport): Schema.Themes = (m.id, m.text, m.parent.asOption, m.x.v, m.y.v, Type(m.parent.asOption))
 
-      override def updateEntity(m: MenuItem): Future[Option[MenuItem]] = {
-        val mi = for {
+      override def updateEntity(m: RawImpl.ItemRawExport): Future[Option[RawImpl.ItemRawExport]] = {
 
-          t <- run(themes.filter(_.id === m.id).update(menuUpdate(m)))
-          oi <- m.image match {
-            case Some(v) => run(DBIO.sequence(List(
-              themeImages.filter(_.idTheme === m.id).delete,
-              themeImages += m.id.get -> v.id
-            ))).map(e=>e.sum)
-            case _ => Future.successful(0)
-          }
-        } yield {
-           t + oi
-        }
-        mi.map {
+        val mainUpdateQuery = themes.filter(_.id === m.id).update(menuUpdate(m))
+        val deletImageOptionQuery = m.image.asOption.map(idImage => {
+          themeImages.filter(row => row.idImage =!= idImage && row.idTheme === m.id).delete
+        })
+        val createImageLink = m.image.asOption.map(idImage => {
+          themeImages += (m.id, idImage)
+        })
+        val resDelte: Future[Int] = (deletImageOptionQuery map {
           e =>
-            if (e > 0) {
-              Some(m)
-            } else {
-              None
-            }
+            dbContext.run(e)
+        }).getOrElse(Future.successful(0))
+        val resCreate: Future[Int] = (createImageLink map {
+          e =>
+            dbContext.run(e)
+        }).getOrElse(Future.successful(0))
+        resDelte flatMap { _ =>
+          resCreate
+        } flatMap { _ =>
+          dbContext.run(mainUpdateQuery)
+        } map { _ =>
+          Some(m)
         }
       }
 
@@ -452,7 +427,7 @@ object Services {
 
   }
 
-  trait ImageService extends Service[ImgLinkOb] {
+  trait ImageService extends Service[RawImpl.ImageRawExport] {
 
 
     import dbContext.profile.api._
@@ -460,23 +435,19 @@ object Services {
     def addImagesMenu(b: Array[Byte], contentType: String, name: String): Future[Option[(Int, String)]] = dbContext.addImagesMenu(b, contentType, name)
 
     /**
-      *
-      * @param byttes
-      * @param contentType
-      * @return image id and contentType
-      */
-    def saveImage(byttes: Option[Array[Byte]], contentType: String, name: String): Future[Option[(Int, String)]] = {
-      val sbInsert: FixedSqlAction[Int, NoStream, Write] = dbContext.images += (0, contentType, byttes.get, name)
+     *
+     * @param byttes
+     * @param contentType
+     * @return image id and contentType
+     */
+    def saveImage(byttes: Option[Array[Byte]], id: Int, contentType: String, name: String): Future[Option[(Int, String, String)]] = {
+      val sbInsert: FixedSqlAction[Int, NoStream, Write] = dbContext.images += (id, contentType, byttes.get, name)
 
-      run(sbInsert) flatMap {
-        _ => {
-          run(dbContext.images.filter(_.name === name).map(e => (e.id, e.contentType)).sortBy(_._1.desc).result.headOption)
-        }
-      }
+      run(sbInsert) map { case 1 => Some(id, contentType, name) }
     }
 
-    def updateEntity(forPatch: ImgLinkOb): Future[Option[ImgLinkOb]] = {
-      val update = dbContext.images.filter(_.id === forPatch.id).map(_.name).update(forPatch.name) map { i =>
+    def updateEntity(forPatch: RawImpl.ImageRawExport): Future[Option[RawImpl.ImageRawExport]] = {
+      val update = dbContext.images.filter(_.id === forPatch.id).map(_.name).update(forPatch.link) map { i =>
         if (i == 1) {
           Some(forPatch)
         } else {
@@ -510,3 +481,41 @@ object Services {
 }
 
 
+object T extends App {
+
+  object reader extends bon.jo.JsonIn
+
+  import reader._
+
+
+  import js._
+
+  case class ItemRawExportP(id: Int,
+                            text: String,
+                            link: String,
+                            image: Option[Int],
+                            parent: js.BigInt,
+                            x: Int,
+                            y: Int)
+
+
+  object CustomJs extends CustomSerializer[js.BigInt](format =>
+    ( {
+      case JInt(s) => js.BigInt(s.toInt)
+      case JNull => js.BigInt(0, true)
+      case JNothing => js.BigInt(0, true)
+    }, {
+
+      case e: js.BigInt => JInt(e.v)
+    }))
+
+  implicit val formatsIn: Formats = DefaultFormats + LocalDateSerializer + CustomJs
+
+  import T.formatsIn
+
+  val s = """{"id" : 1,"image" : 0, "text" : "daz", "link" : "daz", "children" : [], "oeuvres" : [ 2 ] , "x" : 0 , "y" : 0 }"""
+  println(org.json4s.native.Serialization.read[RawImpl.ItemRawExport](s))
+
+
+  println(org.json4s.native.Serialization.write[RawImpl.ItemRawExport](RawImpl.ItemRawExport(1, "", "", 1, 1, 1, 1)))
+}

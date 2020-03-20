@@ -3,12 +3,12 @@ package bon.jo
 import bon.jo.game.html.Template
 import bon.jo.html.Types.FinalComponent
 import bon.jo.html.{ButtonHtml, DomShell}
-import bon.jo.service.{GlobalExport, SiteService}
+import bon.jo.service.Raws.GlobalExport
+import bon.jo.service.SiteService
 import bon.jo.view.SiteModelView
 import org.scalajs.dom.html.{Input, Link}
 import org.scalajs.dom.raw.{Event, FileReader, HTMLElement, UIEvent}
 
-import scala.scalajs.js
 import scala.scalajs.js.JSON
 import scala.xml.Node
 

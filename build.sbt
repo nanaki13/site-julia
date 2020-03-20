@@ -28,6 +28,7 @@ lazy val ws = (project in file(wsName)).settings(
     "com.typesafe.akka" %% "akka-http" % "10.1.11",
     "com.typesafe.akka" %% "akka-stream" % "2.6.1",
     "com.typesafe.akka" %% "akka-slf4j" % "2.6.1",
+    "bon.jo"%% "julia-shared"% "0.1.0-SNAPSHOT",
     "ch.qos.logback" % "logback-classic" % "1.2.3",
     "org.json4s" %% "json4s-native" % "3.6.7"),
   

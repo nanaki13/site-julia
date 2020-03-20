@@ -11,7 +11,7 @@ val sharedSettings = Seq(version := "0.1.0-SNAPSHOT",
 name := "html-julia-site"
 // or any other Scala version >= 2.11.12
 
-lazy val shared =
+lazy val `julia-shared` =
 // select supported platforms
   crossProject(JSPlatform, JVMPlatform)
     .crossType(CrossType.Pure) // [Pure, Full, Dummy], default: CrossType.Full
@@ -21,15 +21,15 @@ lazy val shared =
 // configure Scala-Native settings
 // .nativeSettings(/* ... */) // defined in sbt-scala-native
 
-lazy val jvm =
+lazy val `julia-jvm` =
 // select supported platforms
   crossProject(JVMPlatform)
     .crossType(CrossType.Pure) // [Pure, Full, Dummy], default: CrossType.Full
     .settings(sharedSettings)
     .settings(libraryDependencies ++= Seq(  "org.xerial" % "sqlite-jdbc" % "3.21.0"))
 
-   .dependsOn(shared)
-lazy val js =
+   .dependsOn(`julia-shared`)
+lazy val `julia-js` =
 // select supported platforms
   crossProject(JSPlatform)
     .crossType(CrossType.Pure) // [Pure, Full, Dummy], default: CrossType.Full
@@ -42,7 +42,7 @@ lazy val js =
     .settings(
       scalaJSUseMainModuleInitializer := true
 
-    ).dependsOn(shared) // defined in sbt-scalajs-crossproject
+    ).dependsOn(`julia-shared`) // defined in sbt-scalajs-crossproject
 
 
 lazy val chromePath = Paths.get("""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe""")
