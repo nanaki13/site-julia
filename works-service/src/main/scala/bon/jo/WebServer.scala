@@ -3,24 +3,27 @@ package bon.jo
 import akka.http.scaladsl.model.HttpResponse
 import akka.http.scaladsl.model.StatusCodes.InternalServerError
 import akka.http.scaladsl.server.{ExceptionHandler, HttpApp, Route}
-import bon.jo.Routes.complete
+import bon.jo.juliasite.pers.RepoFactory
 
-import scala.concurrent.ExecutionContext
-import scala.util.control.NonFatal
+import scala.concurrent.ExecutionContextExecutor
 
 
-// Server definition
 object WebServer extends HttpApp {
-  implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.global
 
+  implicit val ex: ExecutionContextExecutor = scala.concurrent.ExecutionContext.global
 
   implicit def myExceptionHandler: ExceptionHandler =
     ExceptionHandler {
-      case  e : Exception =>
+      case e: Exception =>
         e.printStackTrace()
         complete(HttpResponse(InternalServerError, entity = "Internal Server Error"))
     }
-  override def routes: Route = Route.seal(Routes.allRoutes)
+
+  val repo = RepoFactory()(scala.concurrent.ExecutionContext.global)
+  val servies = new ServicesFactory(repo.PostgresRepo)
+  val routesFromServices = new Routes(servies.servies)
+
+  override def routes: Route = Route.seal(routesFromServices.allRoutes)
 
 }
 

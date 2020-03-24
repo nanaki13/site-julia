@@ -6,7 +6,7 @@ import bon.jo.service.SiteService
 import bon.jo.view.SiteModelView
 import org.scalajs.dom.html.Div
 
-class TestSocketAppApp(app: Div, template: Template) extends HtmlApp[TestSocketTemplate](app: Div, template: Template) {
+class JuliaApp(app: Div, template: Template) extends HtmlApp[SiteTemplate](app: Div, template: Template) {
 
   val service = new SiteService
 

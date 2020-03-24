@@ -22,11 +22,11 @@ object Convs {
     }
   }
 
-  def OeuvreConv(oeuvreRaw: OeuvreRaw): Oeuvre = Oeuvre(oeuvreRaw.id.toInt, null, oeuvreRaw.title, DimensionConv(oeuvreRaw.dimension), oeuvreRaw.date.toInt)
+  def OeuvreConv(oeuvreRaw: OeuvreRaw): Oeuvre = Oeuvre(oeuvreRaw.id.toInt, null, oeuvreRaw.title,oeuvreRaw.description, DimensionConv(oeuvreRaw.dimension), oeuvreRaw.date.toInt)
 
 
   def MenuItemConv(themeRaw: ThemeRaw): MenuItem = MenuItem(themeRaw.id.toInt, themeRaw.name, "", None, None)
 
-  def imageCon(imageRaw: ImageRaw) : Image = Image(imageRaw.image_key.toInt,imageRaw.path)
+  def imageCon(imageRaw: ImageRaw) : Image = Image(imageRaw.image_key.toInt,imageRaw.path,"http://julia-le-corre.fr/rsc/")
 
 }

@@ -38,6 +38,7 @@ object Raws {
   trait ImageRawExport extends js.Object {
     val id: Int
     val link: String
+    val base:String
   }
 
 

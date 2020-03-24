@@ -2,8 +2,9 @@ package bon.jo
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import bon.jo.SiteModel.{Image, MenuItem, Oeuvre, SiteTitle}
+import bon.jo.SiteModel.{Image, MenuItem, Oeuvre, SiteElement, SiteTitle}
 
+import scala.annotation.tailrec
 import scala.reflect.ClassTag
 import scala.scalajs.js.annotation._
 import scala.util.Random
@@ -60,7 +61,7 @@ object SiteModel {
 
   @JSExportTopLevel("Image")
   @JSExportAll
-  case class Image(override val id: Int, link: String) extends SiteElement(id)
+  case class Image(override val id: Int, link: String, base : String) extends SiteElement(id)
 
   object Image {
 
@@ -74,7 +75,9 @@ object SiteModel {
 
   @JSExportTopLevel("Oeuvre")
   @JSExportAll
-  case class Oeuvre(override val id: Int, image: Image, name: String, val dimension: Dimension, date: Int, theme: Option[MenuItem] = None) extends SiteElement(id)
+  case class Oeuvre(override val id: Int, image: Image, name: String, description: String, dimension: Dimension, date: Int, theme: Option[MenuItem] = None) extends SiteElement(id) {
+    override def toString: String = s"oeuvre:$id"
+  }
 
   /* @JSExportTopLevel("Theme")
    @JSExportAll
@@ -94,10 +97,11 @@ object SiteModel {
 
   @JSExportTopLevel("MenuItem")
   @JSExportAll
-  case class MenuItem(override val id: Int, text: String, link: String, image: Option[Image], var parent: Option[MenuItem]
+  case class MenuItem(override val id: Int, text: String, link: String, var image: Option[Image], var parent: Option[MenuItem]
                       , var items: List[MenuItem] = List[MenuItem](),
                       var oeuvres: List[Oeuvre] = List[Oeuvre]()) extends SiteElement(id) {
-    def this(id : Int) = this(id,"","",None,None)
+    def this(id: Int) = this(id, "", "", None, None)
+
     def this(text: String, link: String, parent: Option[MenuItem]) = this(0, text, link, None, parent)
 
 
@@ -121,13 +125,70 @@ object SiteModel {
   def rs: String = Random.nextString(5)
 
   def randomOeuvre(size: Int): Seq[Oeuvre] = for (_ <- 0 until size) yield {
-    Oeuvre(0, Image(0, rs), rs, Dimension(10, 10), 2020)
+    Oeuvre(0, Image(0, rs,""), rs, "", Dimension(10, 10), 2020)
+  }
+}
+
+object Remover {
+
+
+  def removeFromChild(toRmeove: MenuItem, parent: MenuItem) = {
+    parent.items = parent.items.filter(_.id != toRmeove.id)
+  }
+
+  def removeFromChild(toRmeove: Oeuvre, parent: MenuItem) = {
+    parent.oeuvres = parent.oeuvres.filter(_.id != toRmeove.id)
+  }
+
+  @tailrec
+  final def removeRec(toRmeove: MenuItem, newxr: List[MenuItem]): Unit = {
+    if (newxr.isEmpty) {
+      return ()
+    } else {
+      removeRec(toRmeove, if (newxr.nonEmpty) {
+        val rem = removeFromChild(toRmeove, _: MenuItem)
+        newxr.foreach(rem)
+        newxr.flatMap(_.items)
+      } else {
+        Nil
+      })
+    }
+  }
+
+  @tailrec
+  final def removeRec(toRmeove: Oeuvre, newxr: List[MenuItem]): Unit = {
+    if (newxr.isEmpty) {
+      return ()
+    } else {
+      removeRec(toRmeove, if (newxr.nonEmpty) {
+        val rem = removeFromChild(toRmeove, _ : MenuItem)
+        newxr.foreach(rem)
+        newxr.flatMap(_.items)
+      } else {
+        Nil
+      })
+    }
   }
 }
 
 @JSExportTopLevel("SiteModel")
 @JSExportAll
 case class SiteModel(title: SiteTitle = SiteTitle(0, "Julia le Corre artiste")) {
+
+
+  def remove(siteElement: SiteElement): Unit = {
+    siteElement match {
+      case a : Image => remove(a)
+      case a : MenuItem => remove(a)
+      case a : Oeuvre => remove(a)
+    }
+  }
+  def remove(menuItem: MenuItem): Unit = Remover.removeRec(menuItem, items)
+
+  def remove(o: Oeuvre): Unit = Remover.removeRec(o, items)
+
+  def remove(i: Image): Unit = {}
+
   def allImages: List[Image] = items.flatMap(_.flatten[Image])
 
   def allOeuvres: List[Oeuvre] = items.flatMap(_.flatten[Oeuvre])

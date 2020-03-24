@@ -1,3 +1,5 @@
+import java.nio.file.Paths
+
 import Dependencies.scalaTest
 
 name := "site-julia"
@@ -30,7 +32,9 @@ lazy val ws = (project in file(wsName)).settings(
     "com.typesafe.akka" %% "akka-slf4j" % "2.6.1",
     "bon.jo"%% "julia-shared"% "0.1.0-SNAPSHOT",
     "ch.qos.logback" % "logback-classic" % "1.2.3",
-    "org.json4s" %% "json4s-native" % "3.6.7"),
+    "org.json4s" %% "json4s-native" % "3.6.7",
+    "com.auth0" % "java-jwt"  % "3.3.0",
+    "org.bouncycastle" % "bcprov-ext-jdk16" % "1.46"),
   
   // other settings
 ).dependsOn(wr)

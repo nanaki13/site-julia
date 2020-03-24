@@ -12,7 +12,7 @@ import org.scalajs.dom.raw.{Event, FileReader, HTMLElement, UIEvent}
 import scala.scalajs.js.JSON
 import scala.xml.Node
 
-class TestSocketTemplate extends Template {
+class SiteTemplate extends Template {
    var service: SiteService = _
 
 
@@ -31,18 +31,21 @@ class TestSocketTemplate extends Template {
 
   }
 
-  val button = ButtonHtml("btn-export", "export")
 
 
   override def body: String = (<div id="root">
     <div id="ex"></div>
     <div id="im"></div>
+    <div id="sa"></div>
+
   </div>).mkString
 
   override def init(p: HTMLElement): Unit = {
     implicit val s = service
-    implicit val t : TestSocketTemplate = this
+    implicit val t : SiteTemplate = this
     val importModel = new ReadFile
+    val button = ButtonHtml("btn-export", "export")
+    val buttonSaveAll = ButtonHtml("save-all", "Sauvegarder tout")
     button.onClick(_ => {
       DomShell.log("click export")
       val s: String = JSON.stringify(service.`export`)
@@ -51,7 +54,10 @@ class TestSocketTemplate extends Template {
     })
     button.addTo("ex")
     importModel.addTo("im")
-
+    buttonSaveAll.onClick(_ => {
+      service.saveAll()
+    })
+    buttonSaveAll.addTo("sa")
     _site.init(me)
 
   }
@@ -71,7 +77,7 @@ class TestSocketTemplate extends Template {
   def toDownloable(s: String) = ""
 }
 
-class ReadFile(implicit val siteService: SiteService,val template: TestSocketTemplate) extends FinalComponent[Input] {
+class ReadFile(implicit val siteService: SiteService,val template: SiteTemplate) extends FinalComponent[Input] {
 
 
 

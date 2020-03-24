@@ -1,232 +1,196 @@
 package bon.jo
 
-import java.io.File
+import java.security.interfaces.RSAPrivateKey
+import java.security.{KeyPairGenerator, SecureRandom}
+import java.util.{Date, UUID}
 
-import akka.http.scaladsl.marshalling.ToResponseMarshaller
-import akka.http.scaladsl.model._
+import akka.http.scaladsl.model.HttpHeader.ParsingResult
+import akka.http.scaladsl.model.headers.{Authorization, OAuth2BearerToken}
+import akka.http.scaladsl.model.{HttpEntity, HttpHeader, HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.{Directives, RequestContext, Route}
-import akka.http.scaladsl.unmarshalling.FromEntityUnmarshaller
 import akka.stream.Materializer
-import bon.jo.Services.{ServiceFactory, WebServiceCrud}
-import bon.jo.SiteModel._
-import bon.jo.juliasite.pers.{PostgresRepo, RepositoryContext, SiteRepository}
+import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.interfaces.DecodedJWT
+import com.auth0.jwt.{JWT, JWTVerifier}
 
-import scala.concurrent.duration._
-import scala.concurrent.{ExecutionContext, Future}
-import scala.util.{Failure, Success}
+import scala.concurrent.ExecutionContext
+import scala.util.{Failure, Success, Try}
 
-object Routes extends Directives with JsonOut with JsonIn {
+object KeyContext {
+  val pu = "I:\\work\\web\\julia\\web-server-bld\\site-julia\\public.pem"
+  val pr = "I:\\work\\web\\julia\\web-server-bld\\site-julia\\pr.pem"
+}
 
 
-  object ServiceFactoryImpl extends ServiceFactory {
-    override def dbContext: RepositoryContext with SiteRepository = PostgresRepo
+object getToken {
+
+
+  import java.security.interfaces.{RSAPrivateCrtKey, RSAPublicKey}
+
+
+  def generateKeyPair(): Unit = {
+    val kpg = KeyPairGenerator.getInstance("RSA")
+    kpg.initialize(2048, new SecureRandom())
+    val kp = kpg.generateKeyPair
+    val rsaPriv = kp.getPrivate.asInstanceOf[RSAPrivateCrtKey]
+    val rsaPub = kp.getPublic.asInstanceOf[RSAPublicKey]
   }
 
-  trait RootCreator[WebMessage <: OkResponse] {
+  //HMAC
+  def algorithmHS: Algorithm = Algorithm.HMAC256("secret");
 
-    self: WebServiceCrud[WebMessage] =>
+  val algo: Try[Algorithm] = algorithmRS
 
-    def stadard(
-                 implicit executionContext: ExecutionContext,
-                 manifest: Manifest[WebMessage],
-                 m: Materializer
-               ): Route = {
+  def algorithmRS: Try[Algorithm] = ReadKey.getPublicPrivateKeys(KeyContext.pu, KeyContext.pr).map { e => {
+    println("oncharge l'lalgo");
+    e
+  }
+  }.map(e => Algorithm.RSA512(e._1.asInstanceOf[RSAPublicKey], e._2.asInstanceOf[RSAPrivateKey]));
 
-      concat(pathSuffix(IntNumber) { id: Int =>
-        concat(get {
-          implicit val st = StatusCodes.OK
-          handle(self.readEntity(id), s"error when getting ${ressourceName}")
-        },
-          delete {
-            implicit val st = StatusCodes.Accepted
 
-            handle(self.deleteEntity(id).map(Operation.apply), s"error when delete  ${ressourceName}")
-          })
-      },
-        get {
-          implicit val st = StatusCodes.OK
-          handle(self.readAll, s"error when getting  ${ressourceName}")
-        },
-        post {
-          entity(as[WebMessage]) { e => {
-            implicit val ok = StatusCodes.Created
-            handle(createEntity(e),
-              s"error adding  ${ressourceName}",
-              s"cant find cretaed  ${ressourceName}", StatusCodes.NotFound)
-          }
-          }
+  def getToken(  user : User,issuer: String, validiteHour: Float, claims: Map[String, String] = Map.empty): Try[String] =
 
-        },
-        patch {
-          implicit val okStatus = StatusCodes.NoContent
-          entity(as[WebMessage]) { forPatch =>
-            handle(self.updateEntity(forPatch),
-              s"error when update  ${ressourceName}",
-              "update not donz", StatusCodes.NotModified)
 
-          }
-        })
+    algo map { a =>
+      val t = JWT.create.withIssuer(issuer)
+        .withClaim("role","admin")
+        .withClaim("name",user.name)
+
+        .withJWTId(UUID.randomUUID().toString)
+        .withKeyId(UUID.randomUUID().toString)
+        .withExpiresAt(new Date(System.currentTimeMillis() + scala.math.round(validiteHour * 3600)))
+      claims.foreach(e => t.withClaim(e._1, e._2))
+      t.sign(a)
     }
 
-    def crudRoot(
-                  implicit executionContext: ExecutionContext,
-                  manifest: Manifest[WebMessage],
-                  m: Materializer
-                ): Route = {
-      implicit def inJson: FromEntityUnmarshaller[WebMessage] = unMarsh[WebMessage]
 
-      before match {
-        case Some(v) => pathPrefix(ressourceName) {
-          concat(
-            v, stadard)
+  def validToken(str: String): Try[DecodedJWT] = {
+    (algo map {
+      al =>
+        val verifier: JWTVerifier = JWT.require(al).withIssuer("julia-lecorre").build()
+
+        Try {
+          val jwt: DecodedJWT = verifier.verify(str);
+          jwt
         }
-        case _ => pathPrefix(ressourceName) {
-          stadard
-        }
+    }).getOrElse(Failure(new Exception("pas d'algo")))
+  }
+
+
+}
+
+object ReadKey {
+
+
+  import java.io.{File, FileNotFoundException, FileReader, IOException}
+  import java.security.spec.{PKCS8EncodedKeySpec, X509EncodedKeySpec}
+  import java.security.{KeyFactory, PrivateKey, PublicKey}
+
+  import org.bouncycastle.util.io.pem.PemReader
+
+  def getPublicPrivateKeys(pathPublic: String, pathPrivate: String): Try[(PublicKey, PrivateKey)] = {
+
+    PemUtils.readPublicKeyFromFile(pathPublic, "RSA").flatMap(e => {
+      PemUtils.readPrivateKeyFromFile(pathPrivate, "RSA") map { ee => {
+        (e, ee)
+      }
+      }
+
+    })
+
+  }
+
+  object PemUtils {
+    @throws[IOException]
+    private def parsePEMFile(pemFile: File): Array[Byte] = {
+      if (!pemFile.isFile || !pemFile.exists) throw new FileNotFoundException(String.format("The file '%s' doesn't exist.", pemFile.getAbsolutePath))
+      val reader = new PemReader(new FileReader(pemFile))
+      val pemObject = reader.readPemObject
+      val content = pemObject.getContent
+      reader.close()
+      content
+    }
+
+    private def getPublicKey(keyBytes: Array[Byte], algorithm: String): Try[PublicKey] = {
+
+      Try {
+        val kf = KeyFactory.getInstance(algorithm)
+        val keySpec = new X509EncodedKeySpec(keyBytes)
+        kf.generatePublic(keySpec)
+      }
+
+    }
+
+    private def getPrivateKey(keyBytes: Array[Byte], algorithm: String): Try[PrivateKey] = {
+      Try {
+        val kf = KeyFactory.getInstance(algorithm)
+        val keySpec = new PKCS8EncodedKeySpec(keyBytes)
+        kf.generatePrivate(keySpec)
       }
     }
 
-    def before: Option[Route]
+    @throws[IOException]
+    def readPublicKeyFromFile(filepath: String, algorithm: String): Try[PublicKey] = {
+      val bytes = PemUtils.parsePEMFile(new File(filepath))
+      PemUtils.getPublicKey(bytes, algorithm)
+    }
+
+    @throws[IOException]
+    def readPrivateKeyFromFile(filepath: String, algorithm: String): Try[PrivateKey] = {
+      val bytes = PemUtils.parsePEMFile(new File(filepath))
+      PemUtils.getPrivateKey(bytes, algorithm)
+    }
   }
 
-  /*
-    menuUrl : "/api/menu",
-  subMenuUrl : "/api/submenu",
-  oeuvreUrl : "/api/oeuvre",
-  imageUrl : "/api/image",
-   */
+}
+case class User(login: String,name : String, mdp: String = "test")
 
-
-  implicit def out[T <: OkResponse](implicit statusCode: StatusCode): ToResponseMarshaller[T] = jsonEntity[T]
-
-  implicit def outList[T <: Seq[OkResponse]](implicit statusCode: StatusCode): ToResponseMarshaller[T] = jsonEntity[T]
-
-  implicit def outError: ToResponseMarshaller[MyFailure] = jsonEntityWithStatus(StatusCodes.InternalServerError)
-
-  implicit def inJson[R <: OkResponse](implicit manifest: Manifest[R], m: Materializer, ec: ExecutionContext): FromEntityUnmarshaller[R] = unMarsh[R]
-
-  def toJson[Other](implicit statusCode: StatusCode): ToResponseMarshaller[Other] = jsonEntityWithStatus(statusCode)
-
-  def cJson[Other](e: Other)(implicit statusCode: StatusCode) = complete({
-    implicit val out = toJson[Other]
-    e
-  })
+class Routes(services: List[RootCreator[_]]) extends Directives with RouteHandle {
 
 
   def doWithContext(ctx: RequestContext): Route = {
     implicit val m: Materializer = ctx.materializer
-    val ec: ExecutionContext = ctx.executionContext
-
-    implicit object menuService extends ServiceFactoryImpl.WebMenuSevice with RootCreator[RawImpl.ItemRawExport] {
-      override implicit val ctx: ExecutionContext = ec
-
-      override def before: Option[Route] = None
-
-      //        Some {
-      //        get {
-      //          implicit val st = StatusCodes.OK
-      //          parameters(Symbol("theme_key").?) {
-      //            case Some(v) => handle(getSubMenu(v.toInt), "error when getting oeuvre of threme")
-      //            case _ => handle(getMenu, "error when getting all oeuvres")
-      //          }
-      //        }
-      //      }
-    }
-    implicit object imageService extends ServiceFactoryImpl.WebImageSevice with RootCreator[RawImpl.ImageRawExport] {
-      override implicit val ctx: ExecutionContext = ec
-
-      override def before: Option[Route] = Some {
-        concat(get {
-          pathSuffix(Segment) { filenameOrId =>
-            onComplete(
-              for (fStart <- getImage(filenameOrId.substring(0, filenameOrId.lastIndexOf('.')))
-                   ) yield {
-                fStart.map(e => {
-                  val md: MediaType.Binary = MediaType.parse(e._2).getOrElse(MediaTypes.`application/octet-stream`).asInstanceOf[MediaType.Binary]
-                  val ct: ContentType = ContentType(md)
-                  HttpEntity.apply(ct, e._1)
-                })
-              }) {
-              case Success(v) => complete(v)
-              case Failure(exception) => complete(MyFailure(s"error : $exception"))
-            }
-          }
-        },
-          post {
-            entity(as[Multipart.FormData]) {
-              formData =>
-                val formMap: Future[Map[String, Any]] = formData.parts.mapAsync[(String, Any)](1) {
-
-                  case b: Multipart.BodyPart if b.name == "file" =>
-
-                    b.entity.dataBytes.runReduce(_ ++ _).map(bs => b.name -> (bs.toArray, b.entity.contentType.toString()))
-                  case b: Multipart.BodyPart =>
-                    // collect form field values
-
-                    b.toStrict(2.seconds).map(strict =>
-                      b.name -> strict.entity.data.utf8String)
-                }.runFold(Map.empty[String, Any])((map, tuple) => map + tuple)
-
-                val processParsed = formMap.flatMap(parsedMap => {
-                  val (data, ct) = parsedMap("file").asInstanceOf[(Array[Byte], String)]
-                  val name = parsedMap("image_name").toString
-                  val id = parsedMap("id").toString
-                  saveImage(Some(data), id.toInt, ct, name).map(e => {
-                    Some(ImgLinkOb(e.get._1, e.get._2, ImgLink(e.get._1, e.get._2), name))
-                  })
-                })
-                implicit val okStatus = StatusCodes.Created
-                handle(processParsed,
-                  "error when create image",
-                )
-            }
-
-          })
-      }
-    }
-    implicit object oeuvreService extends ServiceFactoryImpl.WebOeuvreService with RootCreator[RawImpl.OeuvreRawExport] {
-      override implicit val ctx: ExecutionContext = ec
-
-      override def before: Option[Route] = None
-    }
-
-    {
-      implicit val eccc: ExecutionContext = ec
+    implicit val ec: ExecutionContext = ctx.executionContext
 
 
-      concat(imageService.crudRoot, menuService.crudRoot, oeuvreService.crudRoot)
+    concat(services.map(_.crudRoot): _ *)
+  }
 
+
+
+  object CredentialManager {
+    val user = User("julia","Julia Le Corre")
+    val extractUser: PartialFunction[(String, String), User] = {
+      case (user.login, user.mdp) => user
     }
 
   }
-
-  def handle(process: Future[IterableOnce[OkResponse]], errorMessage: String, noneMessage: String = "not found", noneStatus: StatusCode = StatusCodes.NotFound)(implicit okStatus: StatusCode): Route = {
-    onComplete(process) {
-      case Success(value) => value match {
-        case Some(v) => complete(v)
-        case l: Seq[OkResponse] => complete(l)
-        case None => cJson(MyFailure(s"$noneMessage"))(noneStatus)
-      }
-      case Failure(exception) => cJson(MyFailure(s"$errorMessage : $exception"))(StatusCodes.InternalServerError)
-    }
-
-  }
-
-  def handle(process: Future[OkResponse], errorMessage: String)(implicit okStatus: StatusCode): Route = {
-    onComplete(process) {
-      case Success(value) => complete(value)
-      case Failure(exception) => cJson(MyFailure(s"$errorMessage : $exception"))(StatusCodes.InternalServerError)
-    }
-
-  }
-
 
   def allRoutes(implicit ec: ExecutionContext): Route = {
-    println((new File(".")).getAbsolutePath)
+    val test = HttpHeader.parse("a", "a") match {
+      case ParsingResult.Ok(header, errors) => Some(header)
+      case ParsingResult.Error(error) => None
+    }
     val static =
-      pathPrefix("julia") {
+      concat(pathPrefix("julia") {
         getFromDirectory("html")
-      }
+      }, path("auth") {
+        get {
+          parameter(Symbol("login"), Symbol("pwd")) { (a, b) => {
+            (a, b) match {
+              case CredentialManager.extractUser(user) => {
+                getToken.getToken(user,"julia-lecorre", 1f) match {
+                  case Failure(exception) => complete(exception.getMessage)
+                  case Success(value) => complete(value)
+                }
+              }
+              case _ => complete(StatusCodes.Unauthorized)
+            }
+          }
+          }
+
+        }
+      })
     concat(static, pathPrefix("api") {
       extractRequestContext { ctx => {
         doWithContext(ctx)

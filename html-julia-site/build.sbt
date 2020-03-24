@@ -49,5 +49,16 @@ lazy val chromePath = Paths.get("""C:\Program Files (x86)\Google\Chrome\Applicat
 lazy val chrome = taskKey[Unit]("open fast in chrome")
 
 chrome := {
-  s""""$chromePath" "${baseDirectory.value.toPath}/test.html""".!
+  s""""$chromePath" "${baseDirectory.value.toPath}/index.html""".!
+}
+
+lazy val toServer = taskKey[Unit]("to akka local")
+
+toServer := {
+
+
+  IO.copyFile(Paths.get("""./julia-js/.js/target/scala-2.13/julia-js-fastopt.js""").toFile, Paths.get("""./html/index.js""").toFile)
+
+
+
 }

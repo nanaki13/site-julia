@@ -1,7 +1,7 @@
 package bon.jo
 
 import akka.http.scaladsl.marshalling.{Marshaller, ToResponseMarshaller}
-import akka.http.scaladsl.model.{HttpEntity, HttpResponse, MediaTypes, StatusCode}
+import akka.http.scaladsl.model.{HttpEntity, HttpResponse, MediaTypes, StatusCode, StatusCodes}
 import org.json4s.DefaultFormats
 
 trait JsonOut {
@@ -10,15 +10,21 @@ trait JsonOut {
 
   import CustomJs._
 
-  def jsonEntity[Ok]: ToResponseMarshaller[Ok] =
-    Marshaller.withFixedContentType(MediaTypes.`application/json`) { item =>
-      val data = write(item)
-      HttpResponse(entity = HttpEntity(data))
-    }
+  //  def jsonEntity[Ok]: ToResponseMarshaller[Ok] =
+  //    Marshaller.withFixedContentType(MediaTypes.`application/json`) { item =>
+  //      val data = write(item)
+  //      HttpResponse(entity = HttpEntity(data))
+  //    }
 
   def jsonEntityWithStatus[Ok](statusCode: StatusCode): ToResponseMarshaller[Ok] =
     Marshaller.withFixedContentType(MediaTypes.`application/json`) { item =>
-      val data = write(item)
-      HttpResponse(entity = HttpEntity(data), status = statusCode)
+      if (statusCode != StatusCodes.NoContent) {
+        val data = write(item)
+        HttpResponse(entity = HttpEntity(data), status = statusCode)
+      } else {
+        HttpResponse(statusCode)
+      }
+
+
     }
 }

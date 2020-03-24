@@ -38,6 +38,7 @@ object Raws {
   trait ImageRawExport extends js.Object {
     val id: Int
     val link: String
+    val base:String
   }
 
 
@@ -110,7 +111,7 @@ object ItemRawExport{
     js.BigInt(x),
     js.BigInt(y))
 }
-  case class ImageRawExport(id: Int, link: String) extends Raws.ImageRawExport
+  case class ImageRawExport(id: Int, link: String,base:String) extends Raws.ImageRawExport
 
   case class OeuvreRawExport(
                               id: Int,

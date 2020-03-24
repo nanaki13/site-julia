@@ -73,7 +73,12 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
     add(itemList)
     add(eouvreList)
     def load(i: MenuItem): Unit = {
+      val path = (i.parent match {
+        case Some(value) => value.text.replaceAll("\\s+","-")+"/"
+        case None => "/"
+      })+i.text.replaceAll("\\s+","-")
 
+      org.scalajs.dom.window.history.pushState("",i.text,path)
       eouvreList.clearAndAddAll(i.oeuvres.map(OeuvreView.apply))
       val v = i.items.map(SubMenuItemView.apply)
       v.foreach(ii => {
@@ -134,7 +139,7 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
 
   def modelChange(): Any = {
     itemsView.foreach(_.removeFromView())
-    DomShell.deb()
+
     itemsView = model.items.map(ManiMenuItemView.apply)
     itemsView.map(createNavigation).foreach(e => e.addTo(sideMdenu.ref))
   }
