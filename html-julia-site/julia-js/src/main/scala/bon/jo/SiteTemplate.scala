@@ -1,19 +1,29 @@
 package bon.jo
 
 import bon.jo.game.html.Template
+import bon.jo.html.DomShell.ExtendedElement
+import bon.jo.html.DomShell.$
 import bon.jo.html.Types.FinalComponent
 import bon.jo.html.{ButtonHtml, DomShell}
 import bon.jo.service.Raws.GlobalExport
 import bon.jo.service.SiteService
 import bon.jo.view.SiteModelView
-import org.scalajs.dom.html.{Input, Link}
+import org.scalajs.dom.html.{Div, Input, Link}
 import org.scalajs.dom.raw.{Event, FileReader, HTMLElement, UIEvent}
 
+import scala.scalajs.js
 import scala.scalajs.js.JSON
 import scala.xml.Node
 
 class SiteTemplate extends Template {
-   var service: SiteService = _
+  def info(playLoad: js.Any) = {
+
+    $[Div]("ex").addChild(<div>
+      {playLoad}
+    </div>)
+  }
+
+  var service: SiteService = _
 
 
   private var _site: SiteModelView = _
@@ -32,8 +42,8 @@ class SiteTemplate extends Template {
   }
 
 
-
   override def body: String = (<div id="root">
+    <div id="user"></div>
     <div id="ex"></div>
     <div id="im"></div>
     <div id="sa"></div>
@@ -42,7 +52,7 @@ class SiteTemplate extends Template {
 
   override def init(p: HTMLElement): Unit = {
     implicit val s = service
-    implicit val t : SiteTemplate = this
+    implicit val t: SiteTemplate = this
     val importModel = new ReadFile
     val button = ButtonHtml("btn-export", "export")
     val buttonSaveAll = ButtonHtml("save-all", "Sauvegarder tout")
@@ -58,6 +68,10 @@ class SiteTemplate extends Template {
       service.saveAll()
     })
     buttonSaveAll.addTo("sa")
+    val user = service.user
+    $[Div]("user").addChild(<span>Salut
+      {user.name}
+    </span>)
     _site.init(me)
 
   }
@@ -77,8 +91,7 @@ class SiteTemplate extends Template {
   def toDownloable(s: String) = ""
 }
 
-class ReadFile(implicit val siteService: SiteService,val template: SiteTemplate) extends FinalComponent[Input] {
-
+class ReadFile(implicit val siteService: SiteService, val template: SiteTemplate) extends FinalComponent[Input] {
 
 
   def read(): Unit = {
@@ -90,7 +103,7 @@ class ReadFile(implicit val siteService: SiteService,val template: SiteTemplate)
       reader.onerror = (evt: Event) => {
         DomShell.log("erreur reading file : " + JSON.stringify(evt))
       }
-      siteService.importSite( JSON.parse( evt.target.asInstanceOf[FileReader].result.toString).asInstanceOf[GlobalExport])
+      siteService.importSite(JSON.parse(evt.target.asInstanceOf[FileReader].result.toString).asInstanceOf[GlobalExport])
       template.site.modelChange()
     }
   }

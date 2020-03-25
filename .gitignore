@@ -9,3 +9,4 @@ target/
 /RUNNING_PID
 
 ui/.metals/metals.log
+/key.pem

@@ -1,20 +1,14 @@
 package bon.jo.app
 
-import java.util.Base64
-
 import bon.jo._
+import bon.jo.app.RequestHttp.GET
 import bon.jo.game.html.Template
-import bon.jo.html.{ButtonHtml, DomShell}
-import bon.jo.service.RequestHttp.GET
+import bon.jo.html.DomShell
 import bon.jo.test.Test
-import bon.jo.view.Ref
 import org.scalajs.dom.Event
-import org.scalajs.dom.html.{Button, Div, Input}
-import org.scalajs.dom.raw.HTMLElement
+import org.scalajs.dom.html.Div
 
-import scala.scalajs.js
-import scala.scalajs.js.JSON
-import scala.xml.Group
+import scala.util.{Failure, Success}
 
 object AppLoaderImpl extends App with AppLoader {
 
@@ -29,10 +23,18 @@ object AppLoaderImpl extends App with AppLoader {
     "app-login" -> new HtmlAppFactory[LoginTemplate]((app: Div, template: Template) => new LoginTemplateApp(app, template), () => new LoginTemplate)
   )
 
+  import scala.concurrent.ExecutionContext.Implicits._
 
+  val req = new NEWRequestHttp("/api/menu", GET)
+  val oIt = req.sendBody(null)
+  println(oIt)
+  oIt.onComplete {
+    case Failure(exception) => println(exception)
+    case Success(value) =>println(value.body)
+  }
   org.scalajs.dom.window.addEventListener("load", (_: Event) => {
     DomShell.log("loading apps")
-    loads(apps)
+    //loads(apps)
 
   })
 }

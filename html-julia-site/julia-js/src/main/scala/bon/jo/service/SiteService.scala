@@ -4,7 +4,7 @@ import java.util.Base64
 
 import bon.jo.SiteModel
 import bon.jo.SiteModel._
-import bon.jo.app.{ConfParam, JuliaConf}
+import bon.jo.app.{ConfParam, JuliaConf, User}
 import bon.jo.html.DomShell
 import bon.jo.service.Raws._
 import bon.jo.view.SiteModelView
@@ -29,7 +29,7 @@ object ReadToken {
   println(readToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ"))
 }
 
-class SiteService {
+class SiteService(val user : User) {
 
   def console: Any => Unit = DomShell.log
 

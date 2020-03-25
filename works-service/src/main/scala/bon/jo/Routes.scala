@@ -22,7 +22,7 @@ object KeyContext {
 }
 
 
-object getToken {
+object Token {
 
 
   import java.security.interfaces.{RSAPrivateCrtKey, RSAPublicKey}
@@ -48,13 +48,13 @@ object getToken {
   }.map(e => Algorithm.RSA512(e._1.asInstanceOf[RSAPublicKey], e._2.asInstanceOf[RSAPrivateKey]));
 
 
-  def getToken(  user : User,issuer: String, validiteHour: Float, claims: Map[String, String] = Map.empty): Try[String] =
+  def getToken(user: User, issuer: String, validiteHour: Float, claims: Map[String, String] = Map.empty): Try[String] =
 
 
     algo map { a =>
       val t = JWT.create.withIssuer(issuer)
-        .withClaim("role","admin")
-        .withClaim("name",user.name)
+        .withClaim("role", "admin")
+        .withClaim("name", user.name)
 
         .withJWTId(UUID.randomUUID().toString)
         .withKeyId(UUID.randomUUID().toString)
@@ -143,7 +143,8 @@ object ReadKey {
   }
 
 }
-case class User(login: String,name : String, mdp: String = "test")
+
+case class User(login: String, name: String, mdp: String = "test")
 
 class Routes(services: List[RootCreator[_]]) extends Directives with RouteHandle {
 
@@ -157,9 +158,8 @@ class Routes(services: List[RootCreator[_]]) extends Directives with RouteHandle
   }
 
 
-
   object CredentialManager {
-    val user = User("julia","Julia Le Corre")
+    val user = User("julia", "Julia Le Corre")
     val extractUser: PartialFunction[(String, String), User] = {
       case (user.login, user.mdp) => user
     }
@@ -167,30 +167,44 @@ class Routes(services: List[RootCreator[_]]) extends Directives with RouteHandle
   }
 
   def allRoutes(implicit ec: ExecutionContext): Route = {
-    val test = HttpHeader.parse("a", "a") match {
-      case ParsingResult.Ok(header, errors) => Some(header)
-      case ParsingResult.Error(error) => None
-    }
+
     val static =
       concat(pathPrefix("julia") {
         getFromDirectory("html")
-      }, path("auth") {
-        get {
-          parameter(Symbol("login"), Symbol("pwd")) { (a, b) => {
-            (a, b) match {
-              case CredentialManager.extractUser(user) => {
-                getToken.getToken(user,"julia-lecorre", 1f) match {
-                  case Failure(exception) => complete(exception.getMessage)
-                  case Success(value) => complete(value)
+      }
+
+        , path("auth" / "verify") {
+          get {
+            headerValueByName("Authorization") {
+              e =>
+                e.split(" ") match {
+                  case Array("Bearer", token) => {
+                    Token.validToken(token) match {
+                      case Failure(exception) => complete(StatusCodes.Unauthorized,s"token invalid : ${exception.getMessage}")
+                      case Success(value) => complete(StatusCodes.NoContent)
+                    }
+                  }
                 }
-              }
-              case _ => complete(StatusCodes.Unauthorized)
             }
           }
-          }
-
         }
-      })
+        , path("auth") {
+          get {
+            parameter(Symbol("login"), Symbol("pwd")) { (a, b) => {
+              (a, b) match {
+                case CredentialManager.extractUser(user) => {
+                  Token.getToken(user, "julia-lecorre", 1f) match {
+                    case Failure(exception) => complete(exception.getMessage)
+                    case Success(value) => complete(value)
+                  }
+                }
+                case _ => complete(StatusCodes.Unauthorized)
+              }
+            }
+            }
+
+          }
+        })
     concat(static, pathPrefix("api") {
       extractRequestContext { ctx => {
         doWithContext(ctx)

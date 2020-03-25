@@ -1,5 +1,6 @@
 package bon.jo.service
 
+import bon.jo.app.RequestHttp
 import bon.jo.html.DomShell
 
 import scala.scalajs.js
