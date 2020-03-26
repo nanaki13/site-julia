@@ -4,98 +4,65 @@ import java.util.Base64
 
 import bon.jo.SiteModel
 import bon.jo.SiteModel._
-import bon.jo.app.{ConfParam, JuliaConf, User}
+import bon.jo.app.{ConfParam, JuliaConf, Response, User}
 import bon.jo.html.DomShell
 import bon.jo.service.Raws._
 import bon.jo.view.SiteModelView
 
 import scala.annotation.tailrec
+import scala.concurrent.{ExecutionContext, Future}
 import scala.scalajs.js
+import scala.util.{Failure, Success}
 
 object ReadToken {
-  def readToken(token : String) :String = {
-    val  header = token.substring(0,token.indexOf('.'))
-    val data : String = token.substring(token.indexOf('.')+1,token.lastIndexOf('.'))
-   val sgn : String   = token.substring(token.lastIndexOf('.')+1,token.length)
- // println  (header,data ,sgn  )
-    val h = new String( Base64.getUrlDecoder.decode(header))
-    val dat = new String( Base64.getUrlDecoder.decode(data))
-    val sg =new String( Base64.getUrlDecoder.decode(sgn))
-    println(h  )
-    println(dat  )
-    println(sg  )
+  def readToken(token: String): String = {
+    val header = token.substring(0, token.indexOf('.'))
+    val data: String = token.substring(token.indexOf('.') + 1, token.lastIndexOf('.'))
+    val sgn: String = token.substring(token.lastIndexOf('.') + 1, token.length)
+    // println  (header,data ,sgn  )
+    val h = new String(Base64.getUrlDecoder.decode(header))
+    val dat = new String(Base64.getUrlDecoder.decode(data))
+    val sg = new String(Base64.getUrlDecoder.decode(sgn))
+    println(h)
+    println(dat)
+    println(sg)
     dat
   }
+
   println(readToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ"))
 }
 
-class SiteService(val user : User) {
+class SiteService(val user: User) {
+
+  import imp._
 
   def console: Any => Unit = DomShell.log
 
 
-  final def saveItems(l: List[MenuItem])(i: Int)(after: => Unit): Unit = {
-    if (i == l.size) {
-      after
-    } else {
-      saveWithReturn(l(i))(r => {
-        console("save : " + r + " OK")
-        saveItems(l)(i + 1)(after)
-      })
-    }
-
+  final def saveItems(l: List[MenuItem]): Future[List[Response]] = {
+    console("save Image Start")
+    Future.sequence(l.map(menuService.save))
   }
 
-  def saveAll(): Any = {
-    val allImg = siteModel.allImages
-    var imgCnt = allImg.size
+  def saveAll(): Future[List[Response]] = {
 
-    def saveImae(after: => Unit): Unit = {
+
+    def saveImae(): Future[List[Response]] = {
       console("save Image Start")
-      siteModel.allImages.map(saveWithReturn)
+      Future.sequence(siteModel.allImages.map(imageService.save))
 
-        .foreach {
-          doUpdate => {
-            doUpdate { (retur: Image) =>
-              imgCnt = imgCnt - 1
-              if (imgCnt == 0) {
-                after
-              }
-              console("save : " + retur + " OK")
-            }
-          }
-
-        }
     }
 
-    def saveOeuvre(): Unit = {
+    def saveOeuvre(): Future[List[Response]] = {
       console("ssaveOeuvre Start")
-      siteModel.allOeuvres map (saveWithReturn) foreach {
-        doUpdate => {
-          doUpdate((retur: Oeuvre) =>
-            console("save : " + retur + " OK"))
-        }
-      }
+      Future.sequence(siteModel.allOeuvres map (oeuvreService.save))
     }
 
     val orderItem = (siteModel.allItem.filter(_.parent.isEmpty) ++ siteModel.allItem.filter(_.parent.isDefined)).toList
-    saveImae {
-      {
-        if (orderItem.nonEmpty) {
-          console("saveItems Start")
-          saveItems(orderItem)(0)((saveOeuvre()))
-        }
-      }
-    }
+    saveImae().flatMap(_ => saveItems(orderItem).flatMap(_ => saveOeuvre()))
 
 
   }
-
-  def saveWithReturn(menuItem: MenuItem): (MenuItem => Unit) => Unit = menuService.save(menuItem)(_)
-
-  def saveWithReturn(menuItem: Image): (Image => Unit) => Unit = imageService.save(menuItem)(_)
-
-  def saveWithReturn(menuItem: Oeuvre): (Oeuvre => Unit) => Unit = oeuvreService.save(menuItem)(_)
 
 
   var siteView: SiteModelView = _
@@ -112,10 +79,13 @@ class SiteService(val user : User) {
 
 
   object ReqBridge {
-    implicit val gMenuItem: MenuItem => js.Any = RawsObject.ItemRawExport.apply
-    implicit val gOeuvre: Oeuvre => js.Any = RawsObject.OeuvreRawExport.apply
-    implicit val gImage: Image => js.Any = RawsObject.ImageRawExport.apply
+    val gMenuItem: MenuItem => js.Any = RawsObject.ItemRawExport.apply
+    val gOeuvre: Oeuvre => js.Any = RawsObject.OeuvreRawExport.apply
+    val gImage: Image => js.Any = RawsObject.ImageRawExport.apply
 
+    implicit val trMenuItem: MenuItem => String = gMenuItem.andThen(_.toString)
+    implicit val trOeuvre: Oeuvre => String = gOeuvre.andThen(_.toString)
+    implicit val trImage: Image => String = gImage.andThen(_.toString)
     // implicit def gReadf[A <: js.Object]: js.Any => A = _.asInstanceOf[A]
     implicit val reversegMenuItem: js.Any => MenuItem = (an: js.Any) => {
       ItemImport(an.asInstanceOf[Raws.ItemRawExport])
@@ -130,6 +100,7 @@ class SiteService(val user : User) {
 
 
   object services {
+
 
     import ReqBridge._
 
@@ -254,6 +225,10 @@ class SiteService(val user : User) {
     newModel.items = item.values.filter(_.parent.isEmpty).toList
     siteModel.items = newModel.items
     refreshId(item.keys)
+  }
+
+  object imp {
+    implicit val ex: ExecutionContext = scala.concurrent.ExecutionContext.global
   }
 
 }

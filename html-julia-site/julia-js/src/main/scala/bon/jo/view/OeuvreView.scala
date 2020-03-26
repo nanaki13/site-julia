@@ -11,8 +11,9 @@ import scala.xml.Node
 
 case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) extends FinalComponent[Div] with AdminControl[Oeuvre] {
 
+  import siteService.imp._
 
-  override def service: DistantService[Oeuvre] = siteService.oeuvreService
+  override val service: DistantService[Oeuvre] = siteService.oeuvreService
 
   private val nomForm = Ref[Input](id + "nom")
   private val dateForm = Ref[Input](id + "date")
@@ -79,17 +80,16 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
   override def initAdminEvent(): Unit = {
     super.initAdminEvent()
     saveImageDiv.ref.addEventListener("click", (e: Event) => {
-      siteService.imageService.save(oeuvre.image)(ret = (ee) => {
+      siteService.imageService.save(oeuvre.image) foreach (_ => {
         saveImageDiv.ref.style.display = "none"
       })
     })
     deleteImageDiv.ref.addEventListener("click", (e: Event) => {
-      siteService.imageService.delete(oeuvre.image.id)(ok = () => {
-        siteService.siteModel.remove(oeuvre.image)
-
+      siteService.imageService.delete(oeuvre.image.id) foreach (_ => {
+        saveImageDiv.ref.style.display = "none"
       })
-
     })
+
   }
 
   override def init(parent: HTMLElement): Unit = {
@@ -98,5 +98,4 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
 
 
   }
-
 }

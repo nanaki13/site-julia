@@ -25,10 +25,7 @@ object AppLoaderImpl extends App with AppLoader {
 
   import scala.concurrent.ExecutionContext.Implicits._
 
-  val req = new NEWRequestHttp("/api/menu", GET)
-  val oIt = req.sendBody(null)
-  println(oIt)
-  oIt.onComplete {
+  val req = GET.send("/api/menu").onComplete {
     case Failure(exception) => println(exception)
     case Success(value) =>println(value.body)
   }

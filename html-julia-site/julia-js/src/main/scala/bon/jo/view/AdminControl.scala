@@ -36,6 +36,7 @@ trait AdminControl[A <: SiteElement] {
 
   def removeFromView(): Unit
 
+  import scala.concurrent.ExecutionContext.Implicits._
   def initAdminEvent(): Unit ={
     saveDiv.ref.addEventListener("click", (e: Event) => {
       service.update(value)(ok =   {
@@ -45,7 +46,7 @@ trait AdminControl[A <: SiteElement] {
 
     })
     deleteDiv.ref.addEventListener("click", (e: Event) => {
-      service.delete(value.id)(ok = () => {
+      service.delete(value.id) map  (_ => {
         siteService.siteModel.remove(value)
         removeFromView()
       })
