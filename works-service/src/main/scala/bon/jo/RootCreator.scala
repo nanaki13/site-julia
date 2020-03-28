@@ -11,10 +11,12 @@ import scala.concurrent.ExecutionContext
 trait RootCreator[WebMessage <: OkResponse] extends Directives with JsonParsing with RouteHandle {
 
   self: WebServiceCrud[WebMessage] =>
+  implicit val manifest: Manifest[WebMessage]
+
 
   def stadard(
                implicit executionContext: ExecutionContext,
-               manifest: Manifest[WebMessage],
+
                m: Materializer
              ): Route = {
 
@@ -56,7 +58,6 @@ trait RootCreator[WebMessage <: OkResponse] extends Directives with JsonParsing 
 
   def crudRoot(
                 implicit executionContext: ExecutionContext,
-                manifest: Manifest[WebMessage],
                 m: Materializer
               ): Route = {
     implicit def inJson: FromEntityUnmarshaller[WebMessage] = unMarsh[WebMessage]
@@ -72,5 +73,5 @@ trait RootCreator[WebMessage <: OkResponse] extends Directives with JsonParsing 
     }
   }
 
-  def before (implicit executionContext: ExecutionContext,m: Materializer): Option[Route]
+  def before(implicit executionContext: ExecutionContext, m: Materializer): Option[Route]
 }

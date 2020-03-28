@@ -2,7 +2,7 @@ package bon.jo.service
 
 import bon.jo.SiteModel
 import bon.jo.SiteModel.{Image, MenuItem, Oeuvre}
-import bon.jo.service.Raws.{GlobalExport, ImageRaw, ImageRawExport, ItemRawExport, OeuvreRaw, OeuvreRawExport, ThemeRaw}
+import bon.jo.service.Raws._
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSGlobal

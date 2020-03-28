@@ -1,11 +1,8 @@
 package bon.jo.view
 
-import bon.jo.html.{DomShell, IdView, InDom, _View}
-import com.sun.tools.javac.code.TypeTag
-import org.scalajs.dom.html.{Div, Input}
+import bon.jo.html.DomShell
+import org.scalajs.dom.html.Input
 import org.scalajs.dom.raw.HTMLElement
-
-import scala.reflect.ClassTag
 
 trait Ref[Element <: HTMLElement] {
   val id: String

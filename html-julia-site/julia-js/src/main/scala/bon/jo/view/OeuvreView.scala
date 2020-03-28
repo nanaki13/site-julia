@@ -1,9 +1,10 @@
 package bon.jo.view
 
 import bon.jo.SiteModel.Oeuvre
+import bon.jo.app.service.DistantService
 import bon.jo.html.DomShell.inputXml
 import bon.jo.html.Types.FinalComponent
-import bon.jo.service.{DistantService, SiteService}
+import bon.jo.service.SiteService
 import org.scalajs.dom.html.{Div, Input}
 import org.scalajs.dom.raw.{Event, HTMLElement}
 
@@ -21,7 +22,7 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
   private val xForm = Ref[Input](id + "x")
   private val yForm = Ref[Input](id + "y")
 
-  def extract: Oeuvre = oeuvre.copy(name = nomForm.ref.value, date = nomForm.ref.value.toInt, dimension = oeuvre.dimension.copy(xForm.ref.value.toFloat, yForm.ref.value.toFloat), description = descrpitionForm.ref.value.toString)
+  def extract: Oeuvre = oeuvre.copy(name = nomForm.ref.value, date = dateForm.ref.value.toInt, dimension = oeuvre.dimension.copy(xForm.ref.value.toFloat, yForm.ref.value.toFloat), description = descrpitionForm.ref.value.toString)
 
   override def value: Oeuvre = {
     extract
@@ -43,7 +44,7 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
 
   }
 
-  override def xml(): Node = <div id={id}>
+  override def xml(): Node = <div class="oeuvre" id={id}>
     {adminXml}<div>
       <div>
         {oeuvre.name}
@@ -57,13 +58,10 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
       <div>
         {oeuvre.description}
       </div>
-      <div>
-        image:
-        {oeuvre.image}<span class="btn btn-primary" id={"save-i-" + oeuvre.image.id}>save</span>
-        <span class="btn btn-primary" id={"delete-i-" + oeuvre.image.id}>delete</span>
-        <img src={oeuvre.image.base + oeuvre.image.link}></img>
+      <div><!--span class="btn btn-primary" id={"save-i-" + oeuvre.image.id}>save</span>
+        <span class="btn btn-primary" id={"delete-i-" + oeuvre.image.id}>delete</span-->
+        <img class="oeuvre-img" src={oeuvre.image.base + oeuvre.image.link}></img>
       </div>
-      <span class="btn btn-primary" id={"move-" + id}>Move</span> <span id={"choice-" + id}></span>
     </div>
   </div>
 
@@ -79,23 +77,21 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
 
   override def initAdminEvent(): Unit = {
     super.initAdminEvent()
-    saveImageDiv.ref.addEventListener("click", (e: Event) => {
-      siteService.imageService.save(oeuvre.image) foreach (_ => {
-        saveImageDiv.ref.style.display = "none"
-      })
-    })
-    deleteImageDiv.ref.addEventListener("click", (e: Event) => {
-      siteService.imageService.delete(oeuvre.image.id) foreach (_ => {
-        saveImageDiv.ref.style.display = "none"
-      })
-    })
+//    saveImageDiv.ref.addEventListener("click", (e: Event) => {
+//      siteService.imageService.save(oeuvre.image) foreach (_ => {
+//        saveImageDiv.ref.style.display = "none"
+//      })
+//    })
+//    deleteImageDiv.ref.addEventListener("click", (e: Event) => {
+//      siteService.imageService.delete(oeuvre.image.id) foreach (_ => {
+//        saveImageDiv.ref.style.display = "none"
+//      })
+//    })
 
   }
 
   override def init(parent: HTMLElement): Unit = {
-    parent.appendChild(html())
+//    parent.appendChild(html())
     initAdminEvent()
-
-
   }
 }

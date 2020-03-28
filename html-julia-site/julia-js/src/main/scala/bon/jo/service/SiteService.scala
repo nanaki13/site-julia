@@ -1,38 +1,20 @@
 package bon.jo.service
 
-import java.util.Base64
-
 import bon.jo.SiteModel
 import bon.jo.SiteModel._
-import bon.jo.app.{ConfParam, JuliaConf, Response, User}
+import bon.jo.app.service.DistantService
+import bon.jo.app.{ConfParam, Response, User}
 import bon.jo.html.DomShell
 import bon.jo.service.Raws._
 import bon.jo.view.SiteModelView
 
-import scala.annotation.tailrec
 import scala.concurrent.{ExecutionContext, Future}
 import scala.scalajs.js
-import scala.util.{Failure, Success}
+import scala.scalajs.js.JSON
 
-object ReadToken {
-  def readToken(token: String): String = {
-    val header = token.substring(0, token.indexOf('.'))
-    val data: String = token.substring(token.indexOf('.') + 1, token.lastIndexOf('.'))
-    val sgn: String = token.substring(token.lastIndexOf('.') + 1, token.length)
-    // println  (header,data ,sgn  )
-    val h = new String(Base64.getUrlDecoder.decode(header))
-    val dat = new String(Base64.getUrlDecoder.decode(data))
-    val sg = new String(Base64.getUrlDecoder.decode(sgn))
-    println(h)
-    println(dat)
-    println(sg)
-    dat
-  }
 
-  println(readToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.cThIIoDvwdueQB468K5xDc5633seEFoqwxjF_xSJyQQ"))
-}
 
-class SiteService(val user: User) {
+class SiteService(implicit val user: User) {
 
   import imp._
 
@@ -83,9 +65,10 @@ class SiteService(val user: User) {
     val gOeuvre: Oeuvre => js.Any = RawsObject.OeuvreRawExport.apply
     val gImage: Image => js.Any = RawsObject.ImageRawExport.apply
 
-    implicit val trMenuItem: MenuItem => String = gMenuItem.andThen(_.toString)
-    implicit val trOeuvre: Oeuvre => String = gOeuvre.andThen(_.toString)
-    implicit val trImage: Image => String = gImage.andThen(_.toString)
+    def toJsStirng(s : js.Any): String = JSON.stringify(s)
+    implicit val trMenuItem: MenuItem => String = gMenuItem.andThen(toJsStirng)
+    implicit val trOeuvre: Oeuvre => String = gOeuvre.andThen(toJsStirng)
+    implicit val trImage: Image => String = gImage.andThen(toJsStirng)
     // implicit def gReadf[A <: js.Object]: js.Any => A = _.asInstanceOf[A]
     implicit val reversegMenuItem: js.Any => MenuItem = (an: js.Any) => {
       ItemImport(an.asInstanceOf[Raws.ItemRawExport])

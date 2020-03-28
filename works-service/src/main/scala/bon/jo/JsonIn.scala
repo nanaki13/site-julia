@@ -3,6 +3,7 @@ package bon.jo
 import akka.http.scaladsl.model.HttpEntity
 import akka.http.scaladsl.unmarshalling.{FromEntityUnmarshaller, Unmarshaller}
 import akka.stream.Materializer
+import bon.jo.SiteModel.OkResponse
 import org.json4s.{CustomSerializer, DefaultFormats}
 import org.json4s.JsonAST.{JInt, JNothing, JNull}
 
@@ -17,10 +18,11 @@ trait JsonIn {
 
   import CustomJs._
 
-  def unMarsh[Ok](implicit manifest: Manifest[Ok], ex: ExecutionContext, m: Materializer): FromEntityUnmarshaller[Ok] = {
+  def unMarsh[Ok <: OkResponse](implicit manifest: Manifest[Ok], ex: ExecutionContext, m: Materializer): FromEntityUnmarshaller[Ok] = {
     def toJson(s: HttpEntity)(implicit ex: ExecutionContext, m: Materializer): Future[Ok] = {
       s.dataBytes.runReduce(_ ++ _).map(e => {
         try{
+          println(e.utf8String)
           read[Ok](e.utf8String)
         }catch {
           case e : Exception => println(e);e.printStackTrace();throw e

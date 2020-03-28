@@ -4,18 +4,23 @@ import bon.jo.html.ButtonHtml.ButtonType
 import bon.jo.html.DomShell.$
 import bon.jo.html.Types.FinalComponent
 import bon.jo.html.{ButtonHtml, DomShell}
-import org.scalajs.dom.html.{Button, Div, Input}
+import org.scalajs.dom.html.{Div, Input}
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.xml.Node
 
-case class SimpleInput(id: String, label: String, valueIni: Any = "") extends FinalComponent[Div] {
+case class SimpleInput(id: String, label: String, valueIni: String = "",title : Option[String] = None) extends FinalComponent[Div] {
   private val inputXml = DomShell.inputXml(id, label, valueIni)
   val confirm: ButtonType = ButtonHtml("ok-"+id, "ok")
 
   var inputHtml: Input = _
 
-  override def xml(): Node = <div>
+  override def xml(): Node = <div  id={id} >
+    {title match {
+      case Some(s) =>s
+      case _ =>
+    }
+    }
     {inputXml}<div id={"send-"+id}></div>
   </div>
 

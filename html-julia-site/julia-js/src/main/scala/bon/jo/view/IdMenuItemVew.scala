@@ -2,7 +2,6 @@ package bon.jo.view
 
 import bon.jo.SiteModel.MenuItem
 import bon.jo.html.Types.FinalComponent
-import bon.jo.service.SiteService
 import org.scalajs.dom.html.Div
 import org.scalajs.dom.raw.HTMLElement
 

@@ -1,0 +1,48 @@
+
+.img-configure{
+    vertical-align: top;
+    width:1em ;
+    height:1em;
+}
+
+.admin{
+    width : fit-content;
+    position:absolute;
+    z-index:100;
+    margin-top: -2em
+}
+
+.oeuvre{
+    display: inline-flex;
+   width: 40em;
+}
+
+.oeuvre-img{
+width: 25em;
+}
+#side-menu{
+    position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 20em;
+}
+
+#current-view{
+        position: relative;
+        top: 0;
+        left: 21em;
+        height: 100%;
+}
+
+#admin-global{
+  position: fixed;
+        top: 0;
+        right: 0;
+
+
+}
+
+.simple-input{
+    max-width : 30em;
+}

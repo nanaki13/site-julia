@@ -167,7 +167,9 @@ trait jsInterface {
 
   def native[R]: R
 
-  trait Object extends Product with OkResponse
+  trait Object extends Product with OkResponse{
+    override def canEqual(that: Any): Boolean = true
+  }
 
   class JSGlobal(val s: String) extends scala.annotation.Annotation
 

@@ -9,6 +9,7 @@ import akka.http.scaladsl.model.headers.{Authorization, OAuth2BearerToken}
 import akka.http.scaladsl.model.{HttpEntity, HttpHeader, HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.{Directives, RequestContext, Route}
 import akka.stream.Materializer
+import bon.jo.SiteModel.OkResponse
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.auth0.jwt.{JWT, JWTVerifier}
@@ -42,13 +43,13 @@ object Token {
   val algo: Try[Algorithm] = algorithmRS
 
   def algorithmRS: Try[Algorithm] = ReadKey.getPublicPrivateKeys(KeyContext.pu, KeyContext.pr).map { e => {
-    println("oncharge l'lalgo");
+
     e
   }
   }.map(e => Algorithm.RSA512(e._1.asInstanceOf[RSAPublicKey], e._2.asInstanceOf[RSAPrivateKey]));
 
 
-  def getToken(user: User, issuer: String, validiteHour: Float, claims: Map[String, String] = Map.empty): Try[String] =
+  def getToken(user: Login, issuer: String, validiteHour: Float, claims: Map[String, String] = Map.empty): Try[String] =
 
 
     algo map { a =>
@@ -144,7 +145,7 @@ object ReadKey {
 
 }
 
-case class User(login: String, name: String, mdp: String = "test")
+case class Login(login: String, name: String, mdp: String = "test")
 
 class Routes(services: List[RootCreator[_]]) extends Directives with RouteHandle {
 
@@ -153,15 +154,19 @@ class Routes(services: List[RootCreator[_]]) extends Directives with RouteHandle
     implicit val m: Materializer = ctx.materializer
     implicit val ec: ExecutionContext = ctx.executionContext
 
+    services.map( e => {
+
+       e.crudRoot
+    })
 
     concat(services.map(_.crudRoot): _ *)
   }
 
 
   object CredentialManager {
-    val user = User("julia", "Julia Le Corre")
-    val extractUser: PartialFunction[(String, String), User] = {
-      case (user.login, user.mdp) => user
+    val login = Login("julia", "Julia Le Corre")
+    val extractLogin: PartialFunction[(String, String), Login] = {
+      case (login.login, login.mdp) => login
     }
 
   }
@@ -192,7 +197,7 @@ class Routes(services: List[RootCreator[_]]) extends Directives with RouteHandle
           get {
             parameter(Symbol("login"), Symbol("pwd")) { (a, b) => {
               (a, b) match {
-                case CredentialManager.extractUser(user) => {
+                case CredentialManager.extractLogin(user) => {
                   Token.getToken(user, "julia-lecorre", 1f) match {
                     case Failure(exception) => complete(exception.getMessage)
                     case Success(value) => complete(value)

@@ -1,21 +1,21 @@
 package bon.jo
 
+import bon.jo.app.User
 import bon.jo.game.html.Template
-import bon.jo.html.DomShell.ExtendedElement
-import bon.jo.html.DomShell.$
+import bon.jo.html.DomShell.{$, ExtendedElement}
 import bon.jo.html.Types.FinalComponent
 import bon.jo.html.{ButtonHtml, DomShell}
-import bon.jo.service.Raws.GlobalExport
 import bon.jo.service.SiteService
 import bon.jo.view.SiteModelView
-import org.scalajs.dom.html.{Div, Input, Link}
-import org.scalajs.dom.raw.{Event, FileReader, HTMLElement, UIEvent}
+import org.scalajs.dom.html.{Div, Link}
+import org.scalajs.dom.raw.HTMLElement
 
 import scala.scalajs.js
 import scala.scalajs.js.JSON
 import scala.xml.Node
 
-class SiteTemplate extends Template {
+class SiteTemplate(override val user: User) extends Template {
+  DomShell.log(s"chargement template avec $user")
   def info(playLoad: js.Any) = {
 
     $[Div]("ex").addChild(<div>
@@ -43,17 +43,18 @@ class SiteTemplate extends Template {
 
 
   override def body: String = (<div id="root">
-    <div id="user"></div>
-    <div id="ex"></div>
-    <div id="im"></div>
-    <div id="sa"></div>
-
+    <div id="admin-global">
+      <div id="user"></div>
+      <div id="ex"></div>
+      <div id="im"></div>
+      <div id="sa"></div>
+    </div>
   </div>).mkString
 
   override def init(p: HTMLElement): Unit = {
     implicit val s = service
     implicit val t: SiteTemplate = this
-    val importModel = new ReadFile
+    val importModel = new ReadImportFile
     val button = ButtonHtml("btn-export", "export")
     val buttonSaveAll = ButtonHtml("save-all", "Sauvegarder tout")
     button.onClick(_ => {
@@ -91,28 +92,3 @@ class SiteTemplate extends Template {
   def toDownloable(s: String) = ""
 }
 
-class ReadFile(implicit val siteService: SiteService, val template: SiteTemplate) extends FinalComponent[Input] {
-
-
-  def read(): Unit = {
-    val file = me.files(0);
-    val reader = new FileReader();
-    reader.readAsText(file, "UTF-8");
-    reader.onload = (evt: UIEvent) => {
-
-      reader.onerror = (evt: Event) => {
-        DomShell.log("erreur reading file : " + JSON.stringify(evt))
-      }
-      siteService.importSite(JSON.parse(evt.target.asInstanceOf[FileReader].result.toString).asInstanceOf[GlobalExport])
-      template.site.modelChange()
-    }
-  }
-
-  override def xml(): Node = <input id={id} type="file" value="Import"></input>
-
-  override def id: String = "import"
-
-  override def init(parent: HTMLElement): Unit = {
-    me.addEventListener("change", (_: Event) => read())
-  }
-}

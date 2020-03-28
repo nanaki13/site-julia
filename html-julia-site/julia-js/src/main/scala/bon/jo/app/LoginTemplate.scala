@@ -7,7 +7,7 @@ import bon.jo.view.Ref
 import org.scalajs.dom.html.{Div, Input}
 import org.scalajs.dom.raw.HTMLElement
 
-class LoginTemplate extends Template {
+class LoginTemplate(override val user: User) extends Template {
   implicit val ex = scala.concurrent.ExecutionContext.global
 
   override def body: String =

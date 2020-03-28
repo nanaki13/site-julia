@@ -67,7 +67,7 @@ trait MenuService extends WebMenuSevice with RootCreator[RawImpl.ItemRawExport] 
 }
 
 
-class MenuServiceImpl(val dbContext: RepositoryContext with SiteRepository) extends MenuService {
+class MenuServiceImpl(val dbContext: RepositoryContext with SiteRepository) (implicit val manifest: Manifest[RawImpl.ItemRawExport]) extends MenuService {
   override def before(implicit executionContext: ExecutionContext, m: Materializer): Option[Route] = None
 
 }

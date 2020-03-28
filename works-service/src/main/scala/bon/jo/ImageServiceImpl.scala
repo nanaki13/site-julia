@@ -10,7 +10,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
 
-class ImageServiceImpl(override val dbContext: RepositoryContext with SiteRepository) extends ImageService with WebImageSevice with RouteHandle {
+class ImageServiceImpl(override val dbContext: RepositoryContext with SiteRepository)(implicit val manifest: Manifest[RawImpl.ImageRawExport]) extends ImageService with WebImageSevice with RouteHandle {
 
   override def before(implicit executionContext: ExecutionContext, m: Materializer): Option[Route] = Some {
     concat(get {

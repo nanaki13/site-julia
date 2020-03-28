@@ -27,8 +27,8 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
 
   var itemsView: List[ManiMenuItemView] = model.items.map(ManiMenuItemView.apply)
 
-  val makeNewItem: SimpleInput = SimpleInput("newItem", "nom du menu")
-  val makeNewSubItem: SimpleInput = SimpleInput("newSubItem", "nom du menu")
+  val makeNewItem: SimpleInput = SimpleInput("newItem", "nom du menu",title = Some("Ajouter un menu"))
+  val makeNewSubItem: SimpleInput = SimpleInput("newSubItem", "nom du menu",title = Some("Ajouter un sous menu"))
 
 
   val newContent: MainContent = MainContent()
@@ -53,10 +53,12 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
   })
 
   override def xml(): Node = <div id="sm-view">
-     Ajouter un menu principale : <div id="addMainMenu"></div>
-    <div id="side-menu"></div>
-    Ajouter un sous menu : <div id="addSubMenu"></div>
-    <div id="current-view"></div>
+    <div id="side-menu">
+      <div id="addMainMenu" class="simple-input"></div>
+    </div>
+    <div id="current-view">
+      <div id="addSubMenu" class="simple-input"></div>
+    </div>
   </div>
 
   override def id: String = "sm-view"
@@ -72,14 +74,19 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
 
     add(itemList)
     add(eouvreList)
-    def load(i: MenuItem): Unit = {
-      val path = (i.parent match {
-        case Some(value) => value.text.replaceAll("\\s+","-")+"/"
-        case None => "/"
-      })+i.text.replaceAll("\\s+","-")
 
-      org.scalajs.dom.window.history.pushState("",i.text,path)
+    def load(i: MenuItem): Unit = {
+      println("load item in main content : " + i.id)
+      val path = (i.parent match {
+        case Some(value) => value.text.replaceAll("\\s+", "-") + "/"
+        case None => "/"
+      }) + i.text.replaceAll("\\s+", "-")
+
+      org.scalajs.dom.window.history.pushState("", i.text, path)
+
+      println("load item in main content : " + i.oeuvres.groupMapReduce[Int, Int](e => e.id)(_ => 1)(_ + _))
       eouvreList.clearAndAddAll(i.oeuvres.map(OeuvreView.apply))
+      println("load item in main content : " + i.id)
       val v = i.items.map(SubMenuItemView.apply)
       v.foreach(ii => {
         ii.link.onClick(e => {
@@ -107,7 +114,7 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
   def createNavigation(i: MenuItemView): MenuItemView = {
 
     i.link.onClick((_: Event) => {
-      if(currentItem == null){
+      if (currentItem == null) {
         makeNewSubItem.addTo(addSubMenu.ref)
       }
       currentItem = i
@@ -138,8 +145,10 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
   }
 
   def modelChange(): Any = {
+
     itemsView.foreach(_.removeFromView())
 
+    DomShell.deb()
     itemsView = model.items.map(ManiMenuItemView.apply)
     itemsView.map(createNavigation).foreach(e => e.addTo(sideMdenu.ref))
   }
@@ -188,18 +197,20 @@ class ChoooseMenuItem(valueConsumer: ValueConsumer[MenuItem])
 case class SimpleList[Finalp <: FinalComponent[_]](override val id: String) extends FinalComponent[Div] {
   override def xml(): Node = <div id={id}></div>
 
-  var parent: HTMLElement = _
 
   def clearAndAddAll(cps: List[Finalp]): Unit = {
     me.clear();
-    cps.foreach(e => me.appendChild(e.html().asInstanceOf[HTMLElement]));
-    cps.foreach(_.init(me))
-    init(parent)
+    DomShell.deb()
+    //  cps.foreach(e => me.appendChild(e.html().asInstanceOf[HTMLElement]));
+    DomShell.deb()
+    cps.foreach(_.addTo(me))
+    DomShell.deb()
+    // init(parent)
   }
 
   override def init(parentp: HTMLElement): Unit = {
     parentp.appendChild(html());
-    parent = parentp
+
   }
 }
 

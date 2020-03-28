@@ -11,7 +11,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 trait OeuvreService extends Service[RawImpl.OeuvreRawExport] with WebServiceCrud[RawImpl.OeuvreRawExport] with RootCreator[RawImpl.OeuvreRawExport]
 
-class OeuvreServiceImpl(val dbContext: RepositoryContext with SiteRepository)(implicit val executionContext: ExecutionContext) extends OeuvreService with WebOeuvreService {
+class OeuvreServiceImpl(val dbContext: RepositoryContext with SiteRepository)(implicit val executionContext: ExecutionContext,val manifest: Manifest[RawImpl.OeuvreRawExport]) extends OeuvreService with WebOeuvreService {
   override def before(implicit ctx: ExecutionContext, m: Materializer): Option[Route] = None
 
 
