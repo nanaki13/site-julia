@@ -1,20 +1,23 @@
 package bon.jo.view
 
-import bon.jo.SiteModel.Oeuvre
+import bon.jo.Logger
+import bon.jo.SiteModel.{MenuItem, Oeuvre}
 import bon.jo.app.service.DistantService
 import bon.jo.html.DomShell.inputXml
 import bon.jo.html.Types.FinalComponent
+import bon.jo.html.{Types, ValueView}
+import bon.jo.service.Raws.OeuvreRawExport
 import bon.jo.service.SiteService
-import org.scalajs.dom.html.{Div, Input}
+import org.scalajs.dom.html.{Div, Image, Input}
 import org.scalajs.dom.raw.{Event, HTMLElement}
 
+import scala.concurrent.Future
+import scala.scalajs.js.Promise
 import scala.xml.Node
 
 case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) extends FinalComponent[Div] with AdminControl[Oeuvre] {
 
-  import siteService.imp._
-
-  override val service: DistantService[Oeuvre] = siteService.oeuvreService
+  override val service: DistantService[Oeuvre,OeuvreRawExport] = siteService.oeuvreService
 
   private val nomForm = Ref[Input](id + "nom")
   private val dateForm = Ref[Input](id + "date")
@@ -28,12 +31,13 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
     extract
   }
 
+
   lazy val choose: ChoooseMenuItem = new ChoooseMenuItem((v) => {
 
     siteService.move(oeuvre, v)
     choose.removeFromView()
   })
-
+  override def chooseMenuView: ValueView[MenuItem] with Types.ParentComponent[Div] = choose
 
   def modifyView: Node = {
     <form>
@@ -45,7 +49,10 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
   }
 
   override def xml(): Node = <div class="oeuvre" id={id}>
-    {adminXml}<div>
+    {adminXmlOption match {
+      case Some(value) => value
+      case None =>
+    }}<div>
       <div>
         {oeuvre.name}
       </div>
@@ -60,7 +67,7 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
       </div>
       <div><!--span class="btn btn-primary" id={"save-i-" + oeuvre.image.id}>save</span>
         <span class="btn btn-primary" id={"delete-i-" + oeuvre.image.id}>delete</span-->
-        <img class="oeuvre-img" src={oeuvre.image.base + oeuvre.image.link}></img>
+        <img id={"img-"+ oeuvre.image.id} class="oeuvre-img" ></img>
       </div>
     </div>
   </div>
@@ -69,7 +76,7 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
 
   override def updateView(): Unit = {}
 
-
+  private val imgRef = Ref[Image]("img-"+ oeuvre.image.id)
   private val saveImageDiv = Ref[Div]("save-i-" + oeuvre.image.id)
 
   private val deleteImageDiv = Ref[Div]("delete-i-" + oeuvre.image.id)
@@ -90,8 +97,21 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
 
   }
 
+  var whenImageLoad :Future[Oeuvre] = Future.failed(new Exception("not started"))
   override def init(parent: HTMLElement): Unit = {
 //    parent.appendChild(html())
     initAdminEvent()
+    whenImageLoad = new Promise[Oeuvre]((accepet,reject)=>{
+      imgRef.ref.addEventListener("load", (e : Event) => {
+        Logger.log("Image loaded");
+        imgRef.ref.classList.remove("loader")
+        accepet(oeuvre)
+      });
+    }).toFuture
+
+    imgRef.ref.classList.add("loader")
+    imgRef.ref.src = oeuvre.image.base + oeuvre.image.link
   }
+
+
 }

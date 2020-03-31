@@ -22,7 +22,7 @@ class ReadImportFile(implicit val siteService: SiteService, val template: SiteTe
       reader.onerror = (evt: Event) => {
         DomShell.log("erreur reading file : " + JSON.stringify(evt))
       }
-      siteService.importSite(JSON.parse(evt.target.asInstanceOf[FileReader].result.toString).asInstanceOf[GlobalExport])
+      siteService.siteModel.items = siteService.toSiteModelElements(JSON.parse(evt.target.asInstanceOf[FileReader].result.toString).asInstanceOf[GlobalExport]).toList
       template.site.modelChange()
     }
   }

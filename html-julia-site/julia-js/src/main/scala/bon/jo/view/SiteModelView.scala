@@ -1,22 +1,21 @@
 package bon.jo.view
 
-import bon.jo.SiteModel
 import bon.jo.SiteModel.MenuItem
 import bon.jo.html.DomShell.ExtendedElement
 import bon.jo.html.Types.{FinalComponent, ParentComponent}
 import bon.jo.html._
 import bon.jo.service.SiteService
+import bon.jo.{Logger, SiteModel}
 import org.scalajs.dom.Event
 import org.scalajs.dom.html.Div
 import org.scalajs.dom.raw.HTMLElement
 
+import scala.concurrent.{ExecutionContext, Future}
 import scala.xml.{Group, Node}
 
 
-case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService) extends XmlHtmlView[Div] with InDom[Div] with NodeView[Div] {
+case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService, executionContext: ExecutionContext) extends XmlHtmlView[Div] with InDom[Div] with NodeView[Div] {
 
-
-  val admin = true
 
   implicit val siteModelView: SiteModelView = this
   // val mainContent: Ref[Div] = Ref("current-view")
@@ -27,26 +26,36 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
 
   var itemsView: List[ManiMenuItemView] = model.items.map(ManiMenuItemView.apply)
 
-  val makeNewItem: SimpleInput = SimpleInput("newItem", "nom du menu",title = Some("Ajouter un menu"))
-  val makeNewSubItem: SimpleInput = SimpleInput("newSubItem", "nom du menu",title = Some("Ajouter un sous menu"))
-
 
   val newContent: MainContent = MainContent()
   val newContentRef: Ref[Div] = Ref("current-view")
-  makeNewItem.confirm.onClick(_ => {
+
+
+  case class MenusAdd(menu: SimpleInput, subMenu: SimpleInput)
+
+  def createMenuAdd: Option[MenusAdd] = if (siteService.user.role.admin) {
+    val makeNewItem: SimpleInput = SimpleInput("newItem", "nom du menu", title = Some("Ajouter un menu"))
+    val makeNewSubItem: SimpleInput = SimpleInput("newSubItem", "nom du menu", title = Some("Ajouter un sous menu"))
+    createConfirmMenuAdd(makeNewItem)
+    createConfirmSubMenuAdd(makeNewSubItem)
+    Some(MenusAdd(makeNewItem, makeNewSubItem))
+  } else {
+    None
+  }
+
+  def createConfirmMenuAdd(makeNewItem: SimpleInput): Unit = makeNewItem.confirm.onClick(_ => {
     val newItem = siteService.createNewMainMenuItem(makeNewItem.value())
     val newItemView = ManiMenuItemView(newItem)
-
     model.items = model.items :+ newItem
     itemsView = itemsView :+ newItemView
     createNavigation(newItemView)
     newItemView.addTo(sideMdenu.ref)
   })
-  makeNewSubItem.confirm.onClick(_ => {
-    implicit val siteModelView: SiteModelView = this
-    val newItem = siteService.createNewSubMenuItem(makeNewSubItem.value(), currentItem.menuItem)
-    val newItemView = SubMenuItemView(newItem)
 
+  def createConfirmSubMenuAdd(makeNewItem: SimpleInput): Unit = makeNewItem.confirm.onClick(_ => {
+    implicit val siteModelView: SiteModelView = this
+    val newItem = siteService.createNewSubMenuItem(makeNewItem.value(), currentItem.menuItem)
+    val newItemView = SubMenuItemView(newItem)
     createNavigation(newItemView)
     currentItem.menuItem.items = currentItem.menuItem.items :+ newItem
     newItemView.addTo(newContent.itemList.me)
@@ -75,25 +84,37 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
     add(itemList)
     add(eouvreList)
 
+
+    override def init(parent: HTMLElement): Unit = {
+      super.init(parent)
+      itemList.loaded()
+      eouvreList.loaded()
+    }
+
     def load(i: MenuItem): Unit = {
-      println("load item in main content : " + i.id)
+      Logger.log("load item in main content : " + i.id)
       val path = (i.parent match {
         case Some(value) => value.text.replaceAll("\\s+", "-") + "/"
         case None => "/"
       }) + i.text.replaceAll("\\s+", "-")
 
       org.scalajs.dom.window.history.pushState("", i.text, path)
-
-      println("load item in main content : " + i.oeuvres.groupMapReduce[Int, Int](e => e.id)(_ => 1)(_ + _))
-      eouvreList.clearAndAddAll(i.oeuvres.map(OeuvreView.apply))
-      println("load item in main content : " + i.id)
+      eouvreList.loading()
+      val whenAllImageFuture: List[Future[SiteModel.Oeuvre]] = eouvreList.clearAndAddAll(i.oeuvres.map(OeuvreView.apply)).map(e => {
+        e.whenImageLoad
+      })
+      Future.sequence(whenAllImageFuture).foreach(e => {
+        eouvreList.loaded()
+      })
       val v = i.items.map(SubMenuItemView.apply)
       v.foreach(ii => {
         ii.link.onClick(e => {
           load(ii.menuItem)
         })
       })
+      itemList.loading()
       itemList.clearAndAddAll(v)
+      itemList.loaded()
 
     }
 
@@ -115,7 +136,7 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
 
     i.link.onClick((_: Event) => {
       if (currentItem == null) {
-        makeNewSubItem.addTo(addSubMenu.ref)
+        makeNewSubItem.foreach(_.addTo(addSubMenu.ref))
       }
       currentItem = i
       updateMainContent(i.menuItem)
@@ -124,14 +145,17 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
     i
   }
 
+  var makeNewSubItem: Option[SimpleInput] = _
 
   override def init(parent: HTMLElement): Unit = {
-
+    val menusInput = createMenuAdd
+    makeNewSubItem = menusInput.map(_.subMenu)
     super.init(parent)
     newContent.addTo(newContentRef.ref)
-    makeNewItem.addTo(addMainMenu.ref)
+    menusInput.foreach(e => e.menu.addTo(addMainMenu.ref))
 
     itemsView.map(createNavigation).foreach(e => e.addTo(sideMdenu.ref))
+
 
   }
 
@@ -160,85 +184,8 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
 }
 
 
-class ChoooseMenuItem(valueConsumer: ValueConsumer[MenuItem])
-                     (implicit val siteService: SiteService)
-  extends ParentComponent[Div] with ValueView[MenuItem] {
 
 
-  private var _value: MenuItem = _
-
-  override def value(): MenuItem = _value
-
-  override def init(parent: HTMLElement): Unit = {
-    listens.added.foreach(e => {
-      e.me.addEventListener("click", (ee: Event) => {
-        _value = e.menuItem
-        valueConsumer.consume(_value)
-      })
-    })
-  }
-
-  private var listens = SimleTree[IdMenuItemVew]("c-li", siteService.siteModel.items.map(i => IdMenuItemVew(id + "-" + i.id, i)),
-    e => {
-      e.menuItem.items.map(i => IdMenuItemVew(id + "-" + i.id, i))
-    }
-  )
-
-  override def xml(): Node = <div id={id}>
-    {listens.xml()}
-  </div>
 
 
-  override def id: String = "choose"
 
-
-}
-
-case class SimpleList[Finalp <: FinalComponent[_]](override val id: String) extends FinalComponent[Div] {
-  override def xml(): Node = <div id={id}></div>
-
-
-  def clearAndAddAll(cps: List[Finalp]): Unit = {
-    me.clear();
-    DomShell.deb()
-    //  cps.foreach(e => me.appendChild(e.html().asInstanceOf[HTMLElement]));
-    DomShell.deb()
-    cps.foreach(_.addTo(me))
-    DomShell.deb()
-    // init(parent)
-  }
-
-  override def init(parentp: HTMLElement): Unit = {
-    parentp.appendChild(html());
-
-  }
-}
-
-case class SimleTree[Finalp <: FinalComponent[_]](override val id: String, cps: List[Finalp], children: Finalp => List[Finalp]) extends ParentComponent[Div] {
-
-  var added: List[Finalp] = Nil
-
-  def register(finalp: Finalp) = {
-    added = added :+ finalp
-  }
-
-  def xml(e: Finalp): Node = {
-    register(e)
-    <div>
-      {e.xml}{val c = children(e)
-    if (c.nonEmpty) {
-      <div>
-        {Group(c.map(e => xml(e)))}
-      </div>
-    } else {
-      <div></div>
-    }}
-    </div>
-  }
-
-  override def xml(): Node = <div id={id}>
-    {if (cps.nonEmpty) {
-      cps.map(xml)
-    }}
-  </div>
-}

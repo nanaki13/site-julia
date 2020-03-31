@@ -58,7 +58,7 @@ toServer := {
 
 
   IO.copyFile(Paths.get("""./julia-js/.js/target/scala-2.13/julia-js-fastopt.js""").toFile, Paths.get("""./html/index.js""").toFile)
-
+  IO.copyFile(Paths.get("""./julia-js/.js/target/scala-2.13/julia-js-fastopt.js.map""").toFile, Paths.get("""./html/julia-js-fastopt.js.map""").toFile)
 
 
 }

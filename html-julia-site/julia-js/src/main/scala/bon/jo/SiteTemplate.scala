@@ -12,10 +12,11 @@ import org.scalajs.dom.raw.HTMLElement
 
 import scala.scalajs.js
 import scala.scalajs.js.JSON
-import scala.xml.Node
+import scala.xml.{Elem, Node}
 
 class SiteTemplate(override val user: User) extends Template {
   DomShell.log(s"chargement template avec $user")
+
   def info(playLoad: js.Any) = {
 
     $[Div]("ex").addChild(<div>
@@ -41,38 +42,43 @@ class SiteTemplate(override val user: User) extends Template {
 
   }
 
+  def admin: Boolean = user.role.admin
+
+  def adminGlobalXml: Elem = <div id="admin-global">
+    <div id="user"></div>
+    <div id="ex"></div>
+    <div id="im"></div>
+    <div id="sa"></div>
+  </div>
 
   override def body: String = (<div id="root">
-    <div id="admin-global">
-      <div id="user"></div>
-      <div id="ex"></div>
-      <div id="im"></div>
-      <div id="sa"></div>
-    </div>
+    {if (admin) adminGlobalXml}
   </div>).mkString
 
   override def init(p: HTMLElement): Unit = {
     implicit val s = service
     implicit val t: SiteTemplate = this
-    val importModel = new ReadImportFile
-    val button = ButtonHtml("btn-export", "export")
-    val buttonSaveAll = ButtonHtml("save-all", "Sauvegarder tout")
-    button.onClick(_ => {
-      DomShell.log("click export")
-      val s: String = JSON.stringify(service.`export`)
-      val dowload = Dowload(s)
-      dowload.addTo("ex")
-    })
-    button.addTo("ex")
-    importModel.addTo("im")
-    buttonSaveAll.onClick(_ => {
-      service.saveAll()
-    })
-    buttonSaveAll.addTo("sa")
-    val user = service.user
-    $[Div]("user").addChild(<span>Salut
-      {user.name}
-    </span>)
+    if (admin) {
+      val importModel = new ReadImportFile
+      val button = ButtonHtml("btn-export", "export")
+      val buttonSaveAll = ButtonHtml("save-all", "Sauvegarder tout")
+      button.onClick(_ => {
+        DomShell.log("click export")
+        val s: String = JSON.stringify(service.`export`)
+        val dowload = Dowload(s)
+        dowload.addTo("ex")
+      })
+      button.addTo("ex")
+      importModel.addTo("im")
+      buttonSaveAll.onClick(_ => {
+        service.saveAll()
+      })
+      buttonSaveAll.addTo("sa")
+      $[Div]("user").addChild(<span>Salut
+        {user.name}
+      </span>)
+    }
+
     _site.init(me)
 
   }

@@ -1,24 +1,24 @@
 package bon.jo.service
 
-import bon.jo.SiteModel
+import bon.jo.{Logger, SiteModel}
 import bon.jo.SiteModel._
 import bon.jo.app.service.DistantService
 import bon.jo.app.{ConfParam, Response, User}
 import bon.jo.html.DomShell
 import bon.jo.service.Raws._
+import bon.jo.service.RawsObject.GlobalExport
 import bon.jo.view.SiteModelView
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.scalajs.js
 import scala.scalajs.js.JSON
+import scala.scalajs.js.JSConverters._
 
 
+class SiteService(implicit val user: User, val executionContext: ExecutionContext) {
 
-class SiteService(implicit val user: User) {
 
-  import imp._
-
-  def console: Any => Unit = DomShell.log
+  def console: Any => Unit = Logger.log
 
 
   final def saveItems(l: List[MenuItem]): Future[List[Response]] = {
@@ -65,20 +65,15 @@ class SiteService(implicit val user: User) {
     val gOeuvre: Oeuvre => js.Any = RawsObject.OeuvreRawExport.apply
     val gImage: Image => js.Any = RawsObject.ImageRawExport.apply
 
-    def toJsStirng(s : js.Any): String = JSON.stringify(s)
+    def toJsStirng(s: js.Any): String = JSON.stringify(s)
+
     implicit val trMenuItem: MenuItem => String = gMenuItem.andThen(toJsStirng)
     implicit val trOeuvre: Oeuvre => String = gOeuvre.andThen(toJsStirng)
     implicit val trImage: Image => String = gImage.andThen(toJsStirng)
     // implicit def gReadf[A <: js.Object]: js.Any => A = _.asInstanceOf[A]
-    implicit val reversegMenuItem: js.Any => MenuItem = (an: js.Any) => {
-      ItemImport(an.asInstanceOf[Raws.ItemRawExport])
-    }
-    implicit val reversegOeuvre: js.Any => Oeuvre = (an: js.Any) => {
-      OeuvreImport(an.asInstanceOf[Raws.OeuvreRawExport])(siteModel.allImages.map(_.toKeyValue).toMap, siteModel.allItem.map(_.toKeyValue).toMap)
-    }
-    implicit val reversegImage: js.Any => Image = (an: js.Any) => {
-      ImageImport(an.asInstanceOf[Raws.ImageRawExport])
-    }
+    implicit val reversegMenuItem: js.Any => Raws.ItemRawExport = _.asInstanceOf[Raws.ItemRawExport]
+    implicit val reversegOeuvre: js.Any => Raws.OeuvreRawExport = _.asInstanceOf[Raws.OeuvreRawExport]
+    implicit val reversegImage: js.Any => Raws.ImageRawExport = _.asInstanceOf[Raws.ImageRawExport]
   }
 
 
@@ -87,17 +82,17 @@ class SiteService(implicit val user: User) {
 
     import ReqBridge._
 
-    object menuService extends DistantService[MenuItem](ConfParam.apiMenu())
+    object menuService extends DistantService[MenuItem, ItemRawExport](ConfParam.apiMenu())
 
-    object oeuvreService extends DistantService[Oeuvre](ConfParam.apiOeuvre())
+    object oeuvreService extends DistantService[Oeuvre, OeuvreRawExport](ConfParam.apiOeuvre())
 
-    object imageService extends DistantService[Image](ConfParam.apiImage())
+    object imageService extends DistantService[Image, ImageRawExport](ConfParam.apiImage())
 
   }
 
-  val menuService: DistantService[MenuItem] = services.menuService
-  val oeuvreService: DistantService[Oeuvre] = services.oeuvreService
-  val imageService: DistantService[Image] = services.imageService
+  val menuService: DistantService[MenuItem, ItemRawExport] = services.menuService
+  val oeuvreService: DistantService[Oeuvre, OeuvreRawExport] = services.oeuvreService
+  val imageService: DistantService[Image, ImageRawExport] = services.imageService
 
 
   object Legacy {
@@ -119,13 +114,26 @@ class SiteService(implicit val user: User) {
         withImage
       }
       a
-
     })
   }
 
+
+  def getGlobalExport: Future[GlobalExport] = for {
+    img <- imageService.getAll
+    th <- menuService.getAll
+    oe <- oeuvreService.getAll
+  } yield {
+    js.Dynamic.literal(
+      items = th,
+      oeuvres = oe,
+      images = img,
+    ).asInstanceOf[GlobalExport]
+  }
+
+
   val siteModel: SiteModel = SiteModel()
 
-  siteModel.items = Legacy.AllTheme.toList
+  def loadFromOldSite: Future[List[MenuItem]] = Future.successful(Legacy.AllTheme.toList)
 
   def move(me: MenuItem, to: MenuItem): Unit = {
     siteModel.items = siteModel.items.filter(_ != me)
@@ -195,24 +203,19 @@ class SiteService(implicit val user: User) {
 
   def refreshId(item: Iterable[Int]): Unit = maxId = item.max
 
-  def importSite(export: GlobalExport): Unit = {
-    val newModel = SiteModel()
+  def toSiteModelElements(export: GlobalExport): Seq[MenuItem] = {
+
     implicit val itemRwMap: Map[Int, ItemRawExport] = `export`.items.map(e => e.id -> e).toMap
     implicit val item: Map[Int, MenuItem] = `export`.items.map(ItemImport).map(_.toKeyValue).toMap
     implicit val imageMap: Map[Int, Image] = `export`.images.map(ImageImport).map(_.toKeyValue).toMap
     implicit val oeuvres: Map[Int, Oeuvre] = `export`.oeuvres.map(OeuvreImport).map(_.toKeyValue).toMap
 
-
     link
-
-    newModel.items = item.values.filter(_.parent.isEmpty).toList
-    siteModel.items = newModel.items
     refreshId(item.keys)
+    item.values.filter(_.parent.isEmpty).toList
+
   }
 
-  object imp {
-    implicit val ex: ExecutionContext = scala.concurrent.ExecutionContext.global
-  }
 
 }
 
