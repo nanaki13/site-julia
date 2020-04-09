@@ -15,7 +15,8 @@ object Services {
 
   def themeMapping(themeDB: Schema.Themes): RawImpl.ItemRawExport = {
     // (id, name,idThemeParent,x,y, final_theme)
-    RawImpl.ItemRawExport(themeDB._1, themeDB._2, "", js.BigInt.Null, js.BigInt(themeDB._3), js.BigInt(themeDB._4), js.BigInt(themeDB._5))
+    RawImpl.
+      ItemRawExport(themeDB._1, themeDB._2, "", js.BigInt.Null, js.BigInt(themeDB._3), js.BigInt(themeDB._4), js.BigInt(themeDB._5))
   }
 
   def themeWithImage(themeDB: Schema.Themes, imgDb: Option[Schema.ImagesWithoutData]): RawImpl.ItemRawExport = {

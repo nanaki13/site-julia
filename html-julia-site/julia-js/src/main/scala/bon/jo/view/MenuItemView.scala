@@ -16,7 +16,7 @@ abstract class MenuItemView(val menuItem: MenuItem)(implicit val siteService: Si
 
   override def service: DistantService[MenuItem,_] = siteService.menuService
 
-
+  def cssClass : String
   val nomForm: Ref[Input] = Ref[Input](id + "nom")
 
   override def value: MenuItem = menuItem.copy(text = nomForm.value)
@@ -49,7 +49,7 @@ abstract class MenuItemView(val menuItem: MenuItem)(implicit val siteService: Si
 
   override def xml(): Node =
     <div id={id}>
-      <a class="btn" id={"btn-mi-" + id}>
+      <a class={cssClass} id={"btn-mi-" + id}>
         {menuItem.text}
       </a>{adminXmlOption match {
       case Some(value) => value

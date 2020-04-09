@@ -59,7 +59,7 @@ object Token {
 
         .withJWTId(UUID.randomUUID().toString)
         .withKeyId(UUID.randomUUID().toString)
-        .withExpiresAt(new Date(System.currentTimeMillis() + scala.math.round(validiteHour * 3600)))
+        .withExpiresAt(new Date(System.currentTimeMillis() + scala.math.round(validiteHour * 3600 * 1000)))
       claims.foreach(e => t.withClaim(e._1, e._2))
       t.sign(a)
     }

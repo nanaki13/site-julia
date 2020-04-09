@@ -52,23 +52,25 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
     {adminXmlOption match {
       case Some(value) => value
       case None =>
-    }}<div>
-      <div>
+    }}<div class="oeuvre-text">
+      <div class="text oeuvre-title">
         {oeuvre.name}
       </div>
-      <div>
+      <div class="text">
         {oeuvre.date}
       </div>
-      <div>
-        {oeuvre.dimension}
+      <div class="text">
+        {oeuvre.dimension.x} cm x {oeuvre.dimension.y} cm
       </div>
-      <div>
+      <div class="text">
         {oeuvre.description}
       </div>
-      <div><!--span class="btn btn-primary" id={"save-i-" + oeuvre.image.id}>save</span>
+    </div>
+    <div class="img-cont">
+        <div class="fore-ground"></div>
+      <!--span class="btn btn-primary" id={"save-i-" + oeuvre.image.id}>save</span>
         <span class="btn btn-primary" id={"delete-i-" + oeuvre.image.id}>delete</span-->
-        <img id={"img-"+ oeuvre.image.id} class="oeuvre-img" ></img>
-      </div>
+      <img id={"img-"+ oeuvre.image.id} class="oeuvre-img" ></img>
     </div>
   </div>
 

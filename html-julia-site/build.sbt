@@ -5,7 +5,7 @@ import scala.sys.process._
 
 
 enablePlugins(ScalaJSPlugin)
-val sharedSettings = Seq(version := "0.1.0-SNAPSHOT",
+val sharedSettings = Seq(version := "0.1.1-SNAPSHOT",
   organization := "bon.jo",
   scalaVersion := "2.13.1")
 name := "html-julia-site"
