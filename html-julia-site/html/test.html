@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/css/julia.css">
+    <script src="./assets/js/bootstrap.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+    const conf =  { prod : false };
+
+
+
+</script>
+
+<script type="text/javascript" src="index.js"></script>
+<script language="JavaScript">
+const imgSend = new SendImage("id-test", (z) => {
+    console.log(z.get("image_name"));
+});
+debugger;
+const xml = imgSend.xml()
+const html = imgSend.myHtml()
+ document.body.appendChild(html);
+ imgSend.init(document.body)
+
+</script>
+</body>
+</html>

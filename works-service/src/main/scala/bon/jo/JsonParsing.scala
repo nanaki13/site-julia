@@ -10,8 +10,8 @@ import scala.concurrent.ExecutionContext
 
 object JsonParsing extends JsonParsing
 
-trait JsonParsing extends JsonIn with JsonOut {
-  implicit def inJson[R <: OkResponse](implicit manifest: Manifest[R], m: Materializer, ec: ExecutionContext): FromEntityUnmarshaller[R] = unMarsh[R]
+trait JsonParsing extends  JsonOut {
+  // def inJson[R <: OkResponse](implicit manifest: Manifest[R], m: Materializer, ec: ExecutionContext): FromEntityUnmarshaller[R] = unMarsh[R]
 
   implicit def out[T <: OkResponse](implicit statusCode: StatusCode): ToResponseMarshaller[T] = jsonEntityWithStatus[T](statusCode)
 

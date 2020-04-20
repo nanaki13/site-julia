@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import bon.jo.SiteModel.{Image, MenuItem, Oeuvre, SiteElement, SiteTitle}
 
 import scala.annotation.tailrec
+import scala.collection.mutable
 import scala.reflect.ClassTag
 import scala.scalajs.js.annotation._
 import scala.util.Random
@@ -61,7 +62,7 @@ object SiteModel {
 
   @JSExportTopLevel("Image")
   @JSExportAll
-  case class Image(override val id: Int, link: String, base : String) extends SiteElement(id)
+  case class Image(override val id: Int, link: String, base: String) extends SiteElement(id)
 
   object Image {
 
@@ -75,7 +76,7 @@ object SiteModel {
 
   @JSExportTopLevel("Oeuvre")
   @JSExportAll
-  case class Oeuvre(override val id: Int, image: Image, name: String, description: String, dimension: Dimension, date: Int, theme: Option[MenuItem] = None) extends SiteElement(id) {
+  case class Oeuvre(override val id: Int,var image: Image, name: String, description: String, dimension: Dimension, date: Int, theme: Option[MenuItem] = None) extends SiteElement(id) {
     override def toString: String = s"oeuvre:$id"
   }
 
@@ -125,7 +126,7 @@ object SiteModel {
   def rs: String = Random.nextString(5)
 
   def randomOeuvre(size: Int): Seq[Oeuvre] = for (_ <- 0 until size) yield {
-    Oeuvre(0, Image(0, rs,""), rs, "", Dimension(10, 10), 2020)
+    Oeuvre(0, Image(0, rs, ""), rs, "", Dimension(10, 10), 2020)
   }
 }
 
@@ -136,6 +137,13 @@ object Remover {
     parent.items = parent.items.filter(_.id != toRmeove.id)
   }
 
+  def replaceFromChild(toReplace: Oeuvre, parent: MenuItem) = {
+    val elAndId = parent.oeuvres.zipWithIndex.find(_._1.id == toReplace.id).get
+    val nListArray = mutable.ArrayBuffer(parent.oeuvres: _ *)
+    nListArray(elAndId._2) = toReplace
+    parent.oeuvres = nListArray.toList
+  }
+
   def removeFromChild(toRmeove: Oeuvre, parent: MenuItem) = {
     parent.oeuvres = parent.oeuvres.filter(_.id != toRmeove.id)
   }
@@ -143,7 +151,7 @@ object Remover {
   @tailrec
   final def removeRec(toRmeove: MenuItem, newxr: List[MenuItem]): Unit = {
     if (newxr.isEmpty) {
-      return ()
+      ()
     } else {
       removeRec(toRmeove, if (newxr.nonEmpty) {
         val rem = removeFromChild(toRmeove, _: MenuItem)
@@ -161,7 +169,7 @@ object Remover {
       return ()
     } else {
       removeRec(toRmeove, if (newxr.nonEmpty) {
-        val rem = removeFromChild(toRmeove, _ : MenuItem)
+        val rem = removeFromChild(toRmeove, _: MenuItem)
         newxr.foreach(rem)
         newxr.flatMap(_.items)
       } else {
@@ -174,15 +182,19 @@ object Remover {
 @JSExportTopLevel("SiteModel")
 @JSExportAll
 case class SiteModel(title: SiteTitle = SiteTitle(0, "Julia le Corre artiste")) {
+  def replace(mod: Oeuvre): Unit = {
+
+  }
 
 
   def remove(siteElement: SiteElement): Unit = {
     siteElement match {
-      case a : Image => remove(a)
-      case a : MenuItem => remove(a)
-      case a : Oeuvre => remove(a)
+      case a: Image => remove(a)
+      case a: MenuItem => remove(a)
+      case a: Oeuvre => remove(a)
     }
   }
+
   def remove(menuItem: MenuItem): Unit = Remover.removeRec(menuItem, items)
 
   def remove(o: Oeuvre): Unit = Remover.removeRec(o, items)

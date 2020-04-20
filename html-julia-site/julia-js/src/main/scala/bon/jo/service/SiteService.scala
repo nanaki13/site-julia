@@ -1,21 +1,28 @@
 package bon.jo.service
 
-import bon.jo.{Logger, SiteModel}
 import bon.jo.SiteModel._
+import bon.jo.app.RequestHttp.POST
 import bon.jo.app.service.DistantService
-import bon.jo.app.{ConfParam, Response, User}
-import bon.jo.html.DomShell
-import bon.jo.service.Raws._
-import bon.jo.service.RawsObject.GlobalExport
+import bon.jo.app.{ConfParam, RequestHttp, Response, User}
+import bon.jo.html.Types.FinalComponent
+import bon.jo.service.Raws.{WithId, _}
 import bon.jo.view.SiteModelView
+import bon.jo.{Logger, SiteModel}
+import org.scalajs.dom.FormData
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.scalajs.js
 import scala.scalajs.js.JSON
-import scala.scalajs.js.JSConverters._
 
 
 class SiteService(implicit val user: User, val executionContext: ExecutionContext) {
+  def root(listImg: FinalComponent[_]) = {
+    siteView.root(listImg)
+  }
+
+  def hideAll = siteView.hideAll
+
+  def showAll = siteView.displayAll
 
 
   def console: Any => Unit = Logger.log
@@ -77,22 +84,42 @@ class SiteService(implicit val user: User, val executionContext: ExecutionContex
   }
 
 
+  trait mId {
+    var mid = 0
+
+    def newId: Int = {
+      mid += 1
+      mid
+    }
+  }
+  class KeepId[C,A <: WithId]( url : String) (implicit read: js.Any =>A, write:C => String, user: User) extends DistantService[C, A](url)  with mId {
+
+    override def getAll: Future[js.Array[A]] = super.getAll.map { e => {
+      mid = e.map(_.id).max
+      e
+    }
+    }
+  }
   object services {
 
 
     import ReqBridge._
 
-    object menuService extends DistantService[MenuItem, ItemRawExport](ConfParam.apiMenu())
 
-    object oeuvreService extends DistantService[Oeuvre, OeuvreRawExport](ConfParam.apiOeuvre())
 
-    object imageService extends DistantService[Image, ImageRawExport](ConfParam.apiImage())
+    object menuService extends KeepId[MenuItem, ItemRawExport](ConfParam.apiMenu())
+
+    object oeuvreService extends KeepId[Oeuvre, OeuvreRawExport](ConfParam.apiOeuvre())
+
+
+    object imageService extends KeepId[Image, ImageRawExport](ConfParam.apiImage()) with PostForm
+
 
   }
 
-  val menuService: DistantService[MenuItem, ItemRawExport] = services.menuService
-  val oeuvreService: DistantService[Oeuvre, OeuvreRawExport] = services.oeuvreService
-  val imageService: DistantService[Image, ImageRawExport] = services.imageService
+  val menuService :  KeepId[MenuItem, ItemRawExport] = services.menuService
+  val oeuvreService: KeepId[Oeuvre, OeuvreRawExport]  = services.oeuvreService
+  val imageService: KeepId[Image, ImageRawExport]  with PostForm = services.imageService
 
 
   object Legacy {
@@ -216,6 +243,17 @@ class SiteService(implicit val user: User, val executionContext: ExecutionContex
 
   }
 
+
+}
+
+trait PostForm {
+
+
+  def url: String
+
+  def post(formData: FormData): Future[Response] = {
+    new RequestHttp(urlDesr = url, method = POST, json = false).sendBody(formData)
+  }
 
 }
 

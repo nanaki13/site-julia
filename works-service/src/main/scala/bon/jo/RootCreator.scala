@@ -1,25 +1,41 @@
 package bon.jo
 
-import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.model.{HttpEntity, StatusCodes}
 import akka.http.scaladsl.server.{Directives, Route}
-import akka.http.scaladsl.unmarshalling.FromEntityUnmarshaller
+import akka.http.scaladsl.unmarshalling.{FromEntityUnmarshaller, Unmarshaller}
 import akka.stream.Materializer
 import bon.jo.SiteModel.{OkResponse, Operation}
+import org.json4s.native.Serialization.read
 
-import scala.concurrent.ExecutionContext
-
+import scala.concurrent.{ExecutionContext, Future}
+import CustomJs._
 trait RootCreator[WebMessage <: OkResponse] extends Directives with JsonParsing with RouteHandle {
 
   self: WebServiceCrud[WebMessage] =>
   implicit val manifest: Manifest[WebMessage]
 
 
+
   def stadard(
                implicit executionContext: ExecutionContext,
-
                m: Materializer
              ): Route = {
 
+    def unMarsh[WebMessage](implicit manifest: Manifest[WebMessage],  m: Materializer): FromEntityUnmarshaller[WebMessage] = {
+      def toJson(s: HttpEntity): Future[WebMessage] = {
+        s.dataBytes.runReduce(_ ++ _).map(e => {
+          try{
+            println(e.utf8String)
+            read[WebMessage](e.utf8String)
+          }catch {
+            case e : Exception => println(e);e.printStackTrace();throw e
+          }
+
+        })
+      }
+
+      Unmarshaller.withMaterializer(_ => _ => toJson)
+    }
     concat(pathSuffix(IntNumber) { id: Int =>
       concat(get {
         implicit val st = StatusCodes.OK
@@ -36,6 +52,8 @@ trait RootCreator[WebMessage <: OkResponse] extends Directives with JsonParsing 
         handle(self.readAll, s"error when getting  ${ressourceName}")
       },
       post {
+
+        implicit val j = unMarsh[WebMessage]
         entity(as[WebMessage]) { e => {
           implicit val ok = StatusCodes.Created
           handle(createEntity(e),
@@ -46,7 +64,8 @@ trait RootCreator[WebMessage <: OkResponse] extends Directives with JsonParsing 
 
       },
       patch {
-        implicit val okStatus = StatusCodes.NoContent
+        implicit val okStatus: StatusCodes.Success = StatusCodes.NoContent
+        implicit val j = unMarsh[WebMessage]
         entity(as[WebMessage]) { forPatch =>
           handle(self.updateEntity(forPatch),
             s"error when update  ${ressourceName}",
@@ -60,7 +79,7 @@ trait RootCreator[WebMessage <: OkResponse] extends Directives with JsonParsing 
                 implicit executionContext: ExecutionContext,
                 m: Materializer
               ): Route = {
-    implicit def inJson: FromEntityUnmarshaller[WebMessage] = unMarsh[WebMessage]
+
 
     before match {
       case Some(v) => pathPrefix(ressourceName) {

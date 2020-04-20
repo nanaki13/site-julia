@@ -1,4 +1,4 @@
-let Image, SiteTitle, ProvidedId, SiteModel, OeuvreExport, MenuItem, TokenPlayLoad, Dimension, Oeuvre;
+let SiteTitle, Image, ProvidedId, SiteModel, OeuvreExport, MenuItem, TokenPlayLoad, Dimension, SendImage, Oeuvre;
 (function(){
 'use strict';
 const $linkingInfo = Object.freeze({
@@ -800,9 +800,9 @@ class $c_Lbon_jo_Remover$ extends $c_O {
   };
   removeFromChild__Lbon_jo_SiteModel$Oeuvre__Lbon_jo_SiteModel$MenuItem__V(toRmeove, parent) {
     const this$2 = parent.Lbon_jo_SiteModel$MenuItem__f_oeuvres;
-    const f = ((this$1, toRmeove$1) => ((x$3$2) => {
-      const x$3 = $as_Lbon_jo_SiteModel$Oeuvre(x$3$2);
-      return (x$3.Lbon_jo_SiteModel$SiteElement__f_id !== toRmeove$1.Lbon_jo_SiteModel$SiteElement__f_id)
+    const f = ((this$1, toRmeove$1) => ((x$4$2) => {
+      const x$4 = $as_Lbon_jo_SiteModel$Oeuvre(x$4$2);
+      return (x$4.Lbon_jo_SiteModel$SiteElement__f_id !== toRmeove$1.Lbon_jo_SiteModel$SiteElement__f_id)
     }))(this, toRmeove);
     let l = this$2;
     let result;
@@ -871,17 +871,15 @@ class $c_Lbon_jo_Remover$ extends $c_O {
   };
   removeRec__Lbon_jo_SiteModel$MenuItem__sci_List__V(toRmeove, newxr) {
     while (true) {
-      if (newxr.isEmpty__Z()) {
-        break
-      } else {
+      if ((!newxr.isEmpty__Z())) {
         const this$1 = newxr;
         if ((!this$1.isEmpty__Z())) {
           const this$2 = newxr;
           let these = this$2;
           while ((!these.isEmpty__Z())) {
             const arg1 = these.head__O();
-            const x$4 = $as_Lbon_jo_SiteModel$MenuItem(arg1);
-            $m_Lbon_jo_Remover$().removeFromChild__Lbon_jo_SiteModel$MenuItem__Lbon_jo_SiteModel$MenuItem__V(toRmeove, x$4);
+            const x$5 = $as_Lbon_jo_SiteModel$MenuItem(arg1);
+            $m_Lbon_jo_Remover$().removeFromChild__Lbon_jo_SiteModel$MenuItem__Lbon_jo_SiteModel$MenuItem__V(toRmeove, x$5);
             these = $as_sci_List(these.tail__O())
           };
           const this$3 = newxr;
@@ -890,8 +888,8 @@ class $c_Lbon_jo_Remover$ extends $c_O {
           let t = null;
           while ((rest !== $m_sci_Nil$())) {
             const arg1$1 = rest.head__O();
-            const x$5 = $as_Lbon_jo_SiteModel$MenuItem(arg1$1);
-            const it = x$5.Lbon_jo_SiteModel$MenuItem__f_items.iterator__sc_Iterator();
+            const x$6 = $as_Lbon_jo_SiteModel$MenuItem(arg1$1);
+            const it = x$6.Lbon_jo_SiteModel$MenuItem__f_items.iterator__sc_Iterator();
             while (it.hasNext__Z()) {
               const nx = new $c_sci_$colon$colon(it.next__O(), $m_sci_Nil$());
               if ((t === null)) {
@@ -923,8 +921,8 @@ class $c_Lbon_jo_Remover$ extends $c_O {
           let these = this$2;
           while ((!these.isEmpty__Z())) {
             const arg1 = these.head__O();
-            const x$6 = $as_Lbon_jo_SiteModel$MenuItem(arg1);
-            $m_Lbon_jo_Remover$().removeFromChild__Lbon_jo_SiteModel$Oeuvre__Lbon_jo_SiteModel$MenuItem__V(toRmeove, x$6);
+            const x$7 = $as_Lbon_jo_SiteModel$MenuItem(arg1);
+            $m_Lbon_jo_Remover$().removeFromChild__Lbon_jo_SiteModel$Oeuvre__Lbon_jo_SiteModel$MenuItem__V(toRmeove, x$7);
             these = $as_sci_List(these.tail__O())
           };
           const this$3 = newxr;
@@ -933,8 +931,8 @@ class $c_Lbon_jo_Remover$ extends $c_O {
           let t = null;
           while ((rest !== $m_sci_Nil$())) {
             const arg1$1 = rest.head__O();
-            const x$7 = $as_Lbon_jo_SiteModel$MenuItem(arg1$1);
-            const it = x$7.Lbon_jo_SiteModel$MenuItem__f_items.iterator__sc_Iterator();
+            const x$8 = $as_Lbon_jo_SiteModel$MenuItem(arg1$1);
+            const it = x$8.Lbon_jo_SiteModel$MenuItem__f_items.iterator__sc_Iterator();
             while (it.hasNext__Z()) {
               const nx = new $c_sci_$colon$colon(it.next__O(), $m_sci_Nil$());
               if ((t === null)) {
@@ -1273,15 +1271,17 @@ function $asArrayOf_Lbon_jo_app_HtmlApp(obj, depth) {
   return (($isArrayOf_Lbon_jo_app_HtmlApp(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.app.HtmlApp;", depth))
 }
 class $c_Lbon_jo_app_RequestHttp extends $c_O {
-  constructor(urlDesr, method, headers) {
+  constructor(urlDesr, method, headers, json) {
     super();
     this.Lbon_jo_app_RequestHttp__f_urlDesr = null;
     this.Lbon_jo_app_RequestHttp__f_method = null;
     this.Lbon_jo_app_RequestHttp__f_headers = null;
+    this.Lbon_jo_app_RequestHttp__f_json = false;
     this.Lbon_jo_app_RequestHttp__f_request = null;
     this.Lbon_jo_app_RequestHttp__f_urlDesr = urlDesr;
     this.Lbon_jo_app_RequestHttp__f_method = method;
     this.Lbon_jo_app_RequestHttp__f_headers = headers;
+    this.Lbon_jo_app_RequestHttp__f_json = json;
     this.Lbon_jo_app_RequestHttp__f_request = new XMLHttpRequest()
   };
   open__V() {
@@ -1312,7 +1312,9 @@ class $c_Lbon_jo_app_RequestHttp extends $c_O {
         throw new $c_s_MatchError(x$3)
       }
     }))(this));
-    this.Lbon_jo_app_RequestHttp__f_request.setRequestHeader("Content-Type", "application/json");
+    if (this.Lbon_jo_app_RequestHttp__f_json) {
+      this.Lbon_jo_app_RequestHttp__f_request.setRequestHeader("Content-Type", "application/json")
+    };
     this.Lbon_jo_app_RequestHttp__f_headers.foreach__F1__V(makeHeader)
   };
   bon$jo$app$RequestHttp$$$anonfun$sendBody$2__Lorg_scalajs_dom_raw_Event__sjs_js_Function1__sjs_js_Function1__O(e, resolve$1, reject$1) {
@@ -1347,7 +1349,7 @@ class $c_Lbon_jo_app_RequestHttp$Method extends $c_O {
     this.Lbon_jo_app_RequestHttp$Method__f_name = null
   };
   send__T__O__sci_List__F1__s_concurrent_Future(dest, body, headers, writer) {
-    const $$x1 = new $c_Lbon_jo_app_RequestHttp(dest, this, headers);
+    const $$x1 = new $c_Lbon_jo_app_RequestHttp(dest, this, headers, true);
     const s = $as_T(writer.apply__O__O(body));
     return $$x1.sendBody__sjs_js_Any__s_concurrent_Future(s)
   };
@@ -1445,38 +1447,57 @@ class $c_Lbon_jo_html_DomShell$ extends $c_O {
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
     return new $c_s_xml_Elem(null, "form", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
   };
-  inputXml__T__T__O__T__s_xml_Elem(name, label, value, _type) {
+  inputXml__T__T__O__T__T__sci_Map__s_xml_Elem(name, label, value, _type, inputClasses, dataSet) {
+    const metaDataAgg = $m_s_xml_Null$();
+    let result = metaDataAgg;
+    const it = dataSet.iterator__sc_Iterator();
+    while (it.hasNext__Z()) {
+      const arg1 = result;
+      const arg2 = it.next__O();
+      const md = $as_s_xml_MetaData(arg1);
+      const kv = $as_T2(arg2);
+      result = md.copy__s_xml_MetaData__s_xml_MetaData($ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), ("data-" + kv.T2__f__1), $as_T(kv.T2__f__2), $m_s_xml_Null$()))
+    };
+    const metaData = $as_s_xml_MetaData(result);
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("form-group"), \u03b4md);
     const $$x6 = \u03b4md;
     const $$x5 = $m_s_xml_TopScope$();
     $m_s_xml_NodeSeq$();
     const \u03b4buf = new $c_s_xml_NodeBuffer();
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
     let \u03b4md$2 = $m_s_xml_Null$();
     \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("form-label"), \u03b4md$2);
     \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "for", ("" + name), \u03b4md$2);
+    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("l-" + name), \u03b4md$2);
     const $$x2 = \u03b4md$2;
     const $$x1 = $m_s_xml_TopScope$();
     $m_s_xml_NodeSeq$();
     const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
     \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(label);
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "label", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text(" "));
+    const class_ = ("form-control" + ((inputClasses !== "") ? (" " + inputClasses) : ""));
     let \u03b4md$3 = $m_s_xml_Null$();
     \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "type", _type, \u03b4md$3);
     \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "value", ("" + value), \u03b4md$3);
     \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "placeholder", ("" + label), \u03b4md$3);
     \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("" + name), \u03b4md$3);
     \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "name", ("" + name), \u03b4md$3);
-    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("form-control"), \u03b4md$3);
+    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", class_, \u03b4md$3);
     const $$x4 = \u03b4md$3;
     const $$x3 = $m_s_xml_TopScope$();
     const array = [];
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "input", $$x4, $$x3, true, new $c_sjsr_WrappedVarArgs(array)));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
+    const in$1 = new $c_s_xml_Elem(null, "input", $$x4, $$x3, true, new $c_sjsr_WrappedVarArgs(array));
+    const x$1 = in$1.s_xml_Elem__f_attributes.append__s_xml_MetaData__s_xml_NamespaceBinding__s_xml_MetaData(metaData, in$1.s_xml_Elem__f_attributes.append$default$2__s_xml_NamespaceBinding());
+    const x$2 = in$1.s_xml_Elem__f_prefix;
+    const x$3 = in$1.s_xml_Elem__f_label;
+    const x$4 = in$1.s_xml_Elem__f_scope;
+    const x$5 = in$1.s_xml_Elem__f_minimizeEmpty;
+    const this$7 = in$1.s_xml_Elem__f_child;
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(in$1.copy__T__T__s_xml_MetaData__s_xml_NamespaceBinding__Z__sc_Seq__s_xml_Elem(x$2, x$3, x$1, x$4, x$5, this$7));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
     return new $c_s_xml_Elem(null, "div", $$x6, $$x5, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
   };
   button__T__T__T__s_xml_Elem(id, text, class_) {
@@ -1558,87 +1579,74 @@ function $m_Lbon_jo_html_DomShell$$c$() {
   };
   return $n_Lbon_jo_html_DomShell$$c$
 }
-class $c_Lbon_jo_html_DomShell$ExtendedElement extends $c_O {
-  constructor(e) {
-    super();
-    this.Lbon_jo_html_DomShell$ExtendedElement__f_e = null;
-    this.Lbon_jo_html_DomShell$ExtendedElement__f_e = e
-  };
-  removeFromDom__Lorg_scalajs_dom_raw_Node() {
-    return this.Lbon_jo_html_DomShell$ExtendedElement__f_e.parentNode.removeChild(this.Lbon_jo_html_DomShell$ExtendedElement__f_e)
-  };
-  clear__V() {
-    const e = this.Lbon_jo_html_DomShell$ExtendedElement__f_e.children;
-    const this$2 = new $c_Lbon_jo_html_DomShell$ExtendedHTMLCollection(e);
-    const it = this$2.iterator__sc_Iterator();
-    while (it.hasNext__Z()) {
-      const arg1 = it.next__O();
-      this.Lbon_jo_html_DomShell$ExtendedElement__f_e.removeChild(arg1)
-    }
-  };
-  addChild__s_xml_Node__V(node) {
-    this.Lbon_jo_html_DomShell$ExtendedElement__f_e.appendChild($m_Lbon_jo_html_DomShell$$c$().apply__s_xml_Node__Lorg_scalajs_dom_raw_Element(node))
-  };
-}
-const $d_Lbon_jo_html_DomShell$ExtendedElement = new $TypeData().initClass({
-  Lbon_jo_html_DomShell$ExtendedElement: 0
-}, false, "bon.jo.html.DomShell$ExtendedElement", {
-  Lbon_jo_html_DomShell$ExtendedElement: 1,
-  O: 1
+const $ct_Lbon_jo_html_DomShell$ExtendedNode__Lorg_scalajs_dom_raw_Node__ = (function($thiz, element) {
+  $thiz.Lbon_jo_html_DomShell$ExtendedNode__f_element = element;
+  return $thiz
 });
-$c_Lbon_jo_html_DomShell$ExtendedElement.prototype.$classData = $d_Lbon_jo_html_DomShell$ExtendedElement;
-const $f_Lbon_jo_html_EventFromView__onClick__sjs_js_Function1__V = (function($thiz, function$1) {
-  const x1 = $m_Lbon_jo_html_EventFromView$().Lbon_jo_html_EventFromView$__f_eventsHadlers.get__O__s_Option($as_Lbon_jo_html_IdView($thiz).id__T());
-  if ((x1 instanceof $c_s_Some)) {
-    const x2 = $as_s_Some(x1);
-    const value = x2.s_Some__f_value;
-    const this$1 = $as_Lbon_jo_html_InDom($thiz);
-    if ($f_Lbon_jo_html_InDom__isInDom__Z(this$1)) {
-      $as_Lbon_jo_html_InDom($thiz).me__Lorg_scalajs_dom_raw_HTMLElement().removeEventListener("click", value)
-    }
-  } else {
-    const x = $m_s_None$();
-    if ((!(x === x1))) {
-      throw new $c_s_MatchError(x1)
-    }
-  };
-  const this$2 = $m_Lbon_jo_html_EventFromView$().Lbon_jo_html_EventFromView$__f_eventsHadlers;
-  const key = $as_Lbon_jo_html_IdView($thiz).id__T();
-  $p_scm_HashMap__put0__O__O__Z__s_Some(this$2, key, function$1, false)
-});
-function $is_Lbon_jo_html_EventFromView(obj) {
-  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lbon_jo_html_EventFromView)))
-}
-function $as_Lbon_jo_html_EventFromView(obj) {
-  return (($is_Lbon_jo_html_EventFromView(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.html.EventFromView"))
-}
-function $isArrayOf_Lbon_jo_html_EventFromView(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_html_EventFromView)))
-}
-function $asArrayOf_Lbon_jo_html_EventFromView(obj, depth) {
-  return (($isArrayOf_Lbon_jo_html_EventFromView(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.html.EventFromView;", depth))
-}
-class $c_Lbon_jo_html_EventFromView$ extends $c_O {
+class $c_Lbon_jo_html_DomShell$ExtendedNode extends $c_O {
   constructor() {
     super();
-    this.Lbon_jo_html_EventFromView$__f_eventsHadlers = null;
-    $n_Lbon_jo_html_EventFromView$ = this;
-    this.Lbon_jo_html_EventFromView$__f_eventsHadlers = $as_scm_Map($m_scm_Map$().apply__sci_Seq__O($m_sci_Nil$()))
+    this.Lbon_jo_html_DomShell$ExtendedNode__f_element = null
+  };
+  removeFromDom__Lorg_scalajs_dom_raw_Node() {
+    return this.element__Lorg_scalajs_dom_raw_Node().parentNode.removeChild(this.element__Lorg_scalajs_dom_raw_Node())
+  };
+  addChild__s_xml_Node__V(node) {
+    this.element__Lorg_scalajs_dom_raw_Node().appendChild($m_Lbon_jo_html_DomShell$$c$().apply__s_xml_Node__Lorg_scalajs_dom_raw_Element(node))
   };
 }
-const $d_Lbon_jo_html_EventFromView$ = new $TypeData().initClass({
-  Lbon_jo_html_EventFromView$: 0
-}, false, "bon.jo.html.EventFromView$", {
-  Lbon_jo_html_EventFromView$: 1,
+function $is_Lbon_jo_html_DomShell$Obs(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lbon_jo_html_DomShell$Obs)))
+}
+function $as_Lbon_jo_html_DomShell$Obs(obj) {
+  return (($is_Lbon_jo_html_DomShell$Obs(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.html.DomShell$Obs"))
+}
+function $isArrayOf_Lbon_jo_html_DomShell$Obs(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_html_DomShell$Obs)))
+}
+function $asArrayOf_Lbon_jo_html_DomShell$Obs(obj, depth) {
+  return (($isArrayOf_Lbon_jo_html_DomShell$Obs(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.html.DomShell$Obs;", depth))
+}
+class $c_Lbon_jo_html_DomShell$Obs$ extends $c_O {
+  constructor() {
+    super();
+    this.Lbon_jo_html_DomShell$Obs$__f_alls = null;
+    $n_Lbon_jo_html_DomShell$Obs$ = this;
+    this.Lbon_jo_html_DomShell$Obs$__f_alls = $as_scm_Map($m_scm_Map$().apply__sci_Seq__O($m_sci_Nil$()))
+  };
+  once__Lbon_jo_html_DomShell$OnceObs() {
+    const ret = new $c_Lbon_jo_html_DomShell$Obs$$anon$1();
+    return ret
+  };
+  once__F1__Lbon_jo_html_DomShell$OnceObs(client) {
+    const ret = new $c_Lbon_jo_html_DomShell$Obs$$anon$2(client);
+    return ret
+  };
+  get__T__Lbon_jo_html_DomShell$Obs(id) {
+    const ret = this.Lbon_jo_html_DomShell$Obs$__f_alls.get__O__s_Option(id);
+    if (ret.isEmpty__Z()) {
+      const n = new $c_Lbon_jo_html_DomShell$StackObs($m_sci_Nil$());
+      const this$2 = this.Lbon_jo_html_DomShell$Obs$__f_alls;
+      $p_scm_HashMap__put0__O__O__Z__s_Some(this$2, id, n, false);
+      return n
+    } else {
+      return $as_Lbon_jo_html_DomShell$Obs(ret.get__O())
+    }
+  };
+}
+const $d_Lbon_jo_html_DomShell$Obs$ = new $TypeData().initClass({
+  Lbon_jo_html_DomShell$Obs$: 0
+}, false, "bon.jo.html.DomShell$Obs$", {
+  Lbon_jo_html_DomShell$Obs$: 1,
   O: 1
 });
-$c_Lbon_jo_html_EventFromView$.prototype.$classData = $d_Lbon_jo_html_EventFromView$;
-let $n_Lbon_jo_html_EventFromView$ = (void 0);
-function $m_Lbon_jo_html_EventFromView$() {
-  if ((!$n_Lbon_jo_html_EventFromView$)) {
-    $n_Lbon_jo_html_EventFromView$ = new $c_Lbon_jo_html_EventFromView$()
+$c_Lbon_jo_html_DomShell$Obs$.prototype.$classData = $d_Lbon_jo_html_DomShell$Obs$;
+let $n_Lbon_jo_html_DomShell$Obs$ = (void 0);
+function $m_Lbon_jo_html_DomShell$Obs$() {
+  if ((!$n_Lbon_jo_html_DomShell$Obs$)) {
+    $n_Lbon_jo_html_DomShell$Obs$ = new $c_Lbon_jo_html_DomShell$Obs$()
   };
-  return $n_Lbon_jo_html_EventFromView$
+  return $n_Lbon_jo_html_DomShell$Obs$
 }
 function $is_Lbon_jo_html_IdView(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lbon_jo_html_IdView)))
@@ -1655,30 +1663,9 @@ function $asArrayOf_Lbon_jo_html_IdView(obj, depth) {
 const $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement = (function($thiz) {
   return $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element($as_Lbon_jo_html_IdView($thiz).id__T())
 });
-const $f_Lbon_jo_html_InDom__isInDom__Z = (function($thiz) {
-  const x1 = $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element($as_Lbon_jo_html_IdView($thiz).id__T());
-  if ((x1 === null)) {
-    return false
-  };
-  if ((x1 !== null)) {
-    if ((x1 !== (void 0))) {
-      return true
-    }
-  };
-  return false
-});
 const $f_Lbon_jo_html_InDom__removeFromView__V = (function($thiz) {
-  if ($is_Lbon_jo_html_EventFromView($thiz)) {
-    const x1$2 = ($as_Lbon_jo_html_EventFromView($thiz), $m_Lbon_jo_html_EventFromView$().Lbon_jo_html_EventFromView$__f_eventsHadlers).get__O__s_Option($as_Lbon_jo_html_IdView($thiz).id__T());
-    if ((x1$2 instanceof $c_s_Some)) {
-      const x2$2 = $as_s_Some(x1$2);
-      const value = x2$2.s_Some__f_value;
-      $thiz.me__Lorg_scalajs_dom_raw_HTMLElement().removeEventListener("click", value);
-      ($as_Lbon_jo_html_EventFromView($thiz), $m_Lbon_jo_html_EventFromView$().Lbon_jo_html_EventFromView$__f_eventsHadlers).remove__O__s_Option($as_Lbon_jo_html_IdView($thiz).id__T())
-    }
-  };
-  const e = $thiz.me__Lorg_scalajs_dom_raw_HTMLElement();
-  new $c_Lbon_jo_html_DomShell$ExtendedElement(e).removeFromDom__Lorg_scalajs_dom_raw_Node()
+  const element = $thiz.me__Lorg_scalajs_dom_raw_HTMLElement();
+  new $c_Lbon_jo_html_DomShell$ExtendedElement(element).removeFromDom__Lorg_scalajs_dom_raw_Node()
 });
 function $is_Lbon_jo_html_InDom(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lbon_jo_html_InDom)))
@@ -1715,6 +1702,24 @@ function $m_Lbon_jo_service_DimemsionExport$() {
     $n_Lbon_jo_service_DimemsionExport$ = new $c_Lbon_jo_service_DimemsionExport$()
   };
   return $n_Lbon_jo_service_DimemsionExport$
+}
+const $f_Lbon_jo_service_PostForm__post__Lorg_scalajs_dom_raw_FormData__s_concurrent_Future = (function($thiz, formData) {
+  const x$1 = $thiz.Lbon_jo_app_service_DistantService__f_url;
+  const x$2 = $m_Lbon_jo_app_RequestHttp$POST$();
+  const x$4 = $m_sci_Nil$();
+  return new $c_Lbon_jo_app_RequestHttp(x$1, x$2, x$4, false).sendBody__sjs_js_Any__s_concurrent_Future(formData)
+});
+function $is_Lbon_jo_service_PostForm(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lbon_jo_service_PostForm)))
+}
+function $as_Lbon_jo_service_PostForm(obj) {
+  return (($is_Lbon_jo_service_PostForm(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.service.PostForm"))
+}
+function $isArrayOf_Lbon_jo_service_PostForm(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_service_PostForm)))
+}
+function $asArrayOf_Lbon_jo_service_PostForm(obj, depth) {
+  return (($isArrayOf_Lbon_jo_service_PostForm(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.service.PostForm;", depth))
 }
 class $c_Lbon_jo_service_RawsObject$GlobalExport$ extends $c_O {
   apply__Lbon_jo_SiteModel__Lbon_jo_service_Raws$GlobalExport(siteModel) {
@@ -1983,6 +1988,13 @@ class $c_Lbon_jo_service_RawsObject$ItemRawExport$ extends $c_O {
       const value$1 = e.Lbon_jo_SiteModel$SiteElement__f_id;
       ret.parent = value$1
     };
+    const this$15 = m.Lbon_jo_SiteModel$MenuItem__f_image;
+    if ((!this$15.isEmpty__Z())) {
+      const arg1$5 = this$15.get__O();
+      const im = $as_Lbon_jo_SiteModel$Image(arg1$5);
+      const value$2 = im.Lbon_jo_SiteModel$SiteElement__f_id;
+      ret.image = value$2
+    };
     return ret
   };
 }
@@ -2222,9 +2234,9 @@ class $c_Lbon_jo_service_SiteService extends $c_O {
   move__Lbon_jo_SiteModel$MenuItem__Lbon_jo_SiteModel$MenuItem__V(me, to) {
     const $$x1 = this.Lbon_jo_service_SiteService__f_siteModel;
     const this$2 = this.Lbon_jo_service_SiteService__f_siteModel.Lbon_jo_SiteModel__f_items;
-    const f = ((this$1, me$1) => ((x$10$2) => {
-      const x$10 = $as_Lbon_jo_SiteModel$MenuItem(x$10$2);
-      return (!((x$10 === null) ? (me$1 === null) : x$10.equals__O__Z(me$1)))
+    const f = ((this$1, me$1) => ((x$11$2) => {
+      const x$11 = $as_Lbon_jo_SiteModel$MenuItem(x$11$2);
+      return (!((x$11 === null) ? (me$1 === null) : x$11.equals__O__Z(me$1)))
     }))(this, me);
     let l = this$2;
     let result;
@@ -2295,9 +2307,9 @@ class $c_Lbon_jo_service_SiteService extends $c_O {
       const x2 = $as_s_Some(x1);
       const value = $as_Lbon_jo_SiteModel$MenuItem(x2.s_Some__f_value);
       const this$3 = value.Lbon_jo_SiteModel$MenuItem__f_items;
-      const f$1 = ((this$2$1, me$2) => ((x$11$2) => {
-        const x$11 = $as_Lbon_jo_SiteModel$MenuItem(x$11$2);
-        return (!((x$11 === null) ? (me$2 === null) : x$11.equals__O__Z(me$2)))
+      const f$1 = ((this$2$1, me$2) => ((x$12$2) => {
+        const x$12 = $as_Lbon_jo_SiteModel$MenuItem(x$12$2);
+        return (!((x$12 === null) ? (me$2 === null) : x$12.equals__O__Z(me$2)))
       }))(this, me);
       let l$1 = this$3;
       let result$1;
@@ -2383,9 +2395,9 @@ class $c_Lbon_jo_service_SiteService extends $c_O {
       const arg1 = this$1.get__O();
       const e = $as_Lbon_jo_SiteModel$MenuItem(arg1);
       const this$3 = e.Lbon_jo_SiteModel$MenuItem__f_oeuvres;
-      const f = ((this$2, me$2) => ((x$12$2) => {
-        const x$12 = $as_Lbon_jo_SiteModel$Oeuvre(x$12$2);
-        return (!((me$2 === null) ? (x$12 === null) : me$2.equals__O__Z(x$12)))
+      const f = ((this$2, me$2) => ((x$13$2) => {
+        const x$13 = $as_Lbon_jo_SiteModel$Oeuvre(x$13$2);
+        return (!((me$2 === null) ? (x$13 === null) : me$2.equals__O__Z(x$13)))
       }))(this, me);
       let l = this$3;
       let result;
@@ -2550,8 +2562,8 @@ class $c_Lbon_jo_service_SiteService extends $c_O {
     while ((i$2 < len$2)) {
       const $$x3 = i$2;
       const arg1$2 = res$1[i$2];
-      const x$13 = $as_Lbon_jo_SiteModel$MenuItem(arg1$2);
-      res$2[$$x3] = x$13.toKeyValue__T2();
+      const x$14 = $as_Lbon_jo_SiteModel$MenuItem(arg1$2);
+      res$2[$$x3] = x$14.toKeyValue__T2();
       i$2 = ((1 + i$2) | 0)
     };
     const this$14 = $ct_sjs_js_WrappedArray__sjs_js_Array__(new $c_sjs_js_WrappedArray(), res$2);
@@ -2573,8 +2585,8 @@ class $c_Lbon_jo_service_SiteService extends $c_O {
     while ((i$4 < len$4)) {
       const $$x5 = i$4;
       const arg1$4 = res$3[i$4];
-      const x$14 = $as_Lbon_jo_SiteModel$Image(arg1$4);
-      res$4[$$x5] = x$14.toKeyValue__T2();
+      const x$15 = $as_Lbon_jo_SiteModel$Image(arg1$4);
+      res$4[$$x5] = x$15.toKeyValue__T2();
       i$4 = ((1 + i$4) | 0)
     };
     const this$21 = $ct_sjs_js_WrappedArray__sjs_js_Array__(new $c_sjs_js_WrappedArray(), res$4);
@@ -2596,8 +2608,8 @@ class $c_Lbon_jo_service_SiteService extends $c_O {
     while ((i$6 < len$6)) {
       const $$x7 = i$6;
       const arg1$6 = res$5[i$6];
-      const x$15 = $as_Lbon_jo_SiteModel$Oeuvre(arg1$6);
-      res$6[$$x7] = x$15.toKeyValue__T2();
+      const x$16 = $as_Lbon_jo_SiteModel$Oeuvre(arg1$6);
+      res$6[$$x7] = x$16.toKeyValue__T2();
       i$6 = ((1 + i$6) | 0)
     };
     const this$28 = $ct_sjs_js_WrappedArray__sjs_js_Array__(new $c_sjs_js_WrappedArray(), res$6);
@@ -2606,9 +2618,9 @@ class $c_Lbon_jo_service_SiteService extends $c_O {
     this.link__sci_Map__sci_Map__sci_Map__sci_Map__V(imageMap, oeuvres, item, itemRwMap);
     this.refreshId__sc_Iterable__V(item.keySet__sci_Set());
     const this$29 = new $c_sc_MapOps$$anon$1(item);
-    const pred = new $c_sjsr_AnonFunction1(((this$8$1) => ((x$16$2) => {
-      const x$16 = $as_Lbon_jo_SiteModel$MenuItem(x$16$2);
-      return x$16.Lbon_jo_SiteModel$MenuItem__f_parent.isEmpty__Z()
+    const pred = new $c_sjsr_AnonFunction1(((this$8$1) => ((x$17$2) => {
+      const x$17 = $as_Lbon_jo_SiteModel$MenuItem(x$17$2);
+      return x$17.Lbon_jo_SiteModel$MenuItem__f_parent.isEmpty__Z()
     }))(this));
     return $as_sc_IterableOnceOps($f_sc_IterableOps__filter__F1__O(this$29, pred)).toList__sci_List()
   };
@@ -2662,6 +2674,10 @@ const $d_Lbon_jo_service_SiteService$ReqBridge$ = new $TypeData().initClass({
   O: 1
 });
 $c_Lbon_jo_service_SiteService$ReqBridge$.prototype.$classData = $d_Lbon_jo_service_SiteService$ReqBridge$;
+const $f_Lbon_jo_service_SiteService$mId__newId__I = (function($thiz) {
+  $thiz.Lbon_jo_service_SiteService$KeepId__f_mid = ((1 + $thiz.Lbon_jo_service_SiteService$KeepId__f_mid) | 0);
+  return $thiz.Lbon_jo_service_SiteService$KeepId__f_mid
+});
 const $p_Lbon_jo_service_SiteService$services$__menuService$lzycompute$1__V = (function($thiz) {
   if (($thiz.Lbon_jo_service_SiteService$services$__f_menuService$module === null)) {
     $thiz.Lbon_jo_service_SiteService$services$__f_menuService$module = new $c_Lbon_jo_service_SiteService$services$menuService$($thiz)
@@ -2716,10 +2732,43 @@ const $d_Lbon_jo_service_SiteService$services$ = new $TypeData().initClass({
   O: 1
 });
 $c_Lbon_jo_service_SiteService$services$.prototype.$classData = $d_Lbon_jo_service_SiteService$services$;
+class $c_Lbon_jo_view_Lists$PagChooseList$ extends $c_O {
+  apply$default$4__F1() {
+    return new $c_sjsr_AnonFunction1(((this$1) => ((e$2) => {
+      $as_Lbon_jo_html_Types$FinalComponent(e$2)
+    }))(this))
+  };
+}
+const $d_Lbon_jo_view_Lists$PagChooseList$ = new $TypeData().initClass({
+  Lbon_jo_view_Lists$PagChooseList$: 0
+}, false, "bon.jo.view.Lists$PagChooseList$", {
+  Lbon_jo_view_Lists$PagChooseList$: 1,
+  O: 1
+});
+$c_Lbon_jo_view_Lists$PagChooseList$.prototype.$classData = $d_Lbon_jo_view_Lists$PagChooseList$;
+let $n_Lbon_jo_view_Lists$PagChooseList$ = (void 0);
+function $m_Lbon_jo_view_Lists$PagChooseList$() {
+  if ((!$n_Lbon_jo_view_Lists$PagChooseList$)) {
+    $n_Lbon_jo_view_Lists$PagChooseList$ = new $c_Lbon_jo_view_Lists$PagChooseList$()
+  };
+  return $n_Lbon_jo_view_Lists$PagChooseList$
+}
 const $f_Lbon_jo_view_Ref__value__T = (function($thiz) {
   const x1 = $thiz.ref__Lorg_scalajs_dom_raw_HTMLElement();
   return ($uZ((x1 instanceof HTMLInputElement)) ? $as_T(x1.value) : "")
 });
+function $is_Lbon_jo_view_Ref(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lbon_jo_view_Ref)))
+}
+function $as_Lbon_jo_view_Ref(obj) {
+  return (($is_Lbon_jo_view_Ref(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.view.Ref"))
+}
+function $isArrayOf_Lbon_jo_view_Ref(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_view_Ref)))
+}
+function $asArrayOf_Lbon_jo_view_Ref(obj, depth) {
+  return (($isArrayOf_Lbon_jo_view_Ref(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.view.Ref;", depth))
+}
 class $c_jl_Class extends $c_O {
   constructor(data0) {
     super();
@@ -5229,10 +5278,19 @@ function $asArrayOf_F0(obj, depth) {
 const $f_F1__andThen__F1__F1 = (function($thiz, g) {
   return new $c_sjsr_AnonFunction1(((this$1, g$1) => ((x$2) => g$1.apply__O__O(this$1.apply__O__O(x$2))))($thiz, g))
 });
+function $is_F1(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.F1)))
+}
+function $as_F1(obj) {
+  return (($is_F1(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.Function1"))
+}
+function $isArrayOf_F1(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.F1)))
+}
+function $asArrayOf_F1(obj, depth) {
+  return (($isArrayOf_F1(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.Function1;", depth))
+}
 class $c_s_LowPriorityImplicits2 extends $c_O {
-  copyArrayToImmutableIndexedSeq__O__sci_IndexedSeq(xs) {
-    return ((xs === null) ? null : $m_sc_ArrayOps$().toIndexedSeq$extension__O__sci_IndexedSeq(xs))
-  };
 }
 class $c_s_PartialFunction$ extends $c_O {
   constructor() {
@@ -5262,25 +5320,6 @@ function $m_s_PartialFunction$() {
     $n_s_PartialFunction$ = new $c_s_PartialFunction$()
   };
   return $n_s_PartialFunction$
-}
-class $c_s_Predef$any2stringadd$ extends $c_O {
-  $plus$extension__O__T__T(this$, other) {
-    return (("" + this$) + other)
-  };
-}
-const $d_s_Predef$any2stringadd$ = new $TypeData().initClass({
-  s_Predef$any2stringadd$: 0
-}, false, "scala.Predef$any2stringadd$", {
-  s_Predef$any2stringadd$: 1,
-  O: 1
-});
-$c_s_Predef$any2stringadd$.prototype.$classData = $d_s_Predef$any2stringadd$;
-let $n_s_Predef$any2stringadd$ = (void 0);
-function $m_s_Predef$any2stringadd$() {
-  if ((!$n_s_Predef$any2stringadd$)) {
-    $n_s_Predef$any2stringadd$ = new $c_s_Predef$any2stringadd$()
-  };
-  return $n_s_Predef$any2stringadd$
 }
 class $c_sc_ArrayOps$ extends $c_O {
   last$extension__O__O(this$) {
@@ -5664,6 +5703,12 @@ class $c_sc_StringOps$ extends $c_O {
   contains$extension__T__C__Z(this$, elem) {
     return ($f_T__indexOf__I__I(this$, elem) >= 0)
   };
+  slice$extension__T__I__I__T(this$, from, until) {
+    const start = ((from > 0) ? from : 0);
+    const that = $uI(this$.length);
+    const end = ((until < that) ? until : that);
+    return ((start >= end) ? "" : $as_T(this$.substring(start, end)))
+  };
   stripSuffix$extension__T__T__T(this$, suffix) {
     if ($f_T__endsWith__T__Z(this$, suffix)) {
       const endIndex = (($uI(this$.length) - $uI(suffix.length)) | 0);
@@ -5690,6 +5735,18 @@ class $c_sc_StringOps$ extends $c_O {
   format$extension__T__sci_Seq__T(this$, args) {
     const args$1 = $asArrayOf_O($as_sc_IterableOnceOps(args.map__F1__O(new $c_sjsr_AnonFunction1(((this$1, this$$1) => ((arg$2) => $m_sc_StringOps$().unwrapArg$extension__T__O__O(this$$1, arg$2)))(this, this$)))).toArray__s_reflect_ClassTag__O($m_s_reflect_ManifestFactory$ObjectManifest$()), 1);
     return $m_jl_String$().format__T__AO__T(this$, args$1)
+  };
+  head$extension__T__C(this$) {
+    if ((this$ === "")) {
+      throw $ct_ju_NoSuchElementException__T__(new $c_ju_NoSuchElementException(), "head of empty String")
+    } else {
+      return (65535 & $uI(this$.charCodeAt(0)))
+    }
+  };
+  drop$extension__T__I__T(this$, n) {
+    const $$x1 = $m_sc_StringOps$();
+    const y = $uI(this$.length);
+    return $$x1.slice$extension__T__I__I__T(this$, ((n < y) ? n : y), $uI(this$.length))
   };
 }
 const $d_sc_StringOps$ = new $TypeData().initClass({
@@ -8402,6 +8459,23 @@ function $m_s_xml_Utility$Escapes$() {
   };
   return $n_s_xml_Utility$Escapes$
 }
+const $f_s_xml_parsing_TokenTests__isNameStart__C__Z = (function($thiz, ch) {
+  const this$1 = $m_jl_Character$();
+  const x1 = ((this$1.getType__I__I(ch) << 24) >> 24);
+  switch (x1) {
+    case 2:
+    case 1:
+    case 5:
+    case 3:
+    case 10: {
+      return true;
+      break
+    }
+    default: {
+      return $m_sc_StringOps$().contains$extension__T__C__Z(":_", ch)
+    }
+  }
+});
 class $c_Lbon_jo_JuliaApp extends $c_Lbon_jo_app_HtmlApp {
   constructor(app, template) {
     super();
@@ -8599,203 +8673,236 @@ function $m_Lbon_jo_app_User$() {
   };
   return $n_Lbon_jo_app_User$
 }
-const $p_Lbon_jo_view_AdminControl__elts$1__sjs_js_Array__sci_List = (function($thiz, e$1) {
-  const len = $uI(e$1.length);
-  const res = new Array(len);
-  let i = 0;
-  while ((i < len)) {
-    const $$x1 = i;
-    const arg1 = e$1[i];
-    const this$3 = $uI(arg1.id);
-    res[$$x1] = new $c_Lbon_jo_view_ImgView(("img-sm-" + ("" + this$3)), (($as_T(arg1.base) + "/") + $as_T(arg1.link)), ("img-" + $uI(arg1.id)), "img-sm");
-    i = ((1 + i) | 0)
+class $c_Lbon_jo_html_DomShell$ExtendedElement extends $c_Lbon_jo_html_DomShell$ExtendedNode {
+  constructor(element) {
+    super();
+    $ct_Lbon_jo_html_DomShell$ExtendedNode__Lorg_scalajs_dom_raw_Node__(this, element)
   };
-  const this$6 = $ct_sjs_js_WrappedArray__sjs_js_Array__(new $c_sjs_js_WrappedArray(), res);
-  return $m_sci_List$().from__sc_IterableOnce__sci_List(this$6)
+  clk__Lbon_jo_html_DomShell$Obs() {
+    const obs = $m_Lbon_jo_html_DomShell$Obs$().get__T__Lbon_jo_html_DomShell$Obs(($as_T(this.Lbon_jo_html_DomShell$ExtendedNode__f_element.id) + "-clk-obs"));
+    this.Lbon_jo_html_DomShell$ExtendedNode__f_element.addEventListener("click", ((arg$outer, obs$1) => ((arg1$2) => {
+      obs$1.newValue__O__V(arg1$2)
+    }))(this, obs));
+    return obs
+  };
+  clkOnce__Lbon_jo_html_DomShell$OnceObs() {
+    const obs = $m_Lbon_jo_html_DomShell$Obs$().once__Lbon_jo_html_DomShell$OnceObs();
+    this.Lbon_jo_html_DomShell$ExtendedNode__f_element.addEventListener("click", ((arg$outer, obs$2) => ((arg1$2) => {
+      obs$2.Lbon_jo_html_DomShell$OnceObs__f_client.apply__O__O(arg1$2)
+    }))(this, obs));
+    return obs
+  };
+  clear__V() {
+    const e = this.Lbon_jo_html_DomShell$ExtendedNode__f_element.children;
+    const this$2 = new $c_Lbon_jo_html_DomShell$ExtendedHTMLCollection(e);
+    const it = this$2.iterator__sc_Iterator();
+    while (it.hasNext__Z()) {
+      const arg1 = it.next__O();
+      this.Lbon_jo_html_DomShell$ExtendedNode__f_element.removeChild(arg1)
+    }
+  };
+  element__Lorg_scalajs_dom_raw_Node() {
+    return this.Lbon_jo_html_DomShell$ExtendedNode__f_element
+  };
+}
+const $d_Lbon_jo_html_DomShell$ExtendedElement = new $TypeData().initClass({
+  Lbon_jo_html_DomShell$ExtendedElement: 0
+}, false, "bon.jo.html.DomShell$ExtendedElement", {
+  Lbon_jo_html_DomShell$ExtendedElement: 1,
+  Lbon_jo_html_DomShell$ExtendedNode: 1,
+  O: 1
+});
+$c_Lbon_jo_html_DomShell$ExtendedElement.prototype.$classData = $d_Lbon_jo_html_DomShell$ExtendedElement;
+const $ct_Lbon_jo_html_DomShell$OnceObs__F1__ = (function($thiz, client) {
+  $thiz.Lbon_jo_html_DomShell$OnceObs__f_client = client;
+  return $thiz
+});
+class $c_Lbon_jo_html_DomShell$OnceObs extends $c_O {
+  constructor() {
+    super();
+    this.Lbon_jo_html_DomShell$OnceObs__f_client = null
+  };
+  suscribe__F1__V(clientp) {
+    this.Lbon_jo_html_DomShell$OnceObs__f_client = clientp
+  };
+  newValue__O__V(a) {
+    this.Lbon_jo_html_DomShell$OnceObs__f_client.apply__O__O(a)
+  };
+}
+const $f_Lbon_jo_view_AdminControl__createCtx__Lbon_jo_view_AdminControl$AdminCtx = (function($thiz) {
+  const idp = ("move-" + $thiz.id__T());
+  const $$x6 = new $c_Lbon_jo_view_Ref$$anon$1(idp);
+  const idp$1 = ("save-" + $thiz.id__T());
+  const $$x5 = new $c_Lbon_jo_view_Ref$$anon$1(idp$1);
+  const idp$2 = ("choice-" + $thiz.id__T());
+  const $$x4 = new $c_Lbon_jo_view_Ref$$anon$1(idp$2);
+  const idp$3 = ("delete-" + $thiz.id__T());
+  const $$x3 = new $c_Lbon_jo_view_Ref$$anon$1(idp$3);
+  const idp$4 = ("list-img-" + $thiz.id__T());
+  const $$x2 = new $c_Lbon_jo_view_Ref$$anon$1(idp$4);
+  const idp$5 = ("admin-configure-" + $thiz.id__T());
+  const $$x1 = new $c_Lbon_jo_view_Ref$$anon$1(idp$5);
+  const idp$6 = ("admin-show" + $thiz.id__T());
+  return new $c_Lbon_jo_view_AdminControl$AdminCtx($thiz, $$x6, $$x5, $$x4, $$x3, $$x2, $$x1, new $c_Lbon_jo_view_Ref$$anon$1(idp$6))
 });
 const $f_Lbon_jo_view_AdminControl__adminXmlOption__s_Option = (function($thiz) {
   return ($thiz.admin__Z() ? new $c_s_Some($f_Lbon_jo_view_AdminControl__adminXml__s_xml_Node($thiz)) : $m_s_None$())
+});
+const $f_Lbon_jo_view_AdminControl__inAdmin__s_xml_NodeBuffer = (function($thiz) {
+  const \u03b4buf = new $c_s_xml_NodeBuffer();
+  let \u03b4md = $m_s_xml_Null$();
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("btn"), \u03b4md);
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("move-" + $thiz.id__T()), \u03b4md);
+  const $$x2 = \u03b4md;
+  const $$x1 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
+  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("Move"));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
+  let \u03b4md$2 = $m_s_xml_Null$();
+  \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("choice-" + $thiz.id__T()), \u03b4md$2);
+  const $$x4 = \u03b4md$2;
+  const $$x3 = $m_s_xml_TopScope$();
+  const array = [];
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x4, $$x3, false, new $c_sjsr_WrappedVarArgs(array)));
+  let \u03b4md$3 = $m_s_xml_Null$();
+  \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("btn save-span"), \u03b4md$3);
+  \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("save-" + $thiz.id__T()), \u03b4md$3);
+  const $$x8 = \u03b4md$3;
+  const $$x7 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf$3 = new $c_s_xml_NodeBuffer();
+  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  let \u03b4md$4 = $m_s_xml_Null$();
+  \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "alt", new $c_s_xml_Text("save"), \u03b4md$4);
+  \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "src", new $c_s_xml_Text("/julia/assets/image/save.png"), \u03b4md$4);
+  \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "width", new $c_s_xml_Text("50em"), \u03b4md$4);
+  const $$x6 = \u03b4md$4;
+  const $$x5 = $m_s_xml_TopScope$();
+  const array$1 = [];
+  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x6, $$x5, true, new $c_sjsr_WrappedVarArgs(array$1)));
+  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x8, $$x7, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$3)));
+  let \u03b4md$5 = $m_s_xml_Null$();
+  \u03b4md$5 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("btn"), \u03b4md$5);
+  \u03b4md$5 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("delete-" + $thiz.id__T()), \u03b4md$5);
+  const $$x12 = \u03b4md$5;
+  const $$x11 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf$4 = new $c_s_xml_NodeBuffer();
+  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  let \u03b4md$6 = $m_s_xml_Null$();
+  \u03b4md$6 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "alt", new $c_s_xml_Text("delete"), \u03b4md$6);
+  const $$x10 = \u03b4md$6;
+  const $$x9 = $m_s_xml_TopScope$();
+  const array$2 = [];
+  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x10, $$x9, true, new $c_sjsr_WrappedVarArgs(array$2)));
+  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x12, $$x11, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$4)));
+  return \u03b4buf
 });
 const $f_Lbon_jo_view_AdminControl__adminXml__s_xml_Node = (function($thiz) {
   let \u03b4md = $m_s_xml_Null$();
   \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("admin-" + $thiz.id__T()), \u03b4md);
   \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("admin"), \u03b4md);
-  const $$x24 = \u03b4md;
-  const $$x23 = $m_s_xml_TopScope$();
+  const $$x6 = \u03b4md;
+  const $$x5 = $m_s_xml_TopScope$();
   $m_s_xml_NodeSeq$();
   const \u03b4buf = new $c_s_xml_NodeBuffer();
   \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
   let \u03b4md$2 = $m_s_xml_Null$();
   \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "src", new $c_s_xml_Text("/julia/assets/image/configure.svg"), \u03b4md$2);
   \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("img-configure"), \u03b4md$2);
+  \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("admin-configure-" + $thiz.id__T()), \u03b4md$2);
   const $$x2 = \u03b4md$2;
   const $$x1 = $m_s_xml_TopScope$();
   const array = [];
   \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x2, $$x1, true, new $c_sjsr_WrappedVarArgs(array)));
   \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
   let \u03b4md$3 = $m_s_xml_Null$();
+  \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("admin-show"), \u03b4md$3);
   \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("admin-show" + $thiz.id__T()), \u03b4md$3);
-  const $$x22 = \u03b4md$3;
-  const $$x21 = $m_s_xml_TopScope$();
+  const $$x4 = \u03b4md$3;
+  const $$x3 = $m_s_xml_TopScope$();
   $m_s_xml_NodeSeq$();
   const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
   \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-  let \u03b4md$4 = $m_s_xml_Null$();
-  \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("btn"), \u03b4md$4);
-  \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("move-" + $thiz.id__T()), \u03b4md$4);
-  const $$x4 = \u03b4md$4;
-  const $$x3 = $m_s_xml_TopScope$();
-  $m_s_xml_NodeSeq$();
-  const \u03b4buf$3 = new $c_s_xml_NodeBuffer();
-  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("Move"));
-  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x4, $$x3, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$3)));
-  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text(" "));
-  let \u03b4md$5 = $m_s_xml_Null$();
-  \u03b4md$5 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("choice-" + $thiz.id__T()), \u03b4md$5);
-  const $$x6 = \u03b4md$5;
-  const $$x5 = $m_s_xml_TopScope$();
-  const array$1 = [];
-  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x6, $$x5, false, new $c_sjsr_WrappedVarArgs(array$1)));
-  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-  let \u03b4md$6 = $m_s_xml_Null$();
-  \u03b4md$6 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("btn save-span"), \u03b4md$6);
-  \u03b4md$6 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("save-" + $thiz.id__T()), \u03b4md$6);
-  const $$x10 = \u03b4md$6;
-  const $$x9 = $m_s_xml_TopScope$();
-  $m_s_xml_NodeSeq$();
-  const \u03b4buf$4 = new $c_s_xml_NodeBuffer();
-  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-  let \u03b4md$7 = $m_s_xml_Null$();
-  \u03b4md$7 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "alt", new $c_s_xml_Text("save"), \u03b4md$7);
-  \u03b4md$7 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "src", new $c_s_xml_Text("/julia/assets/image/save.png"), \u03b4md$7);
-  \u03b4md$7 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "width", new $c_s_xml_Text("50em"), \u03b4md$7);
-  const $$x8 = \u03b4md$7;
-  const $$x7 = $m_s_xml_TopScope$();
-  const array$2 = [];
-  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x8, $$x7, true, new $c_sjsr_WrappedVarArgs(array$2)));
-  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x10, $$x9, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$4)));
-  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-  let \u03b4md$8 = $m_s_xml_Null$();
-  \u03b4md$8 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("btn"), \u03b4md$8);
-  \u03b4md$8 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("delete-" + $thiz.id__T()), \u03b4md$8);
-  const $$x14 = \u03b4md$8;
-  const $$x13 = $m_s_xml_TopScope$();
-  $m_s_xml_NodeSeq$();
-  const \u03b4buf$5 = new $c_s_xml_NodeBuffer();
-  \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-  let \u03b4md$9 = $m_s_xml_Null$();
-  \u03b4md$9 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "alt", new $c_s_xml_Text("delete"), \u03b4md$9);
-  const $$x12 = \u03b4md$9;
-  const $$x11 = $m_s_xml_TopScope$();
-  const array$3 = [];
-  \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x12, $$x11, true, new $c_sjsr_WrappedVarArgs(array$3)));
-  \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x14, $$x13, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$5)));
-  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-  let \u03b4md$10 = $m_s_xml_Null$();
-  \u03b4md$10 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("btn"), \u03b4md$10);
-  \u03b4md$10 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("img-" + $thiz.id__T()), \u03b4md$10);
-  const $$x20 = \u03b4md$10;
-  const $$x19 = $m_s_xml_TopScope$();
-  $m_s_xml_NodeSeq$();
-  const \u03b4buf$6 = new $c_s_xml_NodeBuffer();
-  \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-  let \u03b4md$11 = $m_s_xml_Null$();
-  \u03b4md$11 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "alt", new $c_s_xml_Text("img"), \u03b4md$11);
-  const $$x16 = \u03b4md$11;
-  const $$x15 = $m_s_xml_TopScope$();
-  const array$4 = [];
-  \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x16, $$x15, true, new $c_sjsr_WrappedVarArgs(array$4)));
-  \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-  let \u03b4md$12 = $m_s_xml_Null$();
-  \u03b4md$12 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("list-img-" + $thiz.id__T()), \u03b4md$12);
-  const $$x18 = \u03b4md$12;
-  const $$x17 = $m_s_xml_TopScope$();
-  const array$5 = [];
-  \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x18, $$x17, false, new $c_sjsr_WrappedVarArgs(array$5)));
-  \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x20, $$x19, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$6)));
+  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($thiz.inAdmin__s_xml_NodeBuffer());
   \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($thiz.modifyView__s_xml_Node());
   \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
-  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x22, $$x21, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x4, $$x3, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
   \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
-  return new $c_s_xml_Elem(null, "div", $$x24, $$x23, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
+  return new $c_s_xml_Elem(null, "div", $$x6, $$x5, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
+});
+const $f_Lbon_jo_view_AdminControl__updateCtx__V = (function($thiz) {
+  if (($thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx() === null)) {
+    $thiz.currentCtx_$eq__Lbon_jo_view_AdminControl$AdminCtx__V($f_Lbon_jo_view_AdminControl__createCtx__Lbon_jo_view_AdminControl$AdminCtx($thiz))
+  }
 });
 const $f_Lbon_jo_view_AdminControl__initAdminEvent__V = (function($thiz) {
+  $f_Lbon_jo_view_AdminControl__updateCtx__V($thiz);
   if ($thiz.admin__Z()) {
-    $thiz.saveDiv__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().addEventListener("click", ((arg$outer) => ((arg1$2) => $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$1__Lorg_scalajs_dom_raw_Event__s_concurrent_Future(arg$outer, arg1$2)))($thiz));
-    $thiz.deleteDiv__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().addEventListener("click", ((arg$outer$1) => ((arg1$2$1) => $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$4__Lorg_scalajs_dom_raw_Event__s_concurrent_Future(arg$outer$1, arg1$2$1)))($thiz));
-    $thiz.aShow__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "none";
-    $thiz.adminDef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().addEventListener("mouseover", ((arg$outer$2) => ((arg1$2$2) => {
-      $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$7__Lorg_scalajs_dom_raw_Event__V(arg$outer$2, arg1$2$2)
-    }))($thiz));
-    $thiz.adminDef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().addEventListener("mouseleave", ((arg$outer$3) => ((arg1$2$3) => {
-      $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$9__Lorg_scalajs_dom_raw_Event__V(arg$outer$3, arg1$2$3)
-    }))($thiz));
-    $thiz.moveDiv__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().addEventListener("click", ((arg$outer$4) => ((arg1$2$4) => {
-      $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$11__Lorg_scalajs_dom_raw_Event__V(arg$outer$4, arg1$2$4)
-    }))($thiz));
-    $thiz.imgDiv__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().addEventListener("click", ((arg$outer$5) => ((arg1$2$5) => {
-      $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$13__Lorg_scalajs_dom_raw_Event__V(arg$outer$5, arg1$2$5)
-    }))($thiz))
+    const qual$1 = $thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_saveDiv.ref__Lorg_scalajs_dom_raw_HTMLElement();
+    const x$2 = ((arg$outer) => ((arg1$2) => $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$1__Lorg_scalajs_dom_raw_Event__s_concurrent_Future(arg$outer, arg1$2)))($thiz);
+    qual$1.addEventListener("click", x$2);
+    const qual$2 = $thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_deleteDiv.ref__Lorg_scalajs_dom_raw_HTMLElement();
+    const x$5 = ((arg$outer$1) => ((arg1$2$1) => $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$3__Lorg_scalajs_dom_raw_Event__s_concurrent_Future(arg$outer$1, arg1$2$1)))($thiz);
+    qual$2.addEventListener("click", x$5);
+    $thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_aShow.ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "none";
+    const element = $thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_adminDef.ref__Lorg_scalajs_dom_raw_HTMLElement();
+    const click = new $c_Lbon_jo_html_DomShell$ExtendedElement(element).clkOnce__Lbon_jo_html_DomShell$OnceObs();
+    const in$1 = new $c_sr_BooleanRef(true);
+    const clientp = new $c_sjsr_AnonFunction1(((this$3, in$2) => ((e$2) => {
+      if (in$2.sr_BooleanRef__f_elem) {
+        this$3.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_aShow.ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "inline-block";
+        in$2.sr_BooleanRef__f_elem = false
+      } else {
+        in$2.sr_BooleanRef__f_elem = true;
+        this$3.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_aShow.ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "none"
+      }
+    }))($thiz, in$1));
+    click.Lbon_jo_html_DomShell$OnceObs__f_client = clientp;
+    const qual$3 = $thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_moveDiv.ref__Lorg_scalajs_dom_raw_HTMLElement();
+    const x$8 = ((arg$outer$2) => ((arg1$2$2) => {
+      $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$6__Lorg_scalajs_dom_raw_Event__V(arg$outer$2, arg1$2$2)
+    }))($thiz);
+    qual$3.addEventListener("click", x$8)
   }
 });
 const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$1__Lorg_scalajs_dom_raw_Event__s_concurrent_Future = (function($thiz, e) {
   return $thiz.service__Lbon_jo_app_service_DistantService().update__O__s_concurrent_Future($thiz.value__Lbon_jo_SiteModel$SiteElement()).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$1) => ((x$1$2) => {
     $as_Lbon_jo_app_Response(x$1$2);
-    this$1.saveDiv__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "none"
+    this$1.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_saveDiv.ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "none"
   }))($thiz)), $thiz.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_executionContext)
 });
-const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$4__Lorg_scalajs_dom_raw_Event__s_concurrent_Future = (function($thiz, e) {
+const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$3__Lorg_scalajs_dom_raw_Event__s_concurrent_Future = (function($thiz, e) {
   return $thiz.service__Lbon_jo_app_service_DistantService().delete__I__s_concurrent_Future($thiz.value__Lbon_jo_SiteModel$SiteElement().id__I()).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$1) => ((x$2$2) => {
     $as_Lbon_jo_app_Response(x$2$2);
     this$1.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_siteModel.remove__Lbon_jo_SiteModel$SiteElement__V(this$1.value__Lbon_jo_SiteModel$SiteElement());
-    this$1.removeFromView__V()
+    $f_Lbon_jo_html_InDom__removeFromView__V(this$1)
   }))($thiz)), $thiz.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_executionContext)
 });
-const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$7__Lorg_scalajs_dom_raw_Event__V = (function($thiz, x$3) {
-  $thiz.aShow__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().style.position = "relative";
-  $thiz.aShow__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().style.top = "0";
-  $thiz.aShow__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "inline-block"
-});
-const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$9__Lorg_scalajs_dom_raw_Event__V = (function($thiz, x$4) {
-  $thiz.aShow__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "none"
-});
-const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$11__Lorg_scalajs_dom_raw_Event__V = (function($thiz, e) {
+const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$6__Lorg_scalajs_dom_raw_Event__V = (function($thiz, e) {
   const this$1 = $thiz.choose__Lbon_jo_view_ChoooseMenuItem();
-  const el = $thiz.choiceDiv__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
+  const el = $thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_choiceDiv.ref__Lorg_scalajs_dom_raw_HTMLElement();
   $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(this$1, el)
-});
-const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$13__Lorg_scalajs_dom_raw_Event__V = (function($thiz, e) {
-  const listImg = new $c_Lbon_jo_view_SimpleList("img-List");
-  listImg.init__Lorg_scalajs_dom_raw_HTMLElement__V($thiz.imgListDiv__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement());
-  $thiz.imgListDiv__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().classList.add("overall");
-  listImg.loading__V();
-  $thiz.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_imageService.getAll__s_concurrent_Future().foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1(((this$1, listImg$1) => ((e$2$2) => {
-    listImg$1.clearAndAddAll__sci_List__sci_List($p_Lbon_jo_view_AdminControl__elts$1__sjs_js_Array__sci_List(this$1, e$2$2));
-    listImg$1.loaded__V()
-  }))($thiz, listImg)), $thiz.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_executionContext)
 });
 const $f_Lbon_jo_view_AdminControl__$init$__V = (function($thiz) {
   $thiz.bon$jo$view$AdminControl$_setter_$admin_$eq__Z__V($thiz.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_user.Lbon_jo_app_User__f_role.Lbon_jo_app_Role$Impl__f_admin);
-  const idp = ("move-" + $thiz.id__T());
-  $thiz.bon$jo$view$AdminControl$_setter_$moveDiv_$eq__Lbon_jo_view_Ref__V(new $c_Lbon_jo_view_Ref$$anon$1(idp));
-  const idp$1 = ("save-" + $thiz.id__T());
-  $thiz.bon$jo$view$AdminControl$_setter_$saveDiv_$eq__Lbon_jo_view_Ref__V(new $c_Lbon_jo_view_Ref$$anon$1(idp$1));
-  const idp$2 = ("img-" + $thiz.id__T());
-  $thiz.bon$jo$view$AdminControl$_setter_$imgDiv_$eq__Lbon_jo_view_Ref__V(new $c_Lbon_jo_view_Ref$$anon$1(idp$2));
-  const idp$3 = ("choice-" + $thiz.id__T());
-  $thiz.bon$jo$view$AdminControl$_setter_$choiceDiv_$eq__Lbon_jo_view_Ref__V(new $c_Lbon_jo_view_Ref$$anon$1(idp$3));
-  const idp$4 = ("delete-" + $thiz.id__T());
-  $thiz.bon$jo$view$AdminControl$_setter_$deleteDiv_$eq__Lbon_jo_view_Ref__V(new $c_Lbon_jo_view_Ref$$anon$1(idp$4));
-  const idp$5 = ("list-img-" + $thiz.id__T());
-  $thiz.bon$jo$view$AdminControl$_setter_$imgListDiv_$eq__Lbon_jo_view_Ref__V(new $c_Lbon_jo_view_Ref$$anon$1(idp$5));
-  const idp$6 = ("admin-show" + $thiz.id__T());
-  $thiz.bon$jo$view$AdminControl$_setter_$aShow_$eq__Lbon_jo_view_Ref__V(new $c_Lbon_jo_view_Ref$$anon$1(idp$6));
-  const idp$7 = ("admin-" + $thiz.id__T());
-  $thiz.bon$jo$view$AdminControl$_setter_$adminDef_$eq__Lbon_jo_view_Ref__V(new $c_Lbon_jo_view_Ref$$anon$1(idp$7))
+  $thiz.currentCtx_$eq__Lbon_jo_view_AdminControl$AdminCtx__V($f_Lbon_jo_view_AdminControl__createCtx__Lbon_jo_view_AdminControl$AdminCtx($thiz))
 });
+function $is_Lbon_jo_view_ImageService(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lbon_jo_view_ImageService)))
+}
+function $as_Lbon_jo_view_ImageService(obj) {
+  return (($is_Lbon_jo_view_ImageService(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.view.ImageService"))
+}
+function $isArrayOf_Lbon_jo_view_ImageService(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_view_ImageService)))
+}
+function $asArrayOf_Lbon_jo_view_ImageService(obj, depth) {
+  return (($isArrayOf_Lbon_jo_view_ImageService(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.view.ImageService;", depth))
+}
 class $c_Lbon_jo_view_MenuItemView$$Lambda$1 extends $c_O {
   constructor(f) {
     super();
@@ -8871,6 +8978,50 @@ function $isArrayOf_Ljava_io_Closeable(obj, depth) {
 function $asArrayOf_Ljava_io_Closeable(obj, depth) {
   return (($isArrayOf_Ljava_io_Closeable(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Ljava.io.Closeable;", depth))
 }
+const $p_jl_Character$__getTypeGE256__I__I = (function($thiz, codePoint) {
+  const a = $p_jl_Character$__charTypeIndices__AI($thiz);
+  const idx = ((1 + $m_ju_Arrays$().binarySearch__AI__I__I(a, codePoint)) | 0);
+  return $p_jl_Character$__charTypes__AI($thiz).get(((idx < 0) ? ((-idx) | 0) : idx))
+});
+const $p_jl_Character$__java$lang$Character$$charTypesFirst256$lzycompute__AI = (function($thiz) {
+  if (((((1 & $thiz.jl_Character$__f_bitmap$0) << 24) >> 24) === 0)) {
+    $thiz.jl_Character$__f_java$lang$Character$$charTypesFirst256 = $makeNativeArrayWrapper($d_I.getArrayOf(), [15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 12, 24, 24, 24, 26, 24, 24, 24, 21, 22, 24, 25, 24, 20, 24, 24, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 24, 24, 25, 25, 25, 24, 24, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 21, 24, 22, 27, 23, 27, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 21, 25, 22, 25, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 12, 24, 26, 26, 26, 26, 28, 24, 27, 28, 5, 29, 25, 16, 28, 27, 28, 25, 11, 11, 27, 2, 24, 24, 27, 11, 5, 30, 11, 11, 11, 24, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 25, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 25, 2, 2, 2, 2, 2, 2, 2, 2]);
+    $thiz.jl_Character$__f_bitmap$0 = (((1 | $thiz.jl_Character$__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.jl_Character$__f_java$lang$Character$$charTypesFirst256
+});
+const $p_jl_Character$__charTypeIndices$lzycompute__AI = (function($thiz) {
+  if (((((2 & $thiz.jl_Character$__f_bitmap$0) << 24) >> 24) === 0)) {
+    const deltas = $makeNativeArrayWrapper($d_I.getArrayOf(), [257, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 3, 2, 1, 1, 1, 2, 1, 3, 2, 4, 1, 2, 1, 3, 3, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 3, 1, 1, 1, 2, 2, 1, 1, 3, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7, 2, 1, 2, 2, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 69, 1, 27, 18, 4, 12, 14, 5, 7, 1, 1, 1, 17, 112, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 3, 1, 5, 2, 1, 1, 3, 1, 1, 1, 2, 1, 17, 1, 9, 35, 1, 2, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 2, 2, 51, 48, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 38, 2, 1, 6, 1, 39, 1, 1, 1, 4, 1, 1, 45, 1, 1, 1, 2, 1, 2, 1, 1, 8, 27, 5, 3, 2, 11, 5, 1, 3, 2, 1, 2, 2, 11, 1, 2, 2, 32, 1, 10, 21, 10, 4, 2, 1, 99, 1, 1, 7, 1, 1, 6, 2, 2, 1, 4, 2, 10, 3, 2, 1, 14, 1, 1, 1, 1, 30, 27, 2, 89, 11, 1, 14, 10, 33, 9, 2, 1, 3, 1, 5, 22, 4, 1, 9, 1, 3, 1, 5, 2, 15, 1, 25, 3, 2, 1, 65, 1, 1, 11, 55, 27, 1, 3, 1, 54, 1, 1, 1, 1, 3, 8, 4, 1, 2, 1, 7, 10, 2, 2, 10, 1, 1, 6, 1, 7, 1, 1, 2, 1, 8, 2, 2, 2, 22, 1, 7, 1, 1, 3, 4, 2, 1, 1, 3, 4, 2, 2, 2, 2, 1, 1, 8, 1, 4, 2, 1, 3, 2, 2, 10, 2, 2, 6, 1, 1, 5, 2, 1, 1, 6, 4, 2, 2, 22, 1, 7, 1, 2, 1, 2, 1, 2, 2, 1, 1, 3, 2, 4, 2, 2, 3, 3, 1, 7, 4, 1, 1, 7, 10, 2, 3, 1, 11, 2, 1, 1, 9, 1, 3, 1, 22, 1, 7, 1, 2, 1, 5, 2, 1, 1, 3, 5, 1, 2, 1, 1, 2, 1, 2, 1, 15, 2, 2, 2, 10, 1, 1, 15, 1, 2, 1, 8, 2, 2, 2, 22, 1, 7, 1, 2, 1, 5, 2, 1, 1, 1, 1, 1, 4, 2, 2, 2, 2, 1, 8, 1, 1, 4, 2, 1, 3, 2, 2, 10, 1, 1, 6, 10, 1, 1, 1, 6, 3, 3, 1, 4, 3, 2, 1, 1, 1, 2, 3, 2, 3, 3, 3, 12, 4, 2, 1, 2, 3, 3, 1, 3, 1, 2, 1, 6, 1, 14, 10, 3, 6, 1, 1, 6, 3, 1, 8, 1, 3, 1, 23, 1, 10, 1, 5, 3, 1, 3, 4, 1, 3, 1, 4, 7, 2, 1, 2, 6, 2, 2, 2, 10, 8, 7, 1, 2, 2, 1, 8, 1, 3, 1, 23, 1, 10, 1, 5, 2, 1, 1, 1, 1, 5, 1, 1, 2, 1, 2, 2, 7, 2, 7, 1, 1, 2, 2, 2, 10, 1, 2, 15, 2, 1, 8, 1, 3, 1, 41, 2, 1, 3, 4, 1, 3, 1, 3, 1, 1, 8, 1, 8, 2, 2, 2, 10, 6, 3, 1, 6, 2, 2, 1, 18, 3, 24, 1, 9, 1, 1, 2, 7, 3, 1, 4, 3, 3, 1, 1, 1, 8, 18, 2, 1, 12, 48, 1, 2, 7, 4, 1, 6, 1, 8, 1, 10, 2, 37, 2, 1, 1, 2, 2, 1, 1, 2, 1, 6, 4, 1, 7, 1, 3, 1, 1, 1, 1, 2, 2, 1, 4, 1, 2, 6, 1, 2, 1, 2, 5, 1, 1, 1, 6, 2, 10, 2, 4, 32, 1, 3, 15, 1, 1, 3, 2, 6, 10, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 8, 1, 36, 4, 14, 1, 5, 1, 2, 5, 11, 1, 36, 1, 8, 1, 6, 1, 2, 5, 4, 2, 37, 43, 2, 4, 1, 6, 1, 2, 2, 2, 1, 10, 6, 6, 2, 2, 4, 3, 1, 3, 2, 7, 3, 4, 13, 1, 2, 2, 6, 1, 1, 1, 10, 3, 1, 2, 38, 1, 1, 5, 1, 2, 43, 1, 1, 332, 1, 4, 2, 7, 1, 1, 1, 4, 2, 41, 1, 4, 2, 33, 1, 4, 2, 7, 1, 1, 1, 4, 2, 15, 1, 57, 1, 4, 2, 67, 2, 3, 9, 20, 3, 16, 10, 6, 85, 11, 1, 620, 2, 17, 1, 26, 1, 1, 3, 75, 3, 3, 15, 13, 1, 4, 3, 11, 18, 3, 2, 9, 18, 2, 12, 13, 1, 3, 1, 2, 12, 52, 2, 1, 7, 8, 1, 2, 11, 3, 1, 3, 1, 1, 1, 2, 10, 6, 10, 6, 6, 1, 4, 3, 1, 1, 10, 6, 35, 1, 52, 8, 41, 1, 1, 5, 70, 10, 29, 3, 3, 4, 2, 3, 4, 2, 1, 6, 3, 4, 1, 3, 2, 10, 30, 2, 5, 11, 44, 4, 17, 7, 2, 6, 10, 1, 3, 34, 23, 2, 3, 2, 2, 53, 1, 1, 1, 7, 1, 1, 1, 1, 2, 8, 6, 10, 2, 1, 10, 6, 10, 6, 7, 1, 6, 82, 4, 1, 47, 1, 1, 5, 1, 1, 5, 1, 2, 7, 4, 10, 7, 10, 9, 9, 3, 2, 1, 30, 1, 4, 2, 2, 1, 1, 2, 2, 10, 44, 1, 1, 2, 3, 1, 1, 3, 2, 8, 4, 36, 8, 8, 2, 2, 3, 5, 10, 3, 3, 10, 30, 6, 2, 64, 8, 8, 3, 1, 13, 1, 7, 4, 1, 4, 2, 1, 2, 9, 44, 63, 13, 1, 34, 37, 39, 21, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 8, 6, 2, 6, 2, 8, 8, 8, 8, 6, 2, 6, 2, 8, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 14, 2, 8, 8, 8, 8, 8, 8, 5, 1, 2, 4, 1, 1, 1, 3, 3, 1, 2, 4, 1, 3, 4, 2, 2, 4, 1, 3, 8, 5, 3, 2, 3, 1, 2, 4, 1, 2, 1, 11, 5, 6, 2, 1, 1, 1, 2, 1, 1, 1, 8, 1, 1, 5, 1, 9, 1, 1, 4, 2, 3, 1, 1, 1, 11, 1, 1, 1, 10, 1, 5, 5, 6, 1, 1, 2, 6, 3, 1, 1, 1, 10, 3, 1, 1, 1, 13, 3, 32, 16, 13, 4, 1, 3, 12, 15, 2, 1, 4, 1, 2, 1, 3, 2, 3, 1, 1, 1, 2, 1, 5, 6, 1, 1, 1, 1, 1, 1, 4, 1, 1, 4, 1, 4, 1, 2, 2, 2, 5, 1, 4, 1, 1, 2, 1, 1, 16, 35, 1, 1, 4, 1, 6, 5, 5, 2, 4, 1, 2, 1, 2, 1, 7, 1, 31, 2, 2, 1, 1, 1, 31, 268, 8, 4, 20, 2, 7, 1, 1, 81, 1, 30, 25, 40, 6, 18, 12, 39, 25, 11, 21, 60, 78, 22, 183, 1, 9, 1, 54, 8, 111, 1, 144, 1, 103, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 30, 44, 5, 1, 1, 31, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 256, 131, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 63, 1, 1, 1, 1, 32, 1, 1, 258, 48, 21, 2, 6, 3, 10, 166, 47, 1, 47, 1, 1, 1, 3, 2, 1, 1, 1, 1, 1, 1, 4, 1, 1, 2, 1, 6, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 6, 1, 1, 1, 1, 3, 1, 1, 5, 4, 1, 2, 38, 1, 1, 5, 1, 2, 56, 7, 1, 1, 14, 1, 23, 9, 7, 1, 7, 1, 7, 1, 7, 1, 7, 1, 7, 1, 7, 1, 7, 1, 32, 2, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 9, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 10, 2, 68, 26, 1, 89, 12, 214, 26, 12, 4, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 9, 4, 2, 1, 5, 2, 3, 1, 1, 1, 2, 1, 86, 2, 2, 2, 2, 1, 1, 90, 1, 3, 1, 5, 41, 3, 94, 1, 2, 4, 10, 27, 5, 36, 12, 16, 31, 1, 10, 30, 8, 1, 15, 32, 10, 39, 15, 320, 6582, 10, 64, 20941, 51, 21, 1, 1143, 3, 55, 9, 40, 6, 2, 268, 1, 3, 16, 10, 2, 20, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7, 1, 70, 10, 2, 6, 8, 23, 9, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 12, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 77, 2, 1, 7, 1, 3, 1, 4, 1, 23, 2, 2, 1, 4, 4, 6, 2, 1, 1, 6, 52, 4, 8, 2, 50, 16, 1, 9, 2, 10, 6, 18, 6, 3, 1, 4, 10, 28, 8, 2, 23, 11, 2, 11, 1, 29, 3, 3, 1, 47, 1, 2, 4, 2, 1, 4, 13, 1, 1, 10, 4, 2, 32, 41, 6, 2, 2, 2, 2, 9, 3, 1, 8, 1, 1, 2, 10, 2, 4, 16, 1, 6, 3, 1, 1, 4, 48, 1, 1, 3, 2, 2, 5, 2, 1, 1, 1, 24, 2, 1, 2, 11, 1, 2, 2, 2, 1, 2, 1, 1, 10, 6, 2, 6, 2, 6, 9, 7, 1, 7, 145, 35, 2, 1, 2, 1, 2, 1, 1, 1, 2, 10, 6, 11172, 12, 23, 4, 49, 4, 2048, 6400, 366, 2, 106, 38, 7, 12, 5, 5, 1, 1, 10, 1, 13, 1, 5, 1, 1, 1, 2, 1, 2, 1, 108, 16, 17, 363, 1, 1, 16, 64, 2, 54, 40, 12, 1, 1, 2, 16, 7, 1, 1, 1, 6, 7, 9, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 4, 3, 3, 1, 4, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 2, 4, 5, 1, 135, 2, 1, 1, 3, 1, 3, 1, 1, 1, 1, 1, 1, 2, 10, 2, 3, 2, 26, 1, 1, 1, 1, 1, 1, 26, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 10, 1, 45, 2, 31, 3, 6, 2, 6, 2, 6, 2, 3, 3, 2, 1, 1, 1, 2, 1, 1, 4, 2, 10, 3, 2, 2, 12, 1, 26, 1, 19, 1, 2, 1, 15, 2, 14, 34, 123, 5, 3, 4, 45, 3, 9, 53, 4, 17, 1, 5, 12, 52, 45, 1, 130, 29, 3, 49, 47, 31, 1, 4, 12, 17, 1, 8, 1, 53, 30, 1, 1, 36, 4, 8, 1, 5, 42, 40, 40, 78, 2, 10, 854, 6, 2, 1, 1, 44, 1, 2, 3, 1, 2, 23, 1, 1, 8, 160, 22, 6, 3, 1, 26, 5, 1, 64, 56, 6, 2, 64, 1, 3, 1, 2, 5, 4, 4, 1, 3, 1, 27, 4, 3, 4, 1, 8, 8, 9, 7, 29, 2, 1, 128, 54, 3, 7, 22, 2, 8, 19, 5, 8, 128, 73, 535, 31, 385, 1, 1, 1, 53, 15, 7, 4, 20, 10, 16, 2, 1, 45, 3, 4, 2, 2, 2, 1, 4, 14, 25, 7, 10, 6, 3, 36, 5, 1, 8, 1, 10, 4, 60, 2, 1, 48, 3, 9, 2, 4, 4, 7, 10, 1190, 43, 1, 1, 1, 2, 6, 1, 1, 8, 10, 2358, 879, 145, 99, 13, 4, 2956, 1071, 13265, 569, 1223, 69, 11, 1, 46, 16, 4, 13, 16480, 2, 8190, 246, 10, 39, 2, 60, 2, 3, 3, 6, 8, 8, 2, 7, 30, 4, 48, 34, 66, 3, 1, 186, 87, 9, 18, 142, 26, 26, 26, 7, 1, 18, 26, 26, 1, 1, 2, 2, 1, 2, 2, 2, 4, 1, 8, 4, 1, 1, 1, 7, 1, 11, 26, 26, 2, 1, 4, 2, 8, 1, 7, 1, 26, 2, 1, 4, 1, 5, 1, 1, 3, 7, 1, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 28, 2, 25, 1, 25, 1, 6, 25, 1, 25, 1, 6, 25, 1, 25, 1, 6, 25, 1, 25, 1, 6, 25, 1, 25, 1, 6, 1, 1, 2, 50, 5632, 4, 1, 27, 1, 2, 1, 1, 2, 1, 1, 10, 1, 4, 1, 1, 1, 1, 6, 1, 4, 1, 1, 1, 1, 1, 1, 3, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 4, 1, 7, 1, 4, 1, 4, 1, 1, 1, 10, 1, 17, 5, 3, 1, 5, 1, 17, 52, 2, 270, 44, 4, 100, 12, 15, 2, 14, 2, 15, 1, 15, 32, 11, 5, 31, 1, 60, 4, 43, 75, 29, 13, 43, 5, 9, 7, 2, 174, 33, 15, 6, 1, 70, 3, 20, 12, 37, 1, 5, 21, 17, 15, 63, 1, 1, 1, 182, 1, 4, 3, 62, 2, 4, 12, 24, 147, 70, 4, 11, 48, 70, 58, 116, 2188, 42711, 41, 4149, 11, 222, 16354, 542, 722403, 1, 30, 96, 128, 240, 65040, 65534, 2, 65534]);
+    $thiz.jl_Character$__f_charTypeIndices = $p_jl_Character$__uncompressDeltas__AI__AI($thiz, deltas);
+    $thiz.jl_Character$__f_bitmap$0 = (((2 | $thiz.jl_Character$__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.jl_Character$__f_charTypeIndices
+});
+const $p_jl_Character$__charTypeIndices__AI = (function($thiz) {
+  return (((((2 & $thiz.jl_Character$__f_bitmap$0) << 24) >> 24) === 0) ? $p_jl_Character$__charTypeIndices$lzycompute__AI($thiz) : $thiz.jl_Character$__f_charTypeIndices)
+});
+const $p_jl_Character$__charTypes$lzycompute__AI = (function($thiz) {
+  if (((((4 & $thiz.jl_Character$__f_bitmap$0) << 24) >> 24) === 0)) {
+    $thiz.jl_Character$__f_charTypes = $makeNativeArrayWrapper($d_I.getArrayOf(), [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 5, 1, 2, 5, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 3, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 5, 2, 4, 27, 4, 27, 4, 27, 4, 27, 4, 27, 6, 1, 2, 1, 2, 4, 27, 1, 2, 0, 4, 2, 24, 0, 27, 1, 24, 1, 0, 1, 0, 1, 2, 1, 0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 25, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 28, 6, 7, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 0, 1, 0, 4, 24, 0, 2, 0, 24, 20, 0, 26, 0, 6, 20, 6, 24, 6, 24, 6, 24, 6, 0, 5, 0, 5, 24, 0, 16, 0, 25, 24, 26, 24, 28, 6, 24, 0, 24, 5, 4, 5, 6, 9, 24, 5, 6, 5, 24, 5, 6, 16, 28, 6, 4, 6, 28, 6, 5, 9, 5, 28, 5, 24, 0, 16, 5, 6, 5, 6, 0, 5, 6, 5, 0, 9, 5, 6, 4, 28, 24, 4, 0, 5, 6, 4, 6, 4, 6, 4, 6, 0, 24, 0, 5, 6, 0, 24, 0, 5, 0, 5, 0, 6, 0, 6, 8, 5, 6, 8, 6, 5, 8, 6, 8, 6, 8, 5, 6, 5, 6, 24, 9, 24, 4, 5, 0, 5, 0, 6, 8, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 6, 5, 8, 6, 0, 8, 0, 8, 6, 5, 0, 8, 0, 5, 0, 5, 6, 0, 9, 5, 26, 11, 28, 26, 0, 6, 8, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 6, 0, 8, 6, 0, 6, 0, 6, 0, 6, 0, 5, 0, 5, 0, 9, 6, 5, 6, 0, 6, 8, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 6, 5, 8, 6, 0, 6, 8, 0, 8, 6, 0, 5, 0, 5, 6, 0, 9, 24, 26, 0, 6, 8, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 6, 5, 8, 6, 8, 6, 0, 8, 0, 8, 6, 0, 6, 8, 0, 5, 0, 5, 6, 0, 9, 28, 5, 11, 0, 6, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 8, 6, 8, 0, 8, 0, 8, 6, 0, 5, 0, 8, 0, 9, 11, 28, 26, 28, 0, 8, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 6, 8, 0, 6, 0, 6, 0, 6, 0, 5, 0, 5, 6, 0, 9, 0, 11, 28, 0, 8, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 6, 5, 8, 6, 8, 0, 6, 8, 0, 8, 6, 0, 8, 0, 5, 0, 5, 6, 0, 9, 0, 5, 0, 8, 0, 5, 0, 5, 0, 5, 0, 5, 8, 6, 0, 8, 0, 8, 6, 5, 0, 8, 0, 5, 6, 0, 9, 11, 0, 28, 5, 0, 8, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 6, 0, 8, 6, 0, 6, 0, 8, 0, 8, 24, 0, 5, 6, 5, 6, 0, 26, 5, 4, 6, 24, 9, 24, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 6, 5, 6, 0, 6, 5, 0, 5, 0, 4, 0, 6, 0, 9, 0, 5, 0, 5, 28, 24, 28, 24, 28, 6, 28, 9, 11, 28, 6, 28, 6, 28, 6, 21, 22, 21, 22, 8, 5, 0, 5, 0, 6, 8, 6, 24, 6, 5, 6, 0, 6, 0, 28, 6, 28, 0, 28, 24, 28, 24, 0, 5, 8, 6, 8, 6, 8, 6, 8, 6, 5, 9, 24, 5, 8, 6, 5, 6, 5, 8, 5, 8, 5, 6, 5, 6, 8, 6, 8, 6, 5, 8, 9, 8, 6, 28, 1, 0, 1, 0, 1, 0, 5, 24, 4, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 6, 24, 11, 0, 5, 28, 0, 5, 0, 20, 5, 24, 5, 12, 5, 21, 22, 0, 5, 24, 10, 0, 5, 0, 5, 6, 0, 5, 6, 24, 0, 5, 6, 0, 5, 0, 5, 0, 6, 0, 5, 6, 8, 6, 8, 6, 8, 6, 24, 4, 24, 26, 5, 6, 0, 9, 0, 11, 0, 24, 20, 24, 6, 12, 0, 9, 0, 5, 4, 5, 0, 5, 6, 5, 0, 5, 0, 5, 0, 6, 8, 6, 8, 0, 8, 6, 8, 6, 0, 28, 0, 24, 9, 5, 0, 5, 0, 5, 0, 8, 5, 8, 0, 9, 11, 0, 28, 5, 6, 8, 0, 24, 5, 8, 6, 8, 6, 0, 6, 8, 6, 8, 6, 8, 6, 0, 6, 9, 0, 9, 0, 24, 4, 24, 0, 6, 8, 5, 6, 8, 6, 8, 6, 8, 6, 8, 5, 0, 9, 24, 28, 6, 28, 0, 6, 8, 5, 8, 6, 8, 6, 8, 6, 8, 5, 9, 5, 6, 8, 6, 8, 6, 8, 6, 8, 0, 24, 5, 8, 6, 8, 6, 0, 24, 9, 0, 5, 9, 5, 4, 24, 0, 24, 0, 6, 24, 6, 8, 6, 5, 6, 5, 8, 6, 5, 0, 2, 4, 2, 4, 2, 4, 6, 0, 6, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 0, 1, 0, 2, 1, 2, 1, 2, 0, 1, 0, 2, 0, 1, 0, 1, 0, 1, 0, 1, 2, 1, 2, 0, 2, 3, 2, 3, 2, 3, 2, 0, 2, 1, 3, 27, 2, 27, 2, 0, 2, 1, 3, 27, 2, 0, 2, 1, 0, 27, 2, 1, 27, 0, 2, 0, 2, 1, 3, 27, 0, 12, 16, 20, 24, 29, 30, 21, 29, 30, 21, 29, 24, 13, 14, 16, 12, 24, 29, 30, 24, 23, 24, 25, 21, 22, 24, 25, 24, 23, 24, 12, 16, 0, 16, 11, 4, 0, 11, 25, 21, 22, 4, 11, 25, 21, 22, 0, 4, 0, 26, 0, 6, 7, 6, 7, 6, 0, 28, 1, 28, 1, 28, 2, 1, 2, 1, 2, 28, 1, 28, 25, 1, 28, 1, 28, 1, 28, 1, 28, 1, 28, 2, 1, 2, 5, 2, 28, 2, 1, 25, 1, 2, 28, 25, 28, 2, 28, 11, 10, 1, 2, 10, 11, 0, 25, 28, 25, 28, 25, 28, 25, 28, 25, 28, 25, 28, 25, 28, 25, 28, 25, 28, 25, 28, 25, 28, 25, 28, 21, 22, 28, 25, 28, 25, 28, 25, 28, 0, 28, 0, 28, 0, 11, 28, 11, 28, 25, 28, 25, 28, 25, 28, 25, 28, 0, 28, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 11, 28, 25, 21, 22, 25, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 25, 28, 25, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 25, 21, 22, 21, 22, 25, 21, 22, 25, 28, 25, 28, 25, 0, 28, 0, 1, 0, 2, 0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 4, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 28, 1, 2, 1, 2, 6, 1, 2, 0, 24, 11, 24, 2, 0, 2, 0, 2, 0, 5, 0, 4, 24, 0, 6, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 6, 24, 29, 30, 29, 30, 24, 29, 30, 24, 29, 30, 24, 20, 24, 20, 24, 29, 30, 24, 29, 30, 21, 22, 21, 22, 21, 22, 21, 22, 24, 4, 24, 20, 0, 28, 0, 28, 0, 28, 0, 28, 0, 12, 24, 28, 4, 5, 10, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 28, 21, 22, 21, 22, 21, 22, 21, 22, 20, 21, 22, 28, 10, 6, 8, 20, 4, 28, 10, 4, 5, 24, 28, 0, 5, 0, 6, 27, 4, 5, 20, 5, 24, 4, 5, 0, 5, 0, 5, 0, 28, 11, 28, 5, 0, 28, 0, 5, 28, 0, 11, 28, 11, 28, 11, 28, 11, 28, 11, 28, 5, 0, 28, 5, 0, 5, 4, 5, 0, 28, 0, 5, 4, 24, 5, 4, 24, 5, 9, 5, 0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 5, 6, 7, 24, 6, 24, 4, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 0, 6, 5, 10, 6, 24, 0, 27, 4, 27, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 4, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 4, 27, 1, 2, 1, 2, 0, 1, 2, 1, 2, 0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 0, 4, 2, 5, 6, 5, 6, 5, 6, 5, 8, 6, 8, 28, 0, 11, 28, 26, 28, 0, 5, 24, 0, 8, 5, 8, 6, 0, 24, 9, 0, 6, 5, 24, 5, 0, 9, 5, 6, 24, 5, 6, 8, 0, 24, 5, 0, 6, 8, 5, 6, 8, 6, 8, 6, 8, 24, 0, 4, 9, 0, 24, 0, 5, 6, 8, 6, 8, 6, 0, 5, 6, 5, 6, 8, 0, 9, 0, 24, 5, 4, 5, 28, 5, 8, 0, 5, 6, 5, 6, 5, 6, 5, 6, 5, 6, 5, 0, 5, 4, 24, 5, 8, 6, 8, 24, 5, 4, 8, 6, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 8, 6, 8, 6, 8, 24, 8, 6, 0, 9, 0, 5, 0, 5, 0, 5, 0, 19, 18, 5, 0, 5, 0, 2, 0, 2, 0, 5, 6, 5, 25, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 27, 0, 5, 21, 22, 0, 5, 0, 5, 0, 5, 26, 28, 0, 6, 24, 21, 22, 24, 0, 6, 0, 24, 20, 23, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 21, 22, 24, 21, 22, 24, 23, 24, 0, 24, 20, 21, 22, 21, 22, 21, 22, 24, 25, 20, 25, 0, 24, 26, 24, 0, 5, 0, 5, 0, 16, 0, 24, 26, 24, 21, 22, 24, 25, 24, 20, 24, 9, 24, 25, 24, 1, 21, 24, 22, 27, 23, 27, 2, 21, 25, 22, 25, 21, 22, 24, 21, 22, 24, 5, 4, 5, 4, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 26, 25, 27, 28, 26, 0, 28, 25, 28, 0, 16, 28, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 24, 0, 11, 0, 28, 10, 11, 28, 11, 0, 28, 0, 28, 6, 0, 5, 0, 5, 0, 5, 0, 11, 0, 5, 10, 5, 10, 0, 5, 0, 24, 5, 0, 5, 24, 10, 0, 1, 2, 5, 0, 9, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 24, 11, 0, 5, 11, 0, 24, 5, 0, 24, 0, 5, 0, 5, 0, 5, 6, 0, 6, 0, 6, 5, 0, 5, 0, 5, 0, 6, 0, 6, 11, 0, 24, 0, 5, 11, 24, 0, 5, 0, 24, 5, 0, 11, 5, 0, 11, 0, 5, 0, 11, 0, 8, 6, 8, 5, 6, 24, 0, 11, 9, 0, 6, 8, 5, 8, 6, 8, 6, 24, 16, 24, 0, 5, 0, 9, 0, 6, 5, 6, 8, 6, 0, 9, 24, 0, 6, 8, 5, 8, 6, 8, 5, 24, 0, 9, 0, 5, 6, 8, 6, 8, 6, 8, 6, 0, 9, 0, 5, 0, 10, 0, 24, 0, 5, 0, 5, 0, 5, 0, 5, 8, 0, 6, 4, 0, 5, 0, 28, 0, 28, 0, 28, 8, 6, 28, 8, 16, 6, 28, 6, 28, 6, 28, 0, 28, 6, 28, 0, 28, 0, 11, 0, 1, 2, 1, 2, 0, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 0, 2, 0, 2, 0, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1, 0, 2, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 0, 1, 25, 2, 25, 2, 1, 25, 2, 25, 2, 1, 25, 2, 25, 2, 1, 25, 2, 25, 2, 1, 25, 2, 25, 2, 1, 2, 0, 9, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 25, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 11, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 28, 0, 5, 0, 5, 0, 5, 0, 5, 0, 16, 0, 16, 0, 6, 0, 18, 0, 18, 0]);
+    $thiz.jl_Character$__f_bitmap$0 = (((4 | $thiz.jl_Character$__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.jl_Character$__f_charTypes
+});
+const $p_jl_Character$__charTypes__AI = (function($thiz) {
+  return (((((4 & $thiz.jl_Character$__f_bitmap$0) << 24) >> 24) === 0) ? $p_jl_Character$__charTypes$lzycompute__AI($thiz) : $thiz.jl_Character$__f_charTypes)
+});
+const $p_jl_Character$__uncompressDeltas__AI__AI = (function($thiz, deltas) {
+  let acc = deltas.get(0);
+  let i = 1;
+  const len = deltas.u.length;
+  while ((i !== len)) {
+    acc = ((acc + deltas.get(i)) | 0);
+    deltas.set(i, acc);
+    i = ((1 + i) | 0)
+  };
+  return deltas
+});
 const $p_jl_Character$__nonASCIIZeroDigitCodePoints$lzycompute__AI = (function($thiz) {
   if (((((16 & $thiz.jl_Character$__f_bitmap$0) << 24) >> 24) === 0)) {
     $thiz.jl_Character$__f_nonASCIIZeroDigitCodePoints = $makeNativeArrayWrapper($d_I.getArrayOf(), [1632, 1776, 1984, 2406, 2534, 2662, 2790, 2918, 3046, 3174, 3302, 3430, 3664, 3792, 3872, 4160, 4240, 6112, 6160, 6470, 6608, 6784, 6800, 6992, 7088, 7232, 7248, 42528, 43216, 43264, 43472, 43600, 44016, 65296, 66720, 69734, 69872, 69942, 70096, 71360, 120782, 120792, 120802, 120812, 120822]);
@@ -8890,6 +9041,9 @@ class $c_jl_Character$ extends $c_O {
     this.jl_Character$__f_isMirroredIndices = null;
     this.jl_Character$__f_nonASCIIZeroDigitCodePoints = null;
     this.jl_Character$__f_bitmap$0 = 0
+  };
+  getType__I__I(codePoint) {
+    return ((codePoint < 0) ? 0 : ((codePoint < 256) ? this.java$lang$Character$$charTypesFirst256__AI().get(codePoint) : $p_jl_Character$__getTypeGE256__I__I(this, codePoint)))
   };
   digitWithValidRadix__I__I__I(codePoint, radix) {
     let value;
@@ -8911,6 +9065,9 @@ class $c_jl_Character$ extends $c_O {
       }
     };
     return ((value < radix) ? value : (-1))
+  };
+  java$lang$Character$$charTypesFirst256__AI() {
+    return (((((1 & this.jl_Character$__f_bitmap$0) << 24) >> 24) === 0) ? $p_jl_Character$__java$lang$Character$$charTypesFirst256$lzycompute__AI(this) : this.jl_Character$__f_java$lang$Character$$charTypesFirst256)
   };
 }
 const $d_jl_Character$ = new $TypeData().initClass({
@@ -12084,6 +12241,25 @@ class $c_sr_AbstractFunction6 extends $c_O {
 }
 class $c_sr_AbstractFunction7 extends $c_O {
 }
+class $c_sr_BooleanRef extends $c_O {
+  constructor(elem) {
+    super();
+    this.sr_BooleanRef__f_elem = false;
+    this.sr_BooleanRef__f_elem = elem
+  };
+  toString__T() {
+    const b = this.sr_BooleanRef__f_elem;
+    return ("" + b)
+  };
+}
+const $d_sr_BooleanRef = new $TypeData().initClass({
+  sr_BooleanRef: 0
+}, false, "scala.runtime.BooleanRef", {
+  sr_BooleanRef: 1,
+  O: 1,
+  Ljava_io_Serializable: 1
+});
+$c_sr_BooleanRef.prototype.$classData = $d_sr_BooleanRef;
 class $c_sr_IntRef extends $c_O {
   constructor(elem) {
     super();
@@ -12335,6 +12511,18 @@ const $p_s_xml_MetaData$__iterate$1__s_xml_MetaData__s_xml_MetaData__sci_Set__s_
   }
 });
 class $c_s_xml_MetaData$ extends $c_O {
+  concatenate__s_xml_MetaData__s_xml_MetaData__s_xml_MetaData(attribs, new_tail) {
+    while (true) {
+      if ((attribs === $m_s_xml_Null$())) {
+        return new_tail
+      } else {
+        const temp$attribs = attribs.next__s_xml_MetaData();
+        const temp$new_tail = attribs.copy__s_xml_MetaData__s_xml_MetaData(new_tail);
+        attribs = temp$attribs;
+        new_tail = temp$new_tail
+      }
+    }
+  };
   normalize__s_xml_MetaData__s_xml_NamespaceBinding__s_xml_MetaData(attribs, scope) {
     const $$x1 = $m_s_xml_Null$();
     const this$1 = $m_s_Predef$().s_Predef$__f_Set;
@@ -12351,6 +12539,9 @@ class $c_s_xml_MetaData$ extends $c_O {
     } else {
       throw new $c_s_MatchError(attrib)
     }
+  };
+  update__s_xml_MetaData__s_xml_NamespaceBinding__s_xml_MetaData__s_xml_MetaData(attribs, scope, updates) {
+    return this.normalize__s_xml_MetaData__s_xml_NamespaceBinding__s_xml_MetaData(this.concatenate__s_xml_MetaData__s_xml_MetaData__s_xml_MetaData(updates, attribs), scope)
   };
 }
 const $d_s_xml_MetaData$ = new $TypeData().initClass({
@@ -12632,6 +12823,54 @@ function $isArrayOf_Lbon_jo_game_html_Template(obj, depth) {
 function $asArrayOf_Lbon_jo_game_html_Template(obj, depth) {
   return (($isArrayOf_Lbon_jo_game_html_Template(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.game.html.Template;", depth))
 }
+const $f_Lbon_jo_html_Clickable__init__Lorg_scalajs_dom_raw_HTMLElement__V = (function($thiz, parent) {
+  $thiz.me__Lorg_scalajs_dom_raw_HTMLButtonElement().addEventListener("click", ((arg$outer) => ((arg1$2) => {
+    const this$1 = arg$outer.Lbon_jo_html_ButtonHtml$$anon$1__f_obs;
+    this$1.Lbon_jo_html_DomShell$OnceObs__f_client.apply__O__O(arg1$2)
+  }))($thiz))
+});
+function $is_Lbon_jo_html_Clickable(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lbon_jo_html_Clickable)))
+}
+function $as_Lbon_jo_html_Clickable(obj) {
+  return (($is_Lbon_jo_html_Clickable(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.html.Clickable"))
+}
+function $isArrayOf_Lbon_jo_html_Clickable(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_html_Clickable)))
+}
+function $asArrayOf_Lbon_jo_html_Clickable(obj, depth) {
+  return (($isArrayOf_Lbon_jo_html_Clickable(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.html.Clickable;", depth))
+}
+class $c_Lbon_jo_html_DomShell$Obs$$anon$1 extends $c_Lbon_jo_html_DomShell$OnceObs {
+  constructor() {
+    super();
+    $ct_Lbon_jo_html_DomShell$OnceObs__F1__(this, null)
+  };
+}
+const $d_Lbon_jo_html_DomShell$Obs$$anon$1 = new $TypeData().initClass({
+  Lbon_jo_html_DomShell$Obs$$anon$1: 0
+}, false, "bon.jo.html.DomShell$Obs$$anon$1", {
+  Lbon_jo_html_DomShell$Obs$$anon$1: 1,
+  Lbon_jo_html_DomShell$OnceObs: 1,
+  O: 1,
+  Lbon_jo_html_DomShell$Obs: 1
+});
+$c_Lbon_jo_html_DomShell$Obs$$anon$1.prototype.$classData = $d_Lbon_jo_html_DomShell$Obs$$anon$1;
+class $c_Lbon_jo_html_DomShell$Obs$$anon$2 extends $c_Lbon_jo_html_DomShell$OnceObs {
+  constructor(client$1) {
+    super();
+    $ct_Lbon_jo_html_DomShell$OnceObs__F1__(this, client$1)
+  };
+}
+const $d_Lbon_jo_html_DomShell$Obs$$anon$2 = new $TypeData().initClass({
+  Lbon_jo_html_DomShell$Obs$$anon$2: 0
+}, false, "bon.jo.html.DomShell$Obs$$anon$2", {
+  Lbon_jo_html_DomShell$Obs$$anon$2: 1,
+  Lbon_jo_html_DomShell$OnceObs: 1,
+  O: 1,
+  Lbon_jo_html_DomShell$Obs: 1
+});
+$c_Lbon_jo_html_DomShell$Obs$$anon$2.prototype.$classData = $d_Lbon_jo_html_DomShell$Obs$$anon$2;
 const $f_Lbon_jo_html_\uff3fView__addTo__T__V = (function($thiz, id) {
   const parent = $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(id);
   parent.appendChild($thiz.html__Lorg_scalajs_dom_raw_HTMLElement());
@@ -12641,6 +12880,41 @@ const $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V = (
   el.appendChild($thiz.html__Lorg_scalajs_dom_raw_HTMLElement());
   $thiz.init__Lorg_scalajs_dom_raw_HTMLElement__V(el)
 });
+class $c_Lbon_jo_view_SendImageImpl$$anonfun$$lessinit$greater$1 extends $c_O {
+  constructor(siteService$1) {
+    super();
+    this.Lbon_jo_view_SendImageImpl$$anonfun$$lessinit$greater$1__f_siteService$1 = null;
+    this.Lbon_jo_view_SendImageImpl$$anonfun$$lessinit$greater$1__f_siteService$1 = siteService$1
+  };
+  andThen__F1__F1(g) {
+    return $f_F1__andThen__F1__F1(this, g)
+  };
+  toString__T() {
+    return "<function1>"
+  };
+  apply__Lorg_scalajs_dom_raw_FormData__s_concurrent_Future(v1) {
+    const this$2 = this.Lbon_jo_view_SendImageImpl$$anonfun$$lessinit$greater$1__f_siteService$1.Lbon_jo_service_SiteService__f_imageService;
+    const value = $f_Lbon_jo_service_SiteService$mId__newId__I(this$2);
+    v1.append("id", value);
+    const this$4 = $as_Lbon_jo_service_PostForm(this.Lbon_jo_view_SendImageImpl$$anonfun$$lessinit$greater$1__f_siteService$1.Lbon_jo_service_SiteService__f_imageService);
+    return $f_Lbon_jo_service_PostForm__post__Lorg_scalajs_dom_raw_FormData__s_concurrent_Future(this$4, v1).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$5) => ((x$1$2) => {
+      const x$1 = $as_Lbon_jo_app_Response(x$1$2);
+      return x$1.Lbon_jo_app_Response__f_status
+    }))(this)), this.Lbon_jo_view_SendImageImpl$$anonfun$$lessinit$greater$1__f_siteService$1.Lbon_jo_service_SiteService__f_executionContext)
+  };
+  apply__O__O(v1) {
+    return this.apply__Lorg_scalajs_dom_raw_FormData__s_concurrent_Future(v1)
+  };
+}
+const $d_Lbon_jo_view_SendImageImpl$$anonfun$$lessinit$greater$1 = new $TypeData().initClass({
+  Lbon_jo_view_SendImageImpl$$anonfun$$lessinit$greater$1: 0
+}, false, "bon.jo.view.SendImageImpl$$anonfun$$lessinit$greater$1", {
+  Lbon_jo_view_SendImageImpl$$anonfun$$lessinit$greater$1: 1,
+  O: 1,
+  Lbon_jo_view_ImageService: 1,
+  F1: 1
+});
+$c_Lbon_jo_view_SendImageImpl$$anonfun$$lessinit$greater$1.prototype.$classData = $d_Lbon_jo_view_SendImageImpl$$anonfun$$lessinit$greater$1;
 const $f_jl_Boolean__equals__O__Z = (function($thiz, that) {
   return ($thiz === that)
 });
@@ -13710,6 +13984,186 @@ class $c_sci_BitmapIndexedMapNode extends $c_sci_MapNode {
     };
     return new $c_sci_BitmapIndexedMapNode(this.sci_BitmapIndexedMapNode__f_dataMap, this.sci_BitmapIndexedMapNode__f_nodeMap, contentClone, $asArrayOf_I(this.sci_BitmapIndexedMapNode__f_originalHashes.clone__O(), 1), this.sci_BitmapIndexedMapNode__f_size, this.sci_BitmapIndexedMapNode__f_cachedJavaKeySetHashCode)
   };
+  filterImpl__F1__Z__sci_BitmapIndexedMapNode(pred, flipped) {
+    if ((this.sci_BitmapIndexedMapNode__f_size === 0)) {
+      return this
+    } else if ((this.sci_BitmapIndexedMapNode__f_size === 1)) {
+      if (($uZ(pred.apply__O__O(this.getPayload__I__T2(0))) !== flipped)) {
+        return this
+      } else {
+        const this$1 = $m_sci_MapNode$();
+        return this$1.sci_MapNode$__f_EmptyMapNode
+      }
+    } else if ((this.sci_BitmapIndexedMapNode__f_nodeMap === 0)) {
+      const i = this.sci_BitmapIndexedMapNode__f_dataMap;
+      const minimumIndex = ((i === 0) ? 32 : ((31 - $clz32((i & ((-i) | 0)))) | 0));
+      const i$1 = this.sci_BitmapIndexedMapNode__f_dataMap;
+      const maximumIndex = ((32 - $clz32(i$1)) | 0);
+      let newDataMap = 0;
+      let newCachedHashCode = 0;
+      let dataIndex = 0;
+      let i$2 = minimumIndex;
+      while ((i$2 < maximumIndex)) {
+        const bitpos = $m_sci_Node$().bitposFrom__I__I(i$2);
+        if (((bitpos & this.sci_BitmapIndexedMapNode__f_dataMap) !== 0)) {
+          const payload = this.getPayload__I__T2(dataIndex);
+          const passed = ($uZ(pred.apply__O__O(payload)) !== flipped);
+          if (passed) {
+            newDataMap = (newDataMap | bitpos);
+            newCachedHashCode = ((newCachedHashCode + $m_sc_Hashing$().improve__I__I(this.getHash__I__I(dataIndex))) | 0)
+          };
+          dataIndex = ((1 + dataIndex) | 0)
+        };
+        i$2 = ((1 + i$2) | 0)
+      };
+      if ((newDataMap === 0)) {
+        const this$3 = $m_sci_MapNode$();
+        return this$3.sci_MapNode$__f_EmptyMapNode
+      } else if ((newDataMap === this.sci_BitmapIndexedMapNode__f_dataMap)) {
+        return this
+      } else {
+        const i$3 = newDataMap;
+        const newSize = $m_jl_Integer$().bitCount__I__I(i$3);
+        const newContent = $newArrayObject($d_O.getArrayOf(), [(newSize << 1)]);
+        const newOriginalHashCodes = $newArrayObject($d_I.getArrayOf(), [newSize]);
+        const i$4 = newDataMap;
+        const newMaximumIndex = ((32 - $clz32(i$4)) | 0);
+        const i$5 = newDataMap;
+        let j = ((i$5 === 0) ? 32 : ((31 - $clz32((i$5 & ((-i$5) | 0)))) | 0));
+        let newDataIndex = 0;
+        while ((j < newMaximumIndex)) {
+          const bitpos$2 = $m_sci_Node$().bitposFrom__I__I(j);
+          if (((bitpos$2 & newDataMap) !== 0)) {
+            const oldIndex = $m_sci_Node$().indexFrom__I__I__I(this.sci_BitmapIndexedMapNode__f_dataMap, bitpos$2);
+            newContent.set((newDataIndex << 1), this.sci_BitmapIndexedMapNode__f_content.get((oldIndex << 1)));
+            newContent.set(((1 + (newDataIndex << 1)) | 0), this.sci_BitmapIndexedMapNode__f_content.get(((1 + (oldIndex << 1)) | 0)));
+            newOriginalHashCodes.set(newDataIndex, this.sci_BitmapIndexedMapNode__f_originalHashes.get(oldIndex));
+            newDataIndex = ((1 + newDataIndex) | 0)
+          };
+          j = ((1 + j) | 0)
+        };
+        return new $c_sci_BitmapIndexedMapNode(newDataMap, 0, newContent, newOriginalHashCodes, newSize, newCachedHashCode)
+      }
+    } else {
+      const allMap = (this.sci_BitmapIndexedMapNode__f_dataMap | this.sci_BitmapIndexedMapNode__f_nodeMap);
+      const minimumIndex$2 = ((allMap === 0) ? 32 : ((31 - $clz32((allMap & ((-allMap) | 0)))) | 0));
+      const maximumIndex$2 = ((32 - $clz32(allMap)) | 0);
+      let oldDataPassThrough = 0;
+      let nodeMigrateToDataTargetMap = 0;
+      let nodesToMigrateToData = null;
+      let nodesToPassThroughMap = 0;
+      let mapOfNewNodes = 0;
+      let newNodes = null;
+      let newDataMap$2 = 0;
+      let newNodeMap = 0;
+      let newSize$2 = 0;
+      let newCachedHashCode$2 = 0;
+      let dataIndex$2 = 0;
+      let nodeIndex = 0;
+      let i$2$1 = minimumIndex$2;
+      while ((i$2$1 < maximumIndex$2)) {
+        const bitpos$3 = $m_sci_Node$().bitposFrom__I__I(i$2$1);
+        if (((bitpos$3 & this.sci_BitmapIndexedMapNode__f_dataMap) !== 0)) {
+          const payload$2 = this.getPayload__I__T2(dataIndex$2);
+          const passed$2 = ($uZ(pred.apply__O__O(payload$2)) !== flipped);
+          if (passed$2) {
+            newDataMap$2 = (newDataMap$2 | bitpos$3);
+            oldDataPassThrough = (oldDataPassThrough | bitpos$3);
+            newSize$2 = ((1 + newSize$2) | 0);
+            newCachedHashCode$2 = ((newCachedHashCode$2 + $m_sc_Hashing$().improve__I__I(this.getHash__I__I(dataIndex$2))) | 0)
+          };
+          dataIndex$2 = ((1 + dataIndex$2) | 0)
+        } else if (((bitpos$3 & this.sci_BitmapIndexedMapNode__f_nodeMap) !== 0)) {
+          const oldSubNode = this.getNode__I__sci_MapNode(nodeIndex);
+          const newSubNode = oldSubNode.filterImpl__F1__Z__sci_MapNode(pred, flipped);
+          newSize$2 = ((newSize$2 + newSubNode.size__I()) | 0);
+          newCachedHashCode$2 = ((newCachedHashCode$2 + newSubNode.cachedJavaKeySetHashCode__I()) | 0);
+          if ((newSubNode.size__I() > 1)) {
+            newNodeMap = (newNodeMap | bitpos$3);
+            if ((oldSubNode === newSubNode)) {
+              nodesToPassThroughMap = (nodesToPassThroughMap | bitpos$3)
+            } else {
+              mapOfNewNodes = (mapOfNewNodes | bitpos$3);
+              if ((newNodes === null)) {
+                newNodes = new $c_scm_Queue(16)
+              };
+              const this$7 = newNodes;
+              this$7.addOne__O__scm_ArrayDeque(newSubNode)
+            }
+          } else if ((newSubNode.size__I() === 1)) {
+            newDataMap$2 = (newDataMap$2 | bitpos$3);
+            nodeMigrateToDataTargetMap = (nodeMigrateToDataTargetMap | bitpos$3);
+            if ((nodesToMigrateToData === null)) {
+              const elems = $m_sci_Nil$();
+              const this$9 = new $c_scm_Queue(16);
+              nodesToMigrateToData = $as_scm_Queue(this$9.addAll__sc_IterableOnce__scm_ArrayDeque(elems))
+            };
+            const this$10 = nodesToMigrateToData;
+            this$10.addOne__O__scm_ArrayDeque(newSubNode)
+          };
+          nodeIndex = ((1 + nodeIndex) | 0)
+        };
+        i$2$1 = ((1 + i$2$1) | 0)
+      };
+      if ((newSize$2 === 0)) {
+        const this$11 = $m_sci_MapNode$();
+        return this$11.sci_MapNode$__f_EmptyMapNode
+      } else if ((newSize$2 === this.sci_BitmapIndexedMapNode__f_size)) {
+        return this
+      } else {
+        const i$6 = newDataMap$2;
+        const newDataSize = $m_jl_Integer$().bitCount__I__I(i$6);
+        const i$7 = newNodeMap;
+        const newContentSize = (((newDataSize << 1) + $m_jl_Integer$().bitCount__I__I(i$7)) | 0);
+        const newContent$2 = $newArrayObject($d_O.getArrayOf(), [newContentSize]);
+        const newOriginalHashes = $newArrayObject($d_I.getArrayOf(), [newDataSize]);
+        const newAllMap = (newDataMap$2 | newNodeMap);
+        const maxIndex = ((32 - $clz32(newAllMap)) | 0);
+        let i$3$1 = minimumIndex$2;
+        let oldDataIndex = 0;
+        let oldNodeIndex = 0;
+        let newDataIndex$2 = 0;
+        let newNodeIndex = 0;
+        while ((i$3$1 < maxIndex)) {
+          const bitpos$4 = $m_sci_Node$().bitposFrom__I__I(i$3$1);
+          if (((bitpos$4 & oldDataPassThrough) !== 0)) {
+            newContent$2.set((newDataIndex$2 << 1), this.getKey__I__O(oldDataIndex));
+            newContent$2.set(((1 + (newDataIndex$2 << 1)) | 0), this.getValue__I__O(oldDataIndex));
+            newOriginalHashes.set(newDataIndex$2, this.getHash__I__I(oldDataIndex));
+            newDataIndex$2 = ((1 + newDataIndex$2) | 0);
+            oldDataIndex = ((1 + oldDataIndex) | 0)
+          } else if (((bitpos$4 & nodesToPassThroughMap) !== 0)) {
+            newContent$2.set((((-1) + ((newContentSize - newNodeIndex) | 0)) | 0), this.getNode__I__sci_MapNode(oldNodeIndex));
+            newNodeIndex = ((1 + newNodeIndex) | 0);
+            oldNodeIndex = ((1 + oldNodeIndex) | 0)
+          } else if (((bitpos$4 & nodeMigrateToDataTargetMap) !== 0)) {
+            const this$12 = nodesToMigrateToData;
+            const node = $as_sci_MapNode(this$12.removeHead__Z__O(false));
+            newContent$2.set((newDataIndex$2 << 1), node.getKey__I__O(0));
+            newContent$2.set(((1 + (newDataIndex$2 << 1)) | 0), node.getValue__I__O(0));
+            newOriginalHashes.set(newDataIndex$2, node.getHash__I__I(0));
+            newDataIndex$2 = ((1 + newDataIndex$2) | 0);
+            oldNodeIndex = ((1 + oldNodeIndex) | 0)
+          } else if (((bitpos$4 & mapOfNewNodes) !== 0)) {
+            const $$x1 = newNodeIndex;
+            const this$13 = newNodes;
+            newContent$2.set((((-1) + ((newContentSize - $$x1) | 0)) | 0), this$13.removeHead__Z__O(false));
+            newNodeIndex = ((1 + newNodeIndex) | 0);
+            oldNodeIndex = ((1 + oldNodeIndex) | 0)
+          } else if (((bitpos$4 & this.sci_BitmapIndexedMapNode__f_dataMap) !== 0)) {
+            oldDataIndex = ((1 + oldDataIndex) | 0)
+          } else if (((bitpos$4 & this.sci_BitmapIndexedMapNode__f_nodeMap) !== 0)) {
+            oldNodeIndex = ((1 + oldNodeIndex) | 0)
+          };
+          i$3$1 = ((1 + i$3$1) | 0)
+        };
+        return new $c_sci_BitmapIndexedMapNode(newDataMap$2, newNodeMap, newContent$2, newOriginalHashes, newSize$2, newCachedHashCode$2)
+      }
+    }
+  };
+  filterImpl__F1__Z__sci_MapNode(pred, isFlipped) {
+    return this.filterImpl__F1__Z__sci_BitmapIndexedMapNode(pred, isFlipped)
+  };
   copy__sci_MapNode() {
     return this.copy__sci_BitmapIndexedMapNode()
   };
@@ -13741,6 +14195,55 @@ const $d_sci_BitmapIndexedMapNode = new $TypeData().initClass({
   O: 1
 });
 $c_sci_BitmapIndexedMapNode.prototype.$classData = $d_sci_BitmapIndexedMapNode;
+const $p_sci_BitmapIndexedSetNode__newNodeFrom__I__I__I__I__I__I__I__scm_Queue__I__scm_Queue__I__sci_BitmapIndexedSetNode = (function($thiz, newSize, newDataMap, newNodeMap, minimumIndex, oldDataPassThrough, nodesToPassThroughMap, nodeMigrateToDataTargetMap, nodesToMigrateToData, mapOfNewNodes, newNodes, newCachedHashCode) {
+  if ((newSize === 0)) {
+    const this$1 = $m_sci_SetNode$();
+    return this$1.sci_SetNode$__f_EmptySetNode
+  } else if ((newSize === $thiz.sci_BitmapIndexedSetNode__f_size)) {
+    return $thiz
+  } else {
+    const newDataSize = $m_jl_Integer$().bitCount__I__I(newDataMap);
+    const newContentSize = ((newDataSize + $m_jl_Integer$().bitCount__I__I(newNodeMap)) | 0);
+    const newContent = $newArrayObject($d_O.getArrayOf(), [newContentSize]);
+    const newOriginalHashes = $newArrayObject($d_I.getArrayOf(), [newDataSize]);
+    const newAllMap = (newDataMap | newNodeMap);
+    const maxIndex = ((32 - $clz32(newAllMap)) | 0);
+    let i = minimumIndex;
+    let oldDataIndex = 0;
+    let oldNodeIndex = 0;
+    let newDataIndex = 0;
+    let newNodeIndex = 0;
+    while ((i < maxIndex)) {
+      const bitpos = $m_sci_Node$().bitposFrom__I__I(i);
+      if (((bitpos & oldDataPassThrough) !== 0)) {
+        newContent.set(newDataIndex, $thiz.getPayload__I__O(oldDataIndex));
+        newOriginalHashes.set(newDataIndex, $thiz.getHash__I__I(oldDataIndex));
+        newDataIndex = ((1 + newDataIndex) | 0);
+        oldDataIndex = ((1 + oldDataIndex) | 0)
+      } else if (((bitpos & nodesToPassThroughMap) !== 0)) {
+        newContent.set((((-1) + ((newContentSize - newNodeIndex) | 0)) | 0), $thiz.getNode__I__sci_SetNode(oldNodeIndex));
+        newNodeIndex = ((1 + newNodeIndex) | 0);
+        oldNodeIndex = ((1 + oldNodeIndex) | 0)
+      } else if (((bitpos & nodeMigrateToDataTargetMap) !== 0)) {
+        const node = $as_sci_SetNode(nodesToMigrateToData.removeHead__Z__O(false));
+        newContent.set(newDataIndex, node.getPayload__I__O(0));
+        newOriginalHashes.set(newDataIndex, node.getHash__I__I(0));
+        newDataIndex = ((1 + newDataIndex) | 0);
+        oldNodeIndex = ((1 + oldNodeIndex) | 0)
+      } else if (((bitpos & mapOfNewNodes) !== 0)) {
+        newContent.set((((-1) + ((newContentSize - newNodeIndex) | 0)) | 0), newNodes.removeHead__Z__O(false));
+        newNodeIndex = ((1 + newNodeIndex) | 0);
+        oldNodeIndex = ((1 + oldNodeIndex) | 0)
+      } else if (((bitpos & $thiz.sci_BitmapIndexedSetNode__f_dataMap) !== 0)) {
+        oldDataIndex = ((1 + oldDataIndex) | 0)
+      } else if (((bitpos & $thiz.sci_BitmapIndexedSetNode__f_nodeMap) !== 0)) {
+        oldNodeIndex = ((1 + oldNodeIndex) | 0)
+      };
+      i = ((1 + i) | 0)
+    };
+    return new $c_sci_BitmapIndexedSetNode(newDataMap, newNodeMap, newContent, newOriginalHashes, newSize, newCachedHashCode)
+  }
+});
 class $c_sci_BitmapIndexedSetNode extends $c_sci_SetNode {
   constructor(dataMap, nodeMap, content, originalHashes, size, cachedJavaKeySetHashCode) {
     super();
@@ -14070,6 +14573,127 @@ class $c_sci_BitmapIndexedSetNode extends $c_sci_SetNode {
       j = ((1 + j) | 0)
     }
   };
+  filterImpl__F1__Z__sci_BitmapIndexedSetNode(pred, flipped) {
+    if ((this.sci_BitmapIndexedSetNode__f_size === 0)) {
+      return this
+    } else if ((this.sci_BitmapIndexedSetNode__f_size === 1)) {
+      if (($uZ(pred.apply__O__O(this.getPayload__I__O(0))) !== flipped)) {
+        return this
+      } else {
+        const this$1 = $m_sci_SetNode$();
+        return this$1.sci_SetNode$__f_EmptySetNode
+      }
+    } else if ((this.sci_BitmapIndexedSetNode__f_nodeMap === 0)) {
+      const i = this.sci_BitmapIndexedSetNode__f_dataMap;
+      const minimumIndex = ((i === 0) ? 32 : ((31 - $clz32((i & ((-i) | 0)))) | 0));
+      const i$1 = this.sci_BitmapIndexedSetNode__f_dataMap;
+      const maximumIndex = ((32 - $clz32(i$1)) | 0);
+      let newDataMap = 0;
+      let newCachedHashCode = 0;
+      let dataIndex = 0;
+      let i$2 = minimumIndex;
+      while ((i$2 < maximumIndex)) {
+        const bitpos = $m_sci_Node$().bitposFrom__I__I(i$2);
+        if (((bitpos & this.sci_BitmapIndexedSetNode__f_dataMap) !== 0)) {
+          const payload = this.getPayload__I__O(dataIndex);
+          const passed = ($uZ(pred.apply__O__O(payload)) !== flipped);
+          if (passed) {
+            newDataMap = (newDataMap | bitpos);
+            newCachedHashCode = ((newCachedHashCode + $m_sc_Hashing$().improve__I__I(this.getHash__I__I(dataIndex))) | 0)
+          };
+          dataIndex = ((1 + dataIndex) | 0)
+        };
+        i$2 = ((1 + i$2) | 0)
+      };
+      if ((newDataMap === 0)) {
+        const this$3 = $m_sci_SetNode$();
+        return this$3.sci_SetNode$__f_EmptySetNode
+      } else if ((newDataMap === this.sci_BitmapIndexedSetNode__f_dataMap)) {
+        return this
+      } else {
+        const i$3 = newDataMap;
+        const newSize = $m_jl_Integer$().bitCount__I__I(i$3);
+        const newContent = $newArrayObject($d_O.getArrayOf(), [newSize]);
+        const newOriginalHashCodes = $newArrayObject($d_I.getArrayOf(), [newSize]);
+        const i$4 = newDataMap;
+        const newMaximumIndex = ((32 - $clz32(i$4)) | 0);
+        const i$5 = newDataMap;
+        let j = ((i$5 === 0) ? 32 : ((31 - $clz32((i$5 & ((-i$5) | 0)))) | 0));
+        let newDataIndex = 0;
+        while ((j < newMaximumIndex)) {
+          const bitpos$2 = $m_sci_Node$().bitposFrom__I__I(j);
+          if (((bitpos$2 & newDataMap) !== 0)) {
+            const oldIndex = $m_sci_Node$().indexFrom__I__I__I(this.sci_BitmapIndexedSetNode__f_dataMap, bitpos$2);
+            newContent.set(newDataIndex, this.sci_BitmapIndexedSetNode__f_content.get(oldIndex));
+            newOriginalHashCodes.set(newDataIndex, this.sci_BitmapIndexedSetNode__f_originalHashes.get(oldIndex));
+            newDataIndex = ((1 + newDataIndex) | 0)
+          };
+          j = ((1 + j) | 0)
+        };
+        return new $c_sci_BitmapIndexedSetNode(newDataMap, 0, newContent, newOriginalHashCodes, newSize, newCachedHashCode)
+      }
+    } else {
+      const allMap = (this.sci_BitmapIndexedSetNode__f_dataMap | this.sci_BitmapIndexedSetNode__f_nodeMap);
+      const minimumIndex$2 = ((allMap === 0) ? 32 : ((31 - $clz32((allMap & ((-allMap) | 0)))) | 0));
+      const maximumIndex$2 = ((32 - $clz32(allMap)) | 0);
+      let oldDataPassThrough = 0;
+      let nodeMigrateToDataTargetMap = 0;
+      let nodesToMigrateToData = null;
+      let nodesToPassThroughMap = 0;
+      let mapOfNewNodes = 0;
+      let newNodes = null;
+      let newDataMap$2 = 0;
+      let newNodeMap = 0;
+      let newSize$2 = 0;
+      let newCachedHashCode$2 = 0;
+      let dataIndex$2 = 0;
+      let nodeIndex = 0;
+      let i$2$1 = minimumIndex$2;
+      while ((i$2$1 < maximumIndex$2)) {
+        const bitpos$3 = $m_sci_Node$().bitposFrom__I__I(i$2$1);
+        if (((bitpos$3 & this.sci_BitmapIndexedSetNode__f_dataMap) !== 0)) {
+          const payload$2 = this.getPayload__I__O(dataIndex$2);
+          const passed$2 = ($uZ(pred.apply__O__O(payload$2)) !== flipped);
+          if (passed$2) {
+            newDataMap$2 = (newDataMap$2 | bitpos$3);
+            oldDataPassThrough = (oldDataPassThrough | bitpos$3);
+            newSize$2 = ((1 + newSize$2) | 0);
+            newCachedHashCode$2 = ((newCachedHashCode$2 + $m_sc_Hashing$().improve__I__I(this.getHash__I__I(dataIndex$2))) | 0)
+          };
+          dataIndex$2 = ((1 + dataIndex$2) | 0)
+        } else if (((bitpos$3 & this.sci_BitmapIndexedSetNode__f_nodeMap) !== 0)) {
+          const oldSubNode = this.getNode__I__sci_SetNode(nodeIndex);
+          const newSubNode = oldSubNode.filterImpl__F1__Z__sci_SetNode(pred, flipped);
+          newSize$2 = ((newSize$2 + newSubNode.size__I()) | 0);
+          newCachedHashCode$2 = ((newCachedHashCode$2 + newSubNode.cachedJavaKeySetHashCode__I()) | 0);
+          if ((newSubNode.size__I() > 1)) {
+            newNodeMap = (newNodeMap | bitpos$3);
+            if ((oldSubNode === newSubNode)) {
+              nodesToPassThroughMap = (nodesToPassThroughMap | bitpos$3)
+            } else {
+              mapOfNewNodes = (mapOfNewNodes | bitpos$3);
+              if ((newNodes === null)) {
+                newNodes = new $c_scm_Queue(16)
+              };
+              const this$7 = newNodes;
+              this$7.addOne__O__scm_ArrayDeque(newSubNode)
+            }
+          } else if ((newSubNode.size__I() === 1)) {
+            newDataMap$2 = (newDataMap$2 | bitpos$3);
+            nodeMigrateToDataTargetMap = (nodeMigrateToDataTargetMap | bitpos$3);
+            if ((nodesToMigrateToData === null)) {
+              nodesToMigrateToData = new $c_scm_Queue(16)
+            };
+            const this$9 = nodesToMigrateToData;
+            this$9.addOne__O__scm_ArrayDeque(newSubNode)
+          };
+          nodeIndex = ((1 + nodeIndex) | 0)
+        };
+        i$2$1 = ((1 + i$2$1) | 0)
+      };
+      return $p_sci_BitmapIndexedSetNode__newNodeFrom__I__I__I__I__I__I__I__scm_Queue__I__scm_Queue__I__sci_BitmapIndexedSetNode(this, newSize$2, newDataMap$2, newNodeMap, minimumIndex$2, oldDataPassThrough, nodesToPassThroughMap, nodeMigrateToDataTargetMap, nodesToMigrateToData, mapOfNewNodes, newNodes, newCachedHashCode$2)
+    }
+  };
   equals__O__Z(that) {
     if ((that instanceof $c_sci_BitmapIndexedSetNode)) {
       const x2 = $as_sci_BitmapIndexedSetNode(that);
@@ -14123,6 +14747,9 @@ class $c_sci_BitmapIndexedSetNode extends $c_sci_SetNode {
   };
   copy__sci_SetNode() {
     return this.copy__sci_BitmapIndexedSetNode()
+  };
+  filterImpl__F1__Z__sci_SetNode(pred, flipped) {
+    return this.filterImpl__F1__Z__sci_BitmapIndexedSetNode(pred, flipped)
   };
   removed__O__I__I__I__sci_SetNode(element, originalHash, hash, shift) {
     return this.removed__O__I__I__I__sci_BitmapIndexedSetNode(element, originalHash, hash, shift)
@@ -14330,6 +14957,38 @@ class $c_sci_HashCollisionMapNode extends $c_sci_MapNode {
       return false
     }
   };
+  filterImpl__F1__Z__sci_MapNode(pred, flipped) {
+    const this$1 = this.sci_HashCollisionMapNode__f_content;
+    const newContent = $as_sci_Vector($f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this$1, pred, flipped));
+    const newContentLength = newContent.length__I();
+    if ((newContentLength === 0)) {
+      const this$2 = $m_sci_MapNode$();
+      return this$2.sci_MapNode$__f_EmptyMapNode
+    } else if ((newContentLength === 1)) {
+      const x1 = $as_T2(newContent.head__O());
+      if ((x1 === null)) {
+        throw new $c_s_MatchError(x1)
+      };
+      const k = x1.T2__f__1;
+      const v = x1.T2__f__2;
+      const $$x1 = $m_sci_Node$().bitposFrom__I__I($m_sci_Node$().maskFrom__I__I__I(this.sci_HashCollisionMapNode__f_hash, 0));
+      const array = [k, v];
+      const xs = new $c_sjsr_WrappedVarArgs(array);
+      $m_s_reflect_ManifestFactory$AnyManifest$();
+      const len = xs.length__I();
+      const array$1 = $newArrayObject($d_O.getArrayOf(), [len]);
+      const this$9 = new $c_sc_IndexedSeqView$Id(xs);
+      const iterator = new $c_sc_IndexedSeqView$IndexedSeqViewIterator(this$9);
+      let i = 0;
+      while (iterator.hasNext__Z()) {
+        array$1.set(i, iterator.next__O());
+        i = ((1 + i) | 0)
+      };
+      return new $c_sci_BitmapIndexedMapNode($$x1, 0, array$1, $makeNativeArrayWrapper($d_I.getArrayOf(), [this.sci_HashCollisionMapNode__f_originalHash]), 1, this.sci_HashCollisionMapNode__f_hash)
+    } else {
+      return ((newContentLength === this.sci_HashCollisionMapNode__f_content.length__I()) ? this : new $c_sci_HashCollisionMapNode(this.sci_HashCollisionMapNode__f_originalHash, this.sci_HashCollisionMapNode__f_hash, newContent))
+    }
+  };
   hashCode__I() {
     throw $ct_jl_UnsupportedOperationException__T__(new $c_jl_UnsupportedOperationException(), "Trie nodes do not support hashing.")
   };
@@ -14451,6 +15110,32 @@ class $c_sci_HashCollisionSetNode extends $c_sci_SetNode {
   };
   cachedJavaKeySetHashCode__I() {
     return $imul(this.sci_HashCollisionSetNode__f_content.length__I(), this.sci_HashCollisionSetNode__f_hash)
+  };
+  filterImpl__F1__Z__sci_SetNode(pred, flipped) {
+    const this$1 = this.sci_HashCollisionSetNode__f_content;
+    const newContent = $as_sci_Vector($f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this$1, pred, flipped));
+    const newContentLength = newContent.length__I();
+    if ((newContentLength === 0)) {
+      const this$2 = $m_sci_SetNode$();
+      return this$2.sci_SetNode$__f_EmptySetNode
+    } else if ((newContentLength === 1)) {
+      const $$x1 = $m_sci_Node$().bitposFrom__I__I($m_sci_Node$().maskFrom__I__I__I(this.sci_HashCollisionSetNode__f_hash, 0));
+      const array = [newContent.head__O()];
+      const xs = new $c_sjsr_WrappedVarArgs(array);
+      $m_s_reflect_ManifestFactory$AnyManifest$();
+      const len = xs.length__I();
+      const array$1 = $newArrayObject($d_O.getArrayOf(), [len]);
+      const this$9 = new $c_sc_IndexedSeqView$Id(xs);
+      const iterator = new $c_sc_IndexedSeqView$IndexedSeqViewIterator(this$9);
+      let i = 0;
+      while (iterator.hasNext__Z()) {
+        array$1.set(i, iterator.next__O());
+        i = ((1 + i) | 0)
+      };
+      return new $c_sci_BitmapIndexedSetNode($$x1, 0, array$1, $makeNativeArrayWrapper($d_I.getArrayOf(), [this.sci_HashCollisionSetNode__f_originalHash]), 1, this.sci_HashCollisionSetNode__f_hash)
+    } else {
+      return ((newContent.length__I() === this.sci_HashCollisionSetNode__f_content.length__I()) ? this : new $c_sci_HashCollisionSetNode(this.sci_HashCollisionSetNode__f_originalHash, this.sci_HashCollisionSetNode__f_hash, newContent))
+    }
   };
   equals__O__Z(that) {
     if ((that instanceof $c_sci_HashCollisionSetNode)) {
@@ -15150,8 +15835,8 @@ class $c_Lbon_jo_SiteModel extends $c_O {
     let t = null;
     while ((rest !== $m_sci_Nil$())) {
       const arg1 = rest.head__O();
-      const x$8 = $as_Lbon_jo_SiteModel$MenuItem(arg1);
-      const this$5 = x$8.Lbon_jo_SiteModel$MenuItem__f_items;
+      const x$9 = $as_Lbon_jo_SiteModel$MenuItem(arg1);
+      const this$5 = x$9.Lbon_jo_SiteModel$MenuItem__f_items;
       let rest$1 = this$5;
       let h$1 = null;
       let t$1 = null;
@@ -15174,7 +15859,7 @@ class $c_Lbon_jo_SiteModel extends $c_O {
       const f = ((this$2$1) => ((e$3$2) => {
         const e$3 = $as_Lbon_jo_SiteModel$Image(e$3$2);
         return new $c_s_Some(e$3)
-      }))(x$8);
+      }))(x$9);
       let fromItem;
       if ((this$7 === $m_sci_Nil$())) {
         fromItem = $m_sci_Nil$()
@@ -15192,12 +15877,12 @@ class $c_Lbon_jo_SiteModel extends $c_O {
         };
         fromItem = h$2
       };
-      const rassoc$2 = x$8.Lbon_jo_SiteModel$MenuItem__f_image;
-      const this$8 = x$8.Lbon_jo_SiteModel$MenuItem__f_oeuvres;
+      const rassoc$2 = x$9.Lbon_jo_SiteModel$MenuItem__f_image;
+      const this$8 = x$9.Lbon_jo_SiteModel$MenuItem__f_oeuvres;
       const f$1 = ((this$3$1) => ((e$4$2) => {
         const e$4 = $as_Lbon_jo_SiteModel$Oeuvre(e$4$2);
         return new $c_s_Some(e$4.Lbon_jo_SiteModel$Oeuvre__f_image)
-      }))(x$8);
+      }))(x$9);
       let this$9;
       if ((this$8 === $m_sci_Nil$())) {
         this$9 = $m_sci_Nil$()
@@ -15240,9 +15925,9 @@ class $c_Lbon_jo_SiteModel extends $c_O {
     let t = null;
     while ((rest !== $m_sci_Nil$())) {
       const arg1 = rest.head__O();
-      const x$9 = $as_Lbon_jo_SiteModel$MenuItem(arg1);
-      const this$7 = x$9.Lbon_jo_SiteModel$MenuItem__f_oeuvres;
-      const this$5 = x$9.Lbon_jo_SiteModel$MenuItem__f_items;
+      const x$10 = $as_Lbon_jo_SiteModel$MenuItem(arg1);
+      const this$7 = x$10.Lbon_jo_SiteModel$MenuItem__f_oeuvres;
+      const this$5 = x$10.Lbon_jo_SiteModel$MenuItem__f_items;
       let rest$1 = this$5;
       let h$1 = null;
       let t$1 = null;
@@ -15287,9 +15972,9 @@ class $c_Lbon_jo_SiteModel extends $c_O {
     let t = null;
     while ((rest !== $m_sci_Nil$())) {
       const arg1 = rest.head__O();
-      const x$10 = $as_Lbon_jo_SiteModel$MenuItem(arg1);
-      const this$4 = x$10.Lbon_jo_SiteModel$MenuItem__f_items;
-      const this$5 = new $c_sci_$colon$colon(x$10, this$4);
+      const x$11 = $as_Lbon_jo_SiteModel$MenuItem(arg1);
+      const this$4 = x$11.Lbon_jo_SiteModel$MenuItem__f_items;
+      const this$5 = new $c_sci_$colon$colon(x$11, this$4);
       const it = new $c_sc_StrictOptimizedLinearSeqOps$$anon$1(this$5);
       while (it.hasNext__Z()) {
         const nx = new $c_sci_$colon$colon(it.next__O(), $m_sci_Nil$());
@@ -15314,9 +15999,9 @@ class $c_Lbon_jo_SiteModel extends $c_O {
     let these = this$5;
     while ((!these.isEmpty__Z())) {
       const arg1 = these.head__O();
-      const x$11 = $as_Lbon_jo_SiteModel$MenuItem(arg1);
+      const x$12 = $as_Lbon_jo_SiteModel$MenuItem(arg1);
       const this$6 = $m_s_util_Random$();
-      x$11.randomOeuvre__I__V(this$6.s_util_Random__f_self.nextInt__I__I(5));
+      x$12.randomOeuvre__I__V(this$6.s_util_Random__f_self.nextInt__I__I(5));
       these = $as_sci_List(these.tail__O())
     };
     const this$10 = $m_sci_List$();
@@ -15358,6 +16043,9 @@ class $c_Lbon_jo_SiteModel extends $c_O {
   };
   $js$exported$prop$title__O() {
     return this.Lbon_jo_SiteModel__f_title
+  };
+  $js$exported$meth$replace__Lbon_jo_SiteModel$Oeuvre__O(mod) {
+    return (void 0)
   };
   $js$exported$meth$remove__Lbon_jo_SiteModel$SiteElement__O(siteElement) {
     this.remove__Lbon_jo_SiteModel$SiteElement__V(siteElement)
@@ -15431,6 +16119,10 @@ class $c_Lbon_jo_SiteModel extends $c_O {
     } else {
       throw "No matching overload"
     }
+  };
+  "replace"(arg) {
+    const prep0 = $as_Lbon_jo_SiteModel$Oeuvre(arg);
+    return this.$js$exported$meth$replace__Lbon_jo_SiteModel$Oeuvre__O(prep0)
   };
   get "title"() {
     return this.$js$exported$prop$title__O()
@@ -15875,41 +16567,42 @@ class $c_Lbon_jo_SiteTemplate extends $c_O {
     const s = this.Lbon_jo_SiteTemplate__f_service;
     if (this.admin__Z()) {
       const importModel = new $c_Lbon_jo_ReadImportFile(s, this);
-      const button = new $c_Lbon_jo_html_ButtonHtml$$anon$2("btn-export", "export");
-      const buttonSaveAll = new $c_Lbon_jo_html_ButtonHtml$$anon$2("save-all", "Sauvegarder tout");
-      const function$1 = ((arg$outer) => ((arg1$2) => {
-        arg$outer.bon$jo$SiteTemplate$$$anonfun$init$1__Lorg_scalajs_dom_raw_Event__V(arg1$2)
-      }))(this);
-      $f_Lbon_jo_html_EventFromView__onClick__sjs_js_Function1__V(button, function$1);
+      const button = new $c_Lbon_jo_html_ButtonHtml$$anon$1("btn-export", "export");
+      const buttonSaveAll = new $c_Lbon_jo_html_ButtonHtml$$anon$1("save-all", "Sauvegarder tout");
+      const this$5 = button.Lbon_jo_html_ButtonHtml$$anon$1__f_obs;
+      const clientp = new $c_sjsr_AnonFunction1(((this$3) => ((x$3$2) => {
+        $m_Lbon_jo_html_DomShell$().log__O__V("click export");
+        const $$x2 = JSON;
+        const this$4 = this$3.Lbon_jo_SiteTemplate__f_service;
+        const $$x1 = $$x2.stringify($m_Lbon_jo_service_RawsObject$GlobalExport$().apply__Lbon_jo_SiteModel__Lbon_jo_service_Raws$GlobalExport(this$4.Lbon_jo_service_SiteService__f_siteModel));
+        const s$1 = $as_T($$x1);
+        const dowload = new $c_Lbon_jo_SiteTemplate$Dowload(this$3, s$1);
+        $f_Lbon_jo_html_\uff3fView__addTo__T__V(dowload, "ex")
+      }))(this));
+      this$5.Lbon_jo_html_DomShell$OnceObs__f_client = clientp;
       $f_Lbon_jo_html_\uff3fView__addTo__T__V(button, "ex");
       $f_Lbon_jo_html_\uff3fView__addTo__T__V(importModel, "im");
-      const function$2 = ((arg$outer$1) => ((arg1$2$1) => arg$outer$1.Lbon_jo_SiteTemplate__f_service.saveAll__s_concurrent_Future()))(this);
-      $f_Lbon_jo_html_EventFromView__onClick__sjs_js_Function1__V(buttonSaveAll, function$2);
+      const this$6 = buttonSaveAll.Lbon_jo_html_ButtonHtml$$anon$1__f_obs;
+      const clientp$1 = new $c_sjsr_AnonFunction1(((this$2$1) => ((x$4$2) => {
+        this$2$1.Lbon_jo_SiteTemplate__f_service.saveAll__s_concurrent_Future()
+      }))(this));
+      this$6.Lbon_jo_html_DomShell$OnceObs__f_client = clientp$1;
       $f_Lbon_jo_html_\uff3fView__addTo__T__V(buttonSaveAll, "sa");
-      const e = $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element("user");
-      const $$x3 = new $c_Lbon_jo_html_DomShell$ExtendedElement(e);
-      const $$x2 = $m_s_xml_Null$();
-      const $$x1 = $m_s_xml_TopScope$();
+      const element = $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element("user");
+      const $$x5 = new $c_Lbon_jo_html_DomShell$ExtendedElement(element);
+      const $$x4 = $m_s_xml_Null$();
+      const $$x3 = $m_s_xml_TopScope$();
       $m_s_xml_NodeSeq$();
       const \u03b4buf = new $c_s_xml_NodeBuffer();
       \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("Salut\n        "));
       \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_SiteTemplate__f_user.Lbon_jo_app_User__f_name);
       \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-      $$x3.addChild__s_xml_Node__V(new $c_s_xml_Elem(null, "span", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf)))
+      $$x5.addChild__s_xml_Node__V(new $c_s_xml_Elem(null, "span", $$x4, $$x3, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf)))
     };
     this.Lbon_jo_SiteTemplate__f__site.init__Lorg_scalajs_dom_raw_HTMLElement__V(this.me__Lorg_scalajs_dom_raw_HTMLDivElement())
   };
   me__Lorg_scalajs_dom_raw_HTMLElement() {
     return this.me__Lorg_scalajs_dom_raw_HTMLDivElement()
-  };
-  bon$jo$SiteTemplate$$$anonfun$init$1__Lorg_scalajs_dom_raw_Event__V(x$3) {
-    $m_Lbon_jo_html_DomShell$().log__O__V("click export");
-    const $$x2 = JSON;
-    const this$1 = this.Lbon_jo_SiteTemplate__f_service;
-    const $$x1 = $$x2.stringify($m_Lbon_jo_service_RawsObject$GlobalExport$().apply__Lbon_jo_SiteModel__Lbon_jo_service_Raws$GlobalExport(this$1.Lbon_jo_service_SiteService__f_siteModel));
-    const s = $as_T($$x1);
-    const dowload = new $c_Lbon_jo_SiteTemplate$Dowload(this, s);
-    $f_Lbon_jo_html_\uff3fView__addTo__T__V(dowload, "ex")
   };
 }
 function $as_Lbon_jo_SiteTemplate(obj) {
@@ -15953,14 +16646,13 @@ class $c_Lbon_jo_app_AppLoaderImpl$ extends $c_O {
     const apps = $m_Lbon_jo_app_AppLoaderImpl$().Lbon_jo_app_AppLoaderImpl$__f_apps;
     $f_Lbon_jo_app_AppLoader__loadWithAuth__sci_List__s_concurrent_Future(this$2, apps).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$3) => ((e$2) => {
       const e = $as_sci_List(e$2);
-      const $$x1 = $m_s_Predef$any2stringadd$();
       const f = ((this$4) => ((x$4$2) => {
         const x$4 = $as_Lbon_jo_app_HtmlApp(x$4$2);
         return $objectGetClass(x$4)
       }))(this$3);
-      let self;
+      let this$5;
       if ((e === $m_sci_Nil$())) {
-        self = $m_sci_Nil$()
+        this$5 = $m_sci_Nil$()
       } else {
         const arg1 = e.head__O();
         const h = new $c_sci_$colon$colon(f(arg1), $m_sci_Nil$());
@@ -15973,9 +16665,9 @@ class $c_Lbon_jo_app_AppLoaderImpl$ extends $c_O {
           t = nx;
           rest = $as_sci_List(rest.tail__O())
         };
-        self = h
+        this$5 = h
       };
-      const any = $$x1.$plus$extension__O__T__T(self, " loaded");
+      const any = ($f_sc_Iterable__toString__T(this$5) + " loaded");
       if ((!$uZ(conf.prod))) {
         $m_Lbon_jo_html_DomShell$().log__O__V(any)
       }
@@ -16247,10 +16939,34 @@ class $c_Lbon_jo_app_LoginTemplate extends $c_O {
     this.Lbon_jo_app_LoginTemplate__f_ex = $m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor();
     this.Lbon_jo_app_LoginTemplate__f_l = new $c_Lbon_jo_view_Ref$$anon$1("login");
     this.Lbon_jo_app_LoginTemplate__f_p = new $c_Lbon_jo_view_Ref$$anon$1("password");
-    this.Lbon_jo_app_LoginTemplate__f_commt = new $c_Lbon_jo_html_ButtonHtml$$anon$2("ok-btn", "ok");
-    const this$4 = $as_Lbon_jo_html_EventFromView(this.Lbon_jo_app_LoginTemplate__f_commt);
-    const function$1 = ((arg$outer) => ((arg1$2) => arg$outer.bon$jo$app$LoginTemplate$$$anonfun$new$1__Lorg_scalajs_dom_raw_Event__s_concurrent_Future(arg1$2)))(this);
-    $f_Lbon_jo_html_EventFromView__onClick__sjs_js_Function1__V(this$4, function$1);
+    this.Lbon_jo_app_LoginTemplate__f_commt = new $c_Lbon_jo_html_ButtonHtml$$anon$1("ok-btn", "ok");
+    const this$4 = $as_Lbon_jo_html_Clickable(this.Lbon_jo_app_LoginTemplate__f_commt);
+    const this$13 = this$4.Lbon_jo_html_ButtonHtml$$anon$1__f_obs;
+    const clientp = new $c_sjsr_AnonFunction1(((this$5) => ((x$1$2) => {
+      const this$6 = this$5.Lbon_jo_app_LoginTemplate__f_l;
+      const $$x1 = $f_Lbon_jo_view_Ref__value__T(this$6);
+      const this$7 = this$5.Lbon_jo_app_LoginTemplate__f_p;
+      const des = ((("/auth?login=" + $$x1) + "&pwd=") + $f_Lbon_jo_view_Ref__value__T(this$7));
+      const $$x3 = $m_Lbon_jo_app_RequestHttp$GET$();
+      $m_Lbon_jo_app_RequestHttp$GET$();
+      $m_Lbon_jo_app_RequestHttp$GET$();
+      const $$x2 = $m_sci_Nil$();
+      const this$10 = $m_s_$less$colon$less$();
+      $$x3.send__T__O__sci_List__F1__s_concurrent_Future(des, null, $$x2, this$10.s_$less$colon$less$__f_singleton).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$11) => ((resp$2) => {
+        const resp = $as_Lbon_jo_app_Response(resp$2);
+        const this$12 = resp.bodyAsString__s_Option();
+        if (this$12.isEmpty__Z()) {
+          return $m_s_None$()
+        } else {
+          const arg1 = this$12.get__O();
+          const token = $as_T(arg1);
+          const red = ("/julia/index.html?token=" + token);
+          $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location.assign(red);
+          return new $c_s_Some((void 0))
+        }
+      }))(this$5)), this$5.Lbon_jo_app_LoginTemplate__f_ex)
+    }))(this));
+    this$13.Lbon_jo_html_DomShell$OnceObs__f_client = clientp;
     this.Lbon_jo_app_LoginTemplate__f_btnDiv = new $c_Lbon_jo_view_Ref$$anon$1("ok")
   };
   id__T() {
@@ -16265,67 +16981,45 @@ class $c_Lbon_jo_app_LoginTemplate extends $c_O {
   body__T() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("container-fluid p-5"), \u03b4md);
-    const $$x7 = \u03b4md;
-    const $$x6 = $m_s_xml_TopScope$();
+    const $$x8 = \u03b4md;
+    const $$x7 = $m_s_xml_TopScope$();
     $m_s_xml_NodeSeq$();
     const \u03b4buf = new $c_s_xml_NodeBuffer();
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
     let \u03b4md$2 = $m_s_xml_Null$();
     \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("container  bg-primary rounded p-2 mw-50"), \u03b4md$2);
-    const $$x5 = \u03b4md$2;
-    const $$x4 = $m_s_xml_TopScope$();
+    const $$x6 = \u03b4md$2;
+    const $$x5 = $m_s_xml_TopScope$();
     $m_s_xml_NodeSeq$();
     const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
     \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-    const $$x1 = $m_Lbon_jo_html_DomShell$();
-    const array = [$m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__s_xml_Elem("login", "login", "", "text"), $m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__s_xml_Elem("password", "password", "", "password")];
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($$x1.form__sci_Seq__s_xml_Elem(new $c_sjsr_WrappedVarArgs(array)));
+    const $$x2 = $m_Lbon_jo_html_DomShell$();
+    const $$x1 = $m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__T__sci_Map__s_xml_Elem("login", "login", "", "text", "", $m_sci_Map$EmptyMap$());
+    const x$6 = $m_sci_Map$EmptyMap$();
+    const array = [$$x1, $m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__T__sci_Map__s_xml_Elem("password", "password", "", "password", "", x$6)];
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($$x2.form__sci_Seq__s_xml_Elem(new $c_sjsr_WrappedVarArgs(array)));
     let \u03b4md$3 = $m_s_xml_Null$();
     \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", new $c_s_xml_Text("ok"), \u03b4md$3);
-    const $$x3 = \u03b4md$3;
-    const $$x2 = $m_s_xml_TopScope$();
+    const $$x4 = \u03b4md$3;
+    const $$x3 = $m_s_xml_TopScope$();
     const array$1 = [];
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x3, $$x2, false, new $c_sjsr_WrappedVarArgs(array$1)));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x4, $$x3, false, new $c_sjsr_WrappedVarArgs(array$1)));
     \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x5, $$x4, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x6, $$x5, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n\n\n    "));
-    const this$9 = new $c_s_xml_Elem(null, "div", $$x7, $$x6, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf));
-    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$9, "", "", "")
+    const this$13 = new $c_s_xml_Elem(null, "div", $$x8, $$x7, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf));
+    return $f_sc_IterableOnceOps__mkString__T__T__T__T(this$13, "", "", "")
   };
   init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
     const this$1 = this.Lbon_jo_app_LoginTemplate__f_commt;
     const el = this.Lbon_jo_app_LoginTemplate__f_btnDiv.ref__Lorg_scalajs_dom_raw_HTMLElement();
     $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(this$1, el);
-    const this$2 = $as_Lbon_jo_html_OnClick(this.Lbon_jo_app_LoginTemplate__f_commt);
-    const p = this.Lbon_jo_app_LoginTemplate__f_btnDiv.ref__Lorg_scalajs_dom_raw_HTMLElement();
-    $f_Lbon_jo_html_OnClick__init__Lorg_scalajs_dom_raw_HTMLElement__V(this$2, p)
+    const this$2 = $as_Lbon_jo_html_Clickable(this.Lbon_jo_app_LoginTemplate__f_commt);
+    const parent$1 = this.Lbon_jo_app_LoginTemplate__f_btnDiv.ref__Lorg_scalajs_dom_raw_HTMLElement();
+    $f_Lbon_jo_html_Clickable__init__Lorg_scalajs_dom_raw_HTMLElement__V(this$2, parent$1)
   };
   me__Lorg_scalajs_dom_raw_HTMLElement() {
     return this.me__Lorg_scalajs_dom_raw_HTMLDivElement()
-  };
-  bon$jo$app$LoginTemplate$$$anonfun$new$1__Lorg_scalajs_dom_raw_Event__s_concurrent_Future(x$1) {
-    const this$1 = this.Lbon_jo_app_LoginTemplate__f_l;
-    const $$x1 = $f_Lbon_jo_view_Ref__value__T(this$1);
-    const this$2 = this.Lbon_jo_app_LoginTemplate__f_p;
-    const des = ((("/auth?login=" + $$x1) + "&pwd=") + $f_Lbon_jo_view_Ref__value__T(this$2));
-    const $$x3 = $m_Lbon_jo_app_RequestHttp$GET$();
-    $m_Lbon_jo_app_RequestHttp$GET$();
-    $m_Lbon_jo_app_RequestHttp$GET$();
-    const $$x2 = $m_sci_Nil$();
-    const this$5 = $m_s_$less$colon$less$();
-    return $$x3.send__T__O__sci_List__F1__s_concurrent_Future(des, null, $$x2, this$5.s_$less$colon$less$__f_singleton).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$6) => ((resp$2) => {
-      const resp = $as_Lbon_jo_app_Response(resp$2);
-      const this$7 = resp.bodyAsString__s_Option();
-      if (this$7.isEmpty__Z()) {
-        return $m_s_None$()
-      } else {
-        const arg1 = this$7.get__O();
-        const token = $as_T(arg1);
-        const red = ("/julia/index.html?token=" + token);
-        $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location.assign(red);
-        return new $c_s_Some((void 0))
-      }
-    }))(this)), this.Lbon_jo_app_LoginTemplate__f_ex)
   };
 }
 const $d_Lbon_jo_app_LoginTemplate = new $TypeData().initClass({
@@ -16643,7 +17337,7 @@ const $f_Lbon_jo_html_NodeView__add__Lbon_jo_html_InDom__Lbon_jo_html_InDom = (f
   return inDom
 });
 const $f_Lbon_jo_html_NodeView__init__Lorg_scalajs_dom_raw_HTMLElement__V = (function($thiz, parent) {
-  if (($thiz.me__Lorg_scalajs_dom_raw_HTMLDivElement() === null)) {
+  if (($thiz.me__Lorg_scalajs_dom_raw_HTMLElement() === null)) {
     throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O($ct_jl_Exception__T__(new $c_jl_Exception(), (("On a pas " + $thiz.id__T()) + " dans le dom")))
   };
   const this$1 = $thiz.inDoms__scm_ListBuffer();
@@ -16651,7 +17345,7 @@ const $f_Lbon_jo_html_NodeView__init__Lorg_scalajs_dom_raw_HTMLElement__V = (fun
   while (it.hasNext__Z()) {
     const arg1 = it.next__O();
     const x$1 = $as_Lbon_jo_html_InDom(arg1);
-    x$1.init__Lorg_scalajs_dom_raw_HTMLElement__V($thiz.me__Lorg_scalajs_dom_raw_HTMLDivElement())
+    x$1.init__Lorg_scalajs_dom_raw_HTMLElement__V($thiz.me__Lorg_scalajs_dom_raw_HTMLElement())
   }
 });
 const $f_Lbon_jo_html_NodeView__$init$__V = (function($thiz) {
@@ -16659,32 +17353,338 @@ const $f_Lbon_jo_html_NodeView__$init$__V = (function($thiz) {
   const this$2 = new $c_scm_ListBuffer();
   $thiz.bon$jo$html$NodeView$_setter_$inDoms_$eq__scm_ListBuffer__V(this$2.addAll__sc_IterableOnce__scm_ListBuffer(elems))
 });
-const $f_Lbon_jo_html_OnClick__init__Lorg_scalajs_dom_raw_HTMLElement__V = (function($thiz, p) {
-  const value = $thiz.id__T();
-  const x1 = $m_Lbon_jo_html_EventFromView$().Lbon_jo_html_EventFromView$__f_eventsHadlers.get__O__s_Option(value);
-  const x = $m_s_None$();
-  if ((x === x1)) {
-    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O($ct_jl_Exception__T__(new $c_jl_Exception(), ("dont find " + $thiz.id__T())))
-  } else if ((x1 instanceof $c_s_Some)) {
-    const x2 = $as_s_Some(x1);
-    const func = x2.s_Some__f_value;
-    $thiz.me__Lorg_scalajs_dom_raw_HTMLElement().addEventListener("click", func)
-  } else {
-    throw new $c_s_MatchError(x1)
-  }
+class $c_Lbon_jo_view_AdminControl$AdminCtx extends $c_O {
+  constructor(outer, moveDiv, saveDiv, choiceDiv, deleteDiv, imgListDiv, adminDef, aShow) {
+    super();
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_moveDiv = null;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_saveDiv = null;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_choiceDiv = null;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_deleteDiv = null;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_imgListDiv = null;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_adminDef = null;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_aShow = null;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_$outer = null;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_moveDiv = moveDiv;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_saveDiv = saveDiv;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_choiceDiv = choiceDiv;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_deleteDiv = deleteDiv;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_imgListDiv = imgListDiv;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_adminDef = adminDef;
+    this.Lbon_jo_view_AdminControl$AdminCtx__f_aShow = aShow;
+    if ((outer === null)) {
+      throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
+    } else {
+      this.Lbon_jo_view_AdminControl$AdminCtx__f_$outer = outer
+    }
+  };
+  productPrefix__T() {
+    return "AdminCtx"
+  };
+  productArity__I() {
+    return 7
+  };
+  productElement__I__O(x$1) {
+    switch (x$1) {
+      case 0: {
+        return this.Lbon_jo_view_AdminControl$AdminCtx__f_moveDiv;
+        break
+      }
+      case 1: {
+        return this.Lbon_jo_view_AdminControl$AdminCtx__f_saveDiv;
+        break
+      }
+      case 2: {
+        return this.Lbon_jo_view_AdminControl$AdminCtx__f_choiceDiv;
+        break
+      }
+      case 3: {
+        return this.Lbon_jo_view_AdminControl$AdminCtx__f_deleteDiv;
+        break
+      }
+      case 4: {
+        return this.Lbon_jo_view_AdminControl$AdminCtx__f_imgListDiv;
+        break
+      }
+      case 5: {
+        return this.Lbon_jo_view_AdminControl$AdminCtx__f_adminDef;
+        break
+      }
+      case 6: {
+        return this.Lbon_jo_view_AdminControl$AdminCtx__f_aShow;
+        break
+      }
+      default: {
+        return $m_sr_Statics$().ioobe__I__O(x$1)
+      }
+    }
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    const this$2 = $m_s_util_hashing_MurmurHash3$();
+    return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
+  };
+  toString__T() {
+    return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+  };
+  equals__O__Z(x$1) {
+    if ((this === x$1)) {
+      return true
+    } else if (((x$1 instanceof $c_Lbon_jo_view_AdminControl$AdminCtx) && ($as_Lbon_jo_view_AdminControl$AdminCtx(x$1).Lbon_jo_view_AdminControl$AdminCtx__f_$outer === this.Lbon_jo_view_AdminControl$AdminCtx__f_$outer))) {
+      const AdminCtx$1 = $as_Lbon_jo_view_AdminControl$AdminCtx(x$1);
+      const x = this.Lbon_jo_view_AdminControl$AdminCtx__f_moveDiv;
+      const x$2 = AdminCtx$1.Lbon_jo_view_AdminControl$AdminCtx__f_moveDiv;
+      let $$x5;
+      if ((x === x$2)) {
+        const x$3 = this.Lbon_jo_view_AdminControl$AdminCtx__f_saveDiv;
+        const x$4 = AdminCtx$1.Lbon_jo_view_AdminControl$AdminCtx__f_saveDiv;
+        $$x5 = (x$3 === x$4)
+      } else {
+        $$x5 = false
+      };
+      let $$x4;
+      if ($$x5) {
+        const x$5 = this.Lbon_jo_view_AdminControl$AdminCtx__f_choiceDiv;
+        const x$6 = AdminCtx$1.Lbon_jo_view_AdminControl$AdminCtx__f_choiceDiv;
+        $$x4 = (x$5 === x$6)
+      } else {
+        $$x4 = false
+      };
+      let $$x3;
+      if ($$x4) {
+        const x$7 = this.Lbon_jo_view_AdminControl$AdminCtx__f_deleteDiv;
+        const x$8 = AdminCtx$1.Lbon_jo_view_AdminControl$AdminCtx__f_deleteDiv;
+        $$x3 = (x$7 === x$8)
+      } else {
+        $$x3 = false
+      };
+      let $$x2;
+      if ($$x3) {
+        const x$9 = this.Lbon_jo_view_AdminControl$AdminCtx__f_imgListDiv;
+        const x$10 = AdminCtx$1.Lbon_jo_view_AdminControl$AdminCtx__f_imgListDiv;
+        $$x2 = (x$9 === x$10)
+      } else {
+        $$x2 = false
+      };
+      let $$x1;
+      if ($$x2) {
+        const x$11 = this.Lbon_jo_view_AdminControl$AdminCtx__f_adminDef;
+        const x$12 = AdminCtx$1.Lbon_jo_view_AdminControl$AdminCtx__f_adminDef;
+        $$x1 = (x$11 === x$12)
+      } else {
+        $$x1 = false
+      };
+      if ($$x1) {
+        const x$13 = this.Lbon_jo_view_AdminControl$AdminCtx__f_aShow;
+        const x$14 = AdminCtx$1.Lbon_jo_view_AdminControl$AdminCtx__f_aShow;
+        return (x$13 === x$14)
+      } else {
+        return false
+      }
+    } else {
+      return false
+    }
+  };
+}
+function $as_Lbon_jo_view_AdminControl$AdminCtx(obj) {
+  return (((obj instanceof $c_Lbon_jo_view_AdminControl$AdminCtx) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.view.AdminControl$AdminCtx"))
+}
+function $isArrayOf_Lbon_jo_view_AdminControl$AdminCtx(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_view_AdminControl$AdminCtx)))
+}
+function $asArrayOf_Lbon_jo_view_AdminControl$AdminCtx(obj, depth) {
+  return (($isArrayOf_Lbon_jo_view_AdminControl$AdminCtx(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.view.AdminControl$AdminCtx;", depth))
+}
+const $d_Lbon_jo_view_AdminControl$AdminCtx = new $TypeData().initClass({
+  Lbon_jo_view_AdminControl$AdminCtx: 0
+}, false, "bon.jo.view.AdminControl$AdminCtx", {
+  Lbon_jo_view_AdminControl$AdminCtx: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
 });
-function $is_Lbon_jo_html_OnClick(obj) {
-  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lbon_jo_html_OnClick)))
+$c_Lbon_jo_view_AdminControl$AdminCtx.prototype.$classData = $d_Lbon_jo_view_AdminControl$AdminCtx;
+class $c_Lbon_jo_view_OptionScroll extends $c_O {
+  constructor(maxByView, currentPage) {
+    super();
+    this.Lbon_jo_view_OptionScroll__f_maxByView = 0;
+    this.Lbon_jo_view_OptionScroll__f_currentPage = 0;
+    this.Lbon_jo_view_OptionScroll__f_maxByView = maxByView;
+    this.Lbon_jo_view_OptionScroll__f_currentPage = currentPage
+  };
+  offset__I() {
+    return $imul((((-1) + this.Lbon_jo_view_OptionScroll__f_currentPage) | 0), this.Lbon_jo_view_OptionScroll__f_maxByView)
+  };
+  productPrefix__T() {
+    return "OptionScroll"
+  };
+  productArity__I() {
+    return 2
+  };
+  productElement__I__O(x$1) {
+    switch (x$1) {
+      case 0: {
+        return this.Lbon_jo_view_OptionScroll__f_maxByView;
+        break
+      }
+      case 1: {
+        return this.Lbon_jo_view_OptionScroll__f_currentPage;
+        break
+      }
+      default: {
+        return $m_sr_Statics$().ioobe__I__O(x$1)
+      }
+    }
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    let acc = (-889275714);
+    const hash = acc;
+    const data = $f_T__hashCode__I("OptionScroll");
+    acc = $m_sr_Statics$().mix__I__I__I(hash, data);
+    const hash$1 = acc;
+    const data$1 = this.Lbon_jo_view_OptionScroll__f_maxByView;
+    acc = $m_sr_Statics$().mix__I__I__I(hash$1, data$1);
+    const hash$2 = acc;
+    const data$2 = this.Lbon_jo_view_OptionScroll__f_currentPage;
+    acc = $m_sr_Statics$().mix__I__I__I(hash$2, data$2);
+    const hash$3 = acc;
+    return $m_sr_Statics$().finalizeHash__I__I__I(hash$3, 2)
+  };
+  toString__T() {
+    return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+  };
+  equals__O__Z(x$1) {
+    if ((this === x$1)) {
+      return true
+    } else if ((x$1 instanceof $c_Lbon_jo_view_OptionScroll)) {
+      const OptionScroll$1 = $as_Lbon_jo_view_OptionScroll(x$1);
+      return ((this.Lbon_jo_view_OptionScroll__f_maxByView === OptionScroll$1.Lbon_jo_view_OptionScroll__f_maxByView) && (this.Lbon_jo_view_OptionScroll__f_currentPage === OptionScroll$1.Lbon_jo_view_OptionScroll__f_currentPage))
+    } else {
+      return false
+    }
+  };
 }
-function $as_Lbon_jo_html_OnClick(obj) {
-  return (($is_Lbon_jo_html_OnClick(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.html.OnClick"))
+function $as_Lbon_jo_view_OptionScroll(obj) {
+  return (((obj instanceof $c_Lbon_jo_view_OptionScroll) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.view.OptionScroll"))
 }
-function $isArrayOf_Lbon_jo_html_OnClick(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_html_OnClick)))
+function $isArrayOf_Lbon_jo_view_OptionScroll(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_view_OptionScroll)))
 }
-function $asArrayOf_Lbon_jo_html_OnClick(obj, depth) {
-  return (($isArrayOf_Lbon_jo_html_OnClick(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.html.OnClick;", depth))
+function $asArrayOf_Lbon_jo_view_OptionScroll(obj, depth) {
+  return (($isArrayOf_Lbon_jo_view_OptionScroll(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.view.OptionScroll;", depth))
 }
+const $d_Lbon_jo_view_OptionScroll = new $TypeData().initClass({
+  Lbon_jo_view_OptionScroll: 0
+}, false, "bon.jo.view.OptionScroll", {
+  Lbon_jo_view_OptionScroll: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbon_jo_view_OptionScroll.prototype.$classData = $d_Lbon_jo_view_OptionScroll;
+class $c_Lbon_jo_view_PaginableList$ScrollContext extends $c_O {
+  constructor(outer, previous, next, infoScroll) {
+    super();
+    this.Lbon_jo_view_PaginableList$ScrollContext__f_previous = null;
+    this.Lbon_jo_view_PaginableList$ScrollContext__f_next = null;
+    this.Lbon_jo_view_PaginableList$ScrollContext__f_infoScroll = null;
+    this.Lbon_jo_view_PaginableList$ScrollContext__f_$outer = null;
+    this.Lbon_jo_view_PaginableList$ScrollContext__f_previous = previous;
+    this.Lbon_jo_view_PaginableList$ScrollContext__f_next = next;
+    this.Lbon_jo_view_PaginableList$ScrollContext__f_infoScroll = infoScroll;
+    if ((outer === null)) {
+      throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
+    } else {
+      this.Lbon_jo_view_PaginableList$ScrollContext__f_$outer = outer
+    }
+  };
+  productPrefix__T() {
+    return "ScrollContext"
+  };
+  productArity__I() {
+    return 3
+  };
+  productElement__I__O(x$1) {
+    switch (x$1) {
+      case 0: {
+        return this.Lbon_jo_view_PaginableList$ScrollContext__f_previous;
+        break
+      }
+      case 1: {
+        return this.Lbon_jo_view_PaginableList$ScrollContext__f_next;
+        break
+      }
+      case 2: {
+        return this.Lbon_jo_view_PaginableList$ScrollContext__f_infoScroll;
+        break
+      }
+      default: {
+        return $m_sr_Statics$().ioobe__I__O(x$1)
+      }
+    }
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    const this$2 = $m_s_util_hashing_MurmurHash3$();
+    return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
+  };
+  toString__T() {
+    return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+  };
+  equals__O__Z(x$1) {
+    if ((this === x$1)) {
+      return true
+    } else if (((x$1 instanceof $c_Lbon_jo_view_PaginableList$ScrollContext) && ($as_Lbon_jo_view_PaginableList$ScrollContext(x$1).Lbon_jo_view_PaginableList$ScrollContext__f_$outer === this.Lbon_jo_view_PaginableList$ScrollContext__f_$outer))) {
+      const ScrollContext$1 = $as_Lbon_jo_view_PaginableList$ScrollContext(x$1);
+      const x = this.Lbon_jo_view_PaginableList$ScrollContext__f_previous;
+      const y = ScrollContext$1.Lbon_jo_view_PaginableList$ScrollContext__f_previous;
+      let $$x1;
+      if ($m_sr_BoxesRunTime$().equals__O__O__Z(x, y)) {
+        const x$2 = this.Lbon_jo_view_PaginableList$ScrollContext__f_next;
+        const y$1 = ScrollContext$1.Lbon_jo_view_PaginableList$ScrollContext__f_next;
+        $$x1 = $m_sr_BoxesRunTime$().equals__O__O__Z(x$2, y$1)
+      } else {
+        $$x1 = false
+      };
+      if ($$x1) {
+        const x$3 = this.Lbon_jo_view_PaginableList$ScrollContext__f_infoScroll;
+        const y$2 = ScrollContext$1.Lbon_jo_view_PaginableList$ScrollContext__f_infoScroll;
+        return $m_sr_BoxesRunTime$().equals__O__O__Z(x$3, y$2)
+      } else {
+        return false
+      }
+    } else {
+      return false
+    }
+  };
+}
+function $as_Lbon_jo_view_PaginableList$ScrollContext(obj) {
+  return (((obj instanceof $c_Lbon_jo_view_PaginableList$ScrollContext) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.view.PaginableList$ScrollContext"))
+}
+function $isArrayOf_Lbon_jo_view_PaginableList$ScrollContext(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_view_PaginableList$ScrollContext)))
+}
+function $asArrayOf_Lbon_jo_view_PaginableList$ScrollContext(obj, depth) {
+  return (($isArrayOf_Lbon_jo_view_PaginableList$ScrollContext(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.view.PaginableList$ScrollContext;", depth))
+}
+const $d_Lbon_jo_view_PaginableList$ScrollContext = new $TypeData().initClass({
+  Lbon_jo_view_PaginableList$ScrollContext: 0
+}, false, "bon.jo.view.PaginableList$ScrollContext", {
+  Lbon_jo_view_PaginableList$ScrollContext: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbon_jo_view_PaginableList$ScrollContext.prototype.$classData = $d_Lbon_jo_view_PaginableList$ScrollContext;
 class $c_Lbon_jo_view_SiteModelView$MenusAdd extends $c_O {
   constructor(outer, menu, subMenu) {
     super();
@@ -18345,6 +19345,9 @@ class $c_sc_AbstractIterator extends $c_O {
   toString__T() {
     return "<iterator>"
   };
+  foreach__F1__V(f) {
+    $f_sc_IterableOnceOps__foreach__F1__V(this, f)
+  };
   reduceLeft__F2__O(op) {
     return $f_sc_IterableOnceOps__reduceLeft__F2__O(this, op)
   };
@@ -19776,6 +20779,9 @@ class $c_Lbon_jo_SiteModel$Oeuvre extends $c_Lbon_jo_SiteModel$SiteElement {
   $js$exported$prop$image__O() {
     return this.Lbon_jo_SiteModel$Oeuvre__f_image
   };
+  $js$exported$prop$image__Lbon_jo_SiteModel$Image__O(x$1) {
+    this.Lbon_jo_SiteModel$Oeuvre__f_image = x$1
+  };
   $js$exported$prop$name__O() {
     return this.Lbon_jo_SiteModel$Oeuvre__f_name
   };
@@ -19814,6 +20820,10 @@ class $c_Lbon_jo_SiteModel$Oeuvre extends $c_Lbon_jo_SiteModel$SiteElement {
   };
   get "image"() {
     return this.$js$exported$prop$image__O()
+  };
+  set "image"(arg) {
+    const prep0 = $as_Lbon_jo_SiteModel$Image(arg);
+    this.$js$exported$prop$image__Lbon_jo_SiteModel$Image__O(prep0)
   };
 }
 function $as_Lbon_jo_SiteModel$Oeuvre(obj) {
@@ -20398,42 +21408,78 @@ const $d_Lbon_jo_app_Role$$anonfun$1 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lbon_jo_app_Role$$anonfun$1.prototype.$classData = $d_Lbon_jo_app_Role$$anonfun$1;
-const $p_Lbon_jo_html_OnClick$$anon$1__me$lzycompute__Lorg_scalajs_dom_raw_HTMLElement = (function($thiz) {
-  if ((!$thiz.Lbon_jo_html_OnClick$$anon$1__f_bitmap$0)) {
-    $thiz.Lbon_jo_html_OnClick$$anon$1__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
-    $thiz.Lbon_jo_html_OnClick$$anon$1__f_bitmap$0 = true
-  };
-  return $thiz.Lbon_jo_html_OnClick$$anon$1__f_me
-});
-class $c_Lbon_jo_html_OnClick$$anon$1 extends $c_O {
-  constructor(idp$1) {
+class $c_Lbon_jo_html_DomShell$StackObs extends $c_O {
+  constructor(clients) {
     super();
-    this.Lbon_jo_html_OnClick$$anon$1__f_me = null;
-    this.Lbon_jo_html_OnClick$$anon$1__f_bitmap$0 = false;
-    this.Lbon_jo_html_OnClick$$anon$1__f_idp$1 = null;
-    this.Lbon_jo_html_OnClick$$anon$1__f_idp$1 = idp$1
+    this.Lbon_jo_html_DomShell$StackObs__f_clients = null;
+    this.Lbon_jo_html_DomShell$StackObs__f_clients = clients
   };
-  init__Lorg_scalajs_dom_raw_HTMLElement__V(p) {
-    $f_Lbon_jo_html_OnClick__init__Lorg_scalajs_dom_raw_HTMLElement__V(this, p)
+  suscribe__F1__V(client) {
+    const this$1 = this.Lbon_jo_html_DomShell$StackObs__f_clients;
+    this.Lbon_jo_html_DomShell$StackObs__f_clients = new $c_sci_$colon$colon(client, this$1)
   };
-  me__Lorg_scalajs_dom_raw_HTMLElement() {
-    return ((!this.Lbon_jo_html_OnClick$$anon$1__f_bitmap$0) ? $p_Lbon_jo_html_OnClick$$anon$1__me$lzycompute__Lorg_scalajs_dom_raw_HTMLElement(this) : this.Lbon_jo_html_OnClick$$anon$1__f_me)
+  newValue__O__V(a) {
+    const this$1 = this.Lbon_jo_html_DomShell$StackObs__f_clients;
+    let these = this$1;
+    while ((!these.isEmpty__Z())) {
+      const arg1 = these.head__O();
+      const x$1 = $as_F1(arg1);
+      x$1.apply__O__O(a);
+      these = $as_sci_List(these.tail__O())
+    }
   };
-  id__T() {
-    return this.Lbon_jo_html_OnClick$$anon$1__f_idp$1
+  productPrefix__T() {
+    return "StackObs"
+  };
+  productArity__I() {
+    return 1
+  };
+  productElement__I__O(x$1) {
+    return ((x$1 === 0) ? this.Lbon_jo_html_DomShell$StackObs__f_clients : $m_sr_Statics$().ioobe__I__O(x$1))
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    const this$2 = $m_s_util_hashing_MurmurHash3$();
+    return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
+  };
+  toString__T() {
+    return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+  };
+  equals__O__Z(x$1) {
+    if ((this === x$1)) {
+      return true
+    } else if ((x$1 instanceof $c_Lbon_jo_html_DomShell$StackObs)) {
+      const StackObs$1 = $as_Lbon_jo_html_DomShell$StackObs(x$1);
+      const x = this.Lbon_jo_html_DomShell$StackObs__f_clients;
+      const x$2 = StackObs$1.Lbon_jo_html_DomShell$StackObs__f_clients;
+      return ((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))
+    } else {
+      return false
+    }
   };
 }
-const $d_Lbon_jo_html_OnClick$$anon$1 = new $TypeData().initClass({
-  Lbon_jo_html_OnClick$$anon$1: 0
-}, false, "bon.jo.html.OnClick$$anon$1", {
-  Lbon_jo_html_OnClick$$anon$1: 1,
+function $as_Lbon_jo_html_DomShell$StackObs(obj) {
+  return (((obj instanceof $c_Lbon_jo_html_DomShell$StackObs) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.html.DomShell$StackObs"))
+}
+function $isArrayOf_Lbon_jo_html_DomShell$StackObs(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_html_DomShell$StackObs)))
+}
+function $asArrayOf_Lbon_jo_html_DomShell$StackObs(obj, depth) {
+  return (($isArrayOf_Lbon_jo_html_DomShell$StackObs(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.html.DomShell$StackObs;", depth))
+}
+const $d_Lbon_jo_html_DomShell$StackObs = new $TypeData().initClass({
+  Lbon_jo_html_DomShell$StackObs: 0
+}, false, "bon.jo.html.DomShell$StackObs", {
+  Lbon_jo_html_DomShell$StackObs: 1,
   O: 1,
-  Lbon_jo_html_OnClick: 1,
-  Lbon_jo_html_EventFromView: 1,
-  Lbon_jo_html_InDom: 1,
-  Lbon_jo_html_IdView: 1
+  Lbon_jo_html_DomShell$Obs: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
 });
-$c_Lbon_jo_html_OnClick$$anon$1.prototype.$classData = $d_Lbon_jo_html_OnClick$$anon$1;
+$c_Lbon_jo_html_DomShell$StackObs.prototype.$classData = $d_Lbon_jo_html_DomShell$StackObs;
 class $c_Lbon_jo_service_MyExport extends $c_Lbon_jo_SiteModel$MenuItemExport {
   constructor(id, text, link, image, parent, children, oeuvres) {
     super();
@@ -20448,12 +21494,12 @@ class $c_Lbon_jo_service_MyExport extends $c_Lbon_jo_SiteModel$MenuItemExport {
     const $$x5 = new $c_T2("text", s);
     const s$1 = this.Lbon_jo_SiteModel$MenuItemExport__f_link;
     const $$x4 = new $c_T2("link", s$1);
-    const seq = $m_s_Predef$().copyArrayToImmutableIndexedSeq__O__sci_IndexedSeq(this.Lbon_jo_SiteModel$MenuItemExport__f_children);
-    const $$x3 = $m_sjsr_Compat$().toJSVarArgsImpl__sci_Seq__sjs_js_Array(seq);
-    const $$x2 = new $c_T2("children", $$x3);
-    const seq$1 = $m_s_Predef$().copyArrayToImmutableIndexedSeq__O__sci_IndexedSeq(this.Lbon_jo_service_MyExport__f_oeuvres);
-    const $$x1 = $m_sjsr_Compat$().toJSVarArgsImpl__sci_Seq__sjs_js_Array(seq$1);
-    const array = [$$x6, $$x5, $$x4, $$x2, new $c_T2("oeuvres", $$x1)];
+    const $$x3 = $m_sc_ArrayOps$();
+    const xs = this.Lbon_jo_SiteModel$MenuItemExport__f_children;
+    const $$x2 = new $c_T2("children", [$$x3.toIndexedSeq$extension__O__sci_IndexedSeq(xs)]);
+    const $$x1 = $m_sc_ArrayOps$();
+    const xs$1 = this.Lbon_jo_service_MyExport__f_oeuvres;
+    const array = [$$x6, $$x5, $$x4, $$x2, new $c_T2("oeuvres", [$$x1.toIndexedSeq$extension__O__sci_IndexedSeq(xs$1)])];
     const fields = new $c_sjsr_WrappedVarArgs(array);
     const ret = $m_sjs_js_special_package$().objectLiteral__sci_Seq__sjs_js_Object(fields);
     const x1 = this.Lbon_jo_SiteModel$MenuItemExport__f_parent;
@@ -20492,57 +21538,96 @@ const $d_Lbon_jo_service_MyExport = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lbon_jo_service_MyExport.prototype.$classData = $d_Lbon_jo_service_MyExport;
-class $c_Lbon_jo_service_SiteService$services$imageService$ extends $c_Lbon_jo_app_service_DistantService {
-  constructor(outer) {
+class $c_Lbon_jo_view_SendImage$EventAdder extends $c_O {
+  constructor(outer, el, obs) {
     super();
-    $ct_Lbon_jo_app_service_DistantService__T__F1__F1__Lbon_jo_app_User__(this, $m_Lbon_jo_app_ConfParam$().apiImage__T(), outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegImage, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trImage, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user)
+    this.Lbon_jo_view_SendImage$EventAdder__f_el = null;
+    this.Lbon_jo_view_SendImage$EventAdder__f_obs = null;
+    this.Lbon_jo_view_SendImage$EventAdder__f_$outer = null;
+    this.Lbon_jo_view_SendImage$EventAdder__f_el = el;
+    this.Lbon_jo_view_SendImage$EventAdder__f_obs = obs;
+    if ((outer === null)) {
+      throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
+    } else {
+      this.Lbon_jo_view_SendImage$EventAdder__f_$outer = outer
+    }
+  };
+  applyDynamic__T__Lbon_jo_view_SendImage$EventAdder(method) {
+    this.Lbon_jo_view_SendImage$EventAdder__f_el.addEventListener(method, ((arg$outer) => ((arg1$2) => {
+      arg$outer.Lbon_jo_view_SendImage$EventAdder__f_obs.newValue__O__V(arg1$2)
+    }))(this));
+    return this
+  };
+  productPrefix__T() {
+    return "EventAdder"
+  };
+  productArity__I() {
+    return 2
+  };
+  productElement__I__O(x$1) {
+    switch (x$1) {
+      case 0: {
+        return this.Lbon_jo_view_SendImage$EventAdder__f_el;
+        break
+      }
+      case 1: {
+        return this.Lbon_jo_view_SendImage$EventAdder__f_obs;
+        break
+      }
+      default: {
+        return $m_sr_Statics$().ioobe__I__O(x$1)
+      }
+    }
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    const this$2 = $m_s_util_hashing_MurmurHash3$();
+    return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
+  };
+  toString__T() {
+    return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+  };
+  equals__O__Z(x$1) {
+    if ((this === x$1)) {
+      return true
+    } else if (((x$1 instanceof $c_Lbon_jo_view_SendImage$EventAdder) && ($as_Lbon_jo_view_SendImage$EventAdder(x$1).Lbon_jo_view_SendImage$EventAdder__f_$outer === this.Lbon_jo_view_SendImage$EventAdder__f_$outer))) {
+      const EventAdder$1 = $as_Lbon_jo_view_SendImage$EventAdder(x$1);
+      const x = this.Lbon_jo_view_SendImage$EventAdder__f_el;
+      const y = EventAdder$1.Lbon_jo_view_SendImage$EventAdder__f_el;
+      if ($m_sr_BoxesRunTime$().equals__O__O__Z(x, y)) {
+        const x$2 = this.Lbon_jo_view_SendImage$EventAdder__f_obs;
+        const x$2$1 = EventAdder$1.Lbon_jo_view_SendImage$EventAdder__f_obs;
+        return ((x$2 === null) ? (x$2$1 === null) : x$2.equals__O__Z(x$2$1))
+      } else {
+        return false
+      }
+    } else {
+      return false
+    }
   };
 }
-const $d_Lbon_jo_service_SiteService$services$imageService$ = new $TypeData().initClass({
-  Lbon_jo_service_SiteService$services$imageService$: 0
-}, false, "bon.jo.service.SiteService$services$imageService$", {
-  Lbon_jo_service_SiteService$services$imageService$: 1,
-  Lbon_jo_app_service_DistantService: 1,
+function $as_Lbon_jo_view_SendImage$EventAdder(obj) {
+  return (((obj instanceof $c_Lbon_jo_view_SendImage$EventAdder) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.view.SendImage$EventAdder"))
+}
+function $isArrayOf_Lbon_jo_view_SendImage$EventAdder(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_view_SendImage$EventAdder)))
+}
+function $asArrayOf_Lbon_jo_view_SendImage$EventAdder(obj, depth) {
+  return (($isArrayOf_Lbon_jo_view_SendImage$EventAdder(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.view.SendImage$EventAdder;", depth))
+}
+const $d_Lbon_jo_view_SendImage$EventAdder = new $TypeData().initClass({
+  Lbon_jo_view_SendImage$EventAdder: 0
+}, false, "bon.jo.view.SendImage$EventAdder", {
+  Lbon_jo_view_SendImage$EventAdder: 1,
   O: 1,
+  s_Dynamic: 1,
   s_Product: 1,
   s_Equals: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbon_jo_service_SiteService$services$imageService$.prototype.$classData = $d_Lbon_jo_service_SiteService$services$imageService$;
-class $c_Lbon_jo_service_SiteService$services$menuService$ extends $c_Lbon_jo_app_service_DistantService {
-  constructor(outer) {
-    super();
-    $ct_Lbon_jo_app_service_DistantService__T__F1__F1__Lbon_jo_app_User__(this, $m_Lbon_jo_app_ConfParam$().apiMenu__T(), outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegMenuItem, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trMenuItem, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user)
-  };
-}
-const $d_Lbon_jo_service_SiteService$services$menuService$ = new $TypeData().initClass({
-  Lbon_jo_service_SiteService$services$menuService$: 0
-}, false, "bon.jo.service.SiteService$services$menuService$", {
-  Lbon_jo_service_SiteService$services$menuService$: 1,
-  Lbon_jo_app_service_DistantService: 1,
-  O: 1,
-  s_Product: 1,
-  s_Equals: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lbon_jo_service_SiteService$services$menuService$.prototype.$classData = $d_Lbon_jo_service_SiteService$services$menuService$;
-class $c_Lbon_jo_service_SiteService$services$oeuvreService$ extends $c_Lbon_jo_app_service_DistantService {
-  constructor(outer) {
-    super();
-    $ct_Lbon_jo_app_service_DistantService__T__F1__F1__Lbon_jo_app_User__(this, $m_Lbon_jo_app_ConfParam$().apiOeuvre__T(), outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegOeuvre, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trOeuvre, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user)
-  };
-}
-const $d_Lbon_jo_service_SiteService$services$oeuvreService$ = new $TypeData().initClass({
-  Lbon_jo_service_SiteService$services$oeuvreService$: 0
-}, false, "bon.jo.service.SiteService$services$oeuvreService$", {
-  Lbon_jo_service_SiteService$services$oeuvreService$: 1,
-  Lbon_jo_app_service_DistantService: 1,
-  O: 1,
-  s_Product: 1,
-  s_Equals: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lbon_jo_service_SiteService$services$oeuvreService$.prototype.$classData = $d_Lbon_jo_service_SiteService$services$oeuvreService$;
+$c_Lbon_jo_view_SendImage$EventAdder.prototype.$classData = $d_Lbon_jo_view_SendImage$EventAdder;
 const $ct_Ljava_io_FilterOutputStream__Ljava_io_OutputStream__ = (function($thiz, out) {
   $thiz.Ljava_io_FilterOutputStream__f_out = out;
   return $thiz
@@ -22499,6 +23584,9 @@ class $c_sci_MapKeyIterator extends $c_sci_ChampBaseIterator {
   toString__T() {
     return "<iterator>"
   };
+  foreach__F1__V(f) {
+    $f_sc_IterableOnceOps__foreach__F1__V(this, f)
+  };
   reduceLeft__F2__O(op) {
     return $f_sc_IterableOnceOps__reduceLeft__F2__O(this, op)
   };
@@ -22559,6 +23647,9 @@ class $c_sci_MapKeyValueTupleIterator extends $c_sci_ChampBaseIterator {
   };
   toString__T() {
     return "<iterator>"
+  };
+  foreach__F1__V(f) {
+    $f_sc_IterableOnceOps__foreach__F1__V(this, f)
   };
   reduceLeft__F2__O(op) {
     return $f_sc_IterableOnceOps__reduceLeft__F2__O(this, op)
@@ -22623,6 +23714,9 @@ class $c_sci_MapValueIterator extends $c_sci_ChampBaseIterator {
   };
   toString__T() {
     return "<iterator>"
+  };
+  foreach__F1__V(f) {
+    $f_sc_IterableOnceOps__foreach__F1__V(this, f)
   };
   reduceLeft__F2__O(op) {
     return $f_sc_IterableOnceOps__reduceLeft__F2__O(this, op)
@@ -22789,6 +23883,9 @@ class $c_sci_SetHashIterator extends $c_sci_ChampBaseIterator {
   toString__T() {
     return "<iterator>"
   };
+  foreach__F1__V(f) {
+    $f_sc_IterableOnceOps__foreach__F1__V(this, f)
+  };
   reduceLeft__F2__O(op) {
     return $f_sc_IterableOnceOps__reduceLeft__F2__O(this, op)
   };
@@ -22852,6 +23949,9 @@ class $c_sci_SetIterator extends $c_sci_ChampBaseIterator {
   };
   toString__T() {
     return "<iterator>"
+  };
+  foreach__F1__V(f) {
+    $f_sc_IterableOnceOps__foreach__F1__V(this, f)
   };
   reduceLeft__F2__O(op) {
     return $f_sc_IterableOnceOps__reduceLeft__F2__O(this, op)
@@ -23130,6 +24230,90 @@ const $d_scm_ArrayBuffer$$anon$1 = new $TypeData().initClass({
   scm_Clearable: 1
 });
 $c_scm_ArrayBuffer$$anon$1.prototype.$classData = $d_scm_ArrayBuffer$$anon$1;
+class $c_scm_ArrayDeque$ extends $c_O {
+  apply__sci_Seq__O(elems) {
+    return this.from__sc_IterableOnce__scm_ArrayDeque(elems)
+  };
+  from__sc_IterableOnce__scm_ArrayDeque(coll) {
+    const s = coll.knownSize__I();
+    if ((s >= 0)) {
+      const array = this.alloc__I__AO(s);
+      const it = coll.iterator__sc_Iterator();
+      let i = 0;
+      while (it.hasNext__Z()) {
+        array.set(i, it.next__O());
+        i = ((1 + i) | 0)
+      };
+      return $ct_scm_ArrayDeque__AO__I__I__(new $c_scm_ArrayDeque(), array, 0, s)
+    } else {
+      const this$1 = $ct_scm_ArrayDeque__I__(new $c_scm_ArrayDeque(), 16);
+      return this$1.addAll__sc_IterableOnce__scm_ArrayDeque(coll)
+    }
+  };
+  newBuilder__scm_Builder() {
+    return new $c_scm_ArrayDeque$$anon$1()
+  };
+  alloc__I__AO(len) {
+    const requirement = (len >= 0);
+    if ((!requirement)) {
+      throw $ct_jl_IllegalArgumentException__T__(new $c_jl_IllegalArgumentException(), "requirement failed: Non-negative array size required")
+    };
+    const size = ((((-2147483648) >>> $clz32(len)) | 0) << 1);
+    const requirement$1 = (size >= 0);
+    if ((!requirement$1)) {
+      throw $ct_jl_IllegalArgumentException__T__(new $c_jl_IllegalArgumentException(), (("requirement failed: " + "ArrayDeque too big - cannot allocate ArrayDeque of length ") + len))
+    };
+    return $newArrayObject($d_O.getArrayOf(), [((size > 16) ? size : 16)])
+  };
+  tabulate__I__F1__O(n, f) {
+    return $f_sc_StrictOptimizedSeqFactory__tabulate__I__F1__sc_SeqOps(this, n, f)
+  };
+  from__sc_IterableOnce__O(source) {
+    return this.from__sc_IterableOnce__scm_ArrayDeque(source)
+  };
+}
+const $d_scm_ArrayDeque$ = new $TypeData().initClass({
+  scm_ArrayDeque$: 0
+}, false, "scala.collection.mutable.ArrayDeque$", {
+  scm_ArrayDeque$: 1,
+  O: 1,
+  sc_StrictOptimizedSeqFactory: 1,
+  sc_SeqFactory: 1,
+  sc_IterableFactory: 1,
+  Ljava_io_Serializable: 1
+});
+$c_scm_ArrayDeque$.prototype.$classData = $d_scm_ArrayDeque$;
+let $n_scm_ArrayDeque$ = (void 0);
+function $m_scm_ArrayDeque$() {
+  if ((!$n_scm_ArrayDeque$)) {
+    $n_scm_ArrayDeque$ = new $c_scm_ArrayDeque$()
+  };
+  return $n_scm_ArrayDeque$
+}
+class $c_scm_ArrayDeque$$anon$1 extends $c_scm_GrowableBuilder {
+  constructor() {
+    super();
+    $ct_scm_GrowableBuilder__scm_Growable__(this, $ct_scm_ArrayDeque__I__(new $c_scm_ArrayDeque(), 16))
+  };
+  sizeHint__I__V(size) {
+    const this$1 = $as_scm_ArrayDeque(this.scm_GrowableBuilder__f_elems);
+    const idx = this$1.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+    if (((size > (((this$1.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx) | 0) & (((-1) + this$1.scm_ArrayDeque__f_array.u.length) | 0))) && (size >= this$1.scm_ArrayDeque__f_array.u.length))) {
+      this$1.scala$collection$mutable$ArrayDeque$$resize__I__V(size)
+    }
+  };
+}
+const $d_scm_ArrayDeque$$anon$1 = new $TypeData().initClass({
+  scm_ArrayDeque$$anon$1: 0
+}, false, "scala.collection.mutable.ArrayDeque$$anon$1", {
+  scm_ArrayDeque$$anon$1: 1,
+  scm_GrowableBuilder: 1,
+  O: 1,
+  scm_Builder: 1,
+  scm_Growable: 1,
+  scm_Clearable: 1
+});
+$c_scm_ArrayDeque$$anon$1.prototype.$classData = $d_scm_ArrayDeque$$anon$1;
 class $c_scm_HashMap$$anon$5 extends $c_scm_GrowableBuilder {
   constructor(initialCapacity$1, loadFactor$1) {
     super();
@@ -23272,6 +24456,40 @@ function $m_scm_ListBuffer$() {
     $n_scm_ListBuffer$ = new $c_scm_ListBuffer$()
   };
   return $n_scm_ListBuffer$
+}
+class $c_scm_Queue$ extends $c_O {
+  apply__sci_Seq__O(elems) {
+    const this$1 = new $c_scm_Queue(16);
+    return $as_scm_Queue(this$1.addAll__sc_IterableOnce__scm_ArrayDeque(elems))
+  };
+  newBuilder__scm_Builder() {
+    return $ct_scm_GrowableBuilder__scm_Growable__(new $c_scm_GrowableBuilder(), new $c_scm_Queue(16))
+  };
+  tabulate__I__F1__O(n, f) {
+    return $f_sc_StrictOptimizedSeqFactory__tabulate__I__F1__sc_SeqOps(this, n, f)
+  };
+  from__sc_IterableOnce__O(source) {
+    const this$1 = new $c_scm_Queue(16);
+    return $as_scm_Queue(this$1.addAll__sc_IterableOnce__scm_ArrayDeque(source))
+  };
+}
+const $d_scm_Queue$ = new $TypeData().initClass({
+  scm_Queue$: 0
+}, false, "scala.collection.mutable.Queue$", {
+  scm_Queue$: 1,
+  O: 1,
+  sc_StrictOptimizedSeqFactory: 1,
+  sc_SeqFactory: 1,
+  sc_IterableFactory: 1,
+  Ljava_io_Serializable: 1
+});
+$c_scm_Queue$.prototype.$classData = $d_scm_Queue$;
+let $n_scm_Queue$ = (void 0);
+function $m_scm_Queue$() {
+  if ((!$n_scm_Queue$)) {
+    $n_scm_Queue$ = new $c_scm_Queue$()
+  };
+  return $n_scm_Queue$
 }
 class $c_s_concurrent_ExecutionContext$parasitic$ extends $c_O {
   constructor() {
@@ -23736,6 +24954,57 @@ function $m_Lbon_jo_ContactMenuItem$() {
   };
   return $n_Lbon_jo_ContactMenuItem$
 }
+const $p_Lbon_jo_html_ButtonHtml$$anon$1__me$lzycompute__Lorg_scalajs_dom_raw_HTMLButtonElement = (function($thiz) {
+  if ((!$thiz.Lbon_jo_html_ButtonHtml$$anon$1__f_bitmap$0)) {
+    $thiz.Lbon_jo_html_ButtonHtml$$anon$1__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
+    $thiz.Lbon_jo_html_ButtonHtml$$anon$1__f_bitmap$0 = true
+  };
+  return $thiz.Lbon_jo_html_ButtonHtml$$anon$1__f_me
+});
+class $c_Lbon_jo_html_ButtonHtml$$anon$1 extends $c_O {
+  constructor(idp$1, label$1) {
+    super();
+    this.Lbon_jo_html_ButtonHtml$$anon$1__f_obs = null;
+    this.Lbon_jo_html_ButtonHtml$$anon$1__f_me = null;
+    this.Lbon_jo_html_ButtonHtml$$anon$1__f_bitmap$0 = false;
+    this.Lbon_jo_html_ButtonHtml$$anon$1__f_idp$1 = null;
+    this.Lbon_jo_html_ButtonHtml$$anon$1__f_label$1 = null;
+    this.Lbon_jo_html_ButtonHtml$$anon$1__f_idp$1 = idp$1;
+    this.Lbon_jo_html_ButtonHtml$$anon$1__f_label$1 = label$1;
+    this.Lbon_jo_html_ButtonHtml$$anon$1__f_obs = $m_Lbon_jo_html_DomShell$Obs$().once__Lbon_jo_html_DomShell$OnceObs()
+  };
+  init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
+    $f_Lbon_jo_html_Clickable__init__Lorg_scalajs_dom_raw_HTMLElement__V(this, parent)
+  };
+  me__Lorg_scalajs_dom_raw_HTMLButtonElement() {
+    return ((!this.Lbon_jo_html_ButtonHtml$$anon$1__f_bitmap$0) ? $p_Lbon_jo_html_ButtonHtml$$anon$1__me$lzycompute__Lorg_scalajs_dom_raw_HTMLButtonElement(this) : this.Lbon_jo_html_ButtonHtml$$anon$1__f_me)
+  };
+  id__T() {
+    return this.Lbon_jo_html_ButtonHtml$$anon$1__f_idp$1
+  };
+  html__Lorg_scalajs_dom_raw_HTMLButtonElement() {
+    const n = $m_Lbon_jo_html_DomShell$().button__T__T__T__s_xml_Elem(this.Lbon_jo_html_ButtonHtml$$anon$1__f_idp$1, this.Lbon_jo_html_ButtonHtml$$anon$1__f_label$1, "");
+    return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(n, "", "", ""))
+  };
+  me__Lorg_scalajs_dom_raw_HTMLElement() {
+    return this.me__Lorg_scalajs_dom_raw_HTMLButtonElement()
+  };
+  html__Lorg_scalajs_dom_raw_HTMLElement() {
+    return this.html__Lorg_scalajs_dom_raw_HTMLButtonElement()
+  };
+}
+const $d_Lbon_jo_html_ButtonHtml$$anon$1 = new $TypeData().initClass({
+  Lbon_jo_html_ButtonHtml$$anon$1: 0
+}, false, "bon.jo.html.ButtonHtml$$anon$1", {
+  Lbon_jo_html_ButtonHtml$$anon$1: 1,
+  O: 1,
+  Lbon_jo_html_LeaveView: 1,
+  Lbon_jo_html_InDom: 1,
+  Lbon_jo_html_\uff3fView: 1,
+  Lbon_jo_html_IdView: 1,
+  Lbon_jo_html_Clickable: 1
+});
+$c_Lbon_jo_html_ButtonHtml$$anon$1.prototype.$classData = $d_Lbon_jo_html_ButtonHtml$$anon$1;
 class $c_Lbon_jo_html_DomShell$ExtendedHTMLCollection extends $c_O {
   constructor(e) {
     super();
@@ -23753,6 +25022,9 @@ class $c_Lbon_jo_html_DomShell$ExtendedHTMLCollection extends $c_O {
   };
   head__O() {
     return this.iterator__sc_Iterator().next__O()
+  };
+  filter__F1__O(pred) {
+    return $f_sc_IterableOps__filter__F1__O(this, pred)
   };
   drop__I__O(n) {
     return $f_sc_IterableOps__drop__I__O(this, n)
@@ -23832,6 +25104,185 @@ const $d_Lbon_jo_html_DomShell$ExtendedHTMLCollection = new $TypeData().initClas
   sc_IterableFactoryDefaults: 1
 });
 $c_Lbon_jo_html_DomShell$ExtendedHTMLCollection.prototype.$classData = $d_Lbon_jo_html_DomShell$ExtendedHTMLCollection;
+const $p_Lbon_jo_html_InDom$simple__me$lzycompute__Lorg_scalajs_dom_raw_HTMLElement = (function($thiz) {
+  if ((!$thiz.Lbon_jo_html_InDom$simple__f_bitmap$0)) {
+    $thiz.Lbon_jo_html_InDom$simple__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
+    $thiz.Lbon_jo_html_InDom$simple__f_bitmap$0 = true
+  };
+  return $thiz.Lbon_jo_html_InDom$simple__f_me
+});
+class $c_Lbon_jo_html_InDom$simple extends $c_O {
+  constructor(node) {
+    super();
+    this.Lbon_jo_html_InDom$simple__f_node = null;
+    this.Lbon_jo_html_InDom$simple__f_me = null;
+    this.Lbon_jo_html_InDom$simple__f_bitmap$0 = false;
+    this.Lbon_jo_html_InDom$simple__f_node = node
+  };
+  html__Lorg_scalajs_dom_raw_HTMLElement() {
+    const _1 = this.Lbon_jo_html_InDom$simple__f_node;
+    return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
+  };
+  me__Lorg_scalajs_dom_raw_HTMLElement() {
+    return ((!this.Lbon_jo_html_InDom$simple__f_bitmap$0) ? $p_Lbon_jo_html_InDom$simple__me$lzycompute__Lorg_scalajs_dom_raw_HTMLElement(this) : this.Lbon_jo_html_InDom$simple__f_me)
+  };
+  init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
+    const _1 = this.Lbon_jo_html_InDom$simple__f_node;
+    parent.appendChild($m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", "")))
+  };
+  id__T() {
+    return this.Lbon_jo_html_InDom$simple__f_node.$bslash$at__T__T("id")
+  };
+}
+const $d_Lbon_jo_html_InDom$simple = new $TypeData().initClass({
+  Lbon_jo_html_InDom$simple: 0
+}, false, "bon.jo.html.InDom$simple", {
+  Lbon_jo_html_InDom$simple: 1,
+  O: 1,
+  Lbon_jo_html_InDom: 1,
+  Lbon_jo_html_IdView: 1,
+  Lbon_jo_html_XmlHtmlView: 1,
+  Lbon_jo_html_BridgedView: 1,
+  Lbon_jo_html_\uff3fView: 1
+});
+$c_Lbon_jo_html_InDom$simple.prototype.$classData = $d_Lbon_jo_html_InDom$simple;
+const $ct_Lbon_jo_service_SiteService$KeepId__Lbon_jo_service_SiteService__T__F1__F1__Lbon_jo_app_User__ = (function($thiz, outer, url, read, write, user) {
+  if ((outer === null)) {
+    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
+  } else {
+    $thiz.Lbon_jo_service_SiteService$KeepId__f_$outer = outer
+  };
+  $ct_Lbon_jo_app_service_DistantService__T__F1__F1__Lbon_jo_app_User__($thiz, url, read, write, user);
+  $thiz.Lbon_jo_service_SiteService$KeepId__f_mid = 0;
+  return $thiz
+});
+class $c_Lbon_jo_service_SiteService$KeepId extends $c_Lbon_jo_app_service_DistantService {
+  constructor() {
+    super();
+    this.Lbon_jo_service_SiteService$KeepId__f_mid = 0;
+    this.Lbon_jo_service_SiteService$KeepId__f_$outer = null
+  };
+  getAll__s_concurrent_Future() {
+    return $c_Lbon_jo_app_service_DistantService.prototype.getAll__s_concurrent_Future.call(this).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$1) => ((e$2) => {
+      const len = $uI(e$2.length);
+      const res = new Array(len);
+      let i = 0;
+      while ((i < len)) {
+        const $$x1 = i;
+        const arg1 = e$2[i];
+        res[$$x1] = $uI(arg1.id);
+        i = ((1 + i) | 0)
+      };
+      const this$5 = $ct_sjs_js_WrappedArray__sjs_js_Array__(new $c_sjs_js_WrappedArray(), res);
+      const ord = $m_s_math_Ordering$Int$();
+      this$1.Lbon_jo_service_SiteService$KeepId__f_mid = $uI($f_sc_IterableOnceOps__max__s_math_Ordering__O(this$5, ord));
+      return e$2
+    }))(this)), this.Lbon_jo_service_SiteService$KeepId__f_$outer.Lbon_jo_service_SiteService__f_executionContext)
+  };
+}
+const $p_Lbon_jo_view_WithImage__elts$1__sjs_js_Array__sci_List = (function($thiz, e$1) {
+  const len = $uI(e$1.length);
+  const res = new Array(len);
+  let i = 0;
+  while ((i < len)) {
+    const $$x1 = i;
+    const arg1 = e$1[i];
+    const this$3 = $uI(arg1.id);
+    res[$$x1] = new $c_Lbon_jo_view_ImgView(("img-sm-" + ("" + this$3)), (($as_T(arg1.base) + "/") + $as_T(arg1.link)), ("img-" + $uI(arg1.id)), "img-sm", arg1);
+    i = ((1 + i) | 0)
+  };
+  const this$6 = $ct_sjs_js_WrappedArray__sjs_js_Array__(new $c_sjs_js_WrappedArray(), res);
+  return $m_sci_List$().from__sc_IterableOnce__sci_List(this$6)
+});
+const $f_Lbon_jo_view_WithImage__imgRef__s_Option = (function($thiz) {
+  if ($thiz.bon$jo$view$WithImage$$_imgRef__s_Option().isEmpty__Z()) {
+    $thiz.bon$jo$view$WithImage$$_imgRef_$eq__s_Option__V(new $c_s_Some($thiz.factory__Lbon_jo_view_Ref()))
+  };
+  return $thiz.bon$jo$view$WithImage$$_imgRef__s_Option()
+});
+const $f_Lbon_jo_view_WithImage__notInDom__V = (function($thiz) {
+  $thiz.currentCtx_$eq__Lbon_jo_view_AdminControl$AdminCtx__V(null);
+  $thiz.bon$jo$view$WithImage$$_imgRef_$eq__s_Option__V($m_s_None$())
+});
+const $f_Lbon_jo_view_WithImage__inAdmin__s_xml_NodeBuffer = (function($thiz) {
+  const $$x5 = $f_Lbon_jo_view_AdminControl__inAdmin__s_xml_NodeBuffer($thiz);
+  let \u03b4md = $m_s_xml_Null$();
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("btn"), \u03b4md);
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("img-" + $thiz.id__T()), \u03b4md);
+  const $$x4 = \u03b4md;
+  const $$x3 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf = new $c_s_xml_NodeBuffer();
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  let \u03b4md$2 = $m_s_xml_Null$();
+  \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "alt", new $c_s_xml_Text("img"), \u03b4md$2);
+  const $$x2 = \u03b4md$2;
+  const $$x1 = $m_s_xml_TopScope$();
+  const array = [];
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x2, $$x1, true, new $c_sjsr_WrappedVarArgs(array)));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  return $as_s_xml_NodeBuffer($$x5.addOne__O__scm_ArrayBuffer(new $c_s_xml_Elem(null, "span", $$x4, $$x3, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))))
+});
+const $f_Lbon_jo_view_WithImage__updateSrc__Lbon_jo_SiteModel$Image__V = (function($thiz, e) {
+  $as_Lbon_jo_view_Ref($f_Lbon_jo_view_WithImage__imgRef__s_Option($thiz).get__O()).ref__Lorg_scalajs_dom_raw_HTMLElement().src = (("" + e.Lbon_jo_SiteModel$Image__f_base) + e.Lbon_jo_SiteModel$Image__f_link)
+});
+const $f_Lbon_jo_view_WithImage__initImg__Lorg_scalajs_dom_raw_HTMLElement__V = (function($thiz, parent) {
+  if ($thiz.admin__Z()) {
+    $thiz.imgDiv__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement().addEventListener("click", ((arg$outer) => ((arg1$2) => {
+      $f_Lbon_jo_view_WithImage__bon$jo$view$WithImage$$$anonfun$initImg$1__Lorg_scalajs_dom_raw_Event__V(arg$outer, arg1$2)
+    }))($thiz))
+  };
+  const this$1 = $thiz.image__s_Option();
+  if ((!this$1.isEmpty__Z())) {
+    const arg1 = this$1.get__O();
+    const e = $as_Lbon_jo_SiteModel$Image(arg1);
+    $thiz.notInit_$eq__Z__V(false);
+    const qual$1 = $as_Lbon_jo_view_Ref($f_Lbon_jo_view_WithImage__imgRef__s_Option($thiz).get__O()).ref__Lorg_scalajs_dom_raw_HTMLElement();
+    const x$2 = ((arg$outer$1) => ((arg1$2$1) => {
+      $f_Lbon_jo_view_WithImage__bon$jo$view$WithImage$$$anonfun$initImg$8__Lorg_scalajs_dom_raw_Event__V(arg$outer$1, arg1$2$1)
+    }))($thiz);
+    qual$1.addEventListener("load", x$2);
+    $as_Lbon_jo_view_Ref($f_Lbon_jo_view_WithImage__imgRef__s_Option($thiz).get__O()).ref__Lorg_scalajs_dom_raw_HTMLElement().classList.add("loader");
+    $f_Lbon_jo_view_WithImage__updateSrc__Lbon_jo_SiteModel$Image__V($thiz, e)
+  }
+});
+const $f_Lbon_jo_view_WithImage__bon$jo$view$WithImage$$$anonfun$initImg$1__Lorg_scalajs_dom_raw_Event__V = (function($thiz, e) {
+  const idp = ("img-List-" + $thiz.id__T());
+  const mappingp = new $c_sjsr_AnonFunction1(((this$1) => ((x$1$2) => {
+    const x$1 = $as_Lbon_jo_view_ImgView(x$1$2);
+    return x$1.Lbon_jo_view_ImgView__f_imageRawExport
+  }))($thiz));
+  const deletep = $m_Lbon_jo_view_Lists$PagChooseList$().apply$default$4__F1();
+  const listImg = new $c_Lbon_jo_view_Lists$PagChooseList$$anon$2("container", idp, mappingp, deletep);
+  listImg.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_obs.suscribe__F1__V(new $c_sjsr_AnonFunction1(((this$2$1, listImg$1) => ((e$2$2) => {
+    $f_Lbon_jo_html_InDom__removeFromView__V(listImg$1);
+    const this$3 = this$2$1.siteService__Lbon_jo_service_SiteService();
+    this$3.Lbon_jo_service_SiteService__f_siteView.displayAll__V();
+    this$2$1.imageFor__Lbon_jo_service_Raws$ImageRawExport__V(e$2$2)
+  }))($thiz, listImg)));
+  const this$4 = $thiz.siteService__Lbon_jo_service_SiteService();
+  this$4.Lbon_jo_service_SiteService__f_siteView.hideAll__V();
+  const this$5 = $thiz.siteService__Lbon_jo_service_SiteService();
+  this$5.Lbon_jo_service_SiteService__f_siteView.root__Lbon_jo_html_Types$FinalComponent__V(listImg);
+  listImg.me__Lorg_scalajs_dom_raw_HTMLDivElement().classList.add("overall");
+  $thiz.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_imageService.getAll__s_concurrent_Future().foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1(((this$3$1, listImg$2) => ((e$3$2) => {
+    const cps = $p_Lbon_jo_view_WithImage__elts$1__sjs_js_Array__sci_List(this$3$1, e$3$2);
+    $f_Lbon_jo_view_Lists$ChooseList__clearAndAddAll__sci_List__sci_List(listImg$2, cps);
+    const send = new $c_Lbon_jo_view_SendImageImpl("img-send-test", this$3$1.siteService__Lbon_jo_service_SiteService());
+    $f_Lbon_jo_view_SimpleList__addAtEnd__Lbon_jo_html_Types$ParentComponent__V(listImg$2, send)
+  }))($thiz, listImg)), $thiz.executionContext__s_concurrent_ExecutionContext())
+});
+const $f_Lbon_jo_view_WithImage__bon$jo$view$WithImage$$$anonfun$initImg$8__Lorg_scalajs_dom_raw_Event__V = (function($thiz, e) {
+  if ((!$uZ(conf.prod))) {
+    $m_Lbon_jo_html_DomShell$().log__O__V("Image loaded")
+  };
+  $as_Lbon_jo_view_Ref($f_Lbon_jo_view_WithImage__imgRef__s_Option($thiz).get__O()).ref__Lorg_scalajs_dom_raw_HTMLElement().classList.remove("loader")
+});
+const $f_Lbon_jo_view_WithImage__$init$__V = (function($thiz) {
+  $thiz.bon$jo$view$WithImage$$_imgRef_$eq__s_Option__V($m_s_None$());
+  const idp = ("img-" + $thiz.id__T());
+  $thiz.bon$jo$view$WithImage$_setter_$imgDiv_$eq__Lbon_jo_view_Ref__V(new $c_Lbon_jo_view_Ref$$anon$1(idp))
+});
 const $ct_jl_ArrayIndexOutOfBoundsException__T__ = (function($thiz, s) {
   $ct_jl_Throwable__T__jl_Throwable__Z__Z__($thiz, s, null, true, true);
   return $thiz
@@ -25480,56 +26931,6 @@ function $m_s_xml_TopScope$() {
   };
   return $n_s_xml_TopScope$
 }
-const $p_Lbon_jo_html_ButtonHtml$$anon$2__me$lzycompute__Lorg_scalajs_dom_raw_HTMLButtonElement = (function($thiz) {
-  if ((!$thiz.Lbon_jo_html_ButtonHtml$$anon$2__f_bitmap$0)) {
-    $thiz.Lbon_jo_html_ButtonHtml$$anon$2__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
-    $thiz.Lbon_jo_html_ButtonHtml$$anon$2__f_bitmap$0 = true
-  };
-  return $thiz.Lbon_jo_html_ButtonHtml$$anon$2__f_me
-});
-class $c_Lbon_jo_html_ButtonHtml$$anon$2 extends $c_O {
-  constructor(idp$2, label$1) {
-    super();
-    this.Lbon_jo_html_ButtonHtml$$anon$2__f_me = null;
-    this.Lbon_jo_html_ButtonHtml$$anon$2__f_bitmap$0 = false;
-    this.Lbon_jo_html_ButtonHtml$$anon$2__f_idp$2 = null;
-    this.Lbon_jo_html_ButtonHtml$$anon$2__f_label$1 = null;
-    this.Lbon_jo_html_ButtonHtml$$anon$2__f_idp$2 = idp$2;
-    this.Lbon_jo_html_ButtonHtml$$anon$2__f_label$1 = label$1
-  };
-  init__Lorg_scalajs_dom_raw_HTMLElement__V(p) {
-    $f_Lbon_jo_html_OnClick__init__Lorg_scalajs_dom_raw_HTMLElement__V(this, p)
-  };
-  me__Lorg_scalajs_dom_raw_HTMLButtonElement() {
-    return ((!this.Lbon_jo_html_ButtonHtml$$anon$2__f_bitmap$0) ? $p_Lbon_jo_html_ButtonHtml$$anon$2__me$lzycompute__Lorg_scalajs_dom_raw_HTMLButtonElement(this) : this.Lbon_jo_html_ButtonHtml$$anon$2__f_me)
-  };
-  id__T() {
-    return this.Lbon_jo_html_ButtonHtml$$anon$2__f_idp$2
-  };
-  html__Lorg_scalajs_dom_raw_HTMLButtonElement() {
-    const n = $m_Lbon_jo_html_DomShell$().button__T__T__T__s_xml_Elem(this.Lbon_jo_html_ButtonHtml$$anon$2__f_idp$2, this.Lbon_jo_html_ButtonHtml$$anon$2__f_label$1, "");
-    return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(n, "", "", ""))
-  };
-  me__Lorg_scalajs_dom_raw_HTMLElement() {
-    return this.me__Lorg_scalajs_dom_raw_HTMLButtonElement()
-  };
-  html__Lorg_scalajs_dom_raw_HTMLElement() {
-    return this.html__Lorg_scalajs_dom_raw_HTMLButtonElement()
-  };
-}
-const $d_Lbon_jo_html_ButtonHtml$$anon$2 = new $TypeData().initClass({
-  Lbon_jo_html_ButtonHtml$$anon$2: 0
-}, false, "bon.jo.html.ButtonHtml$$anon$2", {
-  Lbon_jo_html_ButtonHtml$$anon$2: 1,
-  O: 1,
-  Lbon_jo_html_LeaveView: 1,
-  Lbon_jo_html_InDom: 1,
-  Lbon_jo_html_\uff3fView: 1,
-  Lbon_jo_html_IdView: 1,
-  Lbon_jo_html_OnClick: 1,
-  Lbon_jo_html_EventFromView: 1
-});
-$c_Lbon_jo_html_ButtonHtml$$anon$2.prototype.$classData = $d_Lbon_jo_html_ButtonHtml$$anon$2;
 function $is_Lbon_jo_html_Types$FinalComponent(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lbon_jo_html_Types$FinalComponent)))
 }
@@ -25542,6 +26943,44 @@ function $isArrayOf_Lbon_jo_html_Types$FinalComponent(obj, depth) {
 function $asArrayOf_Lbon_jo_html_Types$FinalComponent(obj, depth) {
   return (($isArrayOf_Lbon_jo_html_Types$FinalComponent(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.html.Types$FinalComponent;", depth))
 }
+class $c_Lbon_jo_service_SiteService$services$menuService$ extends $c_Lbon_jo_service_SiteService$KeepId {
+  constructor(outer) {
+    super();
+    $ct_Lbon_jo_service_SiteService$KeepId__Lbon_jo_service_SiteService__T__F1__F1__Lbon_jo_app_User__(this, outer.Lbon_jo_service_SiteService$services$__f_$outer, $m_Lbon_jo_app_ConfParam$().apiMenu__T(), outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegMenuItem, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trMenuItem, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user)
+  };
+}
+const $d_Lbon_jo_service_SiteService$services$menuService$ = new $TypeData().initClass({
+  Lbon_jo_service_SiteService$services$menuService$: 0
+}, false, "bon.jo.service.SiteService$services$menuService$", {
+  Lbon_jo_service_SiteService$services$menuService$: 1,
+  Lbon_jo_service_SiteService$KeepId: 1,
+  Lbon_jo_app_service_DistantService: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1,
+  Lbon_jo_service_SiteService$mId: 1
+});
+$c_Lbon_jo_service_SiteService$services$menuService$.prototype.$classData = $d_Lbon_jo_service_SiteService$services$menuService$;
+class $c_Lbon_jo_service_SiteService$services$oeuvreService$ extends $c_Lbon_jo_service_SiteService$KeepId {
+  constructor(outer) {
+    super();
+    $ct_Lbon_jo_service_SiteService$KeepId__Lbon_jo_service_SiteService__T__F1__F1__Lbon_jo_app_User__(this, outer.Lbon_jo_service_SiteService$services$__f_$outer, $m_Lbon_jo_app_ConfParam$().apiOeuvre__T(), outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegOeuvre, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trOeuvre, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user)
+  };
+}
+const $d_Lbon_jo_service_SiteService$services$oeuvreService$ = new $TypeData().initClass({
+  Lbon_jo_service_SiteService$services$oeuvreService$: 0
+}, false, "bon.jo.service.SiteService$services$oeuvreService$", {
+  Lbon_jo_service_SiteService$services$oeuvreService$: 1,
+  Lbon_jo_service_SiteService$KeepId: 1,
+  Lbon_jo_app_service_DistantService: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1,
+  Lbon_jo_service_SiteService$mId: 1
+});
+$c_Lbon_jo_service_SiteService$services$oeuvreService$.prototype.$classData = $d_Lbon_jo_service_SiteService$services$oeuvreService$;
 const $ct_Ljava_io_PrintStream__Ljava_io_OutputStream__Z__Ljava_nio_charset_Charset__ = (function($thiz, _out, autoFlush, charset) {
   $thiz.Ljava_io_PrintStream__f_autoFlush = autoFlush;
   $thiz.Ljava_io_PrintStream__f_charset = charset;
@@ -26446,6 +27885,33 @@ const $d_scm_ArrayBuilder$generic = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_scm_ArrayBuilder$generic.prototype.$classData = $d_scm_ArrayBuilder$generic;
+const $f_scm_ArrayDequeOps__copySliceToArray__I__O__I__I__O = (function($thiz, srcStart, dest, destStart, maxItems) {
+  const until = ((1 + $m_sr_ScalaRunTime$().array_length__O__I(dest)) | 0);
+  if (((destStart < 0) || (destStart >= until))) {
+    throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), (((destStart + " is out of bounds (min 0, max ") + (((-1) + until) | 0)) + ")"))
+  };
+  const idx = $thiz.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+  const a = ((((($thiz.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx) | 0) & (((-1) + $thiz.scm_ArrayDeque__f_array.u.length) | 0)) - srcStart) | 0);
+  const b = (($m_sr_ScalaRunTime$().array_length__O__I(dest) - destStart) | 0);
+  const b$1 = ((a < b) ? a : b);
+  const toCopy = ((maxItems < b$1) ? maxItems : b$1);
+  if ((toCopy > 0)) {
+    const idx$1 = $thiz.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+    const until$1 = ((($thiz.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx$1) | 0) & (((-1) + $thiz.scm_ArrayDeque__f_array.u.length) | 0));
+    if (((srcStart < 0) || (srcStart >= until$1))) {
+      throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), (((srcStart + " is out of bounds (min 0, max ") + (((-1) + until$1) | 0)) + ")"))
+    };
+    const startIdx = ((($thiz.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start + srcStart) | 0) & (((-1) + $thiz.scm_ArrayDeque__f_array.u.length) | 0));
+    const b$2 = (($thiz.scm_ArrayDeque__f_array.u.length - startIdx) | 0);
+    const block1 = ((toCopy < b$2) ? toCopy : b$2);
+    $m_s_Array$().copy__O__I__O__I__I__V($thiz.scm_ArrayDeque__f_array, startIdx, dest, destStart, block1);
+    const block2 = ((toCopy - block1) | 0);
+    if ((block2 > 0)) {
+      $m_s_Array$().copy__O__I__O__I__I__V($thiz.scm_ArrayDeque__f_array, 0, dest, ((destStart + block1) | 0), block2)
+    }
+  };
+  return dest
+});
 class $c_s_concurrent_Future$$anon$1 extends $c_ju_NoSuchElementException {
   constructor(t$2) {
     super();
@@ -26912,6 +28378,269 @@ const $d_Lbon_jo_ReadImportFile = new $TypeData().initClass({
   Lbon_jo_html_LeaveView: 1
 });
 $c_Lbon_jo_ReadImportFile.prototype.$classData = $d_Lbon_jo_ReadImportFile;
+class $c_Lbon_jo_service_SiteService$services$imageService$ extends $c_Lbon_jo_service_SiteService$KeepId {
+  constructor(outer) {
+    super();
+    $ct_Lbon_jo_service_SiteService$KeepId__Lbon_jo_service_SiteService__T__F1__F1__Lbon_jo_app_User__(this, outer.Lbon_jo_service_SiteService$services$__f_$outer, $m_Lbon_jo_app_ConfParam$().apiImage__T(), outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegImage, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trImage, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user)
+  };
+}
+const $d_Lbon_jo_service_SiteService$services$imageService$ = new $TypeData().initClass({
+  Lbon_jo_service_SiteService$services$imageService$: 0
+}, false, "bon.jo.service.SiteService$services$imageService$", {
+  Lbon_jo_service_SiteService$services$imageService$: 1,
+  Lbon_jo_service_SiteService$KeepId: 1,
+  Lbon_jo_app_service_DistantService: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1,
+  Lbon_jo_service_SiteService$mId: 1,
+  Lbon_jo_service_PostForm: 1
+});
+$c_Lbon_jo_service_SiteService$services$imageService$.prototype.$classData = $d_Lbon_jo_service_SiteService$services$imageService$;
+const $p_Lbon_jo_view_SendImage__me$lzycompute__Lorg_scalajs_dom_raw_HTMLFormElement = (function($thiz) {
+  if ((!$thiz.Lbon_jo_view_SendImage__f_bitmap$0)) {
+    $thiz.Lbon_jo_view_SendImage__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
+    $thiz.Lbon_jo_view_SendImage__f_bitmap$0 = true
+  };
+  return $thiz.Lbon_jo_view_SendImage__f_me
+});
+const $ct_Lbon_jo_view_SendImage__T__Lbon_jo_view_ImageService__ = (function($thiz, id, imageService) {
+  $thiz.Lbon_jo_view_SendImage__f_id = id;
+  $thiz.Lbon_jo_view_SendImage__f_imageService = imageService;
+  $f_Lbon_jo_html_NodeView__$init$__V($thiz);
+  $thiz.Lbon_jo_view_SendImage__f_fileData = $m_s_None$();
+  let \u03b4md = $m_s_xml_Null$();
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", new $c_s_xml_Text("send"), \u03b4md);
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("btn"), \u03b4md);
+  const $$x4 = \u03b4md;
+  const $$x3 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf = new $c_s_xml_NodeBuffer();
+  let \u03b4md$2 = $m_s_xml_Null$();
+  \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("l-arrow"), \u03b4md$2);
+  \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", new $c_s_xml_Text("img-send-arrow"), \u03b4md$2);
+  const $$x2 = \u03b4md$2;
+  const $$x1 = $m_s_xml_TopScope$();
+  const array = [];
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x2, $$x1, false, new $c_sjsr_WrappedVarArgs(array)));
+  const node = new $c_s_xml_Elem(null, "div", $$x4, $$x3, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf));
+  $thiz.Lbon_jo_view_SendImage__f_send = new $c_Lbon_jo_html_InDom$simple(node);
+  const inDom = $thiz.Lbon_jo_view_SendImage__f_send;
+  $f_Lbon_jo_html_NodeView__add__Lbon_jo_html_InDom__Lbon_jo_html_InDom($thiz, inDom);
+  return $thiz
+});
+class $c_Lbon_jo_view_SendImage extends $c_O {
+  constructor() {
+    super();
+    this.Lbon_jo_view_SendImage__f_EventAdder$module = null;
+    this.Lbon_jo_view_SendImage__f_id = null;
+    this.Lbon_jo_view_SendImage__f_imageService = null;
+    this.Lbon_jo_view_SendImage__f_fileData = null;
+    this.Lbon_jo_view_SendImage__f_send = null;
+    this.Lbon_jo_view_SendImage__f_inDoms = null;
+    this.Lbon_jo_view_SendImage__f_me = null;
+    this.Lbon_jo_view_SendImage__f_bitmap$0 = false
+  };
+  html__Lorg_scalajs_dom_raw_HTMLElement() {
+    const _1 = this.xml__s_xml_Node();
+    return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
+  };
+  inDoms__scm_ListBuffer() {
+    return this.Lbon_jo_view_SendImage__f_inDoms
+  };
+  bon$jo$html$NodeView$_setter_$inDoms_$eq__scm_ListBuffer__V(x$1) {
+    this.Lbon_jo_view_SendImage__f_inDoms = x$1
+  };
+  me__Lorg_scalajs_dom_raw_HTMLFormElement() {
+    return ((!this.Lbon_jo_view_SendImage__f_bitmap$0) ? $p_Lbon_jo_view_SendImage__me$lzycompute__Lorg_scalajs_dom_raw_HTMLFormElement(this) : this.Lbon_jo_view_SendImage__f_me)
+  };
+  id__T() {
+    return this.Lbon_jo_view_SendImage__f_id
+  };
+  xml__s_xml_Node() {
+    let \u03b4md = $m_s_xml_Null$();
+    \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("container"), \u03b4md);
+    \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", this.id__T(), \u03b4md);
+    const $$x4 = \u03b4md;
+    const $$x3 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf = new $c_s_xml_NodeBuffer();
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    let \u03b4md$2 = $m_s_xml_Null$();
+    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("file-send btn"), \u03b4md$2);
+    const $$x2 = \u03b4md$2;
+    const $$x1 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
+    const x$6 = $m_sci_Map$EmptyMap$();
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__T__sci_Map__s_xml_Elem("img-send", "+", "", "file", "", x$6));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+    return new $c_s_xml_Elem(null, "form", $$x4, $$x3, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
+  };
+  init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
+    $f_Lbon_jo_html_NodeView__init__Lorg_scalajs_dom_raw_HTMLElement__V(this, parent);
+    const changeObs = $m_Lbon_jo_html_DomShell$Obs$().once__F1__Lbon_jo_html_DomShell$OnceObs(new $c_sjsr_AnonFunction1(((this$1) => ((e$2) => {
+      e$2.target;
+      const f = e$2.target.files;
+      if (((f !== null) && ($uI(f.length) > 0))) {
+        this$1.Lbon_jo_view_SendImage__f_fileData = new $c_s_Some(f[0]);
+        $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element("l-img-send").innerText = $as_T(f[0].name);
+        $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element("img-send-arrow").classList.add("mirror")
+      }
+    }))(this)));
+    const clickObs = $m_Lbon_jo_html_DomShell$Obs$().once__F1__Lbon_jo_html_DomShell$OnceObs(new $c_sjsr_AnonFunction1(((this$2) => ((e$3$2) => {
+      if ((!$uZ(conf.prod))) {
+        $m_Lbon_jo_html_DomShell$().log__O__V(e$3$2)
+      };
+      this$2.onSubmit__V()
+    }))(this)));
+    const event = new $c_Lbon_jo_view_SendImage$EventAdder(this, $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element("img-send"), changeObs);
+    event.applyDynamic__T__Lbon_jo_view_SendImage$EventAdder("change");
+    const eventSubmite = new $c_Lbon_jo_view_SendImage$EventAdder(this, $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element("send"), clickObs);
+    eventSubmite.applyDynamic__T__Lbon_jo_view_SendImage$EventAdder("click")
+  };
+  onSubmit__V() {
+    const this$1 = this.Lbon_jo_view_SendImage__f_fileData;
+    if ((!this$1.isEmpty__Z())) {
+      const arg1 = this$1.get__O();
+      const formData = new FormData();
+      formData.append("file", arg1);
+      const s = $as_T(arg1.name);
+      formData.append("image_name", s);
+      debugger;
+      const this$5 = this.Lbon_jo_view_SendImage__f_imageService;
+      this$5.apply__Lorg_scalajs_dom_raw_FormData__s_concurrent_Future(formData);
+      $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element("img-send-arrow").classList.remove("mirror");
+      $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element("l-img-send").innerText = "+"
+    }
+  };
+  $js$exported$prop$id__O() {
+    return this.id__T()
+  };
+  $js$exported$meth$xml__O() {
+    return this.xml__s_xml_Node()
+  };
+  $js$exported$meth$myHtml__O() {
+    const _1 = this.xml__s_xml_Node();
+    return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
+  };
+  $js$exported$prop$fileData__O() {
+    return this.Lbon_jo_view_SendImage__f_fileData
+  };
+  $js$exported$prop$fileData__s_Option__O(x$1) {
+    this.Lbon_jo_view_SendImage__f_fileData = x$1
+  };
+  $js$exported$meth$init__Lorg_scalajs_dom_raw_HTMLElement__O(parent) {
+    this.init__Lorg_scalajs_dom_raw_HTMLElement__V(parent)
+  };
+  $js$exported$prop$send__O() {
+    return this.Lbon_jo_view_SendImage__f_send
+  };
+  $js$exported$meth$onSubmit__O() {
+    this.onSubmit__V()
+  };
+  me__Lorg_scalajs_dom_raw_HTMLElement() {
+    return this.me__Lorg_scalajs_dom_raw_HTMLFormElement()
+  };
+  "onSubmit"() {
+    return this.$js$exported$meth$onSubmit__O()
+  };
+  get "send"() {
+    return this.$js$exported$prop$send__O()
+  };
+  "init"(arg) {
+    const prep0 = arg;
+    return this.$js$exported$meth$init__Lorg_scalajs_dom_raw_HTMLElement__O(prep0)
+  };
+  get "fileData"() {
+    return this.$js$exported$prop$fileData__O()
+  };
+  set "fileData"(arg) {
+    const prep0 = $as_s_Option(arg);
+    this.$js$exported$prop$fileData__s_Option__O(prep0)
+  };
+  "myHtml"() {
+    return this.$js$exported$meth$myHtml__O()
+  };
+  "xml"() {
+    return this.$js$exported$meth$xml__O()
+  };
+  get "id"() {
+    return this.$js$exported$prop$id__O()
+  };
+}
+const $d_Lbon_jo_view_SendImage = new $TypeData().initClass({
+  Lbon_jo_view_SendImage: 0
+}, false, "bon.jo.view.SendImage", {
+  Lbon_jo_view_SendImage: 1,
+  O: 1,
+  Lbon_jo_html_Types$ParentComponent: 1,
+  Lbon_jo_html_XmlHtmlView: 1,
+  Lbon_jo_html_BridgedView: 1,
+  Lbon_jo_html_\uff3fView: 1,
+  Lbon_jo_html_InDom: 1,
+  Lbon_jo_html_IdView: 1,
+  Lbon_jo_html_NodeView: 1
+});
+$c_Lbon_jo_view_SendImage.prototype.$classData = $d_Lbon_jo_view_SendImage;
+const $f_Lbon_jo_view_SimpleList__addAtEnd__Lbon_jo_html_Types$ParentComponent__V = (function($thiz, cpnt) {
+  const element = $thiz.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
+  new $c_Lbon_jo_html_DomShell$ExtendedElement(element).addChild__s_xml_Node__V(cpnt.xml__s_xml_Node());
+  cpnt.init__Lorg_scalajs_dom_raw_HTMLElement__V($thiz.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement())
+});
+const $f_Lbon_jo_view_SimpleList__xml__s_xml_Node = (function($thiz) {
+  let \u03b4md = $m_s_xml_Null$();
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("list"), \u03b4md);
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", $thiz.id__T(), \u03b4md);
+  const $$x7 = \u03b4md;
+  const $$x6 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf = new $c_s_xml_NodeBuffer();
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  const this$1 = $thiz.cssClass__T();
+  let $$x1;
+  if ((this$1 === "")) {
+    let \u03b4md$2 = $m_s_xml_Null$();
+    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("content" + $thiz.id__T()), \u03b4md$2);
+    const $$x3 = \u03b4md$2;
+    const $$x2 = $m_s_xml_TopScope$();
+    const array = [];
+    $$x1 = new $c_s_xml_Elem(null, "div", $$x3, $$x2, false, new $c_sjsr_WrappedVarArgs(array))
+  } else {
+    let \u03b4md$3 = $m_s_xml_Null$();
+    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", $thiz.cssClass__T(), \u03b4md$3);
+    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("content" + $thiz.id__T()), \u03b4md$3);
+    const $$x5 = \u03b4md$3;
+    const $$x4 = $m_s_xml_TopScope$();
+    const array$1 = [];
+    $$x1 = new $c_s_xml_Elem(null, "div", $$x5, $$x4, false, new $c_sjsr_WrappedVarArgs(array$1))
+  };
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer($$x1);
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
+  return new $c_s_xml_Elem(null, "div", $$x7, $$x6, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
+});
+const $f_Lbon_jo_view_SimpleList__clearAndAddAll__sci_List__sci_List = (function($thiz, cps) {
+  const element = $thiz.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
+  new $c_Lbon_jo_html_DomShell$ExtendedElement(element).clear__V();
+  let these = cps;
+  while ((!these.isEmpty__Z())) {
+    const arg1 = these.head__O();
+    const e = $as_Lbon_jo_html_Types$FinalComponent(arg1);
+    const el = $thiz.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
+    $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(e, el);
+    these = $as_sci_List(these.tail__O())
+  };
+  return cps
+});
+const $f_Lbon_jo_view_SimpleList__$init$__V = (function($thiz) {
+  $thiz.currentView_$eq__sci_List__V($m_sci_Nil$());
+  const idp = ("content" + $thiz.id__T());
+  $thiz.bon$jo$view$SimpleList$_setter_$contentRef_$eq__Lbon_jo_view_Ref__V(new $c_Lbon_jo_view_Ref$$anon$1(idp))
+});
 const $p_jl_JSConsoleBasedPrintStream__doWriteLine__T__V = (function($thiz, line) {
   if (($as_T((typeof console)) !== "undefined")) {
     let $$x1;
@@ -27036,6 +28765,9 @@ class $c_sci_MapKeyValueTupleHashIterator extends $c_sci_ChampBaseReverseIterato
   };
   toString__T() {
     return "<iterator>"
+  };
+  foreach__F1__V(f) {
+    $f_sc_IterableOnceOps__foreach__F1__V(this, f)
   };
   reduceLeft__F2__O(op) {
     return $f_sc_IterableOnceOps__reduceLeft__F2__O(this, op)
@@ -27362,6 +29094,501 @@ const $d_Lbon_jo_view_ChoooseMenuItem = new $TypeData().initClass({
   Lbon_jo_html_ValueView: 1
 });
 $c_Lbon_jo_view_ChoooseMenuItem.prototype.$classData = $d_Lbon_jo_view_ChoooseMenuItem;
+const $f_Lbon_jo_view_PaginableList__maxPage__I = (function($thiz) {
+  const this$1 = $thiz.currentView__sci_List();
+  const $$x2 = this$1.length__I();
+  const $$x1 = $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_maxByView;
+  const this$2 = $thiz.currentView__sci_List();
+  const mewPage = (($intDiv($$x2, $$x1) + (($intMod(this$2.length__I(), $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_maxByView) !== 0) ? 1 : 0)) | 0);
+  return mewPage
+});
+const $f_Lbon_jo_view_PaginableList__updateInfo__V = (function($thiz) {
+  const $$x1 = $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(($thiz.id__T() + "-cp"));
+  const this$1 = $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_currentPage;
+  $$x1.textContent = ("" + this$1);
+  const $$x2 = $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(($thiz.id__T() + "-totp"));
+  const this$3 = $f_Lbon_jo_view_PaginableList__maxPage__I($thiz);
+  $$x2.textContent = ("" + this$3)
+});
+const $f_Lbon_jo_view_PaginableList__infoScroll__s_xml_Node = (function($thiz) {
+  const $$x14 = $m_s_xml_Null$();
+  const $$x13 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf = new $c_s_xml_NodeBuffer();
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  let \u03b4md = $m_s_xml_Null$();
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "style", new $c_s_xml_Text("display:none"), \u03b4md);
+  const $$x2 = \u03b4md;
+  const $$x1 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
+  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  const this$1 = $thiz.currentView__sci_List();
+  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(this$1.length__I());
+  \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  let \u03b4md$2 = $m_s_xml_Null$();
+  \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("control-elm btn"), \u03b4md$2);
+  \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ($thiz.id__T() + "-prev"), \u03b4md$2);
+  const $$x4 = \u03b4md$2;
+  const $$x3 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf$3 = new $c_s_xml_NodeBuffer();
+  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_EntityRef("lt"));
+  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x4, $$x3, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$3)));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  let \u03b4md$3 = $m_s_xml_Null$();
+  \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("control-elm"), \u03b4md$3);
+  const $$x10 = \u03b4md$3;
+  const $$x9 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf$4 = new $c_s_xml_NodeBuffer();
+  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  let \u03b4md$4 = $m_s_xml_Null$();
+  \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ($thiz.id__T() + "-cp"), \u03b4md$4);
+  const $$x6 = \u03b4md$4;
+  const $$x5 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf$5 = new $c_s_xml_NodeBuffer();
+  \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
+  \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer($thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_currentPage);
+  \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x6, $$x5, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$5)));
+  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      /\n      "));
+  let \u03b4md$5 = $m_s_xml_Null$();
+  \u03b4md$5 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ($thiz.id__T() + "-totp"), \u03b4md$5);
+  const $$x8 = \u03b4md$5;
+  const $$x7 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf$6 = new $c_s_xml_NodeBuffer();
+  \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
+  \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer($f_Lbon_jo_view_PaginableList__maxPage__I($thiz));
+  \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x8, $$x7, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$6)));
+  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x10, $$x9, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$4)));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  let \u03b4md$6 = $m_s_xml_Null$();
+  \u03b4md$6 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("control-elm btn"), \u03b4md$6);
+  \u03b4md$6 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ($thiz.id__T() + "-next"), \u03b4md$6);
+  const $$x12 = \u03b4md$6;
+  const $$x11 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf$7 = new $c_s_xml_NodeBuffer();
+  \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_EntityRef("gt"));
+  \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x12, $$x11, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$7)));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
+  return new $c_s_xml_Elem(null, "div", $$x14, $$x13, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
+});
+const $f_Lbon_jo_view_PaginableList__inScrolCtrl__s_xml_Node = (function($thiz) {
+  let \u03b4md = $m_s_xml_Null$();
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ($thiz.id__T() + "-info-scroll"), \u03b4md);
+  const $$x2 = \u03b4md;
+  const $$x1 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf = new $c_s_xml_NodeBuffer();
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer($f_Lbon_jo_view_PaginableList__infoScroll__s_xml_Node($thiz));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  return new $c_s_xml_Elem(null, "div", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
+});
+const $f_Lbon_jo_view_PaginableList__scrollElemn__s_xml_Node = (function($thiz) {
+  let \u03b4md = $m_s_xml_Null$();
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("scroll-ctrl"), \u03b4md);
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ($thiz.id__T() + "scroll-ctrl"), \u03b4md);
+  const $$x2 = \u03b4md;
+  const $$x1 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf = new $c_s_xml_NodeBuffer();
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer($f_Lbon_jo_view_PaginableList__inScrolCtrl__s_xml_Node($thiz));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
+  return new $c_s_xml_Elem(null, "div", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
+});
+const $f_Lbon_jo_view_PaginableList__scrollContext__Lbon_jo_view_PaginableList$ScrollContext = (function($thiz) {
+  const next = $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(($thiz.id__T() + "-next"));
+  const prev = $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(($thiz.id__T() + "-prev"));
+  return new $c_Lbon_jo_view_PaginableList$ScrollContext($thiz, prev, next, $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(($thiz.id__T() + "-info-scroll")))
+});
+const $f_Lbon_jo_view_PaginableList__xml__s_xml_Node = (function($thiz) {
+  let \u03b4md = $m_s_xml_Null$();
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("list"), \u03b4md);
+  \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", $thiz.id__T(), \u03b4md);
+  const $$x7 = \u03b4md;
+  const $$x6 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf = new $c_s_xml_NodeBuffer();
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer($f_Lbon_jo_view_PaginableList__scrollElemn__s_xml_Node($thiz));
+  const this$1 = $thiz.cssClass__T();
+  let $$x1;
+  if ((this$1 === "")) {
+    let \u03b4md$2 = $m_s_xml_Null$();
+    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("content" + $thiz.id__T()), \u03b4md$2);
+    const $$x3 = \u03b4md$2;
+    const $$x2 = $m_s_xml_TopScope$();
+    const array = [];
+    $$x1 = new $c_s_xml_Elem(null, "div", $$x3, $$x2, false, new $c_sjsr_WrappedVarArgs(array))
+  } else {
+    let \u03b4md$3 = $m_s_xml_Null$();
+    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", $thiz.cssClass__T(), \u03b4md$3);
+    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("content" + $thiz.id__T()), \u03b4md$3);
+    const $$x5 = \u03b4md$3;
+    const $$x4 = $m_s_xml_TopScope$();
+    const array$1 = [];
+    $$x1 = new $c_s_xml_Elem(null, "div", $$x5, $$x4, false, new $c_sjsr_WrappedVarArgs(array$1))
+  };
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer($$x1);
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
+  return new $c_s_xml_Elem(null, "div", $$x7, $$x6, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
+});
+const $f_Lbon_jo_view_PaginableList__next__Lorg_scalajs_dom_raw_MouseEvent__V = (function($thiz, e) {
+  if (($f_Lbon_jo_view_PaginableList__maxPage__I($thiz) !== $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_currentPage)) {
+    const element = $thiz.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
+    new $c_Lbon_jo_html_DomShell$ExtendedElement(element).clear__V();
+    const end = $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_maxByView;
+    const isEmpty = (end <= 0);
+    let scala$collection$immutable$Range$$numRangeElements;
+    if (isEmpty) {
+      scala$collection$immutable$Range$$numRangeElements = 0
+    } else {
+      const hi = (end >> 31);
+      scala$collection$immutable$Range$$numRangeElements = (((hi === 0) ? (((-2147483648) ^ end) > (-1)) : (hi > 0)) ? (-1) : end)
+    };
+    const scala$collection$immutable$Range$$lastElement = (((-1) + end) | 0);
+    if ((scala$collection$immutable$Range$$numRangeElements < 0)) {
+      $m_sci_Range$().scala$collection$immutable$Range$$fail__I__I__I__Z__E(0, end, 1, false)
+    };
+    const b = $m_sci_IndexedSeq$().newBuilder__scm_Builder();
+    const it = new $c_sci_RangeIterator(0, 1, scala$collection$immutable$Range$$lastElement, isEmpty);
+    while (it.sci_RangeIterator__f__hasNext) {
+      const arg1 = it.next__I();
+      const elem = ((arg1 + $thiz.option__Lbon_jo_view_OptionScroll().offset__I()) | 0);
+      b.addOne__O__scm_Growable(elem)
+    };
+    $as_sci_Seq($as_sci_Seq($as_sci_IndexedSeq(b.result__O()).filter__F1__O(new $c_sjsr_AnonFunction1(((this$7) => ((e$2) => {
+      const e$1 = $uI(e$2);
+      if ((e$1 >= 0)) {
+        const this$8 = this$7.currentView__sci_List();
+        return (e$1 < this$8.length__I())
+      } else {
+        return false
+      }
+    }))($thiz)))).map__F1__O($thiz.currentView__sci_List())).foreach__F1__V(new $c_sjsr_AnonFunction1(((this$9) => ((el$2) => {
+      const el = $as_Lbon_jo_html_Types$FinalComponent(el$2);
+      this$9.deletedInView__Lbon_jo_html_Types$FinalComponent__V(el)
+    }))($thiz)));
+    $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_currentPage = ((1 + $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_currentPage) | 0);
+    const end$1 = $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_maxByView;
+    const isEmpty$1 = (end$1 <= 0);
+    let scala$collection$immutable$Range$$numRangeElements$1;
+    if (isEmpty$1) {
+      scala$collection$immutable$Range$$numRangeElements$1 = 0
+    } else {
+      const hi$2 = (end$1 >> 31);
+      scala$collection$immutable$Range$$numRangeElements$1 = (((hi$2 === 0) ? (((-2147483648) ^ end$1) > (-1)) : (hi$2 > 0)) ? (-1) : end$1)
+    };
+    const scala$collection$immutable$Range$$lastElement$1 = (((-1) + end$1) | 0);
+    if ((scala$collection$immutable$Range$$numRangeElements$1 < 0)) {
+      $m_sci_Range$().scala$collection$immutable$Range$$fail__I__I__I__Z__E(0, end$1, 1, false)
+    };
+    const b$1 = $m_sci_IndexedSeq$().newBuilder__scm_Builder();
+    const it$1 = new $c_sci_RangeIterator(0, 1, scala$collection$immutable$Range$$lastElement$1, isEmpty$1);
+    while (it$1.sci_RangeIterator__f__hasNext) {
+      const arg1$1 = it$1.next__I();
+      const elem$1 = ((arg1$1 + $thiz.option__Lbon_jo_view_OptionScroll().offset__I()) | 0);
+      b$1.addOne__O__scm_Growable(elem$1)
+    };
+    $as_sc_IterableOnceOps($as_sci_Seq($as_sci_Seq($as_sci_IndexedSeq(b$1.result__O()).filter__F1__O(new $c_sjsr_AnonFunction1(((this$15) => ((e$2$1) => {
+      const e$3 = $uI(e$2$1);
+      if ((e$3 >= 0)) {
+        const this$16 = this$15.currentView__sci_List();
+        return (e$3 < this$16.length__I())
+      } else {
+        return false
+      }
+    }))($thiz)))).map__F1__O($thiz.currentView__sci_List())).map__F1__O(new $c_sjsr_AnonFunction1(((this$2$1) => ((e$2$2) => {
+      const e$2$3 = $as_Lbon_jo_html_Types$FinalComponent(e$2$2);
+      const el$1 = this$2$1.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
+      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(e$2$3, el$1);
+      return e$2$3
+    }))($thiz)))).foreach__F1__V(new $c_sjsr_AnonFunction1(((this$3$1) => ((eee$2) => {
+      const eee = $as_Lbon_jo_html_Types$FinalComponent(eee$2);
+      this$3$1.addedInView__Lbon_jo_html_Types$FinalComponent__V(eee)
+    }))($thiz)));
+    $f_Lbon_jo_view_PaginableList__updateInfo__V($thiz)
+  }
+});
+const $f_Lbon_jo_view_PaginableList__previous__Lorg_scalajs_dom_raw_MouseEvent__V = (function($thiz, e) {
+  if (($thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_currentPage !== 1)) {
+    const element = $thiz.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
+    new $c_Lbon_jo_html_DomShell$ExtendedElement(element).clear__V();
+    const end = $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_maxByView;
+    const isEmpty = (end <= 0);
+    let scala$collection$immutable$Range$$numRangeElements;
+    if (isEmpty) {
+      scala$collection$immutable$Range$$numRangeElements = 0
+    } else {
+      const hi = (end >> 31);
+      scala$collection$immutable$Range$$numRangeElements = (((hi === 0) ? (((-2147483648) ^ end) > (-1)) : (hi > 0)) ? (-1) : end)
+    };
+    const scala$collection$immutable$Range$$lastElement = (((-1) + end) | 0);
+    if ((scala$collection$immutable$Range$$numRangeElements < 0)) {
+      $m_sci_Range$().scala$collection$immutable$Range$$fail__I__I__I__Z__E(0, end, 1, false)
+    };
+    const b = $m_sci_IndexedSeq$().newBuilder__scm_Builder();
+    const it = new $c_sci_RangeIterator(0, 1, scala$collection$immutable$Range$$lastElement, isEmpty);
+    while (it.sci_RangeIterator__f__hasNext) {
+      const arg1 = it.next__I();
+      const elem = ((arg1 + $thiz.option__Lbon_jo_view_OptionScroll().offset__I()) | 0);
+      b.addOne__O__scm_Growable(elem)
+    };
+    $as_sci_Seq($as_sci_Seq($as_sci_IndexedSeq(b.result__O()).filter__F1__O(new $c_sjsr_AnonFunction1(((this$7) => ((e$2) => {
+      const e$1 = $uI(e$2);
+      if ((e$1 >= 0)) {
+        const this$8 = this$7.currentView__sci_List();
+        return (e$1 < this$8.length__I())
+      } else {
+        return false
+      }
+    }))($thiz)))).map__F1__O($thiz.currentView__sci_List())).foreach__F1__V(new $c_sjsr_AnonFunction1(((this$9) => ((e$2$2) => {
+      const e$2$1 = $as_Lbon_jo_html_Types$FinalComponent(e$2$2);
+      this$9.deletedInView__Lbon_jo_html_Types$FinalComponent__V(e$2$1);
+      const any = ((("after remove : " + e$2$1.id__T()) + " : ") + $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(e$2$1.id__T()));
+      if ((!$uZ(conf.prod))) {
+        $m_Lbon_jo_html_DomShell$().log__O__V(any)
+      };
+      const any$1 = ((("after remove  admin-show" + e$2$1.id__T()) + " : ") + $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(("admin-show" + e$2$1.id__T())));
+      if ((!$uZ(conf.prod))) {
+        $m_Lbon_jo_html_DomShell$().log__O__V(any$1)
+      }
+    }))($thiz)));
+    $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_currentPage = (((-1) + $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_currentPage) | 0);
+    const end$1 = $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_maxByView;
+    const isEmpty$1 = (end$1 <= 0);
+    let scala$collection$immutable$Range$$numRangeElements$1;
+    if (isEmpty$1) {
+      scala$collection$immutable$Range$$numRangeElements$1 = 0
+    } else {
+      const hi$2 = (end$1 >> 31);
+      scala$collection$immutable$Range$$numRangeElements$1 = (((hi$2 === 0) ? (((-2147483648) ^ end$1) > (-1)) : (hi$2 > 0)) ? (-1) : end$1)
+    };
+    const scala$collection$immutable$Range$$lastElement$1 = (((-1) + end$1) | 0);
+    if ((scala$collection$immutable$Range$$numRangeElements$1 < 0)) {
+      $m_sci_Range$().scala$collection$immutable$Range$$fail__I__I__I__Z__E(0, end$1, 1, false)
+    };
+    const b$1 = $m_sci_IndexedSeq$().newBuilder__scm_Builder();
+    const it$1 = new $c_sci_RangeIterator(0, 1, scala$collection$immutable$Range$$lastElement$1, isEmpty$1);
+    while (it$1.sci_RangeIterator__f__hasNext) {
+      const arg1$1 = it$1.next__I();
+      const elem$1 = ((arg1$1 + $thiz.option__Lbon_jo_view_OptionScroll().offset__I()) | 0);
+      b$1.addOne__O__scm_Growable(elem$1)
+    };
+    $as_sc_IterableOnceOps($as_sci_Seq($as_sci_Seq($as_sci_IndexedSeq(b$1.result__O()).filter__F1__O(new $c_sjsr_AnonFunction1(((this$17) => ((e$2$3) => {
+      const e$3 = $uI(e$2$3);
+      if ((e$3 >= 0)) {
+        const this$18 = this$17.currentView__sci_List();
+        return (e$3 < this$18.length__I())
+      } else {
+        return false
+      }
+    }))($thiz)))).map__F1__O($thiz.currentView__sci_List())).map__F1__O(new $c_sjsr_AnonFunction1(((this$2$1) => ((e$3$2) => {
+      const e$3$1 = $as_Lbon_jo_html_Types$FinalComponent(e$3$2);
+      const el = this$2$1.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
+      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(e$3$1, el);
+      return e$3$1
+    }))($thiz)))).foreach__F1__V(new $c_sjsr_AnonFunction1(((this$3$1) => ((eee$2) => {
+      const eee = $as_Lbon_jo_html_Types$FinalComponent(eee$2);
+      if ((!$uZ(conf.prod))) {
+        $m_Lbon_jo_html_DomShell$().log__O__V(eee)
+      };
+      this$3$1.addedInView__Lbon_jo_html_Types$FinalComponent__V(eee)
+    }))($thiz)));
+    $f_Lbon_jo_view_PaginableList__updateInfo__V($thiz)
+  }
+});
+const $f_Lbon_jo_view_PaginableList__clearAndAddAll__sci_List__sci_List = (function($thiz, cps) {
+  const element = $thiz.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
+  new $c_Lbon_jo_html_DomShell$ExtendedElement(element).clear__V();
+  const this$2 = $thiz.currentView__sci_List();
+  let these = this$2;
+  while ((!these.isEmpty__Z())) {
+    const arg1 = these.head__O();
+    const el = $as_Lbon_jo_html_Types$FinalComponent(arg1);
+    $thiz.deletedInView__Lbon_jo_html_Types$FinalComponent__V(el);
+    these = $as_sci_List(these.tail__O())
+  };
+  $thiz.currentView_$eq__sci_List__V(cps);
+  $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_currentPage = 1;
+  $f_Lbon_jo_view_PaginableList__updateInfo__V($thiz);
+  const end = $thiz.option__Lbon_jo_view_OptionScroll().Lbon_jo_view_OptionScroll__f_maxByView;
+  const isEmpty = (end <= 0);
+  const scala$collection$immutable$Range$$lastElement = (((-1) + end) | 0);
+  $m_sci_List$();
+  const b = new $c_scm_ListBuffer();
+  const it1 = cps.iterator__sc_Iterator();
+  const it2 = new $c_sci_RangeIterator(0, 1, scala$collection$immutable$Range$$lastElement, isEmpty);
+  while ((it1.hasNext__Z() && it2.sci_RangeIterator__f__hasNext)) {
+    const elem = new $c_T2(it1.next__O(), it2.next__I());
+    b.addOne__O__scm_ListBuffer(elem)
+  };
+  const this$9 = b.toList__sci_List();
+  const f = ((this$2$1) => ((x$2$2) => {
+    const x$2 = $as_T2(x$2$2);
+    return $as_Lbon_jo_html_Types$FinalComponent(x$2.T2__f__1)
+  }))($thiz);
+  let this$10;
+  if ((this$9 === $m_sci_Nil$())) {
+    this$10 = $m_sci_Nil$()
+  } else {
+    const arg1$1 = this$9.head__O();
+    const h = new $c_sci_$colon$colon(f(arg1$1), $m_sci_Nil$());
+    let t = h;
+    let rest = $as_sci_List(this$9.tail__O());
+    while ((rest !== $m_sci_Nil$())) {
+      const arg1$2 = rest.head__O();
+      const nx = new $c_sci_$colon$colon(f(arg1$2), $m_sci_Nil$());
+      t.sci_$colon$colon__f_next = nx;
+      t = nx;
+      rest = $as_sci_List(rest.tail__O())
+    };
+    this$10 = h
+  };
+  const f$1 = ((this$3$1) => ((e$2) => {
+    const e = $as_Lbon_jo_html_Types$FinalComponent(e$2);
+    const el$1 = this$3$1.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
+    $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(e, el$1);
+    return e
+  }))($thiz);
+  if ((this$10 === $m_sci_Nil$())) {
+    return $m_sci_Nil$()
+  } else {
+    const arg1$3 = this$10.head__O();
+    const h$1 = new $c_sci_$colon$colon(f$1(arg1$3), $m_sci_Nil$());
+    let t$1 = h$1;
+    let rest$1 = $as_sci_List(this$10.tail__O());
+    while ((rest$1 !== $m_sci_Nil$())) {
+      const arg1$4 = rest$1.head__O();
+      const nx$1 = new $c_sci_$colon$colon(f$1(arg1$4), $m_sci_Nil$());
+      t$1.sci_$colon$colon__f_next = nx$1;
+      t$1 = nx$1;
+      rest$1 = $as_sci_List(rest$1.tail__O())
+    };
+    return h$1
+  }
+});
+const $f_Lbon_jo_view_PaginableList__initEvent__Lbon_jo_view_PaginableList$ScrollContext__V = (function($thiz, ctx) {
+  const element = ctx.Lbon_jo_view_PaginableList$ScrollContext__f_previous;
+  new $c_Lbon_jo_html_DomShell$ExtendedElement(element).clk__Lbon_jo_html_DomShell$Obs().suscribe__F1__V(new $c_sjsr_AnonFunction1(((this$2) => ((e$2) => {
+    $f_Lbon_jo_view_PaginableList__previous__Lorg_scalajs_dom_raw_MouseEvent__V(this$2, e$2)
+  }))($thiz)));
+  const element$1 = ctx.Lbon_jo_view_PaginableList$ScrollContext__f_next;
+  new $c_Lbon_jo_html_DomShell$ExtendedElement(element$1).clk__Lbon_jo_html_DomShell$Obs().suscribe__F1__V(new $c_sjsr_AnonFunction1(((this$2$1) => ((e$3$2) => {
+    $f_Lbon_jo_view_PaginableList__next__Lorg_scalajs_dom_raw_MouseEvent__V(this$2$1, e$3$2)
+  }))($thiz)))
+});
+const $f_Lbon_jo_view_PaginableList__$init$__V = (function($thiz) {
+  $thiz.bon$jo$view$PaginableList$_setter_$option_$eq__Lbon_jo_view_OptionScroll__V(new $c_Lbon_jo_view_OptionScroll(10, 1))
+});
+class $c_Lbon_jo_view_SendImageImpl extends $c_Lbon_jo_view_SendImage {
+  constructor(id, siteService) {
+    super();
+    $ct_Lbon_jo_view_SendImage__T__Lbon_jo_view_ImageService__(this, id, new $c_Lbon_jo_view_SendImageImpl$$anonfun$$lessinit$greater$1(siteService))
+  };
+  id__T() {
+    return this.Lbon_jo_view_SendImage__f_id
+  };
+}
+const $d_Lbon_jo_view_SendImageImpl = new $TypeData().initClass({
+  Lbon_jo_view_SendImageImpl: 0
+}, false, "bon.jo.view.SendImageImpl", {
+  Lbon_jo_view_SendImageImpl: 1,
+  Lbon_jo_view_SendImage: 1,
+  O: 1,
+  Lbon_jo_html_Types$ParentComponent: 1,
+  Lbon_jo_html_XmlHtmlView: 1,
+  Lbon_jo_html_BridgedView: 1,
+  Lbon_jo_html_\uff3fView: 1,
+  Lbon_jo_html_InDom: 1,
+  Lbon_jo_html_IdView: 1,
+  Lbon_jo_html_NodeView: 1
+});
+$c_Lbon_jo_view_SendImageImpl.prototype.$classData = $d_Lbon_jo_view_SendImageImpl;
+const $p_Lbon_jo_view_SimpleList$$anon$1__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
+  if ((!$thiz.Lbon_jo_view_SimpleList$$anon$1__f_bitmap$0)) {
+    $thiz.Lbon_jo_view_SimpleList$$anon$1__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
+    $thiz.Lbon_jo_view_SimpleList$$anon$1__f_bitmap$0 = true
+  };
+  return $thiz.Lbon_jo_view_SimpleList$$anon$1__f_me
+});
+class $c_Lbon_jo_view_SimpleList$$anon$1 extends $c_O {
+  constructor(cssp$1, idp$1) {
+    super();
+    this.Lbon_jo_view_SimpleList$$anon$1__f_currentView = null;
+    this.Lbon_jo_view_SimpleList$$anon$1__f_contentRef = null;
+    this.Lbon_jo_view_SimpleList$$anon$1__f_me = null;
+    this.Lbon_jo_view_SimpleList$$anon$1__f_bitmap$0 = false;
+    this.Lbon_jo_view_SimpleList$$anon$1__f_cssp$1 = null;
+    this.Lbon_jo_view_SimpleList$$anon$1__f_idp$1 = null;
+    this.Lbon_jo_view_SimpleList$$anon$1__f_cssp$1 = cssp$1;
+    this.Lbon_jo_view_SimpleList$$anon$1__f_idp$1 = idp$1;
+    $f_Lbon_jo_view_SimpleList__$init$__V(this)
+  };
+  xml__s_xml_Node() {
+    return $f_Lbon_jo_view_SimpleList__xml__s_xml_Node(this)
+  };
+  clearAndAddAll__sci_List__sci_List(cps) {
+    return $f_Lbon_jo_view_SimpleList__clearAndAddAll__sci_List__sci_List(this, cps)
+  };
+  init__Lorg_scalajs_dom_raw_HTMLElement__V(parentp) {
+    /*<skip>*/
+  };
+  html__Lorg_scalajs_dom_raw_HTMLElement() {
+    const _1 = $f_Lbon_jo_view_SimpleList__xml__s_xml_Node(this);
+    return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
+  };
+  currentView_$eq__sci_List__V(x$1) {
+    this.Lbon_jo_view_SimpleList$$anon$1__f_currentView = x$1
+  };
+  contentRef__Lbon_jo_view_Ref() {
+    return this.Lbon_jo_view_SimpleList$$anon$1__f_contentRef
+  };
+  bon$jo$view$SimpleList$_setter_$contentRef_$eq__Lbon_jo_view_Ref__V(x$1) {
+    this.Lbon_jo_view_SimpleList$$anon$1__f_contentRef = x$1
+  };
+  me__Lorg_scalajs_dom_raw_HTMLDivElement() {
+    return ((!this.Lbon_jo_view_SimpleList$$anon$1__f_bitmap$0) ? $p_Lbon_jo_view_SimpleList$$anon$1__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_SimpleList$$anon$1__f_me)
+  };
+  cssClass__T() {
+    return this.Lbon_jo_view_SimpleList$$anon$1__f_cssp$1
+  };
+  id__T() {
+    return this.Lbon_jo_view_SimpleList$$anon$1__f_idp$1
+  };
+  me__Lorg_scalajs_dom_raw_HTMLElement() {
+    return this.me__Lorg_scalajs_dom_raw_HTMLDivElement()
+  };
+}
+const $d_Lbon_jo_view_SimpleList$$anon$1 = new $TypeData().initClass({
+  Lbon_jo_view_SimpleList$$anon$1: 0
+}, false, "bon.jo.view.SimpleList$$anon$1", {
+  Lbon_jo_view_SimpleList$$anon$1: 1,
+  O: 1,
+  Lbon_jo_view_SimpleList: 1,
+  Lbon_jo_html_Types$FinalComponent: 1,
+  Lbon_jo_html_XmlHtmlView: 1,
+  Lbon_jo_html_BridgedView: 1,
+  Lbon_jo_html_\uff3fView: 1,
+  Lbon_jo_html_InDom: 1,
+  Lbon_jo_html_IdView: 1,
+  Lbon_jo_html_LeaveView: 1
+});
+$c_Lbon_jo_view_SimpleList$$anon$1.prototype.$classData = $d_Lbon_jo_view_SimpleList$$anon$1;
 class $c_sc_AbstractView extends $c_sc_AbstractIterable {
   iterableFactory__sc_IterableFactory() {
     return $m_sc_View$()
@@ -27850,6 +30077,109 @@ const $f_s_xml_ScalaVersionSpecificNodeSeq__fromSpecific__sc_IterableOnce__s_xml
   const this$1 = $m_s_xml_NodeSeq$().newBuilder__scm_Builder();
   return $as_s_xml_NodeSeq($as_scm_Builder(this$1.addAll__sc_IterableOnce__scm_Growable(coll)).result__O())
 });
+const $p_Lbon_jo_view_Lists$PagList$$anon$1__scrollContext$lzycompute__Lbon_jo_view_PaginableList$ScrollContext = (function($thiz) {
+  if (((((1 & $thiz.Lbon_jo_view_Lists$PagList$$anon$1__f_bitmap$0) << 24) >> 24) === 0)) {
+    $thiz.Lbon_jo_view_Lists$PagList$$anon$1__f_scrollContext = $f_Lbon_jo_view_PaginableList__scrollContext__Lbon_jo_view_PaginableList$ScrollContext($thiz);
+    $thiz.Lbon_jo_view_Lists$PagList$$anon$1__f_bitmap$0 = (((1 | $thiz.Lbon_jo_view_Lists$PagList$$anon$1__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbon_jo_view_Lists$PagList$$anon$1__f_scrollContext
+});
+const $p_Lbon_jo_view_Lists$PagList$$anon$1__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
+  if (((((2 & $thiz.Lbon_jo_view_Lists$PagList$$anon$1__f_bitmap$0) << 24) >> 24) === 0)) {
+    $thiz.Lbon_jo_view_Lists$PagList$$anon$1__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
+    $thiz.Lbon_jo_view_Lists$PagList$$anon$1__f_bitmap$0 = (((2 | $thiz.Lbon_jo_view_Lists$PagList$$anon$1__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbon_jo_view_Lists$PagList$$anon$1__f_me
+});
+class $c_Lbon_jo_view_Lists$PagList$$anon$1 extends $c_O {
+  constructor(cssClassp$1, idp$1, deletep$1) {
+    super();
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_option = null;
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_ScrollContext$module = null;
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_scrollContext = null;
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_currentView = null;
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_contentRef = null;
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_me = null;
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_bitmap$0 = 0;
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_cssClassp$1 = null;
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_idp$1 = null;
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_deletep$1 = null;
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_cssClassp$1 = cssClassp$1;
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_idp$1 = idp$1;
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_deletep$1 = deletep$1;
+    $f_Lbon_jo_view_SimpleList__$init$__V(this);
+    $f_Lbon_jo_view_PaginableList__$init$__V(this)
+  };
+  xml__s_xml_Node() {
+    return $f_Lbon_jo_view_PaginableList__xml__s_xml_Node(this)
+  };
+  clearAndAddAll__sci_List__sci_List(cps) {
+    return $f_Lbon_jo_view_PaginableList__clearAndAddAll__sci_List__sci_List(this, cps)
+  };
+  init__Lorg_scalajs_dom_raw_HTMLElement__V(parentp) {
+    const ctx = this.scrollContext__Lbon_jo_view_PaginableList$ScrollContext();
+    $f_Lbon_jo_view_PaginableList__initEvent__Lbon_jo_view_PaginableList$ScrollContext__V(this, ctx)
+  };
+  html__Lorg_scalajs_dom_raw_HTMLElement() {
+    const _1 = $f_Lbon_jo_view_PaginableList__xml__s_xml_Node(this);
+    return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
+  };
+  option__Lbon_jo_view_OptionScroll() {
+    return this.Lbon_jo_view_Lists$PagList$$anon$1__f_option
+  };
+  scrollContext__Lbon_jo_view_PaginableList$ScrollContext() {
+    return (((((1 & this.Lbon_jo_view_Lists$PagList$$anon$1__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbon_jo_view_Lists$PagList$$anon$1__scrollContext$lzycompute__Lbon_jo_view_PaginableList$ScrollContext(this) : this.Lbon_jo_view_Lists$PagList$$anon$1__f_scrollContext)
+  };
+  bon$jo$view$PaginableList$_setter_$option_$eq__Lbon_jo_view_OptionScroll__V(x$1) {
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_option = x$1
+  };
+  currentView__sci_List() {
+    return this.Lbon_jo_view_Lists$PagList$$anon$1__f_currentView
+  };
+  currentView_$eq__sci_List__V(x$1) {
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_currentView = x$1
+  };
+  contentRef__Lbon_jo_view_Ref() {
+    return this.Lbon_jo_view_Lists$PagList$$anon$1__f_contentRef
+  };
+  bon$jo$view$SimpleList$_setter_$contentRef_$eq__Lbon_jo_view_Ref__V(x$1) {
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_contentRef = x$1
+  };
+  me__Lorg_scalajs_dom_raw_HTMLDivElement() {
+    return (((((2 & this.Lbon_jo_view_Lists$PagList$$anon$1__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbon_jo_view_Lists$PagList$$anon$1__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_Lists$PagList$$anon$1__f_me)
+  };
+  cssClass__T() {
+    return this.Lbon_jo_view_Lists$PagList$$anon$1__f_cssClassp$1
+  };
+  id__T() {
+    return this.Lbon_jo_view_Lists$PagList$$anon$1__f_idp$1
+  };
+  addedInView__Lbon_jo_html_Types$FinalComponent__V(el) {
+    /*<skip>*/
+  };
+  deletedInView__Lbon_jo_html_Types$FinalComponent__V(e) {
+    this.Lbon_jo_view_Lists$PagList$$anon$1__f_deletep$1.apply__O__O(e)
+  };
+  me__Lorg_scalajs_dom_raw_HTMLElement() {
+    return this.me__Lorg_scalajs_dom_raw_HTMLDivElement()
+  };
+}
+const $d_Lbon_jo_view_Lists$PagList$$anon$1 = new $TypeData().initClass({
+  Lbon_jo_view_Lists$PagList$$anon$1: 0
+}, false, "bon.jo.view.Lists$PagList$$anon$1", {
+  Lbon_jo_view_Lists$PagList$$anon$1: 1,
+  O: 1,
+  Lbon_jo_view_SimpleList: 1,
+  Lbon_jo_html_Types$FinalComponent: 1,
+  Lbon_jo_html_XmlHtmlView: 1,
+  Lbon_jo_html_BridgedView: 1,
+  Lbon_jo_html_\uff3fView: 1,
+  Lbon_jo_html_InDom: 1,
+  Lbon_jo_html_IdView: 1,
+  Lbon_jo_html_LeaveView: 1,
+  Lbon_jo_view_PaginableList: 1
+});
+$c_Lbon_jo_view_Lists$PagList$$anon$1.prototype.$classData = $d_Lbon_jo_view_Lists$PagList$$anon$1;
 const $p_Lbon_jo_view_MenuItemView__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
   if (((((2 & $thiz.Lbon_jo_view_MenuItemView__f_bitmap$0) << 24) >> 24) === 0)) {
     $thiz.Lbon_jo_view_MenuItemView__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
@@ -27876,7 +30206,7 @@ const $ct_Lbon_jo_view_MenuItemView__Lbon_jo_SiteModel$MenuItem__Lbon_jo_service
   const idp = ($thiz.id__T() + "nom");
   $thiz.Lbon_jo_view_MenuItemView__f_nomForm = new $c_Lbon_jo_view_Ref$$anon$1(idp);
   const idp$1 = ("btn-mi-" + $thiz.id__T());
-  $thiz.Lbon_jo_view_MenuItemView__f_link = new $c_Lbon_jo_html_OnClick$$anon$1(idp$1);
+  $thiz.Lbon_jo_view_MenuItemView__f_link = new $c_Lbon_jo_view_Ref$$anon$1(idp$1);
   return $thiz
 });
 class $c_Lbon_jo_view_MenuItemView extends $c_O {
@@ -27888,16 +30218,13 @@ class $c_Lbon_jo_view_MenuItemView extends $c_O {
     this.Lbon_jo_view_MenuItemView__f_nomForm = null;
     this.Lbon_jo_view_MenuItemView__f_link = null;
     this.Lbon_jo_view_MenuItemView__f_admin = false;
-    this.Lbon_jo_view_MenuItemView__f_moveDiv = null;
-    this.Lbon_jo_view_MenuItemView__f_saveDiv = null;
-    this.Lbon_jo_view_MenuItemView__f_imgDiv = null;
-    this.Lbon_jo_view_MenuItemView__f_choiceDiv = null;
-    this.Lbon_jo_view_MenuItemView__f_deleteDiv = null;
-    this.Lbon_jo_view_MenuItemView__f_imgListDiv = null;
-    this.Lbon_jo_view_MenuItemView__f_aShow = null;
-    this.Lbon_jo_view_MenuItemView__f_adminDef = null;
+    this.Lbon_jo_view_MenuItemView__f_AdminCtx$module = null;
+    this.Lbon_jo_view_MenuItemView__f_currentCtx = null;
     this.Lbon_jo_view_MenuItemView__f_me = null;
     this.Lbon_jo_view_MenuItemView__f_bitmap$0 = 0
+  };
+  inAdmin__s_xml_NodeBuffer() {
+    return $f_Lbon_jo_view_AdminControl__inAdmin__s_xml_NodeBuffer(this)
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
     const _1 = this.xml__s_xml_Node();
@@ -27906,56 +30233,14 @@ class $c_Lbon_jo_view_MenuItemView extends $c_O {
   admin__Z() {
     return this.Lbon_jo_view_MenuItemView__f_admin
   };
-  moveDiv__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_MenuItemView__f_moveDiv
+  currentCtx__Lbon_jo_view_AdminControl$AdminCtx() {
+    return this.Lbon_jo_view_MenuItemView__f_currentCtx
   };
-  saveDiv__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_MenuItemView__f_saveDiv
-  };
-  imgDiv__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_MenuItemView__f_imgDiv
-  };
-  choiceDiv__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_MenuItemView__f_choiceDiv
-  };
-  deleteDiv__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_MenuItemView__f_deleteDiv
-  };
-  imgListDiv__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_MenuItemView__f_imgListDiv
-  };
-  aShow__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_MenuItemView__f_aShow
-  };
-  adminDef__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_MenuItemView__f_adminDef
+  currentCtx_$eq__Lbon_jo_view_AdminControl$AdminCtx__V(x$1) {
+    this.Lbon_jo_view_MenuItemView__f_currentCtx = x$1
   };
   bon$jo$view$AdminControl$_setter_$admin_$eq__Z__V(x$1) {
     this.Lbon_jo_view_MenuItemView__f_admin = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$moveDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_MenuItemView__f_moveDiv = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$saveDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_MenuItemView__f_saveDiv = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$imgDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_MenuItemView__f_imgDiv = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$choiceDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_MenuItemView__f_choiceDiv = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$deleteDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_MenuItemView__f_deleteDiv = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$imgListDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_MenuItemView__f_imgListDiv = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$aShow_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_MenuItemView__f_aShow = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$adminDef_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_MenuItemView__f_adminDef = x$1
   };
   me__Lorg_scalajs_dom_raw_HTMLDivElement() {
     return (((((2 & this.Lbon_jo_view_MenuItemView__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbon_jo_view_MenuItemView__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_MenuItemView__f_me)
@@ -27997,16 +30282,11 @@ class $c_Lbon_jo_view_MenuItemView extends $c_O {
     $m_s_xml_NodeSeq$();
     const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
     \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__s_xml_Elem((this.id__T() + "nom"), "nom", this.menuItem__Lbon_jo_SiteModel$MenuItem().Lbon_jo_SiteModel$MenuItem__f_text, "text"));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__T__sci_Map__s_xml_Elem((this.id__T() + "nom"), "nom", this.menuItem__Lbon_jo_SiteModel$MenuItem().Lbon_jo_SiteModel$MenuItem__f_text, "text", "", $m_sci_Map$EmptyMap$()));
     \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "form", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
     return new $c_s_xml_Elem(null, "form", $$x4, $$x3, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
-  };
-  removeFromView__V() {
-    const this$1 = this.Lbon_jo_view_MenuItemView__f_link;
-    $f_Lbon_jo_html_InDom__removeFromView__V(this$1);
-    $f_Lbon_jo_html_InDom__removeFromView__V(this)
   };
   xml__s_xml_Node() {
     let \u03b4md = $m_s_xml_Null$();
@@ -28045,9 +30325,6 @@ class $c_Lbon_jo_view_MenuItemView extends $c_O {
     return new $c_s_xml_Elem(null, "div", $$x5, $$x4, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
   };
   init__Lorg_scalajs_dom_raw_HTMLElement__V(p) {
-    const this$1 = this.Lbon_jo_view_MenuItemView__f_link;
-    const p$1 = this.me__Lorg_scalajs_dom_raw_HTMLDivElement();
-    $f_Lbon_jo_html_OnClick__init__Lorg_scalajs_dom_raw_HTMLElement__V(this$1, p$1);
     $f_Lbon_jo_view_AdminControl__initAdminEvent__V(this)
   };
   me__Lorg_scalajs_dom_raw_HTMLElement() {
@@ -28067,20 +30344,28 @@ function $asArrayOf_Lbon_jo_view_MenuItemView(obj, depth) {
   return (($isArrayOf_Lbon_jo_view_MenuItemView(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.view.MenuItemView;", depth))
 }
 const $p_Lbon_jo_view_SiteModelView__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
-  if ((!$thiz.Lbon_jo_view_SiteModelView__f_bitmap$0)) {
+  if (((((2 & $thiz.Lbon_jo_view_SiteModelView__f_bitmap$0) << 24) >> 24) === 0)) {
     $thiz.Lbon_jo_view_SiteModelView__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
-    $thiz.Lbon_jo_view_SiteModelView__f_bitmap$0 = true
+    $thiz.Lbon_jo_view_SiteModelView__f_bitmap$0 = (((2 | $thiz.Lbon_jo_view_SiteModelView__f_bitmap$0) << 24) >> 24)
   };
   return $thiz.Lbon_jo_view_SiteModelView__f_me
+});
+const $p_Lbon_jo_view_SiteModelView__rootView$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
+  if (((((1 & $thiz.Lbon_jo_view_SiteModelView__f_bitmap$0) << 24) >> 24) === 0)) {
+    $thiz.Lbon_jo_view_SiteModelView__f_rootView = $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element("sm-view");
+    $thiz.Lbon_jo_view_SiteModelView__f_bitmap$0 = (((1 | $thiz.Lbon_jo_view_SiteModelView__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbon_jo_view_SiteModelView__f_rootView
 });
 class $c_Lbon_jo_view_SiteModelView extends $c_O {
   constructor(model, siteService, executionContext) {
     super();
+    this.Lbon_jo_view_SiteModelView__f_rootView = null;
     this.Lbon_jo_view_SiteModelView__f_MenusAdd$module = null;
     this.Lbon_jo_view_SiteModelView__f_MainContent$module = null;
     this.Lbon_jo_view_SiteModelView__f_model = null;
     this.Lbon_jo_view_SiteModelView__f_siteService = null;
-    this.Lbon_jo_view_SiteModelView__f_bon$jo$view$SiteModelView$$executionContext = null;
+    this.Lbon_jo_view_SiteModelView__f_dis = null;
     this.Lbon_jo_view_SiteModelView__f_siteModelView = null;
     this.Lbon_jo_view_SiteModelView__f_sideMdenu = null;
     this.Lbon_jo_view_SiteModelView__f_addSubMenu = null;
@@ -28093,10 +30378,9 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     this.Lbon_jo_view_SiteModelView__f_makeNewSubItem = null;
     this.Lbon_jo_view_SiteModelView__f_inDoms = null;
     this.Lbon_jo_view_SiteModelView__f_me = null;
-    this.Lbon_jo_view_SiteModelView__f_bitmap$0 = false;
+    this.Lbon_jo_view_SiteModelView__f_bitmap$0 = 0;
     this.Lbon_jo_view_SiteModelView__f_model = model;
     this.Lbon_jo_view_SiteModelView__f_siteService = siteService;
-    this.Lbon_jo_view_SiteModelView__f_bon$jo$view$SiteModelView$$executionContext = executionContext;
     $f_Lbon_jo_html_NodeView__$init$__V(this);
     this.Lbon_jo_view_SiteModelView__f_siteModelView = this;
     this.Lbon_jo_view_SiteModelView__f_sideMdenu = new $c_Lbon_jo_view_Ref$$anon$1("side-menu");
@@ -28140,7 +30424,21 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     this.Lbon_jo_view_SiteModelView__f_inDoms = x$1
   };
   me__Lorg_scalajs_dom_raw_HTMLDivElement() {
-    return ((!this.Lbon_jo_view_SiteModelView__f_bitmap$0) ? $p_Lbon_jo_view_SiteModelView__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_SiteModelView__f_me)
+    return (((((2 & this.Lbon_jo_view_SiteModelView__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbon_jo_view_SiteModelView__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_SiteModelView__f_me)
+  };
+  root__Lbon_jo_html_Types$FinalComponent__V(listImg) {
+    const praent = this.rootView__Lorg_scalajs_dom_raw_HTMLDivElement().parentNode;
+    $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(listImg, praent)
+  };
+  hideAll__V() {
+    this.Lbon_jo_view_SiteModelView__f_dis = $as_T(this.rootView__Lorg_scalajs_dom_raw_HTMLDivElement().style.display);
+    this.rootView__Lorg_scalajs_dom_raw_HTMLDivElement().style.display = "none"
+  };
+  displayAll__V() {
+    this.rootView__Lorg_scalajs_dom_raw_HTMLDivElement().style.display = this.Lbon_jo_view_SiteModelView__f_dis
+  };
+  rootView__Lorg_scalajs_dom_raw_HTMLDivElement() {
+    return (((((1 & this.Lbon_jo_view_SiteModelView__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbon_jo_view_SiteModelView__rootView$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_SiteModelView__f_rootView)
   };
   createMenuAdd__s_Option() {
     if (this.Lbon_jo_view_SiteModelView__f_siteService.Lbon_jo_service_SiteService__f_user.Lbon_jo_app_User__f_role.Lbon_jo_app_Role$Impl__f_admin) {
@@ -28156,18 +30454,35 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     }
   };
   createConfirmMenuAdd__Lbon_jo_view_SimpleInput__V(makeNewItem) {
-    const this$1 = $as_Lbon_jo_html_EventFromView(makeNewItem.Lbon_jo_view_SimpleInput__f_confirm);
-    const function$1 = ((arg$outer, makeNewItem$1) => ((arg1$2) => {
-      arg$outer.bon$jo$view$SiteModelView$$$anonfun$createConfirmMenuAdd$1__Lorg_scalajs_dom_raw_Event__Lbon_jo_view_SimpleInput__V(arg1$2, makeNewItem$1)
-    }))(this, makeNewItem);
-    $f_Lbon_jo_html_EventFromView__onClick__sjs_js_Function1__V(this$1, function$1)
+    const this$4 = $as_Lbon_jo_html_Clickable(makeNewItem.Lbon_jo_view_SimpleInput__f_confirm).Lbon_jo_html_ButtonHtml$$anon$1__f_obs;
+    const clientp = new $c_sjsr_AnonFunction1(((this$1, makeNewItem$1) => ((x$2$2) => {
+      const newItem = this$1.Lbon_jo_view_SiteModelView__f_siteService.createNewMainMenuItem__T__Lbon_jo_SiteModel$MenuItem(makeNewItem$1.value__T());
+      const newItemView = new $c_Lbon_jo_view_ManiMenuItemView(newItem, this$1.Lbon_jo_view_SiteModelView__f_siteService, this$1.Lbon_jo_view_SiteModelView__f_siteModelView);
+      const $$x1 = this$1.Lbon_jo_view_SiteModelView__f_model;
+      const this$2 = this$1.Lbon_jo_view_SiteModelView__f_model.Lbon_jo_SiteModel__f_items;
+      $$x1.Lbon_jo_SiteModel__f_items = $as_sci_List($f_sc_StrictOptimizedSeqOps__appended__O__O(this$2, newItem));
+      const this$3 = this$1.Lbon_jo_view_SiteModelView__f_itemsView;
+      this$1.Lbon_jo_view_SiteModelView__f_itemsView = $as_sci_List($f_sc_StrictOptimizedSeqOps__appended__O__O(this$3, newItemView));
+      const el = this$1.Lbon_jo_view_SiteModelView__f_sideMdenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
+      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(newItemView, el);
+      this$1.createNavigation__Lbon_jo_view_MenuItemView__Lbon_jo_view_MenuItemView(newItemView)
+    }))(this, makeNewItem));
+    this$4.Lbon_jo_html_DomShell$OnceObs__f_client = clientp
   };
   createConfirmSubMenuAdd__Lbon_jo_view_SimpleInput__V(makeNewItem) {
-    const this$1 = $as_Lbon_jo_html_EventFromView(makeNewItem.Lbon_jo_view_SimpleInput__f_confirm);
-    const function$1 = ((arg$outer, makeNewItem$2) => ((arg1$2) => {
-      arg$outer.bon$jo$view$SiteModelView$$$anonfun$createConfirmSubMenuAdd$1__Lorg_scalajs_dom_raw_Event__Lbon_jo_view_SimpleInput__V(arg1$2, makeNewItem$2)
-    }))(this, makeNewItem);
-    $f_Lbon_jo_html_EventFromView__onClick__sjs_js_Function1__V(this$1, function$1)
+    const this$4 = $as_Lbon_jo_html_Clickable(makeNewItem.Lbon_jo_view_SimpleInput__f_confirm).Lbon_jo_html_ButtonHtml$$anon$1__f_obs;
+    const clientp = new $c_sjsr_AnonFunction1(((this$1, makeNewItem$1) => ((x$3$2) => {
+      const newItem = this$1.Lbon_jo_view_SiteModelView__f_siteService.createNewSubMenuItem__T__Lbon_jo_SiteModel$MenuItem__Lbon_jo_SiteModel$MenuItem(makeNewItem$1.value__T(), this$1.Lbon_jo_view_SiteModelView__f_currentItem.menuItem__Lbon_jo_SiteModel$MenuItem());
+      const newItemView = new $c_Lbon_jo_view_SubMenuItemView(newItem, this$1.Lbon_jo_view_SiteModelView__f_siteService, this$1);
+      const $$x1 = this$1.Lbon_jo_view_SiteModelView__f_currentItem.menuItem__Lbon_jo_SiteModel$MenuItem();
+      const this$2 = this$1.Lbon_jo_view_SiteModelView__f_currentItem.menuItem__Lbon_jo_SiteModel$MenuItem().Lbon_jo_SiteModel$MenuItem__f_items;
+      $$x1.Lbon_jo_SiteModel$MenuItem__f_items = $as_sci_List($f_sc_StrictOptimizedSeqOps__appended__O__O(this$2, newItem));
+      const this$3 = this$1.Lbon_jo_view_SiteModelView__f_newContent.Lbon_jo_view_SiteModelView$MainContent__f_itemList;
+      const el = this$3.me__Lorg_scalajs_dom_raw_HTMLDivElement();
+      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(newItemView, el);
+      this$1.createNavigation__Lbon_jo_view_MenuItemView__Lbon_jo_view_MenuItemView(newItemView)
+    }))(this, makeNewItem));
+    this$4.Lbon_jo_html_DomShell$OnceObs__f_client = clientp
   };
   xml__s_xml_Node() {
     let \u03b4md = $m_s_xml_Null$();
@@ -28217,9 +30532,23 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     return "sm-view"
   };
   createNavigation__Lbon_jo_view_MenuItemView__Lbon_jo_view_MenuItemView(i) {
-    const this$1 = i.Lbon_jo_view_MenuItemView__f_link;
-    const function$1 = ((arg$outer, i$1) => ((arg1$2) => arg$outer.bon$jo$view$SiteModelView$$$anonfun$createNavigation$1__Lorg_scalajs_dom_raw_Event__Lbon_jo_view_MenuItemView__O(arg1$2, i$1)))(this, i);
-    $f_Lbon_jo_html_EventFromView__onClick__sjs_js_Function1__V(this$1, function$1);
+    const element = i.Lbon_jo_view_MenuItemView__f_link.ref__Lorg_scalajs_dom_raw_HTMLElement();
+    const this$4 = new $c_Lbon_jo_html_DomShell$ExtendedElement(element).clkOnce__Lbon_jo_html_DomShell$OnceObs();
+    const clientp = new $c_sjsr_AnonFunction1(((this$2, i$1) => ((x$5$2) => {
+      if ((this$2.Lbon_jo_view_SiteModelView__f_currentItem === null)) {
+        const this$3 = this$2.Lbon_jo_view_SiteModelView__f_makeNewSubItem;
+        if ((!this$3.isEmpty__Z())) {
+          const arg1 = this$3.get__O();
+          const x$6 = $as_Lbon_jo_view_SimpleInput(arg1);
+          const el = this$2.Lbon_jo_view_SiteModelView__f_addSubMenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
+          $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(x$6, el)
+        }
+      };
+      this$2.Lbon_jo_view_SiteModelView__f_currentItem = i$1;
+      const i$2 = i$1.menuItem__Lbon_jo_SiteModel$MenuItem();
+      this$2.Lbon_jo_view_SiteModelView__f_newContent.load__Lbon_jo_SiteModel$MenuItem__V(i$2)
+    }))(this, i));
+    this$4.Lbon_jo_html_DomShell$OnceObs__f_client = clientp;
     return i
   };
   init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
@@ -28229,8 +30558,8 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
       $$x1 = $m_s_None$()
     } else {
       const arg1 = menusInput.get__O();
-      const x$7 = $as_Lbon_jo_view_SiteModelView$MenusAdd(arg1);
-      $$x1 = new $c_s_Some(x$7.Lbon_jo_view_SiteModelView$MenusAdd__f_subMenu)
+      const x$8 = $as_Lbon_jo_view_SiteModelView$MenusAdd(arg1);
+      $$x1 = new $c_s_Some(x$8.Lbon_jo_view_SiteModelView$MenusAdd__f_subMenu)
     };
     this.Lbon_jo_view_SiteModelView__f_makeNewSubItem = $$x1;
     $f_Lbon_jo_html_NodeView__init__Lorg_scalajs_dom_raw_HTMLElement__V(this, parent);
@@ -28245,9 +30574,11 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
       $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(this$2, el$1)
     };
     const this$4 = this.Lbon_jo_view_SiteModelView__f_itemsView;
-    const f = ((this$3) => ((i$2) => {
-      const i = $as_Lbon_jo_view_MenuItemView(i$2);
-      return this$3.createNavigation__Lbon_jo_view_MenuItemView__Lbon_jo_view_MenuItemView(i)
+    const f = ((this$3) => ((e$3$2) => {
+      const e$3 = $as_Lbon_jo_view_ManiMenuItemView(e$3$2);
+      const el$2 = this$3.Lbon_jo_view_SiteModelView__f_sideMdenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
+      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(e$3, el$2);
+      return e$3
     }))(this);
     let this$5;
     if ((this$4 === $m_sci_Nil$())) {
@@ -28269,9 +30600,8 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     let these = this$5;
     while ((!these.isEmpty__Z())) {
       const arg1$4 = these.head__O();
-      const e$3 = $as_Lbon_jo_view_MenuItemView(arg1$4);
-      const el$2 = this.Lbon_jo_view_SiteModelView__f_sideMdenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
-      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(e$3, el$2);
+      const i = $as_Lbon_jo_view_MenuItemView(arg1$4);
+      this.createNavigation__Lbon_jo_view_MenuItemView__Lbon_jo_view_MenuItemView(i);
       these = $as_sci_List(these.tail__O())
     }
   };
@@ -28282,8 +30612,8 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
       let these = this$1;
       while ((!these.isEmpty__Z())) {
         const arg1 = these.head__O();
-        const x$8 = $as_Lbon_jo_view_ManiMenuItemView(arg1);
-        const x = x$8.Lbon_jo_view_ManiMenuItemView__f_menuItem;
+        const x$9 = $as_Lbon_jo_view_ManiMenuItemView(arg1);
+        const x = x$9.Lbon_jo_view_ManiMenuItemView__f_menuItem;
         if (((x === null) ? (me === null) : x.equals__O__Z(me))) {
           this$2 = new $c_s_Some(these.head__O());
           break _return
@@ -28294,13 +30624,13 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     };
     if ((!this$2.isEmpty__Z())) {
       const arg1$1 = this$2.get__O();
-      const x$9 = $as_Lbon_jo_view_ManiMenuItemView(arg1$1);
-      x$9.removeFromView__V()
+      const x$10 = $as_Lbon_jo_view_ManiMenuItemView(arg1$1);
+      $f_Lbon_jo_html_InDom__removeFromView__V(x$10)
     };
     const this$4 = this.Lbon_jo_view_SiteModelView__f_itemsView;
-    const f = ((this$3, me$1) => ((x$10$2) => {
-      const x$10 = $as_Lbon_jo_view_ManiMenuItemView(x$10$2);
-      const x$1 = x$10.Lbon_jo_view_ManiMenuItemView__f_menuItem;
+    const f = ((this$3, me$1) => ((x$11$2) => {
+      const x$11 = $as_Lbon_jo_view_ManiMenuItemView(x$11$2);
+      const x$1 = x$11.Lbon_jo_view_ManiMenuItemView__f_menuItem;
       return ((x$1 === null) ? (me$1 === null) : x$1.equals__O__Z(me$1))
     }))(this, me);
     let l = this$4;
@@ -28373,8 +30703,8 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     let these = this$1;
     while ((!these.isEmpty__Z())) {
       const arg1 = these.head__O();
-      const x$11 = $as_Lbon_jo_view_ManiMenuItemView(arg1);
-      x$11.removeFromView__V();
+      const x$12 = $as_Lbon_jo_view_ManiMenuItemView(arg1);
+      $f_Lbon_jo_html_InDom__removeFromView__V(x$12);
       these = $as_sci_List(these.tail__O())
     };
     $m_Lbon_jo_html_DomShell$().deb__V();
@@ -28402,9 +30732,11 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     };
     this.Lbon_jo_view_SiteModelView__f_itemsView = $$x1;
     const this$4 = this.Lbon_jo_view_SiteModelView__f_itemsView;
-    const f$1 = ((this$3$1) => ((i$2) => {
-      const i = $as_Lbon_jo_view_MenuItemView(i$2);
-      return this$3$1.createNavigation__Lbon_jo_view_MenuItemView__Lbon_jo_view_MenuItemView(i)
+    const f$1 = ((this$3$1) => ((e$2) => {
+      const e = $as_Lbon_jo_view_ManiMenuItemView(e$2);
+      const el = this$3$1.Lbon_jo_view_SiteModelView__f_sideMdenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
+      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(e, el);
+      return e
     }))(this);
     let this$5;
     if ((this$4 === $m_sci_Nil$())) {
@@ -28426,9 +30758,8 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     let these$1 = this$5;
     while ((!these$1.isEmpty__Z())) {
       const arg1$5 = these$1.head__O();
-      const e = $as_Lbon_jo_view_MenuItemView(arg1$5);
-      const el = this.Lbon_jo_view_SiteModelView__f_sideMdenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
-      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(e, el);
+      const i = $as_Lbon_jo_view_MenuItemView(arg1$5);
+      this.createNavigation__Lbon_jo_view_MenuItemView__Lbon_jo_view_MenuItemView(i);
       these$1 = $as_sci_List(these$1.tail__O())
     }
   };
@@ -28465,43 +30796,6 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
   };
   me__Lorg_scalajs_dom_raw_HTMLElement() {
     return this.me__Lorg_scalajs_dom_raw_HTMLDivElement()
-  };
-  bon$jo$view$SiteModelView$$$anonfun$createConfirmMenuAdd$1__Lorg_scalajs_dom_raw_Event__Lbon_jo_view_SimpleInput__V(x$1, makeNewItem$1) {
-    const newItem = this.Lbon_jo_view_SiteModelView__f_siteService.createNewMainMenuItem__T__Lbon_jo_SiteModel$MenuItem(makeNewItem$1.value__T());
-    const newItemView = new $c_Lbon_jo_view_ManiMenuItemView(newItem, this.Lbon_jo_view_SiteModelView__f_siteService, this.Lbon_jo_view_SiteModelView__f_siteModelView);
-    const $$x1 = this.Lbon_jo_view_SiteModelView__f_model;
-    const this$1 = this.Lbon_jo_view_SiteModelView__f_model.Lbon_jo_SiteModel__f_items;
-    $$x1.Lbon_jo_SiteModel__f_items = $as_sci_List($f_sc_StrictOptimizedSeqOps__appended__O__O(this$1, newItem));
-    const this$2 = this.Lbon_jo_view_SiteModelView__f_itemsView;
-    this.Lbon_jo_view_SiteModelView__f_itemsView = $as_sci_List($f_sc_StrictOptimizedSeqOps__appended__O__O(this$2, newItemView));
-    this.createNavigation__Lbon_jo_view_MenuItemView__Lbon_jo_view_MenuItemView(newItemView);
-    const el = this.Lbon_jo_view_SiteModelView__f_sideMdenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
-    $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(newItemView, el)
-  };
-  bon$jo$view$SiteModelView$$$anonfun$createConfirmSubMenuAdd$1__Lorg_scalajs_dom_raw_Event__Lbon_jo_view_SimpleInput__V(x$2, makeNewItem$2) {
-    const newItem = this.Lbon_jo_view_SiteModelView__f_siteService.createNewSubMenuItem__T__Lbon_jo_SiteModel$MenuItem__Lbon_jo_SiteModel$MenuItem(makeNewItem$2.value__T(), this.Lbon_jo_view_SiteModelView__f_currentItem.menuItem__Lbon_jo_SiteModel$MenuItem());
-    const newItemView = new $c_Lbon_jo_view_SubMenuItemView(newItem, this.Lbon_jo_view_SiteModelView__f_siteService, this);
-    this.createNavigation__Lbon_jo_view_MenuItemView__Lbon_jo_view_MenuItemView(newItemView);
-    const $$x1 = this.Lbon_jo_view_SiteModelView__f_currentItem.menuItem__Lbon_jo_SiteModel$MenuItem();
-    const this$1 = this.Lbon_jo_view_SiteModelView__f_currentItem.menuItem__Lbon_jo_SiteModel$MenuItem().Lbon_jo_SiteModel$MenuItem__f_items;
-    $$x1.Lbon_jo_SiteModel$MenuItem__f_items = $as_sci_List($f_sc_StrictOptimizedSeqOps__appended__O__O(this$1, newItem));
-    const this$2 = this.Lbon_jo_view_SiteModelView__f_newContent.Lbon_jo_view_SiteModelView$MainContent__f_itemList;
-    const el = this$2.me__Lorg_scalajs_dom_raw_HTMLDivElement();
-    $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(newItemView, el)
-  };
-  bon$jo$view$SiteModelView$$$anonfun$createNavigation$1__Lorg_scalajs_dom_raw_Event__Lbon_jo_view_MenuItemView__O(x$4, i$1) {
-    if ((this.Lbon_jo_view_SiteModelView__f_currentItem === null)) {
-      const this$1 = this.Lbon_jo_view_SiteModelView__f_makeNewSubItem;
-      if ((!this$1.isEmpty__Z())) {
-        const arg1 = this$1.get__O();
-        const x$5 = $as_Lbon_jo_view_SimpleInput(arg1);
-        const el = this.Lbon_jo_view_SiteModelView__f_addSubMenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
-        $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(x$5, el)
-      }
-    };
-    this.Lbon_jo_view_SiteModelView__f_currentItem = i$1;
-    const i = i$1.menuItem__Lbon_jo_SiteModel$MenuItem();
-    this.Lbon_jo_view_SiteModelView__f_newContent.load__Lbon_jo_SiteModel$MenuItem__V(i)
   };
 }
 function $as_Lbon_jo_view_SiteModelView(obj) {
@@ -28790,6 +31084,12 @@ class $c_s_xml_MetaData extends $c_sc_AbstractIterable {
   equals__O__Z(other) {
     return $p_s_xml_Equality__doComparison__O__Z__Z(this, other, false)
   };
+  append__s_xml_MetaData__s_xml_NamespaceBinding__s_xml_MetaData(updates, scope) {
+    return $m_s_xml_MetaData$().update__s_xml_MetaData__s_xml_NamespaceBinding__s_xml_MetaData__s_xml_MetaData(this, scope, updates)
+  };
+  append$default$2__s_xml_NamespaceBinding() {
+    return $m_s_xml_TopScope$()
+  };
   length__I() {
     return this.length__I__I(0)
   };
@@ -28815,6 +31115,9 @@ class $c_s_xml_MetaData extends $c_sc_AbstractIterable {
     const elems = new $c_sjsr_WrappedVarArgs(array);
     return this$4.from__sc_IterableOnce__sci_List(elems)
   };
+  filter__F1__s_xml_MetaData(f) {
+    return ($uZ(f.apply__O__O(this)) ? this.copy__s_xml_MetaData__s_xml_MetaData(this.next__s_xml_MetaData().filter__F1__s_xml_MetaData(f)) : this.next__s_xml_MetaData().filter__F1__s_xml_MetaData(f))
+  };
   prefixedKey__T() {
     if ($is_s_xml_Attribute(this)) {
       const x2 = $as_s_xml_Attribute(this);
@@ -28837,6 +31140,12 @@ class $c_s_xml_MetaData extends $c_sc_AbstractIterable {
     $m_s_$less$colon$less$();
     return $m_sci_Map$().from__sc_IterableOnce__sci_Map(this$5)
   };
+  get__T__s_Option(key) {
+    return $m_s_Option$().apply__O__s_Option(this.apply__T__sc_Seq(key))
+  };
+  get__T__s_xml_NamespaceBinding__T__s_Option(uri, scope, key) {
+    return $m_s_Option$().apply__O__s_Option(this.apply__T__s_xml_NamespaceBinding__T__sc_Seq(uri, scope, key))
+  };
   toString__T() {
     const sb = $ct_scm_StringBuilder__(new $c_scm_StringBuilder());
     this.buildString__scm_StringBuilder__scm_StringBuilder(sb);
@@ -28846,6 +31155,9 @@ class $c_s_xml_MetaData extends $c_sc_AbstractIterable {
     sb.append__C__scm_StringBuilder(32);
     this.toString1__scm_StringBuilder__V(sb);
     return this.next__s_xml_MetaData().buildString__scm_StringBuilder__scm_StringBuilder(sb)
+  };
+  filter__F1__O(pred) {
+    return this.filter__F1__s_xml_MetaData(pred)
   };
 }
 function $as_s_xml_MetaData(obj) {
@@ -29107,18 +31419,25 @@ const $p_Lbon_jo_view_ImgView__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElemen
   return $thiz.Lbon_jo_view_ImgView__f_me
 });
 class $c_Lbon_jo_view_ImgView extends $c_O {
-  constructor(id, src, alt, divCss) {
+  constructor(id, src, alt, divCss, imageRawExport) {
     super();
     this.Lbon_jo_view_ImgView__f_id = null;
     this.Lbon_jo_view_ImgView__f_src = null;
     this.Lbon_jo_view_ImgView__f_alt = null;
     this.Lbon_jo_view_ImgView__f_divCss = null;
+    this.Lbon_jo_view_ImgView__f_imageRawExport = null;
+    this.Lbon_jo_view_ImgView__f_img = null;
+    this.Lbon_jo_view_ImgView__f_loaded = false;
     this.Lbon_jo_view_ImgView__f_me = null;
     this.Lbon_jo_view_ImgView__f_bitmap$0 = false;
     this.Lbon_jo_view_ImgView__f_id = id;
     this.Lbon_jo_view_ImgView__f_src = src;
     this.Lbon_jo_view_ImgView__f_alt = alt;
-    this.Lbon_jo_view_ImgView__f_divCss = divCss
+    this.Lbon_jo_view_ImgView__f_divCss = divCss;
+    this.Lbon_jo_view_ImgView__f_imageRawExport = imageRawExport;
+    const idp = ("mg" + id);
+    this.Lbon_jo_view_ImgView__f_img = new $c_Lbon_jo_view_Ref$$anon$1(idp);
+    this.Lbon_jo_view_ImgView__f_loaded = false
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
     const _1 = this.xml__s_xml_Node();
@@ -29138,23 +31457,36 @@ class $c_Lbon_jo_view_ImgView extends $c_O {
     const $$x3 = $m_s_xml_TopScope$();
     $m_s_xml_NodeSeq$();
     const \u03b4buf = new $c_s_xml_NodeBuffer();
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
     let \u03b4md$2 = $m_s_xml_Null$();
     \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "alt", this.Lbon_jo_view_ImgView__f_alt, \u03b4md$2);
-    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "src", this.Lbon_jo_view_ImgView__f_src, \u03b4md$2);
+    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("mg" + this.Lbon_jo_view_ImgView__f_id), \u03b4md$2);
     const $$x2 = \u03b4md$2;
     const $$x1 = $m_s_xml_TopScope$();
     const array = [];
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x2, $$x1, true, new $c_sjsr_WrappedVarArgs(array)));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
     return new $c_s_xml_Elem(null, "div", $$x4, $$x3, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
   };
   init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
-    /*<skip>*/
+    if ((!this.Lbon_jo_view_ImgView__f_loaded)) {
+      const qual$1 = this.Lbon_jo_view_ImgView__f_img.ref__Lorg_scalajs_dom_raw_HTMLElement();
+      const x$2 = ((arg$outer) => ((arg1$2) => {
+        arg$outer.bon$jo$view$ImgView$$$anonfun$init$1__Lorg_scalajs_dom_raw_Event__V(arg1$2)
+      }))(this);
+      qual$1.addEventListener("load", x$2);
+      this.Lbon_jo_view_ImgView__f_img.ref__Lorg_scalajs_dom_raw_HTMLElement().classList.add("loader")
+    } else {
+      const idp = ("mg" + this.Lbon_jo_view_ImgView__f_id);
+      this.Lbon_jo_view_ImgView__f_img = new $c_Lbon_jo_view_Ref$$anon$1(idp)
+    };
+    this.Lbon_jo_view_ImgView__f_img.ref__Lorg_scalajs_dom_raw_HTMLElement().src = this.Lbon_jo_view_ImgView__f_src
   };
   productPrefix__T() {
     return "ImgView"
   };
   productArity__I() {
-    return 4
+    return 5
   };
   productElement__I__O(x$1) {
     switch (x$1) {
@@ -29172,6 +31504,10 @@ class $c_Lbon_jo_view_ImgView extends $c_O {
       }
       case 3: {
         return this.Lbon_jo_view_ImgView__f_divCss;
+        break
+      }
+      case 4: {
+        return this.Lbon_jo_view_ImgView__f_imageRawExport;
         break
       }
       default: {
@@ -29194,13 +31530,23 @@ class $c_Lbon_jo_view_ImgView extends $c_O {
       return true
     } else if ((x$1 instanceof $c_Lbon_jo_view_ImgView)) {
       const ImgView$1 = $as_Lbon_jo_view_ImgView(x$1);
-      return ((((this.Lbon_jo_view_ImgView__f_id === ImgView$1.Lbon_jo_view_ImgView__f_id) && (this.Lbon_jo_view_ImgView__f_src === ImgView$1.Lbon_jo_view_ImgView__f_src)) && (this.Lbon_jo_view_ImgView__f_alt === ImgView$1.Lbon_jo_view_ImgView__f_alt)) && (this.Lbon_jo_view_ImgView__f_divCss === ImgView$1.Lbon_jo_view_ImgView__f_divCss))
+      if (((((this.Lbon_jo_view_ImgView__f_id === ImgView$1.Lbon_jo_view_ImgView__f_id) && (this.Lbon_jo_view_ImgView__f_src === ImgView$1.Lbon_jo_view_ImgView__f_src)) && (this.Lbon_jo_view_ImgView__f_alt === ImgView$1.Lbon_jo_view_ImgView__f_alt)) && (this.Lbon_jo_view_ImgView__f_divCss === ImgView$1.Lbon_jo_view_ImgView__f_divCss))) {
+        const x = this.Lbon_jo_view_ImgView__f_imageRawExport;
+        const y = ImgView$1.Lbon_jo_view_ImgView__f_imageRawExport;
+        return $m_sr_BoxesRunTime$().equals__O__O__Z(x, y)
+      } else {
+        return false
+      }
     } else {
       return false
     }
   };
   me__Lorg_scalajs_dom_raw_HTMLElement() {
     return this.me__Lorg_scalajs_dom_raw_HTMLDivElement()
+  };
+  bon$jo$view$ImgView$$$anonfun$init$1__Lorg_scalajs_dom_raw_Event__V(e) {
+    this.Lbon_jo_view_ImgView__f_img.ref__Lorg_scalajs_dom_raw_HTMLElement().classList.remove("loader");
+    this.Lbon_jo_view_ImgView__f_loaded = true
   };
 }
 function $as_Lbon_jo_view_ImgView(obj) {
@@ -29229,6 +31575,28 @@ const $d_Lbon_jo_view_ImgView = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lbon_jo_view_ImgView.prototype.$classData = $d_Lbon_jo_view_ImgView;
+const $f_Lbon_jo_view_Lists$ChooseList__addedInView__Lbon_jo_html_Types$FinalComponent__V = (function($thiz, e) {
+  const element = e.me__Lorg_scalajs_dom_raw_HTMLElement();
+  const this$3 = new $c_Lbon_jo_html_DomShell$ExtendedElement(element).clkOnce__Lbon_jo_html_DomShell$OnceObs();
+  const clientp = new $c_sjsr_AnonFunction1(((this$2, e$1) => ((ev$2) => {
+    this$2.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_obs.newValue__O__V(this$2.mapping__Lbon_jo_html_Types$FinalComponent__O(e$1))
+  }))($thiz, e));
+  this$3.Lbon_jo_html_DomShell$OnceObs__f_client = clientp
+});
+const $f_Lbon_jo_view_Lists$ChooseList__clearAndAddAll__sci_List__sci_List = (function($thiz, cps) {
+  const fromSup = $f_Lbon_jo_view_PaginableList__clearAndAddAll__sci_List__sci_List($thiz, cps);
+  let these = fromSup;
+  while ((!these.isEmpty__Z())) {
+    const arg1 = these.head__O();
+    const e = $as_Lbon_jo_html_Types$FinalComponent(arg1);
+    $f_Lbon_jo_view_Lists$ChooseList__addedInView__Lbon_jo_html_Types$FinalComponent__V($thiz, e);
+    these = $as_sci_List(these.tail__O())
+  };
+  return fromSup
+});
+const $f_Lbon_jo_view_Lists$ChooseList__$init$__V = (function($thiz) {
+  $thiz.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_obs = $m_Lbon_jo_html_DomShell$Obs$().get__T__Lbon_jo_html_DomShell$Obs(($thiz.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_idp$2 + "obs-gen"))
+});
 const $p_Lbon_jo_view_SimpleInput__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
   if ((!$thiz.Lbon_jo_view_SimpleInput__f_bitmap$0)) {
     $thiz.Lbon_jo_view_SimpleInput__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
@@ -29252,9 +31620,9 @@ class $c_Lbon_jo_view_SimpleInput extends $c_O {
     this.Lbon_jo_view_SimpleInput__f_label = label;
     this.Lbon_jo_view_SimpleInput__f_valueIni = valueIni;
     this.Lbon_jo_view_SimpleInput__f_title = title;
-    this.Lbon_jo_view_SimpleInput__f_inputXml = $m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__s_xml_Elem(id, label, valueIni, "text");
+    this.Lbon_jo_view_SimpleInput__f_inputXml = $m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__T__sci_Map__s_xml_Elem(id, label, valueIni, "text", "", $m_sci_Map$EmptyMap$());
     const idp = ("ok-" + id);
-    this.Lbon_jo_view_SimpleInput__f_confirm = new $c_Lbon_jo_html_ButtonHtml$$anon$2(idp, "ok")
+    this.Lbon_jo_view_SimpleInput__f_confirm = new $c_Lbon_jo_html_ButtonHtml$$anon$1(idp, "ok")
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
     const _1 = this.xml__s_xml_Node();
@@ -29389,147 +31757,6 @@ const $d_Lbon_jo_view_SimpleInput = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lbon_jo_view_SimpleInput.prototype.$classData = $d_Lbon_jo_view_SimpleInput;
-const $p_Lbon_jo_view_SimpleList__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
-  if ((!$thiz.Lbon_jo_view_SimpleList__f_bitmap$0)) {
-    $thiz.Lbon_jo_view_SimpleList__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
-    $thiz.Lbon_jo_view_SimpleList__f_bitmap$0 = true
-  };
-  return $thiz.Lbon_jo_view_SimpleList__f_me
-});
-class $c_Lbon_jo_view_SimpleList extends $c_O {
-  constructor(id) {
-    super();
-    this.Lbon_jo_view_SimpleList__f_id = null;
-    this.Lbon_jo_view_SimpleList__f_loaderRef = null;
-    this.Lbon_jo_view_SimpleList__f_contentRef = null;
-    this.Lbon_jo_view_SimpleList__f_me = null;
-    this.Lbon_jo_view_SimpleList__f_bitmap$0 = false;
-    this.Lbon_jo_view_SimpleList__f_id = id;
-    const idp = ("loader" + id);
-    this.Lbon_jo_view_SimpleList__f_loaderRef = new $c_Lbon_jo_view_Ref$$anon$1(idp);
-    const idp$1 = ("content" + id);
-    this.Lbon_jo_view_SimpleList__f_contentRef = new $c_Lbon_jo_view_Ref$$anon$1(idp$1)
-  };
-  html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
-    return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
-  };
-  me__Lorg_scalajs_dom_raw_HTMLDivElement() {
-    return ((!this.Lbon_jo_view_SimpleList__f_bitmap$0) ? $p_Lbon_jo_view_SimpleList__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_SimpleList__f_me)
-  };
-  id__T() {
-    return this.Lbon_jo_view_SimpleList__f_id
-  };
-  loaded__V() {
-    this.Lbon_jo_view_SimpleList__f_loaderRef.ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "none";
-    this.Lbon_jo_view_SimpleList__f_contentRef.ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "block"
-  };
-  loading__V() {
-    this.Lbon_jo_view_SimpleList__f_loaderRef.ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "block";
-    this.Lbon_jo_view_SimpleList__f_contentRef.ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "none"
-  };
-  xml__s_xml_Node() {
-    let \u03b4md = $m_s_xml_Null$();
-    \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", this.Lbon_jo_view_SimpleList__f_id, \u03b4md);
-    const $$x6 = \u03b4md;
-    const $$x5 = $m_s_xml_TopScope$();
-    $m_s_xml_NodeSeq$();
-    const \u03b4buf = new $c_s_xml_NodeBuffer();
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
-    let \u03b4md$2 = $m_s_xml_Null$();
-    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("loader container"), \u03b4md$2);
-    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("loader" + this.Lbon_jo_view_SimpleList__f_id), \u03b4md$2);
-    const $$x2 = \u03b4md$2;
-    const $$x1 = $m_s_xml_TopScope$();
-    const array = [];
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x2, $$x1, false, new $c_sjsr_WrappedVarArgs(array)));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
-    let \u03b4md$3 = $m_s_xml_Null$();
-    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("column-display"), \u03b4md$3);
-    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("content" + this.Lbon_jo_view_SimpleList__f_id), \u03b4md$3);
-    const $$x4 = \u03b4md$3;
-    const $$x3 = $m_s_xml_TopScope$();
-    const array$1 = [];
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x4, $$x3, false, new $c_sjsr_WrappedVarArgs(array$1)));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
-    return new $c_s_xml_Elem(null, "div", $$x6, $$x5, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
-  };
-  clearAndAddAll__sci_List__sci_List(cps) {
-    const e = this.Lbon_jo_view_SimpleList__f_contentRef.ref__Lorg_scalajs_dom_raw_HTMLElement();
-    new $c_Lbon_jo_html_DomShell$ExtendedElement(e).clear__V();
-    let these = cps;
-    while ((!these.isEmpty__Z())) {
-      const arg1 = these.head__O();
-      const e$1 = $as_Lbon_jo_html_Types$FinalComponent(arg1);
-      const el = this.Lbon_jo_view_SimpleList__f_contentRef.ref__Lorg_scalajs_dom_raw_HTMLElement();
-      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(e$1, el);
-      these = $as_sci_List(these.tail__O())
-    };
-    return cps
-  };
-  init__Lorg_scalajs_dom_raw_HTMLElement__V(parentp) {
-    const _1 = this.xml__s_xml_Node();
-    parentp.appendChild($m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", "")))
-  };
-  productPrefix__T() {
-    return "SimpleList"
-  };
-  productArity__I() {
-    return 1
-  };
-  productElement__I__O(x$1) {
-    return ((x$1 === 0) ? this.Lbon_jo_view_SimpleList__f_id : $m_sr_Statics$().ioobe__I__O(x$1))
-  };
-  productIterator__sc_Iterator() {
-    return new $c_sr_ScalaRunTime$$anon$1(this)
-  };
-  hashCode__I() {
-    const this$2 = $m_s_util_hashing_MurmurHash3$();
-    return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
-  };
-  toString__T() {
-    return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
-  };
-  equals__O__Z(x$1) {
-    if ((this === x$1)) {
-      return true
-    } else if ((x$1 instanceof $c_Lbon_jo_view_SimpleList)) {
-      const SimpleList$1 = $as_Lbon_jo_view_SimpleList(x$1);
-      return (this.Lbon_jo_view_SimpleList__f_id === SimpleList$1.Lbon_jo_view_SimpleList__f_id)
-    } else {
-      return false
-    }
-  };
-  me__Lorg_scalajs_dom_raw_HTMLElement() {
-    return this.me__Lorg_scalajs_dom_raw_HTMLDivElement()
-  };
-}
-function $as_Lbon_jo_view_SimpleList(obj) {
-  return (((obj instanceof $c_Lbon_jo_view_SimpleList) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.view.SimpleList"))
-}
-function $isArrayOf_Lbon_jo_view_SimpleList(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_view_SimpleList)))
-}
-function $asArrayOf_Lbon_jo_view_SimpleList(obj, depth) {
-  return (($isArrayOf_Lbon_jo_view_SimpleList(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.view.SimpleList;", depth))
-}
-const $d_Lbon_jo_view_SimpleList = new $TypeData().initClass({
-  Lbon_jo_view_SimpleList: 0
-}, false, "bon.jo.view.SimpleList", {
-  Lbon_jo_view_SimpleList: 1,
-  O: 1,
-  Lbon_jo_html_Types$FinalComponent: 1,
-  Lbon_jo_html_XmlHtmlView: 1,
-  Lbon_jo_html_BridgedView: 1,
-  Lbon_jo_html_\uff3fView: 1,
-  Lbon_jo_html_InDom: 1,
-  Lbon_jo_html_IdView: 1,
-  Lbon_jo_html_LeaveView: 1,
-  s_Product: 1,
-  s_Equals: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lbon_jo_view_SimpleList.prototype.$classData = $d_Lbon_jo_view_SimpleList;
 const $p_Lbon_jo_view_SimpleTree__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
   if ((!$thiz.Lbon_jo_view_SimpleTree__f_bitmap$0)) {
     $thiz.Lbon_jo_view_SimpleTree__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
@@ -29776,8 +32003,12 @@ class $c_Lbon_jo_view_SiteModelView$MainContent extends $c_O {
       this.Lbon_jo_view_SiteModelView$MainContent__f_$outer = outer
     };
     $f_Lbon_jo_html_NodeView__$init$__V(this);
-    this.Lbon_jo_view_SiteModelView$MainContent__f_eouvreList = new $c_Lbon_jo_view_SimpleList("lo");
-    this.Lbon_jo_view_SiteModelView$MainContent__f_itemList = new $c_Lbon_jo_view_SimpleList("li");
+    const deletep = new $c_sjsr_AnonFunction1(((this$1) => ((e$2) => {
+      const e = $as_Lbon_jo_view_OeuvreView(e$2);
+      $f_Lbon_jo_view_WithImage__notInDom__V(e)
+    }))(this));
+    this.Lbon_jo_view_SiteModelView$MainContent__f_eouvreList = new $c_Lbon_jo_view_Lists$PagList$$anon$1("column-display", "lo", deletep);
+    this.Lbon_jo_view_SiteModelView$MainContent__f_itemList = new $c_Lbon_jo_view_SimpleList$$anon$1("container-fluid", "li");
     const inDom = this.Lbon_jo_view_SiteModelView$MainContent__f_itemList;
     $f_Lbon_jo_html_NodeView__add__Lbon_jo_html_InDom__Lbon_jo_html_InDom(this, inDom);
     const inDom$1 = this.Lbon_jo_view_SiteModelView$MainContent__f_eouvreList;
@@ -29797,15 +32028,17 @@ class $c_Lbon_jo_view_SiteModelView$MainContent extends $c_O {
     return ((!this.Lbon_jo_view_SiteModelView$MainContent__f_bitmap$0) ? $p_Lbon_jo_view_SiteModelView$MainContent__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_SiteModelView$MainContent__f_me)
   };
   init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
-    $f_Lbon_jo_html_NodeView__init__Lorg_scalajs_dom_raw_HTMLElement__V(this, parent);
-    this.Lbon_jo_view_SiteModelView$MainContent__f_itemList.loaded__V();
-    this.Lbon_jo_view_SiteModelView$MainContent__f_eouvreList.loaded__V()
+    const $$x1 = this.me__Lorg_scalajs_dom_raw_HTMLDivElement();
+    const this$1 = this.Lbon_jo_view_SiteModelView$MainContent__f_itemList;
+    const _1 = this$1.xml__s_xml_Node();
+    $$x1.appendChild($m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", "")));
+    const $$x2 = this.me__Lorg_scalajs_dom_raw_HTMLDivElement();
+    const this$3 = this.Lbon_jo_view_SiteModelView$MainContent__f_eouvreList;
+    const _1$1 = this$3.xml__s_xml_Node();
+    $$x2.appendChild($m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1$1, "", "", "")));
+    $f_Lbon_jo_html_NodeView__init__Lorg_scalajs_dom_raw_HTMLElement__V(this, parent)
   };
   load__Lbon_jo_SiteModel$MenuItem__V(i) {
-    const any = ("load item in main content : " + i.Lbon_jo_SiteModel$SiteElement__f_id);
-    if ((!$uZ(conf.prod))) {
-      $m_Lbon_jo_html_DomShell$().log__O__V(any)
-    };
     const x1 = i.Lbon_jo_SiteModel$MenuItem__f_parent;
     let $$x1;
     if ((x1 instanceof $c_s_Some)) {
@@ -29821,21 +32054,20 @@ class $c_Lbon_jo_view_SiteModelView$MainContent extends $c_O {
     };
     const path = ($$x1 + $f_T__replaceAll__T__T__T(i.Lbon_jo_SiteModel$MenuItem__f_text, "\\s+", "-"));
     $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().history.pushState("", i.Lbon_jo_SiteModel$MenuItem__f_text, path);
-    this.Lbon_jo_view_SiteModelView$MainContent__f_eouvreList.loading__V();
     const $$x3 = this.Lbon_jo_view_SiteModelView$MainContent__f_eouvreList;
-    const this$4 = i.Lbon_jo_SiteModel$MenuItem__f_oeuvres;
-    const f = ((this$3) => ((oeuvre$2) => {
+    const this$3 = i.Lbon_jo_SiteModel$MenuItem__f_oeuvres;
+    const f = ((this$2) => ((oeuvre$2) => {
       const oeuvre = $as_Lbon_jo_SiteModel$Oeuvre(oeuvre$2);
-      return new $c_Lbon_jo_view_OeuvreView(oeuvre, this$3.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_siteService)
+      return new $c_Lbon_jo_view_OeuvreView(oeuvre, this$2.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_siteService)
     }))(this);
     let $$x2;
-    if ((this$4 === $m_sci_Nil$())) {
+    if ((this$3 === $m_sci_Nil$())) {
       $$x2 = $m_sci_Nil$()
     } else {
-      const arg1 = this$4.head__O();
+      const arg1 = this$3.head__O();
       const h = new $c_sci_$colon$colon(f(arg1), $m_sci_Nil$());
       let t = h;
-      let rest = $as_sci_List(this$4.tail__O());
+      let rest = $as_sci_List(this$3.tail__O());
       while ((rest !== $m_sci_Nil$())) {
         const arg1$1 = rest.head__O();
         const nx = new $c_sci_$colon$colon(f(arg1$1), $m_sci_Nil$());
@@ -29845,19 +32077,20 @@ class $c_Lbon_jo_view_SiteModelView$MainContent extends $c_O {
       };
       $$x2 = h
     };
-    const this$5 = $$x3.clearAndAddAll__sci_List__sci_List($$x2);
-    const f$1 = ((this$2$1) => ((e$2) => {
-      const e = $as_Lbon_jo_view_OeuvreView(e$2);
-      return e.Lbon_jo_view_OeuvreView__f_whenImageLoad
+    $$x3.clearAndAddAll__sci_List__sci_List($$x2);
+    const this$4 = i.Lbon_jo_SiteModel$MenuItem__f_items;
+    const f$1 = ((this$2$1) => ((menuItem$2) => {
+      const menuItem = $as_Lbon_jo_SiteModel$MenuItem(menuItem$2);
+      return new $c_Lbon_jo_view_SubMenuItemView(menuItem, this$2$1.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_siteService, this$2$1.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_siteModelView)
     }))(this);
-    let whenAllImageFuture;
-    if ((this$5 === $m_sci_Nil$())) {
-      whenAllImageFuture = $m_sci_Nil$()
+    let v;
+    if ((this$4 === $m_sci_Nil$())) {
+      v = $m_sci_Nil$()
     } else {
-      const arg1$2 = this$5.head__O();
+      const arg1$2 = this$4.head__O();
       const h$1 = new $c_sci_$colon$colon(f$1(arg1$2), $m_sci_Nil$());
       let t$1 = h$1;
-      let rest$1 = $as_sci_List(this$5.tail__O());
+      let rest$1 = $as_sci_List(this$4.tail__O());
       while ((rest$1 !== $m_sci_Nil$())) {
         const arg1$3 = rest$1.head__O();
         const nx$1 = new $c_sci_$colon$colon(f$1(arg1$3), $m_sci_Nil$());
@@ -29865,50 +32098,21 @@ class $c_Lbon_jo_view_SiteModelView$MainContent extends $c_O {
         t$1 = nx$1;
         rest$1 = $as_sci_List(rest$1.tail__O())
       };
-      whenAllImageFuture = h$1
+      v = h$1
     };
-    const $$x4 = $m_s_concurrent_Future$();
-    const this$6 = $m_sc_BuildFrom$();
-    $$x4.sequence__sc_IterableOnce__sc_BuildFrom__s_concurrent_ExecutionContext__s_concurrent_Future(whenAllImageFuture, new $c_sc_BuildFromLowPriority2$$anon$11(this$6), this.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_bon$jo$view$SiteModelView$$executionContext).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1(((this$3$1) => ((e$3$2) => {
-      $as_sci_List(e$3$2);
-      this$3$1.Lbon_jo_view_SiteModelView$MainContent__f_eouvreList.loaded__V()
-    }))(this)), this.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_bon$jo$view$SiteModelView$$executionContext);
-    const this$7 = i.Lbon_jo_SiteModel$MenuItem__f_items;
-    const f$2 = ((this$4$1) => ((menuItem$2) => {
-      const menuItem = $as_Lbon_jo_SiteModel$MenuItem(menuItem$2);
-      return new $c_Lbon_jo_view_SubMenuItemView(menuItem, this$4$1.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_siteService, this$4$1.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_siteModelView)
-    }))(this);
-    let v;
-    if ((this$7 === $m_sci_Nil$())) {
-      v = $m_sci_Nil$()
-    } else {
-      const arg1$4 = this$7.head__O();
-      const h$2 = new $c_sci_$colon$colon(f$2(arg1$4), $m_sci_Nil$());
-      let t$2 = h$2;
-      let rest$2 = $as_sci_List(this$7.tail__O());
-      while ((rest$2 !== $m_sci_Nil$())) {
-        const arg1$5 = rest$2.head__O();
-        const nx$2 = new $c_sci_$colon$colon(f$2(arg1$5), $m_sci_Nil$());
-        t$2.sci_$colon$colon__f_next = nx$2;
-        t$2 = nx$2;
-        rest$2 = $as_sci_List(rest$2.tail__O())
-      };
-      v = h$2
-    };
-    let these = v;
+    const this$5 = this.Lbon_jo_view_SiteModelView$MainContent__f_itemList.clearAndAddAll__sci_List__sci_List(v);
+    let these = this$5;
     while ((!these.isEmpty__Z())) {
-      const arg1$6 = these.head__O();
-      const ii = $as_Lbon_jo_view_SubMenuItemView(arg1$6);
-      const this$8 = ii.Lbon_jo_view_MenuItemView__f_link;
-      const function$1 = ((arg$outer, ii$1) => ((arg1$2$1) => {
-        arg$outer.load__Lbon_jo_SiteModel$MenuItem__V(ii$1.Lbon_jo_view_SubMenuItemView__f_menuItem)
-      }))(this, ii);
-      $f_Lbon_jo_html_EventFromView__onClick__sjs_js_Function1__V(this$8, function$1);
+      const arg1$4 = these.head__O();
+      const ii = $as_Lbon_jo_view_SubMenuItemView(arg1$4);
+      const element = ii.Lbon_jo_view_MenuItemView__f_link.ref__Lorg_scalajs_dom_raw_HTMLElement();
+      const this$8 = new $c_Lbon_jo_html_DomShell$ExtendedElement(element).clkOnce__Lbon_jo_html_DomShell$OnceObs();
+      const clientp = new $c_sjsr_AnonFunction1(((this$7, ii$1) => ((e$2) => {
+        this$7.load__Lbon_jo_SiteModel$MenuItem__V(ii$1.Lbon_jo_view_SubMenuItemView__f_menuItem)
+      }))(this, ii));
+      this$8.Lbon_jo_html_DomShell$OnceObs__f_client = clientp;
       these = $as_sci_List(these.tail__O())
-    };
-    this.Lbon_jo_view_SiteModelView$MainContent__f_itemList.loading__V();
-    this.Lbon_jo_view_SiteModelView$MainContent__f_itemList.clearAndAddAll__sci_List__sci_List(v);
-    this.Lbon_jo_view_SiteModelView$MainContent__f_itemList.loaded__V()
+    }
   };
   xml__s_xml_Node() {
     let \u03b4md = $m_s_xml_Null$();
@@ -30043,6 +32247,124 @@ function $isArrayOf_sc_Map(obj, depth) {
 function $asArrayOf_sc_Map(obj, depth) {
   return (($isArrayOf_sc_Map(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.collection.Map;", depth))
 }
+const $p_Lbon_jo_view_Lists$PagChooseList$$anon$2__scrollContext$lzycompute__Lbon_jo_view_PaginableList$ScrollContext = (function($thiz) {
+  if (((((1 & $thiz.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_bitmap$0) << 24) >> 24) === 0)) {
+    $thiz.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_scrollContext = $f_Lbon_jo_view_PaginableList__scrollContext__Lbon_jo_view_PaginableList$ScrollContext($thiz);
+    $thiz.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_bitmap$0 = (((1 | $thiz.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_scrollContext
+});
+const $p_Lbon_jo_view_Lists$PagChooseList$$anon$2__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
+  if (((((2 & $thiz.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_bitmap$0) << 24) >> 24) === 0)) {
+    $thiz.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
+    $thiz.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_bitmap$0 = (((2 | $thiz.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_me
+});
+class $c_Lbon_jo_view_Lists$PagChooseList$$anon$2 extends $c_O {
+  constructor(cssClassp$2, idp$2, mappingp$1, deletep$2) {
+    super();
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_obs = null;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_option = null;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_ScrollContext$module = null;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_scrollContext = null;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_currentView = null;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_contentRef = null;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_me = null;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_bitmap$0 = 0;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_cssClassp$2 = null;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_idp$2 = null;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_mappingp$1 = null;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_deletep$2 = null;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_cssClassp$2 = cssClassp$2;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_idp$2 = idp$2;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_mappingp$1 = mappingp$1;
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_deletep$2 = deletep$2;
+    $f_Lbon_jo_view_SimpleList__$init$__V(this);
+    $f_Lbon_jo_view_PaginableList__$init$__V(this);
+    $f_Lbon_jo_view_Lists$ChooseList__$init$__V(this)
+  };
+  addedInView__Lbon_jo_html_Types$FinalComponent__V(e) {
+    $f_Lbon_jo_view_Lists$ChooseList__addedInView__Lbon_jo_html_Types$FinalComponent__V(this, e)
+  };
+  clearAndAddAll__sci_List__sci_List(cps) {
+    return $f_Lbon_jo_view_Lists$ChooseList__clearAndAddAll__sci_List__sci_List(this, cps)
+  };
+  suscribe__F1__V(client) {
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_obs.suscribe__F1__V(client)
+  };
+  newValue__O__V(a) {
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_obs.newValue__O__V(a)
+  };
+  xml__s_xml_Node() {
+    return $f_Lbon_jo_view_PaginableList__xml__s_xml_Node(this)
+  };
+  init__Lorg_scalajs_dom_raw_HTMLElement__V(parentp) {
+    const ctx = this.scrollContext__Lbon_jo_view_PaginableList$ScrollContext();
+    $f_Lbon_jo_view_PaginableList__initEvent__Lbon_jo_view_PaginableList$ScrollContext__V(this, ctx)
+  };
+  html__Lorg_scalajs_dom_raw_HTMLElement() {
+    const _1 = $f_Lbon_jo_view_PaginableList__xml__s_xml_Node(this);
+    return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
+  };
+  option__Lbon_jo_view_OptionScroll() {
+    return this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_option
+  };
+  scrollContext__Lbon_jo_view_PaginableList$ScrollContext() {
+    return (((((1 & this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbon_jo_view_Lists$PagChooseList$$anon$2__scrollContext$lzycompute__Lbon_jo_view_PaginableList$ScrollContext(this) : this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_scrollContext)
+  };
+  bon$jo$view$PaginableList$_setter_$option_$eq__Lbon_jo_view_OptionScroll__V(x$1) {
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_option = x$1
+  };
+  currentView__sci_List() {
+    return this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_currentView
+  };
+  currentView_$eq__sci_List__V(x$1) {
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_currentView = x$1
+  };
+  contentRef__Lbon_jo_view_Ref() {
+    return this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_contentRef
+  };
+  bon$jo$view$SimpleList$_setter_$contentRef_$eq__Lbon_jo_view_Ref__V(x$1) {
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_contentRef = x$1
+  };
+  me__Lorg_scalajs_dom_raw_HTMLDivElement() {
+    return (((((2 & this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbon_jo_view_Lists$PagChooseList$$anon$2__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_me)
+  };
+  cssClass__T() {
+    return this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_cssClassp$2
+  };
+  id__T() {
+    return this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_idp$2
+  };
+  mapping__Lbon_jo_html_Types$FinalComponent__O(p) {
+    return this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_mappingp$1.apply__O__O(p)
+  };
+  deletedInView__Lbon_jo_html_Types$FinalComponent__V(e) {
+    this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_deletep$2.apply__O__O(e)
+  };
+  me__Lorg_scalajs_dom_raw_HTMLElement() {
+    return this.me__Lorg_scalajs_dom_raw_HTMLDivElement()
+  };
+}
+const $d_Lbon_jo_view_Lists$PagChooseList$$anon$2 = new $TypeData().initClass({
+  Lbon_jo_view_Lists$PagChooseList$$anon$2: 0
+}, false, "bon.jo.view.Lists$PagChooseList$$anon$2", {
+  Lbon_jo_view_Lists$PagChooseList$$anon$2: 1,
+  O: 1,
+  Lbon_jo_view_PaginableList: 1,
+  Lbon_jo_view_SimpleList: 1,
+  Lbon_jo_html_Types$FinalComponent: 1,
+  Lbon_jo_html_XmlHtmlView: 1,
+  Lbon_jo_html_BridgedView: 1,
+  Lbon_jo_html_\uff3fView: 1,
+  Lbon_jo_html_InDom: 1,
+  Lbon_jo_html_IdView: 1,
+  Lbon_jo_html_LeaveView: 1,
+  Lbon_jo_view_Lists$ChooseList: 1,
+  Lbon_jo_html_DomShell$Obs: 1
+});
+$c_Lbon_jo_view_Lists$PagChooseList$$anon$2.prototype.$classData = $d_Lbon_jo_view_Lists$PagChooseList$$anon$2;
 class $c_sc_AbstractSeq extends $c_sc_AbstractIterable {
   canEqual__O__Z(that) {
     return true
@@ -30339,6 +32661,15 @@ class $c_s_xml_Null$ extends $c_s_xml_MetaData {
   size__I() {
     return 0
   };
+  append__s_xml_MetaData__s_xml_NamespaceBinding__s_xml_MetaData(m, scope) {
+    return m
+  };
+  append$default$2__s_xml_NamespaceBinding() {
+    return $m_s_xml_TopScope$()
+  };
+  filter__F1__s_xml_MetaData(f) {
+    return this
+  };
   copy__s_xml_MetaData__s_xml_MetaData(next) {
     return next
   };
@@ -30358,6 +32689,15 @@ class $c_s_xml_Null$ extends $c_s_xml_MetaData {
   };
   basisForHashCode__sc_Seq() {
     return $m_sci_Nil$()
+  };
+  apply__T__sc_Seq(key) {
+    const this$2 = $m_s_xml_Utility$();
+    const ch = $m_sc_StringOps$().head$extension__T__C(key);
+    if ($f_s_xml_parsing_TokenTests__isNameStart__C__Z(this$2, ch)) {
+      return null
+    } else {
+      throw $ct_jl_IllegalArgumentException__T__(new $c_jl_IllegalArgumentException(), (("not a valid attribute name '" + key) + "', so can never match !"))
+    }
   };
   toString1__scm_StringBuilder__V(sb) {
     /*<skip>*/
@@ -30383,6 +32723,9 @@ class $c_s_xml_Null$ extends $c_s_xml_MetaData {
   remove__T__s_xml_MetaData(key) {
     return this
   };
+  apply__T__s_xml_NamespaceBinding__T__sc_Seq(namespace_uri, scp, k) {
+    return null
+  };
   value__sc_Seq() {
     return null
   };
@@ -30391,6 +32734,9 @@ class $c_s_xml_Null$ extends $c_s_xml_MetaData {
   };
   next__s_xml_MetaData() {
     return null
+  };
+  filter__F1__O(pred) {
+    return this
   };
 }
 const $d_s_xml_Null$ = new $TypeData().initClass({
@@ -30467,6 +32813,12 @@ class $c_s_xml_UnprefixedAttribute extends $c_s_xml_MetaData {
   next__s_xml_MetaData() {
     return this.s_xml_UnprefixedAttribute__f_next
   };
+  apply__T__sc_Seq(key) {
+    return ((key === this.s_xml_UnprefixedAttribute__f_key) ? this.s_xml_UnprefixedAttribute__f_value : this.s_xml_UnprefixedAttribute__f_next.apply__T__sc_Seq(key))
+  };
+  apply__T__s_xml_NamespaceBinding__T__sc_Seq(namespace, scope, key) {
+    return this.s_xml_UnprefixedAttribute__f_next.apply__T__s_xml_NamespaceBinding__T__sc_Seq(namespace, scope, key)
+  };
   copy__s_xml_MetaData__s_xml_MetaData(next) {
     return $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), this.s_xml_UnprefixedAttribute__f_key, this.s_xml_UnprefixedAttribute__f_value, next)
   };
@@ -30498,390 +32850,6 @@ const $d_s_xml_UnprefixedAttribute = new $TypeData().initClass({
   s_xml_Attribute: 1
 });
 $c_s_xml_UnprefixedAttribute.prototype.$classData = $d_s_xml_UnprefixedAttribute;
-const $p_Lbon_jo_view_OeuvreView__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
-  if (((((2 & $thiz.Lbon_jo_view_OeuvreView__f_bitmap$0) << 24) >> 24) === 0)) {
-    $thiz.Lbon_jo_view_OeuvreView__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
-    $thiz.Lbon_jo_view_OeuvreView__f_bitmap$0 = (((2 | $thiz.Lbon_jo_view_OeuvreView__f_bitmap$0) << 24) >> 24)
-  };
-  return $thiz.Lbon_jo_view_OeuvreView__f_me
-});
-const $p_Lbon_jo_view_OeuvreView__choose$lzycompute__Lbon_jo_view_ChoooseMenuItem = (function($thiz) {
-  if (((((1 & $thiz.Lbon_jo_view_OeuvreView__f_bitmap$0) << 24) >> 24) === 0)) {
-    $thiz.Lbon_jo_view_OeuvreView__f_choose = new $c_Lbon_jo_view_ChoooseMenuItem(new $c_Lbon_jo_view_OeuvreView$$Lambda$1(((this$1) => ((v$2) => {
-      const v = $as_Lbon_jo_SiteModel$MenuItem(v$2);
-      this$1.Lbon_jo_view_OeuvreView__f_siteService.move__Lbon_jo_SiteModel$Oeuvre__Lbon_jo_SiteModel$MenuItem__V(this$1.Lbon_jo_view_OeuvreView__f_oeuvre, v);
-      const this$2 = this$1.choose__Lbon_jo_view_ChoooseMenuItem();
-      $f_Lbon_jo_html_InDom__removeFromView__V(this$2)
-    }))($thiz)), $thiz.Lbon_jo_view_OeuvreView__f_siteService);
-    $thiz.Lbon_jo_view_OeuvreView__f_bitmap$0 = (((1 | $thiz.Lbon_jo_view_OeuvreView__f_bitmap$0) << 24) >> 24)
-  };
-  return $thiz.Lbon_jo_view_OeuvreView__f_choose
-});
-class $c_Lbon_jo_view_OeuvreView extends $c_O {
-  constructor(oeuvre, siteService) {
-    super();
-    this.Lbon_jo_view_OeuvreView__f_choose = null;
-    this.Lbon_jo_view_OeuvreView__f_oeuvre = null;
-    this.Lbon_jo_view_OeuvreView__f_siteService = null;
-    this.Lbon_jo_view_OeuvreView__f_service = null;
-    this.Lbon_jo_view_OeuvreView__f_nomForm = null;
-    this.Lbon_jo_view_OeuvreView__f_dateForm = null;
-    this.Lbon_jo_view_OeuvreView__f_descrpitionForm = null;
-    this.Lbon_jo_view_OeuvreView__f_xForm = null;
-    this.Lbon_jo_view_OeuvreView__f_yForm = null;
-    this.Lbon_jo_view_OeuvreView__f_imgRef = null;
-    this.Lbon_jo_view_OeuvreView__f_saveImageDiv = null;
-    this.Lbon_jo_view_OeuvreView__f_deleteImageDiv = null;
-    this.Lbon_jo_view_OeuvreView__f_whenImageLoad = null;
-    this.Lbon_jo_view_OeuvreView__f_admin = false;
-    this.Lbon_jo_view_OeuvreView__f_moveDiv = null;
-    this.Lbon_jo_view_OeuvreView__f_saveDiv = null;
-    this.Lbon_jo_view_OeuvreView__f_imgDiv = null;
-    this.Lbon_jo_view_OeuvreView__f_choiceDiv = null;
-    this.Lbon_jo_view_OeuvreView__f_deleteDiv = null;
-    this.Lbon_jo_view_OeuvreView__f_imgListDiv = null;
-    this.Lbon_jo_view_OeuvreView__f_aShow = null;
-    this.Lbon_jo_view_OeuvreView__f_adminDef = null;
-    this.Lbon_jo_view_OeuvreView__f_me = null;
-    this.Lbon_jo_view_OeuvreView__f_bitmap$0 = 0;
-    this.Lbon_jo_view_OeuvreView__f_oeuvre = oeuvre;
-    this.Lbon_jo_view_OeuvreView__f_siteService = siteService;
-    $f_Lbon_jo_view_AdminControl__$init$__V(this);
-    this.Lbon_jo_view_OeuvreView__f_service = siteService.Lbon_jo_service_SiteService__f_oeuvreService;
-    const idp = (this.id__T() + "nom");
-    this.Lbon_jo_view_OeuvreView__f_nomForm = new $c_Lbon_jo_view_Ref$$anon$1(idp);
-    const idp$1 = (this.id__T() + "date");
-    this.Lbon_jo_view_OeuvreView__f_dateForm = new $c_Lbon_jo_view_Ref$$anon$1(idp$1);
-    const idp$2 = (this.id__T() + "description");
-    this.Lbon_jo_view_OeuvreView__f_descrpitionForm = new $c_Lbon_jo_view_Ref$$anon$1(idp$2);
-    const idp$3 = (this.id__T() + "x");
-    this.Lbon_jo_view_OeuvreView__f_xForm = new $c_Lbon_jo_view_Ref$$anon$1(idp$3);
-    const idp$4 = (this.id__T() + "y");
-    this.Lbon_jo_view_OeuvreView__f_yForm = new $c_Lbon_jo_view_Ref$$anon$1(idp$4);
-    const this$6 = oeuvre.Lbon_jo_SiteModel$Oeuvre__f_image;
-    const idp$5 = ("img-" + this$6.Lbon_jo_SiteModel$SiteElement__f_id);
-    this.Lbon_jo_view_OeuvreView__f_imgRef = new $c_Lbon_jo_view_Ref$$anon$1(idp$5);
-    const this$8 = oeuvre.Lbon_jo_SiteModel$Oeuvre__f_image;
-    const idp$6 = ("save-i-" + this$8.Lbon_jo_SiteModel$SiteElement__f_id);
-    this.Lbon_jo_view_OeuvreView__f_saveImageDiv = new $c_Lbon_jo_view_Ref$$anon$1(idp$6);
-    const this$10 = oeuvre.Lbon_jo_SiteModel$Oeuvre__f_image;
-    const idp$7 = ("delete-i-" + this$10.Lbon_jo_SiteModel$SiteElement__f_id);
-    this.Lbon_jo_view_OeuvreView__f_deleteImageDiv = new $c_Lbon_jo_view_Ref$$anon$1(idp$7);
-    this.Lbon_jo_view_OeuvreView__f_whenImageLoad = $m_s_concurrent_Future$().failed__jl_Throwable__s_concurrent_Future($ct_jl_Exception__T__(new $c_jl_Exception(), "not started"))
-  };
-  html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
-    return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
-  };
-  removeFromView__V() {
-    $f_Lbon_jo_html_InDom__removeFromView__V(this)
-  };
-  admin__Z() {
-    return this.Lbon_jo_view_OeuvreView__f_admin
-  };
-  moveDiv__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_OeuvreView__f_moveDiv
-  };
-  saveDiv__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_OeuvreView__f_saveDiv
-  };
-  imgDiv__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_OeuvreView__f_imgDiv
-  };
-  choiceDiv__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_OeuvreView__f_choiceDiv
-  };
-  deleteDiv__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_OeuvreView__f_deleteDiv
-  };
-  imgListDiv__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_OeuvreView__f_imgListDiv
-  };
-  aShow__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_OeuvreView__f_aShow
-  };
-  adminDef__Lbon_jo_view_Ref() {
-    return this.Lbon_jo_view_OeuvreView__f_adminDef
-  };
-  bon$jo$view$AdminControl$_setter_$admin_$eq__Z__V(x$1) {
-    this.Lbon_jo_view_OeuvreView__f_admin = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$moveDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_OeuvreView__f_moveDiv = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$saveDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_OeuvreView__f_saveDiv = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$imgDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_OeuvreView__f_imgDiv = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$choiceDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_OeuvreView__f_choiceDiv = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$deleteDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_OeuvreView__f_deleteDiv = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$imgListDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_OeuvreView__f_imgListDiv = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$aShow_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_OeuvreView__f_aShow = x$1
-  };
-  bon$jo$view$AdminControl$_setter_$adminDef_$eq__Lbon_jo_view_Ref__V(x$1) {
-    this.Lbon_jo_view_OeuvreView__f_adminDef = x$1
-  };
-  me__Lorg_scalajs_dom_raw_HTMLDivElement() {
-    return (((((2 & this.Lbon_jo_view_OeuvreView__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbon_jo_view_OeuvreView__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_OeuvreView__f_me)
-  };
-  siteService__Lbon_jo_service_SiteService() {
-    return this.Lbon_jo_view_OeuvreView__f_siteService
-  };
-  service__Lbon_jo_app_service_DistantService() {
-    return this.Lbon_jo_view_OeuvreView__f_service
-  };
-  extract__Lbon_jo_SiteModel$Oeuvre() {
-    const x$1 = $as_T(this.Lbon_jo_view_OeuvreView__f_nomForm.ref__Lorg_scalajs_dom_raw_HTMLElement().value);
-    const x = $as_T(this.Lbon_jo_view_OeuvreView__f_dateForm.ref__Lorg_scalajs_dom_raw_HTMLElement().value);
-    const this$3 = $m_jl_Integer$();
-    const x$2 = this$3.parseInt__T__I__I(x, 10);
-    const x$3 = $as_T(this.Lbon_jo_view_OeuvreView__f_xForm.ref__Lorg_scalajs_dom_raw_HTMLElement().value);
-    const x$5 = $fround($m_jl_Double$().parseDouble__T__D(x$3));
-    const x$4 = $as_T(this.Lbon_jo_view_OeuvreView__f_yForm.ref__Lorg_scalajs_dom_raw_HTMLElement().value);
-    const y = $fround($m_jl_Double$().parseDouble__T__D(x$4));
-    const x$3$1 = new $c_Lbon_jo_SiteModel$Dimension(x$5, y);
-    const this$11 = $as_T(this.Lbon_jo_view_OeuvreView__f_descrpitionForm.ref__Lorg_scalajs_dom_raw_HTMLElement().value);
-    const this$12 = this.Lbon_jo_view_OeuvreView__f_oeuvre;
-    const x$5$1 = this$12.Lbon_jo_SiteModel$SiteElement__f_id;
-    const this$13 = this.Lbon_jo_view_OeuvreView__f_oeuvre;
-    const x$6 = this$13.Lbon_jo_SiteModel$Oeuvre__f_image;
-    const this$14 = this.Lbon_jo_view_OeuvreView__f_oeuvre;
-    const x$7 = this$14.Lbon_jo_SiteModel$Oeuvre__f_theme;
-    return new $c_Lbon_jo_SiteModel$Oeuvre(x$5$1, x$6, x$1, this$11, x$3$1, x$2, x$7)
-  };
-  choose__Lbon_jo_view_ChoooseMenuItem() {
-    return (((((1 & this.Lbon_jo_view_OeuvreView__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbon_jo_view_OeuvreView__choose$lzycompute__Lbon_jo_view_ChoooseMenuItem(this) : this.Lbon_jo_view_OeuvreView__f_choose)
-  };
-  modifyView__s_xml_Node() {
-    const $$x4 = $m_s_xml_Null$();
-    const $$x3 = $m_s_xml_TopScope$();
-    $m_s_xml_NodeSeq$();
-    const \u03b4buf = new $c_s_xml_NodeBuffer();
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    let \u03b4md = $m_s_xml_Null$();
-    \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("form"), \u03b4md);
-    const $$x2 = \u03b4md;
-    const $$x1 = $m_s_xml_TopScope$();
-    $m_s_xml_NodeSeq$();
-    const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__s_xml_Elem((this.id__T() + "nom"), "nom", this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_name, "text"));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__s_xml_Elem((this.id__T() + "date"), "date", this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_date, "text"));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__s_xml_Elem((this.id__T() + "description"), "description", this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_description, "text"));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__s_xml_Elem((this.id__T() + "x"), "Largeur", this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_dimension.Lbon_jo_SiteModel$Dimension__f_x, "text"));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__s_xml_Elem((this.id__T() + "y"), "Hauteur", this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_dimension.Lbon_jo_SiteModel$Dimension__f_y, "text"));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "form", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
-    return new $c_s_xml_Elem(null, "form", $$x4, $$x3, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
-  };
-  xml__s_xml_Node() {
-    let \u03b4md = $m_s_xml_Null$();
-    \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", this.id__T(), \u03b4md);
-    \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("oeuvre"), \u03b4md);
-    const $$x19 = \u03b4md;
-    const $$x18 = $m_s_xml_TopScope$();
-    $m_s_xml_NodeSeq$();
-    const \u03b4buf = new $c_s_xml_NodeBuffer();
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
-    const x1 = $f_Lbon_jo_view_AdminControl__adminXmlOption__s_Option(this);
-    let $$x1;
-    if ((x1 instanceof $c_s_Some)) {
-      const x2 = $as_s_Some(x1);
-      const value = $as_s_xml_Node(x2.s_Some__f_value);
-      $$x1 = value
-    } else {
-      const x = $m_s_None$();
-      if ((!(x === x1))) {
-        throw new $c_s_MatchError(x1)
-      };
-      $$x1 = (void 0)
-    };
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer($$x1);
-    let \u03b4md$2 = $m_s_xml_Null$();
-    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("oeuvre-text"), \u03b4md$2);
-    const $$x11 = \u03b4md$2;
-    const $$x10 = $m_s_xml_TopScope$();
-    $m_s_xml_NodeSeq$();
-    const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    let \u03b4md$3 = $m_s_xml_Null$();
-    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("text oeuvre-title"), \u03b4md$3);
-    const $$x3 = \u03b4md$3;
-    const $$x2 = $m_s_xml_TopScope$();
-    $m_s_xml_NodeSeq$();
-    const \u03b4buf$3 = new $c_s_xml_NodeBuffer();
-    \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-    \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_name);
-    \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x3, $$x2, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$3)));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    let \u03b4md$4 = $m_s_xml_Null$();
-    \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("text"), \u03b4md$4);
-    const $$x5 = \u03b4md$4;
-    const $$x4 = $m_s_xml_TopScope$();
-    $m_s_xml_NodeSeq$();
-    const \u03b4buf$4 = new $c_s_xml_NodeBuffer();
-    \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-    \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_date);
-    \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x5, $$x4, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$4)));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    let \u03b4md$5 = $m_s_xml_Null$();
-    \u03b4md$5 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("text"), \u03b4md$5);
-    const $$x7 = \u03b4md$5;
-    const $$x6 = $m_s_xml_TopScope$();
-    $m_s_xml_NodeSeq$();
-    const \u03b4buf$5 = new $c_s_xml_NodeBuffer();
-    \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-    \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_dimension.Lbon_jo_SiteModel$Dimension__f_x);
-    \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text(" cm x "));
-    \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_dimension.Lbon_jo_SiteModel$Dimension__f_y);
-    \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text(" cm\n      "));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x7, $$x6, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$5)));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    let \u03b4md$6 = $m_s_xml_Null$();
-    \u03b4md$6 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("text"), \u03b4md$6);
-    const $$x9 = \u03b4md$6;
-    const $$x8 = $m_s_xml_TopScope$();
-    $m_s_xml_NodeSeq$();
-    const \u03b4buf$6 = new $c_s_xml_NodeBuffer();
-    \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-    \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_description);
-    \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x9, $$x8, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$6)));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x11, $$x10, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
-    let \u03b4md$7 = $m_s_xml_Null$();
-    \u03b4md$7 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("img-cont"), \u03b4md$7);
-    const $$x17 = \u03b4md$7;
-    const $$x16 = $m_s_xml_TopScope$();
-    $m_s_xml_NodeSeq$();
-    const \u03b4buf$7 = new $c_s_xml_NodeBuffer();
-    \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-    let \u03b4md$8 = $m_s_xml_Null$();
-    \u03b4md$8 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("fore-ground"), \u03b4md$8);
-    const $$x13 = \u03b4md$8;
-    const $$x12 = $m_s_xml_TopScope$();
-    const array = [];
-    \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x13, $$x12, false, new $c_sjsr_WrappedVarArgs(array)));
-    \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Comment("span class=\"btn btn-primary\" id={\"save-i-\" + oeuvre.image.id}>save</span>\n        <span class=\"btn btn-primary\" id={\"delete-i-\" + oeuvre.image.id}>delete</span"));
-    \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    let \u03b4md$9 = $m_s_xml_Null$();
-    \u03b4md$9 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("oeuvre-img"), \u03b4md$9);
-    const this$9 = this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_image;
-    \u03b4md$9 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("img-" + this$9.Lbon_jo_SiteModel$SiteElement__f_id), \u03b4md$9);
-    const $$x15 = \u03b4md$9;
-    const $$x14 = $m_s_xml_TopScope$();
-    const array$1 = [];
-    \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x15, $$x14, false, new $c_sjsr_WrappedVarArgs(array$1)));
-    \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x17, $$x16, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$7)));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
-    return new $c_s_xml_Elem(null, "div", $$x19, $$x18, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
-  };
-  id__T() {
-    const this$1 = this.Lbon_jo_view_OeuvreView__f_oeuvre;
-    return ("o-" + this$1.Lbon_jo_SiteModel$SiteElement__f_id)
-  };
-  init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
-    $f_Lbon_jo_view_AdminControl__initAdminEvent__V(this);
-    const $$x1 = $m_sjs_js_Thenable$ThenableOps$();
-    const p = new Promise(((arg$outer) => ((arg1$2, arg2$2) => {
-      arg$outer.bon$jo$view$OeuvreView$$$anonfun$init$1__sjs_js_Function1__sjs_js_Function1__V(arg1$2, arg2$2)
-    }))(this));
-    this.Lbon_jo_view_OeuvreView__f_whenImageLoad = $$x1.toFuture$extension__sjs_js_Thenable__s_concurrent_Future(p);
-    this.Lbon_jo_view_OeuvreView__f_imgRef.ref__Lorg_scalajs_dom_raw_HTMLElement().classList.add("loader");
-    this.Lbon_jo_view_OeuvreView__f_imgRef.ref__Lorg_scalajs_dom_raw_HTMLElement().src = (("" + this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_image.Lbon_jo_SiteModel$Image__f_base) + this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_image.Lbon_jo_SiteModel$Image__f_link)
-  };
-  productPrefix__T() {
-    return "OeuvreView"
-  };
-  productArity__I() {
-    return 1
-  };
-  productElement__I__O(x$1) {
-    return ((x$1 === 0) ? this.Lbon_jo_view_OeuvreView__f_oeuvre : $m_sr_Statics$().ioobe__I__O(x$1))
-  };
-  productIterator__sc_Iterator() {
-    return new $c_sr_ScalaRunTime$$anon$1(this)
-  };
-  hashCode__I() {
-    const this$2 = $m_s_util_hashing_MurmurHash3$();
-    return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
-  };
-  toString__T() {
-    return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
-  };
-  equals__O__Z(x$1) {
-    if ((this === x$1)) {
-      return true
-    } else if ((x$1 instanceof $c_Lbon_jo_view_OeuvreView)) {
-      const OeuvreView$1 = $as_Lbon_jo_view_OeuvreView(x$1);
-      const x = this.Lbon_jo_view_OeuvreView__f_oeuvre;
-      const x$2 = OeuvreView$1.Lbon_jo_view_OeuvreView__f_oeuvre;
-      return ((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))
-    } else {
-      return false
-    }
-  };
-  me__Lorg_scalajs_dom_raw_HTMLElement() {
-    return this.me__Lorg_scalajs_dom_raw_HTMLDivElement()
-  };
-  value__Lbon_jo_SiteModel$SiteElement() {
-    return this.extract__Lbon_jo_SiteModel$Oeuvre()
-  };
-  bon$jo$view$OeuvreView$$$anonfun$init$2__Lorg_scalajs_dom_raw_Event__sjs_js_Function1__O(e, accepet$1) {
-    if ((!$uZ(conf.prod))) {
-      $m_Lbon_jo_html_DomShell$().log__O__V("Image loaded")
-    };
-    this.Lbon_jo_view_OeuvreView__f_imgRef.ref__Lorg_scalajs_dom_raw_HTMLElement().classList.remove("loader");
-    const a = this.Lbon_jo_view_OeuvreView__f_oeuvre;
-    return accepet$1(a)
-  };
-  bon$jo$view$OeuvreView$$$anonfun$init$1__sjs_js_Function1__sjs_js_Function1__V(accepet, reject) {
-    this.Lbon_jo_view_OeuvreView__f_imgRef.ref__Lorg_scalajs_dom_raw_HTMLElement().addEventListener("load", ((arg$outer, accepet$1) => ((arg1$2) => arg$outer.bon$jo$view$OeuvreView$$$anonfun$init$2__Lorg_scalajs_dom_raw_Event__sjs_js_Function1__O(arg1$2, accepet$1)))(this, accepet))
-  };
-}
-function $as_Lbon_jo_view_OeuvreView(obj) {
-  return (((obj instanceof $c_Lbon_jo_view_OeuvreView) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.view.OeuvreView"))
-}
-function $isArrayOf_Lbon_jo_view_OeuvreView(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_view_OeuvreView)))
-}
-function $asArrayOf_Lbon_jo_view_OeuvreView(obj, depth) {
-  return (($isArrayOf_Lbon_jo_view_OeuvreView(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.view.OeuvreView;", depth))
-}
-const $d_Lbon_jo_view_OeuvreView = new $TypeData().initClass({
-  Lbon_jo_view_OeuvreView: 0
-}, false, "bon.jo.view.OeuvreView", {
-  Lbon_jo_view_OeuvreView: 1,
-  O: 1,
-  Lbon_jo_html_Types$FinalComponent: 1,
-  Lbon_jo_html_XmlHtmlView: 1,
-  Lbon_jo_html_BridgedView: 1,
-  Lbon_jo_html_\uff3fView: 1,
-  Lbon_jo_html_InDom: 1,
-  Lbon_jo_html_IdView: 1,
-  Lbon_jo_html_LeaveView: 1,
-  Lbon_jo_view_AdminControl: 1,
-  Lbon_jo_html_ValueView: 1,
-  s_Product: 1,
-  s_Equals: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lbon_jo_view_OeuvreView.prototype.$classData = $d_Lbon_jo_view_OeuvreView;
 class $c_sc_AbstractMap extends $c_sc_AbstractIterable {
   equals__O__Z(o) {
     return $f_sc_Map__equals__O__Z(this, o)
@@ -31161,14 +33129,441 @@ const $d_Lbon_jo_view_ManiMenuItemView = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lbon_jo_view_ManiMenuItemView.prototype.$classData = $d_Lbon_jo_view_ManiMenuItemView;
+function $is_sci_Map(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.sci_Map)))
+}
+function $as_sci_Map(obj) {
+  return (($is_sci_Map(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.collection.immutable.Map"))
+}
+function $isArrayOf_sci_Map(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.sci_Map)))
+}
+function $asArrayOf_sci_Map(obj, depth) {
+  return (($isArrayOf_sci_Map(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.collection.immutable.Map;", depth))
+}
+const $p_Lbon_jo_view_OeuvreView__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
+  if (((((2 & $thiz.Lbon_jo_view_OeuvreView__f_bitmap$0) << 24) >> 24) === 0)) {
+    $thiz.Lbon_jo_view_OeuvreView__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
+    $thiz.Lbon_jo_view_OeuvreView__f_bitmap$0 = (((2 | $thiz.Lbon_jo_view_OeuvreView__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbon_jo_view_OeuvreView__f_me
+});
+const $p_Lbon_jo_view_OeuvreView__choose$lzycompute__Lbon_jo_view_ChoooseMenuItem = (function($thiz) {
+  if (((((1 & $thiz.Lbon_jo_view_OeuvreView__f_bitmap$0) << 24) >> 24) === 0)) {
+    $thiz.Lbon_jo_view_OeuvreView__f_choose = new $c_Lbon_jo_view_ChoooseMenuItem(new $c_Lbon_jo_view_OeuvreView$$Lambda$1(((this$1) => ((v$2) => {
+      const v = $as_Lbon_jo_SiteModel$MenuItem(v$2);
+      this$1.Lbon_jo_view_OeuvreView__f_siteService.move__Lbon_jo_SiteModel$Oeuvre__Lbon_jo_SiteModel$MenuItem__V(this$1.Lbon_jo_view_OeuvreView__f_oeuvre, v);
+      const this$2 = this$1.choose__Lbon_jo_view_ChoooseMenuItem();
+      $f_Lbon_jo_html_InDom__removeFromView__V(this$2)
+    }))($thiz)), $thiz.Lbon_jo_view_OeuvreView__f_siteService);
+    $thiz.Lbon_jo_view_OeuvreView__f_bitmap$0 = (((1 | $thiz.Lbon_jo_view_OeuvreView__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbon_jo_view_OeuvreView__f_choose
+});
+class $c_Lbon_jo_view_OeuvreView extends $c_O {
+  constructor(oeuvre, siteService) {
+    super();
+    this.Lbon_jo_view_OeuvreView__f_choose = null;
+    this.Lbon_jo_view_OeuvreView__f_oeuvre = null;
+    this.Lbon_jo_view_OeuvreView__f_siteService = null;
+    this.Lbon_jo_view_OeuvreView__f_service = null;
+    this.Lbon_jo_view_OeuvreView__f_nomForm = null;
+    this.Lbon_jo_view_OeuvreView__f_dateForm = null;
+    this.Lbon_jo_view_OeuvreView__f_descrpitionForm = null;
+    this.Lbon_jo_view_OeuvreView__f_xForm = null;
+    this.Lbon_jo_view_OeuvreView__f_yForm = null;
+    this.Lbon_jo_view_OeuvreView__f_executionContext = null;
+    this.Lbon_jo_view_OeuvreView__f_image = null;
+    this.Lbon_jo_view_OeuvreView__f_bon$jo$view$WithImage$$_imgRef = null;
+    this.Lbon_jo_view_OeuvreView__f_imgDiv = null;
+    this.Lbon_jo_view_OeuvreView__f_notInit = false;
+    this.Lbon_jo_view_OeuvreView__f_admin = false;
+    this.Lbon_jo_view_OeuvreView__f_AdminCtx$module = null;
+    this.Lbon_jo_view_OeuvreView__f_currentCtx = null;
+    this.Lbon_jo_view_OeuvreView__f_me = null;
+    this.Lbon_jo_view_OeuvreView__f_bitmap$0 = 0;
+    this.Lbon_jo_view_OeuvreView__f_oeuvre = oeuvre;
+    this.Lbon_jo_view_OeuvreView__f_siteService = siteService;
+    $f_Lbon_jo_view_AdminControl__$init$__V(this);
+    this.Lbon_jo_view_OeuvreView__f_notInit = true;
+    $f_Lbon_jo_view_WithImage__$init$__V(this);
+    this.Lbon_jo_view_OeuvreView__f_service = siteService.Lbon_jo_service_SiteService__f_oeuvreService;
+    const idp = (this.id__T() + "nom");
+    this.Lbon_jo_view_OeuvreView__f_nomForm = new $c_Lbon_jo_view_Ref$$anon$1(idp);
+    const idp$1 = (this.id__T() + "date");
+    this.Lbon_jo_view_OeuvreView__f_dateForm = new $c_Lbon_jo_view_Ref$$anon$1(idp$1);
+    const idp$2 = (this.id__T() + "description");
+    this.Lbon_jo_view_OeuvreView__f_descrpitionForm = new $c_Lbon_jo_view_Ref$$anon$1(idp$2);
+    const idp$3 = (this.id__T() + "x");
+    this.Lbon_jo_view_OeuvreView__f_xForm = new $c_Lbon_jo_view_Ref$$anon$1(idp$3);
+    const idp$4 = (this.id__T() + "y");
+    this.Lbon_jo_view_OeuvreView__f_yForm = new $c_Lbon_jo_view_Ref$$anon$1(idp$4);
+    this.Lbon_jo_view_OeuvreView__f_executionContext = siteService.Lbon_jo_service_SiteService__f_executionContext;
+    this.Lbon_jo_view_OeuvreView__f_image = new $c_s_Some(oeuvre.Lbon_jo_SiteModel$Oeuvre__f_image)
+  };
+  inAdmin__s_xml_NodeBuffer() {
+    return $f_Lbon_jo_view_WithImage__inAdmin__s_xml_NodeBuffer(this)
+  };
+  html__Lorg_scalajs_dom_raw_HTMLElement() {
+    const _1 = this.xml__s_xml_Node();
+    return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
+  };
+  bon$jo$view$WithImage$$_imgRef__s_Option() {
+    return this.Lbon_jo_view_OeuvreView__f_bon$jo$view$WithImage$$_imgRef
+  };
+  bon$jo$view$WithImage$$_imgRef_$eq__s_Option__V(x$1) {
+    this.Lbon_jo_view_OeuvreView__f_bon$jo$view$WithImage$$_imgRef = x$1
+  };
+  imgDiv__Lbon_jo_view_Ref() {
+    return this.Lbon_jo_view_OeuvreView__f_imgDiv
+  };
+  bon$jo$view$WithImage$_setter_$imgDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
+    this.Lbon_jo_view_OeuvreView__f_imgDiv = x$1
+  };
+  notInit_$eq__Z__V(x$1) {
+    this.Lbon_jo_view_OeuvreView__f_notInit = x$1
+  };
+  admin__Z() {
+    return this.Lbon_jo_view_OeuvreView__f_admin
+  };
+  currentCtx__Lbon_jo_view_AdminControl$AdminCtx() {
+    return this.Lbon_jo_view_OeuvreView__f_currentCtx
+  };
+  currentCtx_$eq__Lbon_jo_view_AdminControl$AdminCtx__V(x$1) {
+    this.Lbon_jo_view_OeuvreView__f_currentCtx = x$1
+  };
+  bon$jo$view$AdminControl$_setter_$admin_$eq__Z__V(x$1) {
+    this.Lbon_jo_view_OeuvreView__f_admin = x$1
+  };
+  me__Lorg_scalajs_dom_raw_HTMLDivElement() {
+    return (((((2 & this.Lbon_jo_view_OeuvreView__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbon_jo_view_OeuvreView__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_OeuvreView__f_me)
+  };
+  siteService__Lbon_jo_service_SiteService() {
+    return this.Lbon_jo_view_OeuvreView__f_siteService
+  };
+  service__Lbon_jo_app_service_DistantService() {
+    return this.Lbon_jo_view_OeuvreView__f_service
+  };
+  executionContext__s_concurrent_ExecutionContext() {
+    return this.Lbon_jo_view_OeuvreView__f_executionContext
+  };
+  imageFor__Lbon_jo_service_Raws$ImageRawExport__V(e) {
+    const $$x2 = this.Lbon_jo_view_OeuvreView__f_oeuvre;
+    const this$1 = this.Lbon_jo_view_OeuvreView__f_siteService.Lbon_jo_service_SiteService__f_siteModel.allImages__sci_List();
+    let $$x1;
+    _return: {
+      let these = this$1;
+      while ((!these.isEmpty__Z())) {
+        const arg1 = these.head__O();
+        const x$1 = $as_Lbon_jo_SiteModel$Image(arg1);
+        if ((x$1.Lbon_jo_SiteModel$SiteElement__f_id === $uI(e.id))) {
+          $$x1 = new $c_s_Some(these.head__O());
+          break _return
+        };
+        these = $as_sci_List(these.tail__O())
+      };
+      $$x1 = $m_s_None$()
+    };
+    $$x2.Lbon_jo_SiteModel$Oeuvre__f_image = $as_Lbon_jo_SiteModel$Image($$x1.get__O());
+    this.Lbon_jo_view_OeuvreView__f_service.update__O__s_concurrent_Future(this.extract__Lbon_jo_SiteModel$Oeuvre()).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1(((this$2) => ((e$2$2) => {
+      $as_Lbon_jo_app_Response(e$2$2);
+      const e$1 = this$2.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_image;
+      $f_Lbon_jo_view_WithImage__updateSrc__Lbon_jo_SiteModel$Image__V(this$2, e$1)
+    }))(this)), this.Lbon_jo_view_OeuvreView__f_executionContext)
+  };
+  extract__Lbon_jo_SiteModel$Oeuvre() {
+    const x$1 = $as_T(this.Lbon_jo_view_OeuvreView__f_nomForm.ref__Lorg_scalajs_dom_raw_HTMLElement().value);
+    const x = $as_T(this.Lbon_jo_view_OeuvreView__f_dateForm.ref__Lorg_scalajs_dom_raw_HTMLElement().value);
+    const this$3 = $m_jl_Integer$();
+    const x$2 = this$3.parseInt__T__I__I(x, 10);
+    const x$3 = $as_T(this.Lbon_jo_view_OeuvreView__f_xForm.ref__Lorg_scalajs_dom_raw_HTMLElement().value);
+    const x$5 = $fround($m_jl_Double$().parseDouble__T__D(x$3));
+    const x$4 = $as_T(this.Lbon_jo_view_OeuvreView__f_yForm.ref__Lorg_scalajs_dom_raw_HTMLElement().value);
+    const y = $fround($m_jl_Double$().parseDouble__T__D(x$4));
+    const x$3$1 = new $c_Lbon_jo_SiteModel$Dimension(x$5, y);
+    const this$11 = $as_T(this.Lbon_jo_view_OeuvreView__f_descrpitionForm.ref__Lorg_scalajs_dom_raw_HTMLElement().value);
+    const this$12 = this.Lbon_jo_view_OeuvreView__f_oeuvre;
+    const x$5$1 = this$12.Lbon_jo_SiteModel$SiteElement__f_id;
+    const this$13 = this.Lbon_jo_view_OeuvreView__f_oeuvre;
+    const x$6 = this$13.Lbon_jo_SiteModel$Oeuvre__f_image;
+    const this$14 = this.Lbon_jo_view_OeuvreView__f_oeuvre;
+    const x$7 = this$14.Lbon_jo_SiteModel$Oeuvre__f_theme;
+    return new $c_Lbon_jo_SiteModel$Oeuvre(x$5$1, x$6, x$1, this$11, x$3$1, x$2, x$7)
+  };
+  choose__Lbon_jo_view_ChoooseMenuItem() {
+    return (((((1 & this.Lbon_jo_view_OeuvreView__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbon_jo_view_OeuvreView__choose$lzycompute__Lbon_jo_view_ChoooseMenuItem(this) : this.Lbon_jo_view_OeuvreView__f_choose)
+  };
+  modifyView__s_xml_Node() {
+    const $$x4 = $m_s_xml_Null$();
+    const $$x3 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf = new $c_s_xml_NodeBuffer();
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    let \u03b4md = $m_s_xml_Null$();
+    \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("form"), \u03b4md);
+    const $$x2 = \u03b4md;
+    const $$x1 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__T__sci_Map__s_xml_Elem((this.id__T() + "nom"), "nom", this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_name, "text", "", $m_sci_Map$EmptyMap$()));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__T__sci_Map__s_xml_Elem((this.id__T() + "date"), "date", this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_date, "text", "", $m_sci_Map$EmptyMap$()));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__T__sci_Map__s_xml_Elem((this.id__T() + "description"), "description", this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_description, "text", "", $m_sci_Map$EmptyMap$()));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__T__sci_Map__s_xml_Elem((this.id__T() + "x"), "Largeur", this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_dimension.Lbon_jo_SiteModel$Dimension__f_x, "text", "", $m_sci_Map$EmptyMap$()));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer($m_Lbon_jo_html_DomShell$().inputXml__T__T__O__T__T__sci_Map__s_xml_Elem((this.id__T() + "y"), "Hauteur", this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_dimension.Lbon_jo_SiteModel$Dimension__f_y, "text", "", $m_sci_Map$EmptyMap$()));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "form", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+    return new $c_s_xml_Elem(null, "form", $$x4, $$x3, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
+  };
+  xml__s_xml_Node() {
+    let \u03b4md = $m_s_xml_Null$();
+    \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", this.id__T(), \u03b4md);
+    \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("oeuvre"), \u03b4md);
+    const $$x19 = \u03b4md;
+    const $$x18 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf = new $c_s_xml_NodeBuffer();
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+    const x1 = $f_Lbon_jo_view_AdminControl__adminXmlOption__s_Option(this);
+    let $$x1;
+    if ((x1 instanceof $c_s_Some)) {
+      const x2 = $as_s_Some(x1);
+      const value = $as_s_xml_Node(x2.s_Some__f_value);
+      $$x1 = value
+    } else {
+      const x = $m_s_None$();
+      if ((!(x === x1))) {
+        throw new $c_s_MatchError(x1)
+      };
+      $$x1 = (void 0)
+    };
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer($$x1);
+    let \u03b4md$2 = $m_s_xml_Null$();
+    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("oeuvre-text"), \u03b4md$2);
+    const $$x11 = \u03b4md$2;
+    const $$x10 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    let \u03b4md$3 = $m_s_xml_Null$();
+    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("text oeuvre-title"), \u03b4md$3);
+    const $$x3 = \u03b4md$3;
+    const $$x2 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf$3 = new $c_s_xml_NodeBuffer();
+    \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
+    \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_name);
+    \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x3, $$x2, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$3)));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    let \u03b4md$4 = $m_s_xml_Null$();
+    \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("text"), \u03b4md$4);
+    const $$x5 = \u03b4md$4;
+    const $$x4 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf$4 = new $c_s_xml_NodeBuffer();
+    \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
+    \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_date);
+    \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x5, $$x4, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$4)));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    let \u03b4md$5 = $m_s_xml_Null$();
+    \u03b4md$5 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("text"), \u03b4md$5);
+    const $$x7 = \u03b4md$5;
+    const $$x6 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf$5 = new $c_s_xml_NodeBuffer();
+    \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
+    \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_dimension.Lbon_jo_SiteModel$Dimension__f_x);
+    \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        cm x\n        "));
+    \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_dimension.Lbon_jo_SiteModel$Dimension__f_y);
+    \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        cm\n      "));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x7, $$x6, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$5)));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    let \u03b4md$6 = $m_s_xml_Null$();
+    \u03b4md$6 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("text"), \u03b4md$6);
+    const $$x9 = \u03b4md$6;
+    const $$x8 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf$6 = new $c_s_xml_NodeBuffer();
+    \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
+    \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_description);
+    \u03b4buf$6.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x9, $$x8, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$6)));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x11, $$x10, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+    let \u03b4md$7 = $m_s_xml_Null$();
+    \u03b4md$7 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("img-cont"), \u03b4md$7);
+    const $$x17 = \u03b4md$7;
+    const $$x16 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf$7 = new $c_s_xml_NodeBuffer();
+    \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    let \u03b4md$8 = $m_s_xml_Null$();
+    \u03b4md$8 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("fore-ground"), \u03b4md$8);
+    const $$x13 = \u03b4md$8;
+    const $$x12 = $m_s_xml_TopScope$();
+    const array = [];
+    \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x13, $$x12, false, new $c_sjsr_WrappedVarArgs(array)));
+    \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    let \u03b4md$9 = $m_s_xml_Null$();
+    \u03b4md$9 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("oeuvre-img"), \u03b4md$9);
+    const this$9 = this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_image;
+    \u03b4md$9 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("img-" + this$9.Lbon_jo_SiteModel$SiteElement__f_id), \u03b4md$9);
+    const $$x15 = \u03b4md$9;
+    const $$x14 = $m_s_xml_TopScope$();
+    const array$1 = [];
+    \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x15, $$x14, false, new $c_sjsr_WrappedVarArgs(array$1)));
+    \u03b4buf$7.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "div", $$x17, $$x16, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$7)));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
+    return new $c_s_xml_Elem(null, "div", $$x19, $$x18, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
+  };
+  id__T() {
+    const this$1 = this.Lbon_jo_view_OeuvreView__f_oeuvre;
+    return ("o-" + this$1.Lbon_jo_SiteModel$SiteElement__f_id)
+  };
+  factory__Lbon_jo_view_Ref() {
+    const this$1 = this.Lbon_jo_view_OeuvreView__f_oeuvre.Lbon_jo_SiteModel$Oeuvre__f_image;
+    const idp = ("img-" + this$1.Lbon_jo_SiteModel$SiteElement__f_id);
+    return new $c_Lbon_jo_view_Ref$$anon$1(idp)
+  };
+  image__s_Option() {
+    return this.Lbon_jo_view_OeuvreView__f_image
+  };
+  init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
+    $f_Lbon_jo_view_WithImage__initImg__Lorg_scalajs_dom_raw_HTMLElement__V(this, parent);
+    $f_Lbon_jo_view_AdminControl__initAdminEvent__V(this)
+  };
+  productPrefix__T() {
+    return "OeuvreView"
+  };
+  productArity__I() {
+    return 1
+  };
+  productElement__I__O(x$1) {
+    return ((x$1 === 0) ? this.Lbon_jo_view_OeuvreView__f_oeuvre : $m_sr_Statics$().ioobe__I__O(x$1))
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    const this$2 = $m_s_util_hashing_MurmurHash3$();
+    return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
+  };
+  toString__T() {
+    return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+  };
+  equals__O__Z(x$1) {
+    if ((this === x$1)) {
+      return true
+    } else if ((x$1 instanceof $c_Lbon_jo_view_OeuvreView)) {
+      const OeuvreView$1 = $as_Lbon_jo_view_OeuvreView(x$1);
+      const x = this.Lbon_jo_view_OeuvreView__f_oeuvre;
+      const x$2 = OeuvreView$1.Lbon_jo_view_OeuvreView__f_oeuvre;
+      return ((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))
+    } else {
+      return false
+    }
+  };
+  me__Lorg_scalajs_dom_raw_HTMLElement() {
+    return this.me__Lorg_scalajs_dom_raw_HTMLDivElement()
+  };
+  value__Lbon_jo_SiteModel$SiteElement() {
+    return this.extract__Lbon_jo_SiteModel$Oeuvre()
+  };
+}
+function $as_Lbon_jo_view_OeuvreView(obj) {
+  return (((obj instanceof $c_Lbon_jo_view_OeuvreView) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.view.OeuvreView"))
+}
+function $isArrayOf_Lbon_jo_view_OeuvreView(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_view_OeuvreView)))
+}
+function $asArrayOf_Lbon_jo_view_OeuvreView(obj, depth) {
+  return (($isArrayOf_Lbon_jo_view_OeuvreView(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.view.OeuvreView;", depth))
+}
+const $d_Lbon_jo_view_OeuvreView = new $TypeData().initClass({
+  Lbon_jo_view_OeuvreView: 0
+}, false, "bon.jo.view.OeuvreView", {
+  Lbon_jo_view_OeuvreView: 1,
+  O: 1,
+  Lbon_jo_html_Types$FinalComponent: 1,
+  Lbon_jo_html_XmlHtmlView: 1,
+  Lbon_jo_html_BridgedView: 1,
+  Lbon_jo_html_\uff3fView: 1,
+  Lbon_jo_html_InDom: 1,
+  Lbon_jo_html_IdView: 1,
+  Lbon_jo_html_LeaveView: 1,
+  Lbon_jo_view_AdminControl: 1,
+  Lbon_jo_html_ValueView: 1,
+  Lbon_jo_view_intOnce: 1,
+  Lbon_jo_view_WithImage: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbon_jo_view_OeuvreView.prototype.$classData = $d_Lbon_jo_view_OeuvreView;
+class $c_sc_AbstractIndexedSeqView extends $c_sc_AbstractSeqView {
+  iterator__sc_Iterator() {
+    return new $c_sc_IndexedSeqView$IndexedSeqViewIterator(this)
+  };
+  stringPrefix__T() {
+    return "IndexedSeqView"
+  };
+  lengthCompare__I__I(len) {
+    const x = this.length__I();
+    return ((x === len) ? 0 : ((x < len) ? (-1) : 1))
+  };
+  knownSize__I() {
+    return this.length__I()
+  };
+  drop__I__sc_SeqView(n) {
+    return new $c_sc_IndexedSeqView$Drop(this, n)
+  };
+  drop__I__O(n) {
+    return new $c_sc_IndexedSeqView$Drop(this, n)
+  };
+}
+class $c_sci_AbstractSet extends $c_sc_AbstractSet {
+  iterableFactory__sc_IterableFactory() {
+    return $m_sci_Set$()
+  };
+}
 class $c_Lbon_jo_view_SubMenuItemView extends $c_Lbon_jo_view_MenuItemView {
   constructor(menuItem, siteService, siteModelView) {
     super();
     this.Lbon_jo_view_SubMenuItemView__f_menuItem = null;
     this.Lbon_jo_view_SubMenuItemView__f_siteModelView = null;
+    this.Lbon_jo_view_SubMenuItemView__f_executionContext = null;
+    this.Lbon_jo_view_SubMenuItemView__f_bon$jo$view$WithImage$$_imgRef = null;
+    this.Lbon_jo_view_SubMenuItemView__f_imgDiv = null;
+    this.Lbon_jo_view_SubMenuItemView__f_notInit = false;
     this.Lbon_jo_view_SubMenuItemView__f_menuItem = menuItem;
     this.Lbon_jo_view_SubMenuItemView__f_siteModelView = siteModelView;
-    $ct_Lbon_jo_view_MenuItemView__Lbon_jo_SiteModel$MenuItem__Lbon_jo_service_SiteService__(this, menuItem, siteService)
+    $ct_Lbon_jo_view_MenuItemView__Lbon_jo_SiteModel$MenuItem__Lbon_jo_service_SiteService__(this, menuItem, siteService);
+    this.Lbon_jo_view_SubMenuItemView__f_notInit = true;
+    $f_Lbon_jo_view_WithImage__$init$__V(this);
+    this.Lbon_jo_view_SubMenuItemView__f_executionContext = siteService.Lbon_jo_service_SiteService__f_executionContext
+  };
+  inAdmin__s_xml_NodeBuffer() {
+    return $f_Lbon_jo_view_WithImage__inAdmin__s_xml_NodeBuffer(this)
+  };
+  bon$jo$view$WithImage$$_imgRef__s_Option() {
+    return this.Lbon_jo_view_SubMenuItemView__f_bon$jo$view$WithImage$$_imgRef
+  };
+  bon$jo$view$WithImage$$_imgRef_$eq__s_Option__V(x$1) {
+    this.Lbon_jo_view_SubMenuItemView__f_bon$jo$view$WithImage$$_imgRef = x$1
+  };
+  imgDiv__Lbon_jo_view_Ref() {
+    return this.Lbon_jo_view_SubMenuItemView__f_imgDiv
+  };
+  bon$jo$view$WithImage$_setter_$imgDiv_$eq__Lbon_jo_view_Ref__V(x$1) {
+    this.Lbon_jo_view_SubMenuItemView__f_imgDiv = x$1
+  };
+  notInit_$eq__Z__V(x$1) {
+    this.Lbon_jo_view_SubMenuItemView__f_notInit = x$1
   };
   menuItem__Lbon_jo_SiteModel$MenuItem() {
     return this.Lbon_jo_view_SubMenuItemView__f_menuItem
@@ -31182,6 +33577,111 @@ class $c_Lbon_jo_view_SubMenuItemView extends $c_Lbon_jo_view_MenuItemView {
   };
   cssClass__T() {
     return "sub-menu-item"
+  };
+  executionContext__s_concurrent_ExecutionContext() {
+    return this.Lbon_jo_view_SubMenuItemView__f_executionContext
+  };
+  imageFor__Lbon_jo_service_Raws$ImageRawExport__V(e) {
+    const $$x2 = this.Lbon_jo_view_SubMenuItemView__f_menuItem;
+    const this$1 = this.Lbon_jo_view_MenuItemView__f_siteService.Lbon_jo_service_SiteService__f_siteModel.allImages__sci_List();
+    let $$x1;
+    _return: {
+      let these = this$1;
+      while ((!these.isEmpty__Z())) {
+        const arg1 = these.head__O();
+        const x$1 = $as_Lbon_jo_SiteModel$Image(arg1);
+        if ((x$1.Lbon_jo_SiteModel$SiteElement__f_id === $uI(e.id))) {
+          $$x1 = new $c_s_Some(these.head__O());
+          break _return
+        };
+        these = $as_sci_List(these.tail__O())
+      };
+      $$x1 = $m_s_None$()
+    };
+    $$x2.Lbon_jo_SiteModel$MenuItem__f_image = $$x1;
+    this.Lbon_jo_view_MenuItemView__f_siteService.Lbon_jo_service_SiteService__f_menuService.update__O__s_concurrent_Future(this.Lbon_jo_view_SubMenuItemView__f_menuItem).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1(((this$2) => ((ee$2) => {
+      $as_Lbon_jo_app_Response(ee$2);
+      const e$1 = $as_Lbon_jo_SiteModel$Image(this$2.Lbon_jo_view_SubMenuItemView__f_menuItem.Lbon_jo_SiteModel$MenuItem__f_image.get__O());
+      $f_Lbon_jo_view_WithImage__updateSrc__Lbon_jo_SiteModel$Image__V(this$2, e$1)
+    }))(this)), this.Lbon_jo_view_SubMenuItemView__f_executionContext)
+  };
+  xml__s_xml_Node() {
+    let \u03b4md = $m_s_xml_Null$();
+    \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", this.id__T(), \u03b4md);
+    const $$x10 = \u03b4md;
+    const $$x9 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf = new $c_s_xml_NodeBuffer();
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    let \u03b4md$2 = $m_s_xml_Null$();
+    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("btn-mi-" + this.id__T()), \u03b4md$2);
+    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", "sub-menu-item", \u03b4md$2);
+    const $$x2 = \u03b4md$2;
+    const $$x1 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_SubMenuItemView__f_menuItem.Lbon_jo_SiteModel$MenuItem__f_text);
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "a", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
+    const x1 = $f_Lbon_jo_view_AdminControl__adminXmlOption__s_Option(this);
+    let $$x3;
+    if ((x1 instanceof $c_s_Some)) {
+      const x2 = $as_s_Some(x1);
+      const value = $as_s_xml_Node(x2.s_Some__f_value);
+      $$x3 = value
+    } else {
+      const x = $m_s_None$();
+      if ((!(x === x1))) {
+        throw new $c_s_MatchError(x1)
+      };
+      $$x3 = (void 0)
+    };
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer($$x3);
+    const this$2 = this.value__Lbon_jo_SiteModel$MenuItem().Lbon_jo_SiteModel$MenuItem__f_image;
+    let $$x4;
+    if ((!this$2.isEmpty__Z())) {
+      let \u03b4md$3 = $m_s_xml_Null$();
+      \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("oeuvre-img"), \u03b4md$3);
+      \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("img-m-" + this.id__T()), \u03b4md$3);
+      const $$x6 = \u03b4md$3;
+      const $$x5 = $m_s_xml_TopScope$();
+      const array = [];
+      $$x4 = new $c_s_xml_Elem(null, "img", $$x6, $$x5, false, new $c_sjsr_WrappedVarArgs(array))
+    } else {
+      let \u03b4md$4 = $m_s_xml_Null$();
+      \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "alt", new $c_s_xml_Text("Choisi moi une image"), \u03b4md$4);
+      \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("oeuvre-img"), \u03b4md$4);
+      \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("img-m-" + this.id__T()), \u03b4md$4);
+      const $$x8 = \u03b4md$4;
+      const $$x7 = $m_s_xml_TopScope$();
+      const array$1 = [];
+      $$x4 = new $c_s_xml_Elem(null, "img", $$x8, $$x7, false, new $c_sjsr_WrappedVarArgs(array$1))
+    };
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer($$x4);
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n\n    "));
+    return new $c_s_xml_Elem(null, "div", $$x10, $$x9, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
+  };
+  init__Lorg_scalajs_dom_raw_HTMLElement__V(p) {
+    $f_Lbon_jo_view_AdminControl__initAdminEvent__V(this);
+    $f_Lbon_jo_view_WithImage__initImg__Lorg_scalajs_dom_raw_HTMLElement__V(this, p)
+  };
+  factory__Lbon_jo_view_Ref() {
+    const this$1 = this.value__Lbon_jo_SiteModel$MenuItem().Lbon_jo_SiteModel$MenuItem__f_image;
+    let this$4;
+    if (this$1.isEmpty__Z()) {
+      this$4 = $m_s_None$()
+    } else {
+      const arg1 = this$1.get__O();
+      $as_Lbon_jo_SiteModel$Image(arg1);
+      const idp = ("img-m-" + this.id__T());
+      this$4 = new $c_s_Some(new $c_Lbon_jo_view_Ref$$anon$1(idp))
+    };
+    $m_s_$less$colon$less$();
+    return $as_Lbon_jo_view_Ref((this$4.isEmpty__Z() ? null : this$4.get__O()))
+  };
+  image__s_Option() {
+    return this.value__Lbon_jo_SiteModel$MenuItem().Lbon_jo_SiteModel$MenuItem__f_image
   };
   productPrefix__T() {
     return "SubMenuItemView"
@@ -31239,49 +33739,13 @@ const $d_Lbon_jo_view_SubMenuItemView = new $TypeData().initClass({
   Lbon_jo_html_LeaveView: 1,
   Lbon_jo_view_AdminControl: 1,
   Lbon_jo_html_ValueView: 1,
+  Lbon_jo_view_intOnce: 1,
+  Lbon_jo_view_WithImage: 1,
   s_Product: 1,
   s_Equals: 1,
   Ljava_io_Serializable: 1
 });
 $c_Lbon_jo_view_SubMenuItemView.prototype.$classData = $d_Lbon_jo_view_SubMenuItemView;
-function $is_sci_Map(obj) {
-  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.sci_Map)))
-}
-function $as_sci_Map(obj) {
-  return (($is_sci_Map(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.collection.immutable.Map"))
-}
-function $isArrayOf_sci_Map(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.sci_Map)))
-}
-function $asArrayOf_sci_Map(obj, depth) {
-  return (($isArrayOf_sci_Map(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.collection.immutable.Map;", depth))
-}
-class $c_sc_AbstractIndexedSeqView extends $c_sc_AbstractSeqView {
-  iterator__sc_Iterator() {
-    return new $c_sc_IndexedSeqView$IndexedSeqViewIterator(this)
-  };
-  stringPrefix__T() {
-    return "IndexedSeqView"
-  };
-  lengthCompare__I__I(len) {
-    const x = this.length__I();
-    return ((x === len) ? 0 : ((x < len) ? (-1) : 1))
-  };
-  knownSize__I() {
-    return this.length__I()
-  };
-  drop__I__sc_SeqView(n) {
-    return new $c_sc_IndexedSeqView$Drop(this, n)
-  };
-  drop__I__O(n) {
-    return new $c_sc_IndexedSeqView$Drop(this, n)
-  };
-}
-class $c_sci_AbstractSet extends $c_sc_AbstractSet {
-  iterableFactory__sc_IterableFactory() {
-    return $m_sci_Set$()
-  };
-}
 class $c_sc_IndexedSeqView$Drop extends $c_sc_SeqView$Drop {
   constructor(underlying, n) {
     super();
@@ -31563,6 +34027,9 @@ class $c_sci_Set$EmptySet$ extends $c_sci_AbstractSet {
   incl__O__sci_SetOps(elem) {
     return new $c_sci_Set$Set1(elem)
   };
+  filter__F1__O(pred) {
+    return this
+  };
 }
 const $d_sci_Set$EmptySet$ = new $TypeData().initClass({
   sci_Set$EmptySet$: 0
@@ -31677,6 +34144,9 @@ class $c_sci_Set$Set1 extends $c_sci_AbstractSet {
     this.sci_Set$Set1__f_elem1 = null;
     this.sci_Set$Set1__f_elem1 = elem1
   };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
+  };
   size__I() {
     return 1
   };
@@ -31744,6 +34214,9 @@ class $c_sci_Set$Set2 extends $c_sci_AbstractSet {
     this.sci_Set$Set2__f_elem2 = null;
     this.sci_Set$Set2__f_elem1 = elem1;
     this.sci_Set$Set2__f_elem2 = elem2
+  };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
   };
   size__I() {
     return 2
@@ -31821,6 +34294,9 @@ class $c_sci_Set$Set3 extends $c_sci_AbstractSet {
     this.sci_Set$Set3__f_elem1 = elem1;
     this.sci_Set$Set3__f_elem2 = elem2;
     this.sci_Set$Set3__f_elem3 = elem3
+  };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
   };
   size__I() {
     return 3
@@ -31903,6 +34379,9 @@ class $c_sci_Set$Set4 extends $c_sci_AbstractSet {
     this.sci_Set$Set4__f_elem2 = elem2;
     this.sci_Set$Set4__f_elem3 = elem3;
     this.sci_Set$Set4__f_elem4 = elem4
+  };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
   };
   size__I() {
     return 4
@@ -32150,6 +34629,9 @@ const $d_sci_MapOps$ImmutableKeySet = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_sci_MapOps$ImmutableKeySet.prototype.$classData = $d_sci_MapOps$ImmutableKeySet;
+const $p_sci_HashMap$KeySet__newKeySetOrThis__sci_HashMap__sci_Set = (function($thiz, newHashMap) {
+  return ((newHashMap === $as_sci_HashMap($thiz.sci_MapOps$ImmutableKeySet__f_$outer)) ? $thiz : newHashMap.keySet__sci_Set())
+});
 const $p_sci_HashMap$KeySet__newKeySetOrThis__sci_BitmapIndexedMapNode__sci_Set = (function($thiz, newRootNode) {
   return ((newRootNode === $as_sci_HashMap($thiz.sci_MapOps$ImmutableKeySet__f_$outer).sci_HashMap__f_rootNode) ? $thiz : new $c_sci_HashMap(newRootNode).keySet__sci_Set())
 });
@@ -32163,6 +34645,17 @@ class $c_sci_HashMap$KeySet extends $c_sci_MapOps$ImmutableKeySet {
     const improvedHash = $m_sc_Hashing$().improve__I__I(originalHash);
     const newNode = $as_sci_HashMap(this.sci_MapOps$ImmutableKeySet__f_$outer).sci_HashMap__f_rootNode.updated__O__O__I__I__I__Z__sci_BitmapIndexedMapNode(elem, null, originalHash, improvedHash, 0, false);
     return $p_sci_HashMap$KeySet__newKeySetOrThis__sci_BitmapIndexedMapNode__sci_Set(this, newNode)
+  };
+  filter__F1__sci_Set(pred) {
+    const this$2 = $as_sci_HashMap(this.sci_MapOps$ImmutableKeySet__f_$outer);
+    const pred$2 = new $c_sjsr_AnonFunction1(((this$1, pred$1) => ((kv$2) => {
+      const kv = $as_T2(kv$2);
+      return $uZ(pred$1.apply__O__O(kv.T2__f__1))
+    }))(this, pred));
+    return $p_sci_HashMap$KeySet__newKeySetOrThis__sci_HashMap__sci_Set(this, this$2.filterImpl__F1__Z__sci_HashMap(pred$2, false))
+  };
+  filter__F1__O(pred) {
+    return this.filter__F1__sci_Set(pred)
   };
   incl__O__sci_SetOps(elem) {
     return this.incl__O__sci_Set(elem)
@@ -32201,6 +34694,9 @@ class $c_sci_Map$Map1 extends $c_sci_AbstractMap {
     this.sci_Map$Map1__f_value1 = null;
     this.sci_Map$Map1__f_key1 = key1;
     this.sci_Map$Map1__f_value1 = value1
+  };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
   };
   size__I() {
     return 1
@@ -32296,6 +34792,9 @@ class $c_sci_Map$Map2 extends $c_sci_AbstractMap {
     this.sci_Map$Map2__f_scala$collection$immutable$Map$Map2$$key2 = key2;
     this.sci_Map$Map2__f_scala$collection$immutable$Map$Map2$$value2 = value2
   };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
+  };
   size__I() {
     return 2
   };
@@ -32390,6 +34889,9 @@ class $c_sci_Map$Map3 extends $c_sci_AbstractMap {
     this.sci_Map$Map3__f_scala$collection$immutable$Map$Map3$$value2 = value2;
     this.sci_Map$Map3__f_scala$collection$immutable$Map$Map3$$key3 = key3;
     this.sci_Map$Map3__f_scala$collection$immutable$Map$Map3$$value3 = value3
+  };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
   };
   size__I() {
     return 3
@@ -32492,6 +34994,9 @@ class $c_sci_Map$Map4 extends $c_sci_AbstractMap {
     this.sci_Map$Map4__f_scala$collection$immutable$Map$Map4$$value3 = value3;
     this.sci_Map$Map4__f_scala$collection$immutable$Map$Map4$$key4 = key4;
     this.sci_Map$Map4__f_scala$collection$immutable$Map$Map4$$value4 = value4
+  };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
   };
   size__I() {
     return 4
@@ -32622,6 +35127,9 @@ class $c_sci_HashSet extends $c_sci_AbstractSet {
     this.sci_HashSet__f_rootNode = null;
     this.sci_HashSet__f_rootNode = rootNode
   };
+  filter__F1__O(pred) {
+    return this.filterImpl__F1__Z__sci_HashSet(pred, false)
+  };
   iterableFactory__sc_IterableFactory() {
     return $m_sci_HashSet$()
   };
@@ -32681,6 +35189,17 @@ class $c_sci_HashSet extends $c_sci_AbstractSet {
     const it = new $c_sci_SetHashIterator(this.sci_HashSet__f_rootNode);
     const hash = $m_s_util_hashing_MurmurHash3$().unorderedHash__sc_IterableOnce__I__I(it, $m_s_util_hashing_MurmurHash3$().s_util_hashing_MurmurHash3$__f_setSeed);
     return hash
+  };
+  filterImpl__F1__Z__sci_HashSet(pred, isFlipped) {
+    const newRootNode = this.sci_HashSet__f_rootNode.filterImpl__F1__Z__sci_BitmapIndexedSetNode(pred, isFlipped);
+    if ((newRootNode === this.sci_HashSet__f_rootNode)) {
+      return this
+    } else if ((newRootNode.sci_BitmapIndexedSetNode__f_size === 0)) {
+      const this$1 = $m_sci_HashSet$();
+      return this$1.sci_HashSet$__f_EmptySet
+    } else {
+      return new $c_sci_HashSet(newRootNode)
+    }
   };
   drop__I__O(n) {
     return $as_sci_HashSet($f_sc_IterableOps__drop__I__O(this, n))
@@ -33585,6 +36104,65 @@ const $d_sjsr_WrappedVarArgs = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_sjsr_WrappedVarArgs.prototype.$classData = $d_sjsr_WrappedVarArgs;
+const $p_s_xml_NodeSeq__fail$1__T__E = (function($thiz, that$1) {
+  throw $ct_jl_IllegalArgumentException__T__(new $c_jl_IllegalArgumentException(), that$1)
+});
+const $p_s_xml_NodeSeq__y$lzycompute$1__sr_LazyRef__s_xml_Node = (function($thiz, y$lzy$1) {
+  if ((y$lzy$1 === null)) {
+    throw $ct_jl_NullPointerException__(new $c_jl_NullPointerException())
+  };
+  return (y$lzy$1.sr_LazyRef__f__initialized ? $as_s_xml_Node(y$lzy$1.sr_LazyRef__f__value) : $as_s_xml_Node(y$lzy$1.initialize__O__O($as_s_xml_Node($thiz.theSeq__sc_Seq().apply__I__O(0)))))
+});
+const $p_s_xml_NodeSeq__y$1__sr_LazyRef__s_xml_Node = (function($thiz, y$lzy$1) {
+  return (y$lzy$1.sr_LazyRef__f__initialized ? $as_s_xml_Node(y$lzy$1.sr_LazyRef__f__value) : $p_s_xml_NodeSeq__y$lzycompute$1__sr_LazyRef__s_xml_Node($thiz, y$lzy$1))
+});
+const $p_s_xml_NodeSeq__atResult$1__T__s_xml_NodeSeq = (function($thiz, that$1) {
+  const y$lzy = new $c_sr_LazyRef();
+  if (($uI(that$1.length) === 1)) {
+    $p_s_xml_NodeSeq__fail$1__T__E($thiz, that$1)
+  };
+  let attr;
+  if (((65535 & $uI(that$1.charCodeAt(1))) === 123)) {
+    const i = $f_T__indexOf__I__I(that$1, 125);
+    if ((i === (-1))) {
+      $p_s_xml_NodeSeq__fail$1__T__E($thiz, that$1)
+    };
+    const _1 = $as_T(that$1.substring(2, i));
+    const beginIndex = ((1 + i) | 0);
+    const endIndex = $uI(that$1.length);
+    const _2 = $as_T(that$1.substring(beginIndex, endIndex));
+    if (((_1 === "") || (_2 === ""))) {
+      $p_s_xml_NodeSeq__fail$1__T__E($thiz, that$1)
+    };
+    const this$3 = $p_s_xml_NodeSeq__y$1__sr_LazyRef__s_xml_Node($thiz, y$lzy);
+    const this$4 = this$3.attributes__s_xml_MetaData();
+    attr = this$4.get__T__s_xml_NamespaceBinding__T__s_Option(_1, this$3.scope__s_xml_NamespaceBinding(), _2)
+  } else {
+    const this$6 = $p_s_xml_NodeSeq__y$1__sr_LazyRef__s_xml_Node($thiz, y$lzy);
+    const key = $m_sc_StringOps$().drop$extension__T__I__T(that$1, 1);
+    attr = this$6.attributes__s_xml_MetaData().get__T__s_Option(key)
+  };
+  if ((attr instanceof $c_s_Some)) {
+    const x2 = $as_s_Some(attr);
+    const x = $as_sc_Seq(x2.s_Some__f_value);
+    return new $c_s_xml_Group(x)
+  } else {
+    return $m_s_xml_NodeSeq$().s_xml_NodeSeq$__f_Empty
+  }
+});
+const $p_s_xml_NodeSeq__makeSeq$1__F1__s_xml_NodeSeq = (function($thiz, cond) {
+  $m_s_xml_NodeSeq$();
+  const b = $m_sci_Seq$().newBuilder__scm_Builder();
+  const it = $thiz.theSeq__sc_Seq().iterator__sc_Iterator();
+  while (it.hasNext__Z()) {
+    const arg1 = it.next__O();
+    const x$2 = $as_s_xml_Node(arg1);
+    const xs = x$2.child__sc_Seq();
+    b.addAll__sc_IterableOnce__scm_Growable(xs)
+  };
+  const s = $as_sc_Seq($as_sc_IterableOps(b.result__O()).filter__F1__O(cond));
+  return new $c_s_xml_NodeSeq$$anon$1(s)
+});
 class $c_s_xml_NodeSeq extends $c_sc_AbstractSeq {
   hashCode__I() {
     const x = this.basisForHashCode__sc_Seq();
@@ -33630,6 +36208,18 @@ class $c_s_xml_NodeSeq extends $c_sc_AbstractSeq {
     } else {
       return false
     }
+  };
+  $bslash__T__s_xml_NodeSeq(that) {
+    return ((that === "") ? $p_s_xml_NodeSeq__fail$1__T__E(this, that) : ((that === "_") ? $p_s_xml_NodeSeq__makeSeq$1__F1__s_xml_NodeSeq(this, new $c_sjsr_AnonFunction1(((this$1) => ((x$3$2) => {
+      const x$3 = $as_s_xml_Node(x$3$2);
+      return (!(x$3 instanceof $c_s_xml_Atom))
+    }))(this))) : ((that === "@") ? $p_s_xml_NodeSeq__fail$1__T__E(this, that) : ((((65535 & $uI(that.charCodeAt(0))) === 64) && (this.theSeq__sc_Seq().length__I() === 1)) ? $p_s_xml_NodeSeq__atResult$1__T__s_xml_NodeSeq(this, that) : $p_s_xml_NodeSeq__makeSeq$1__F1__s_xml_NodeSeq(this, new $c_sjsr_AnonFunction1(((this$2$1, that$1) => ((x$4$2) => {
+      const x$4 = $as_s_xml_Node(x$4$2);
+      return (x$4.label__T() === that$1)
+    }))(this, that)))))))
+  };
+  $bslash$at__T__T(attributeName) {
+    return this.$bslash__T__s_xml_NodeSeq(("@" + attributeName)).text__T()
   };
   toString__T() {
     const this$1 = this.theSeq__sc_Seq();
@@ -33681,6 +36271,9 @@ class $c_sci_HashMap extends $c_sci_AbstractMap {
   };
   map__F1__sc_IterableOps(f) {
     return $f_sc_StrictOptimizedMapOps__map__F1__sc_IterableOps(this, f)
+  };
+  filter__F1__O(pred) {
+    return this.filterImpl__F1__Z__sci_HashMap(pred, false)
   };
   mapFactory__sc_MapFactory() {
     return $m_sci_HashMap$()
@@ -33764,6 +36357,17 @@ class $c_sci_HashMap extends $c_sci_AbstractMap {
   };
   className__T() {
     return "HashMap"
+  };
+  filterImpl__F1__Z__sci_HashMap(pred, isFlipped) {
+    const newRootNode = this.sci_HashMap__f_rootNode.filterImpl__F1__Z__sci_BitmapIndexedMapNode(pred, isFlipped);
+    if ((newRootNode === this.sci_HashMap__f_rootNode)) {
+      return this
+    } else if ((newRootNode.sci_BitmapIndexedMapNode__f_size === 0)) {
+      const this$1 = $m_sci_HashMap$();
+      return this$1.sci_HashMap$__f_EmptyMap
+    } else {
+      return new $c_sci_HashMap(newRootNode)
+    }
   };
   drop__I__O(n) {
     return $as_sci_HashMap($f_sc_IterableOps__drop__I__O(this, n))
@@ -33983,6 +36587,9 @@ class $c_s_xml_Node extends $c_s_xml_NodeSeq {
   prefix__T() {
     return null
   };
+  scope__s_xml_NamespaceBinding() {
+    return $m_s_xml_TopScope$()
+  };
   nonEmptyChildren__sc_Seq() {
     return $as_sc_Seq(this.child__sc_Seq().filterNot__F1__O(new $c_sjsr_AnonFunction1(((this$1) => ((x$1$2) => {
       const x$1 = $as_s_xml_Node(x$1$2);
@@ -34126,6 +36733,9 @@ class $c_s_xml_Elem extends $c_s_xml_Node {
   label__T() {
     return this.s_xml_Elem__f_label
   };
+  scope__s_xml_NamespaceBinding() {
+    return this.s_xml_Elem__f_scope
+  };
   attributes__s_xml_MetaData() {
     return this.s_xml_Elem__f_attributes
   };
@@ -34137,6 +36747,11 @@ class $c_s_xml_Elem extends $c_s_xml_Node {
     const this$2 = new $c_sci_$colon$colon(rassoc$1, this$1);
     const this$3 = new $c_sci_$colon$colon(rassoc$2, this$2);
     return new $c_sci_$colon$colon(rassoc$3, this$3)
+  };
+  copy__T__T__s_xml_MetaData__s_xml_NamespaceBinding__Z__sc_Seq__s_xml_Elem(prefix, label, attributes, scope, minimizeEmpty, child) {
+    $m_s_xml_NodeSeq$();
+    const child$1 = new $c_s_xml_NodeSeq$$anon$1(child);
+    return new $c_s_xml_Elem(prefix, label, attributes, scope, minimizeEmpty, child$1)
   };
   text__T() {
     const this$2 = $as_sc_IterableOnceOps(this.s_xml_Elem__f_child.map__F1__O(new $c_sjsr_AnonFunction1(((this$1) => ((x$1$2) => {
@@ -34508,6 +37123,9 @@ class $c_scm_ArraySeq extends $c_scm_AbstractSeq {
   appendedAll__sc_IterableOnce__O(suffix) {
     return $f_sc_StrictOptimizedSeqOps__appendedAll__sc_IterableOnce__O(this, suffix)
   };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
+  };
   filterNot__F1__O(pred) {
     return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, true)
   };
@@ -34597,36 +37215,7 @@ function $isArrayOf_scm_ArraySeq(obj, depth) {
 function $asArrayOf_scm_ArraySeq(obj, depth) {
   return (($isArrayOf_scm_ArraySeq(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.collection.mutable.ArraySeq;", depth))
 }
-class $c_s_xml_Comment extends $c_s_xml_SpecialNode {
-  constructor(commentText) {
-    super();
-    this.s_xml_Comment__f_commentText = null;
-    this.s_xml_Comment__f_commentText = commentText;
-    if (($uI(commentText.indexOf("--")) !== (-1))) {
-      throw $ct_jl_IllegalArgumentException__T__(new $c_jl_IllegalArgumentException(), "text contains \"--\"")
-    }
-  };
-  label__T() {
-    return "#REM"
-  };
-  text__T() {
-    return ""
-  };
-  buildString__scm_StringBuilder__scm_StringBuilder(sb) {
-    return sb.append__T__scm_StringBuilder("<!--").append__T__scm_StringBuilder(this.s_xml_Comment__f_commentText).append__T__scm_StringBuilder("-->")
-  };
-  productPrefix__T() {
-    return "Comment"
-  };
-  productArity__I() {
-    return 1
-  };
-  productElement__I__O(x$1) {
-    return ((x$1 === 0) ? this.s_xml_Comment__f_commentText : $m_sr_Statics$().ioobe__I__O(x$1))
-  };
-  productIterator__sc_Iterator() {
-    return new $c_sr_ScalaRunTime$$anon$1(this)
-  };
+class $c_s_xml_Comment {
 }
 function $as_s_xml_Comment(obj) {
   return (((obj instanceof $c_s_xml_Comment) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.xml.Comment"))
@@ -34637,10 +37226,53 @@ function $isArrayOf_s_xml_Comment(obj, depth) {
 function $asArrayOf_s_xml_Comment(obj, depth) {
   return (($isArrayOf_s_xml_Comment(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.xml.Comment;", depth))
 }
-const $d_s_xml_Comment = new $TypeData().initClass({
-  s_xml_Comment: 0
-}, false, "scala.xml.Comment", {
-  s_xml_Comment: 1,
+class $c_s_xml_EntityRef extends $c_s_xml_SpecialNode {
+  constructor(entityName) {
+    super();
+    this.s_xml_EntityRef__f_entityName = null;
+    this.s_xml_EntityRef__f_entityName = entityName
+  };
+  label__T() {
+    return "#ENTITY"
+  };
+  text__T() {
+    const x1 = this.s_xml_EntityRef__f_entityName;
+    if ((x1 === "lt")) {
+      return "<"
+    } else if ((x1 === "gt")) {
+      return ">"
+    } else if ((x1 === "amp")) {
+      return "&"
+    } else if ((x1 === "apos")) {
+      return "'"
+    } else if ((x1 === "quot")) {
+      return "\""
+    } else {
+      const sb = $ct_scm_StringBuilder__(new $c_scm_StringBuilder());
+      this.buildString__scm_StringBuilder__scm_StringBuilder(sb);
+      return sb.scm_StringBuilder__f_underlying.jl_StringBuilder__f_java$lang$StringBuilder$$content
+    }
+  };
+  buildString__scm_StringBuilder__scm_StringBuilder(sb) {
+    return sb.append__T__scm_StringBuilder("&").append__T__scm_StringBuilder(this.s_xml_EntityRef__f_entityName).append__T__scm_StringBuilder(";")
+  };
+  productPrefix__T() {
+    return "EntityRef"
+  };
+  productArity__I() {
+    return 1
+  };
+  productElement__I__O(x$1) {
+    return ((x$1 === 0) ? this.s_xml_EntityRef__f_entityName : $m_sr_Statics$().ioobe__I__O(x$1))
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+}
+const $d_s_xml_EntityRef = new $TypeData().initClass({
+  s_xml_EntityRef: 0
+}, false, "scala.xml.EntityRef", {
+  s_xml_EntityRef: 1,
   s_xml_SpecialNode: 1,
   s_xml_Node: 1,
   s_xml_NodeSeq: 1,
@@ -34668,7 +37300,7 @@ const $d_s_xml_Comment = new $TypeData().initClass({
   Ljava_io_Serializable: 1,
   s_Product: 1
 });
-$c_s_xml_Comment.prototype.$classData = $d_s_xml_Comment;
+$c_s_xml_EntityRef.prototype.$classData = $d_s_xml_EntityRef;
 class $c_s_xml_Text extends $c_s_xml_Atom {
   constructor(data) {
     super();
@@ -37336,34 +39968,6 @@ const $p_scm_HashMap__put0__O__O__Z__I__I__s_Some = (function($thiz, key, value,
   $thiz.scm_HashMap__f_contentSize = ((1 + $thiz.scm_HashMap__f_contentSize) | 0);
   return null
 });
-const $p_scm_HashMap__remove0__O__scm_HashMap$Node = (function($thiz, elem) {
-  const originalHash = $m_sr_Statics$().anyHash__O__I(elem);
-  return $p_scm_HashMap__remove0__O__I__scm_HashMap$Node($thiz, elem, (originalHash ^ ((originalHash >>> 16) | 0)))
-});
-const $p_scm_HashMap__remove0__O__I__scm_HashMap$Node = (function($thiz, elem, hash) {
-  const idx = (hash & (((-1) + $thiz.scm_HashMap__f_scala$collection$mutable$HashMap$$table.u.length) | 0));
-  const x1 = $thiz.scm_HashMap__f_scala$collection$mutable$HashMap$$table.get(idx);
-  if ((x1 === null)) {
-    return null
-  } else if (((x1.scm_HashMap$Node__f__hash === hash) && $m_sr_BoxesRunTime$().equals__O__O__Z(x1.scm_HashMap$Node__f__key, elem))) {
-    $thiz.scm_HashMap__f_scala$collection$mutable$HashMap$$table.set(idx, x1.scm_HashMap$Node__f__next);
-    $thiz.scm_HashMap__f_contentSize = (((-1) + $thiz.scm_HashMap__f_contentSize) | 0);
-    return x1
-  } else {
-    let prev = x1;
-    let next = x1.scm_HashMap$Node__f__next;
-    while (((next !== null) && (next.scm_HashMap$Node__f__hash <= hash))) {
-      if (((next.scm_HashMap$Node__f__hash === hash) && $m_sr_BoxesRunTime$().equals__O__O__Z(next.scm_HashMap$Node__f__key, elem))) {
-        prev.scm_HashMap$Node__f__next = next.scm_HashMap$Node__f__next;
-        $thiz.scm_HashMap__f_contentSize = (((-1) + $thiz.scm_HashMap__f_contentSize) | 0);
-        return next
-      };
-      prev = next;
-      next = next.scm_HashMap$Node__f__next
-    };
-    return null
-  }
-});
 const $p_scm_HashMap__growTable__I__V = (function($thiz, newlen) {
   let oldlen = $thiz.scm_HashMap__f_scala$collection$mutable$HashMap$$table.u.length;
   $thiz.scm_HashMap__f_threshold = $p_scm_HashMap__newThreshold__I__I($thiz, newlen);
@@ -37438,6 +40042,9 @@ class $c_scm_HashMap extends $c_scm_AbstractMap {
     this.scm_HashMap__f_threshold = 0;
     this.scm_HashMap__f_contentSize = 0
   };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
+  };
   size__I() {
     return this.scm_HashMap__f_contentSize
   };
@@ -37509,10 +40116,6 @@ class $c_scm_HashMap extends $c_scm_AbstractMap {
       const nd = ((x1 === null) ? null : x1.findNode__O__I__scm_HashMap$Node(key, hash));
       return ((nd === null) ? default$1.apply__O() : nd.scm_HashMap$Node__f__value)
     }
-  };
-  remove__O__s_Option(key) {
-    const x1 = $p_scm_HashMap__remove0__O__scm_HashMap$Node(this, key);
-    return ((x1 === null) ? $m_s_None$() : new $c_s_Some(x1.scm_HashMap$Node__f__value))
   };
   addOne__T2__scm_HashMap(elem) {
     $p_scm_HashMap__put0__O__O__Z__s_Some(this, elem.T2__f__1, elem.T2__f__2, false);
@@ -37953,6 +40556,9 @@ class $c_scm_ListBuffer extends $c_scm_AbstractBuffer {
   appendedAll__sc_IterableOnce__O(suffix) {
     return $f_sc_StrictOptimizedSeqOps__appendedAll__sc_IterableOnce__O(this, suffix)
   };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
+  };
   filterNot__F1__O(pred) {
     return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, true)
   };
@@ -38104,6 +40710,9 @@ class $c_scm_ArrayBuffer extends $c_scm_AbstractBuffer {
   };
   appendedAll__sc_IterableOnce__O(suffix) {
     return $f_sc_StrictOptimizedSeqOps__appendedAll__sc_IterableOnce__O(this, suffix)
+  };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
   };
   filterNot__F1__O(pred) {
     return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, true)
@@ -38281,6 +40890,9 @@ class $c_sjs_js_WrappedArray extends $c_scm_AbstractBuffer {
   appendedAll__sc_IterableOnce__O(suffix) {
     return $f_sc_StrictOptimizedSeqOps__appendedAll__sc_IterableOnce__O(this, suffix)
   };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
+  };
   filterNot__F1__O(pred) {
     return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, true)
   };
@@ -38362,6 +40974,280 @@ const $d_sjs_js_WrappedArray = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_sjs_js_WrappedArray.prototype.$classData = $d_sjs_js_WrappedArray;
+const $p_scm_ArrayDeque__reset__AO__I__I__V = (function($thiz, array, start, end) {
+  const assertion = ((array.u.length & (((-1) + array.u.length) | 0)) === 0);
+  if ((!assertion)) {
+    throw $ct_jl_AssertionError__O__(new $c_jl_AssertionError(), "assertion failed: Array.length must be power of 2")
+  };
+  const until = array.u.length;
+  if (((start < 0) || (start >= until))) {
+    throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), (((start + " is out of bounds (min 0, max ") + (((-1) + until) | 0)) + ")"))
+  };
+  const until$1 = array.u.length;
+  if (((end < 0) || (end >= until$1))) {
+    throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), (((end + " is out of bounds (min 0, max ") + (((-1) + until$1) | 0)) + ")"))
+  };
+  $thiz.scm_ArrayDeque__f_array = array;
+  $thiz.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start = start;
+  $thiz.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end = end
+});
+const $ct_scm_ArrayDeque__AO__I__I__ = (function($thiz, array, start, end) {
+  $thiz.scm_ArrayDeque__f_array = array;
+  $thiz.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start = start;
+  $thiz.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end = end;
+  $p_scm_ArrayDeque__reset__AO__I__I__V($thiz, $thiz.scm_ArrayDeque__f_array, $thiz.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start, $thiz.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end);
+  return $thiz
+});
+const $ct_scm_ArrayDeque__I__ = (function($thiz, initialSize) {
+  $ct_scm_ArrayDeque__AO__I__I__($thiz, $m_scm_ArrayDeque$().alloc__I__AO(initialSize), 0, 0);
+  return $thiz
+});
+class $c_scm_ArrayDeque extends $c_scm_AbstractBuffer {
+  constructor() {
+    super();
+    this.scm_ArrayDeque__f_array = null;
+    this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start = 0;
+    this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end = 0
+  };
+  appendedAll__sc_IterableOnce__O(suffix) {
+    return $f_sc_StrictOptimizedSeqOps__appendedAll__sc_IterableOnce__O(this, suffix)
+  };
+  filter__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, false)
+  };
+  filterNot__F1__O(pred) {
+    return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, true)
+  };
+  iterator__sc_Iterator() {
+    const this$1 = new $c_sc_IndexedSeqView$Id(this);
+    return new $c_sc_IndexedSeqView$IndexedSeqViewIterator(this$1)
+  };
+  drop__I__O(n) {
+    return $f_sc_IndexedSeqOps__drop__I__O(this, n)
+  };
+  lengthCompare__I__I(len) {
+    const idx = this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+    const x = (((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0));
+    return ((x === len) ? 0 : ((x < len) ? (-1) : 1))
+  };
+  knownSize__I() {
+    const idx = this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+    return (((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0))
+  };
+  apply__I__O(idx) {
+    const idx$1 = this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+    const until = (((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx$1) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0));
+    if (((idx < 0) || (idx >= until))) {
+      throw $ct_jl_IndexOutOfBoundsException__T__(new $c_jl_IndexOutOfBoundsException(), (((idx + " is out of bounds (min 0, max ") + (((-1) + until) | 0)) + ")"))
+    };
+    return this.scm_ArrayDeque__f_array.get((((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start + idx) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0)))
+  };
+  addOne__O__scm_ArrayDeque(elem) {
+    const idx = this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+    const hint = ((1 + (((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0))) | 0);
+    const idx$1 = this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+    if (((hint > (((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx$1) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0))) && (hint >= this.scm_ArrayDeque__f_array.u.length))) {
+      this.scala$collection$mutable$ArrayDeque$$resize__I__V(hint)
+    };
+    this.scm_ArrayDeque__f_array.set(this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end, elem);
+    this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end = (((1 + this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0));
+    return this
+  };
+  addAll__sc_IterableOnce__scm_ArrayDeque(elems) {
+    const x1 = elems.knownSize__I();
+    if ((x1 > 0)) {
+      const idx = this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+      const hint = ((x1 + (((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0))) | 0);
+      const idx$1 = this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+      if (((hint > (((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx$1) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0))) && (hint >= this.scm_ArrayDeque__f_array.u.length))) {
+        this.scala$collection$mutable$ArrayDeque$$resize__I__V(hint)
+      };
+      const this$1 = elems.iterator__sc_Iterator();
+      while (this$1.hasNext__Z()) {
+        const arg1 = this$1.next__O();
+        this.scm_ArrayDeque__f_array.set(this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end, arg1);
+        this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end = (((1 + this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0))
+      }
+    } else {
+      const this$2 = elems.iterator__sc_Iterator();
+      while (this$2.hasNext__Z()) {
+        const arg1$1 = this$2.next__O();
+        this.addOne__O__scm_ArrayDeque(arg1$1)
+      }
+    };
+    return this
+  };
+  removeHead__Z__O(resizeInternalRepr) {
+    if (this.isEmpty__Z()) {
+      throw $ct_ju_NoSuchElementException__T__(new $c_ju_NoSuchElementException(), "empty collection")
+    } else {
+      const elem = this.scm_ArrayDeque__f_array.get(this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start);
+      this.scm_ArrayDeque__f_array.set(this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start, null);
+      this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start = (((1 + this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0));
+      if (resizeInternalRepr) {
+        const idx = this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+        this.scala$collection$mutable$ArrayDeque$$resize__I__V((((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0)))
+      };
+      return elem
+    }
+  };
+  length__I() {
+    const idx = this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+    return (((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0))
+  };
+  isEmpty__Z() {
+    return (this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start === this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end)
+  };
+  iterableFactory__sc_SeqFactory() {
+    return $m_scm_ArrayDeque$()
+  };
+  toArray__s_reflect_ClassTag__O(evidence$1) {
+    const idx = this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+    const dest = evidence$1.newArray__I__O((((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0)));
+    const idx$1 = this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+    const maxItems = (((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx$1) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0));
+    return $f_scm_ArrayDequeOps__copySliceToArray__I__O__I__I__O(this, 0, dest, 0, maxItems)
+  };
+  scala$collection$mutable$ArrayDeque$$resize__I__V(len) {
+    if (((len >= this.scm_ArrayDeque__f_array.u.length) || ((this.scm_ArrayDeque__f_array.u.length > 16) && (((this.scm_ArrayDeque__f_array.u.length - len) | 0) > len)))) {
+      const idx = this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$start;
+      const n = (((this.scm_ArrayDeque__f_scala$collection$mutable$ArrayDeque$$end - idx) | 0) & (((-1) + this.scm_ArrayDeque__f_array.u.length) | 0));
+      const dest = $m_scm_ArrayDeque$().alloc__I__AO(len);
+      const array2 = $asArrayOf_O($f_scm_ArrayDequeOps__copySliceToArray__I__O__I__I__O(this, 0, dest, 0, n), 1);
+      $p_scm_ArrayDeque__reset__AO__I__I__V(this, array2, 0, n)
+    }
+  };
+  stringPrefix__T() {
+    return "ArrayDeque"
+  };
+  iterableFactory__sc_IterableFactory() {
+    return this.iterableFactory__sc_SeqFactory()
+  };
+  addAll__sc_IterableOnce__scm_Growable(xs) {
+    return this.addAll__sc_IterableOnce__scm_ArrayDeque(xs)
+  };
+  addOne__O__scm_Growable(elem) {
+    return this.addOne__O__scm_ArrayDeque(elem)
+  };
+  apply__O__O(v1) {
+    return this.apply__I__O($uI(v1))
+  };
+}
+function $as_scm_ArrayDeque(obj) {
+  return (((obj instanceof $c_scm_ArrayDeque) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.collection.mutable.ArrayDeque"))
+}
+function $isArrayOf_scm_ArrayDeque(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.scm_ArrayDeque)))
+}
+function $asArrayOf_scm_ArrayDeque(obj, depth) {
+  return (($isArrayOf_scm_ArrayDeque(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.collection.mutable.ArrayDeque;", depth))
+}
+const $d_scm_ArrayDeque = new $TypeData().initClass({
+  scm_ArrayDeque: 0
+}, false, "scala.collection.mutable.ArrayDeque", {
+  scm_ArrayDeque: 1,
+  scm_AbstractBuffer: 1,
+  scm_AbstractSeq: 1,
+  sc_AbstractSeq: 1,
+  sc_AbstractIterable: 1,
+  O: 1,
+  sc_Iterable: 1,
+  sc_IterableOnce: 1,
+  sc_IterableOps: 1,
+  sc_IterableOnceOps: 1,
+  sc_IterableFactoryDefaults: 1,
+  sc_Seq: 1,
+  s_PartialFunction: 1,
+  F1: 1,
+  sc_SeqOps: 1,
+  s_Equals: 1,
+  scm_Seq: 1,
+  scm_Iterable: 1,
+  scm_SeqOps: 1,
+  scm_Cloneable: 1,
+  jl_Cloneable: 1,
+  scm_Buffer: 1,
+  scm_Growable: 1,
+  scm_Clearable: 1,
+  scm_Shrinkable: 1,
+  scm_IndexedBuffer: 1,
+  scm_IndexedSeq: 1,
+  sc_IndexedSeq: 1,
+  sc_IndexedSeqOps: 1,
+  scm_IndexedSeqOps: 1,
+  sc_StrictOptimizedSeqOps: 1,
+  sc_StrictOptimizedIterableOps: 1,
+  scm_ArrayDequeOps: 1,
+  scg_DefaultSerializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_scm_ArrayDeque.prototype.$classData = $d_scm_ArrayDeque;
+class $c_scm_Queue extends $c_scm_ArrayDeque {
+  constructor(initialSize) {
+    super();
+    const array = $m_scm_ArrayDeque$().alloc__I__AO(initialSize);
+    $ct_scm_ArrayDeque__AO__I__I__(this, array, 0, 0)
+  };
+  iterableFactory__sc_SeqFactory() {
+    return $m_scm_Queue$()
+  };
+  stringPrefix__T() {
+    return "Queue"
+  };
+  iterableFactory__sc_IterableFactory() {
+    return $m_scm_Queue$()
+  };
+}
+function $as_scm_Queue(obj) {
+  return (((obj instanceof $c_scm_Queue) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.collection.mutable.Queue"))
+}
+function $isArrayOf_scm_Queue(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.scm_Queue)))
+}
+function $asArrayOf_scm_Queue(obj, depth) {
+  return (($isArrayOf_scm_Queue(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.collection.mutable.Queue;", depth))
+}
+const $d_scm_Queue = new $TypeData().initClass({
+  scm_Queue: 0
+}, false, "scala.collection.mutable.Queue", {
+  scm_Queue: 1,
+  scm_ArrayDeque: 1,
+  scm_AbstractBuffer: 1,
+  scm_AbstractSeq: 1,
+  sc_AbstractSeq: 1,
+  sc_AbstractIterable: 1,
+  O: 1,
+  sc_Iterable: 1,
+  sc_IterableOnce: 1,
+  sc_IterableOps: 1,
+  sc_IterableOnceOps: 1,
+  sc_IterableFactoryDefaults: 1,
+  sc_Seq: 1,
+  s_PartialFunction: 1,
+  F1: 1,
+  sc_SeqOps: 1,
+  s_Equals: 1,
+  scm_Seq: 1,
+  scm_Iterable: 1,
+  scm_SeqOps: 1,
+  scm_Cloneable: 1,
+  jl_Cloneable: 1,
+  scm_Buffer: 1,
+  scm_Growable: 1,
+  scm_Clearable: 1,
+  scm_Shrinkable: 1,
+  scm_IndexedBuffer: 1,
+  scm_IndexedSeq: 1,
+  sc_IndexedSeq: 1,
+  sc_IndexedSeqOps: 1,
+  scm_IndexedSeqOps: 1,
+  sc_StrictOptimizedSeqOps: 1,
+  sc_StrictOptimizedIterableOps: 1,
+  scm_ArrayDequeOps: 1,
+  scg_DefaultSerializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_scm_Queue.prototype.$classData = $d_scm_Queue;
 class $c_s_xml_NodeBuffer extends $c_scm_ArrayBuffer {
   constructor() {
     super();
@@ -38415,6 +41301,15 @@ class $c_s_xml_NodeBuffer extends $c_scm_ArrayBuffer {
     };
     return this
   };
+}
+function $as_s_xml_NodeBuffer(obj) {
+  return (((obj instanceof $c_s_xml_NodeBuffer) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.xml.NodeBuffer"))
+}
+function $isArrayOf_s_xml_NodeBuffer(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.s_xml_NodeBuffer)))
+}
+function $asArrayOf_s_xml_NodeBuffer(obj, depth) {
+  return (($isArrayOf_s_xml_NodeBuffer(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.xml.NodeBuffer;", depth))
 }
 const $d_s_xml_NodeBuffer = new $TypeData().initClass({
   s_xml_NodeBuffer: 0
@@ -38510,6 +41405,11 @@ SiteTitle = (function(arg, arg$2) {
   const prep0 = $uI(arg);
   const prep1 = $as_T(arg$2);
   return new $c_Lbon_jo_SiteModel$SiteTitle(prep0, prep1)
+});
+SendImage = (function(arg, arg$2) {
+  const prep0 = $as_T(arg);
+  const prep1 = $as_Lbon_jo_view_ImageService(arg$2);
+  return $ct_Lbon_jo_view_SendImage__T__Lbon_jo_view_ImageService__(new $c_Lbon_jo_view_SendImage(), prep0, prep1)
 });
 $s_Lbon_jo_app_AppLoaderImpl__main__AT__V($makeNativeArrayWrapper($d_T.getArrayOf(), []));
 }).call(this);

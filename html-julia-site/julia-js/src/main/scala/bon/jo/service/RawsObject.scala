@@ -41,6 +41,9 @@ object RawsObject {
       m.parent.foreach(e => {
         ret.parent = e.id
       })
+      m.image.foreach(im=>{
+        ret.image = im.id
+      })
       ret.asInstanceOf[ItemRawExport]
     }
   }

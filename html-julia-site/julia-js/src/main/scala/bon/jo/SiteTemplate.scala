@@ -36,11 +36,7 @@ class SiteTemplate(override val user: User) extends Template {
 
   def site: SiteModelView = _site
 
-  override def updateView(): Unit = {
-    _site.updateView()
 
-
-  }
 
   def admin: Boolean = user.role.admin
 
@@ -62,7 +58,7 @@ class SiteTemplate(override val user: User) extends Template {
       val importModel = new ReadImportFile
       val button = ButtonHtml("btn-export", "export")
       val buttonSaveAll = ButtonHtml("save-all", "Sauvegarder tout")
-      button.onClick(_ => {
+      button.obsClick().suscribe(_ => {
         DomShell.log("click export")
         val s: String = JSON.stringify(service.`export`)
         val dowload = Dowload(s)
@@ -70,7 +66,7 @@ class SiteTemplate(override val user: User) extends Template {
       })
       button.addTo("ex")
       importModel.addTo("im")
-      buttonSaveAll.onClick(_ => {
+      buttonSaveAll.obsClick().suscribe(_ => {
         service.saveAll()
       })
       buttonSaveAll.addTo("sa")

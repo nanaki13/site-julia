@@ -28,7 +28,7 @@ class LoginTemplate(override val user: User) extends Template {
 
 
 
-  commt.onClick(_ => {
+  commt.obsClick().suscribe( _ => {
 
     val des = s"/auth?login=${l.value}&pwd=${p.value}"
 

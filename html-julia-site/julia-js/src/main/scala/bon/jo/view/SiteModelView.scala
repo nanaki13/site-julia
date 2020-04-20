@@ -1,7 +1,7 @@
 package bon.jo.view
 
 import bon.jo.SiteModel.MenuItem
-import bon.jo.html.DomShell.ExtendedElement
+import bon.jo.html.DomShell.{$, ExtendedElement}
 import bon.jo.html.Types.{FinalComponent, ParentComponent}
 import bon.jo.html._
 import bon.jo.service.SiteService
@@ -15,6 +15,21 @@ import scala.xml.{Group, Node}
 
 
 case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService, executionContext: ExecutionContext) extends XmlHtmlView[Div] with InDom[Div] with NodeView[Div] {
+  def root(listImg: FinalComponent[_]) = {
+    val praent = rootView.parentNode.asInstanceOf[HTMLElement]
+    listImg.addTo(praent)
+  }
+
+  var dis: String = _
+
+  def hideAll = {
+    dis = rootView.style.display
+    rootView.style.display = "none"
+  }
+
+  def displayAll = {
+    rootView.style.display = dis
+  }
 
 
   implicit val siteModelView: SiteModelView = this
@@ -23,6 +38,7 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
   val addSubMenu: Ref[Div] = Ref("addSubMenu")
   val addMainMenu: Ref[Div] = Ref("addMainMenu")
 
+  lazy val rootView: Div = $[Div]("sm-view")
 
   var itemsView: List[ManiMenuItemView] = model.items.map(ManiMenuItemView.apply)
 
@@ -43,22 +59,22 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
     None
   }
 
-  def createConfirmMenuAdd(makeNewItem: SimpleInput): Unit = makeNewItem.confirm.onClick(_ => {
+  def createConfirmMenuAdd(makeNewItem: SimpleInput): Unit = makeNewItem.confirm.obs.suscribe(_ => {
     val newItem = siteService.createNewMainMenuItem(makeNewItem.value())
     val newItemView = ManiMenuItemView(newItem)
     model.items = model.items :+ newItem
     itemsView = itemsView :+ newItemView
-    createNavigation(newItemView)
     newItemView.addTo(sideMdenu.ref)
+    createNavigation(newItemView)
   })
 
-  def createConfirmSubMenuAdd(makeNewItem: SimpleInput): Unit = makeNewItem.confirm.onClick(_ => {
+  def createConfirmSubMenuAdd(makeNewItem: SimpleInput): Unit = makeNewItem.confirm.obs.suscribe(_ => {
     implicit val siteModelView: SiteModelView = this
     val newItem = siteService.createNewSubMenuItem(makeNewItem.value(), currentItem.menuItem)
     val newItemView = SubMenuItemView(newItem)
-    createNavigation(newItemView)
     currentItem.menuItem.items = currentItem.menuItem.items :+ newItem
     newItemView.addTo(newContent.itemList.me)
+    createNavigation(newItemView)
   })
 
   override def xml(): Node = <div id="sm-view">
@@ -78,43 +94,39 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
 
 
   case class MainContent() extends ParentComponent[Div] {
-    var eouvreList: SimpleList[OeuvreView] = SimpleList[OeuvreView]("lo")
-    var itemList: SimpleList[SubMenuItemView] = SimpleList[SubMenuItemView]("li")
+    var eouvreList: SimpleList[OeuvreView] = Lists.PagList[OeuvreView](idp="lo",cssClassp="column-display",e=>{e.notInDom})
+    var itemList: SimpleList[SubMenuItemView] = SimpleList[SubMenuItemView]("li","container-fluid")
 
     add(itemList)
     add(eouvreList)
 
 
     override def init(parent: HTMLElement): Unit = {
+      me.appendChild(itemList.html())
+      me.appendChild(eouvreList.html())
       super.init(parent)
-      itemList.loaded()
-      eouvreList.loaded()
+
+
     }
 
     def load(i: MenuItem): Unit = {
-      Logger.log("load item in main content : " + i.id)
+
       val path = (i.parent match {
         case Some(value) => value.text.replaceAll("\\s+", "-") + "/"
         case None => "/"
       }) + i.text.replaceAll("\\s+", "-")
 
       org.scalajs.dom.window.history.pushState("", i.text, path)
-      eouvreList.loading()
-      val whenAllImageFuture: List[Future[SiteModel.Oeuvre]] = eouvreList.clearAndAddAll(i.oeuvres.map(OeuvreView.apply)).map(e => {
-        e.whenImageLoad
-      })
-      Future.sequence(whenAllImageFuture).foreach(e => {
-        eouvreList.loaded()
-      })
+      eouvreList.clearAndAddAll(i.oeuvres.map(OeuvreView.apply))
+
       val v = i.items.map(SubMenuItemView.apply)
-      v.foreach(ii => {
-        ii.link.onClick(e => {
+      itemList.clearAndAddAll(v).foreach(ii => {
+        ii.link.ref.clkOnce().suscribe(e=>{
           load(ii.menuItem)
         })
       })
-      itemList.loading()
-      itemList.clearAndAddAll(v)
-      itemList.loaded()
+
+
 
     }
 
@@ -134,7 +146,7 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
 
   def createNavigation(i: MenuItemView): MenuItemView = {
 
-    i.link.onClick((_: Event) => {
+    i.link.ref.clkOnce().suscribe((_: Event) => {
       if (currentItem == null) {
         makeNewSubItem.foreach(_.addTo(addSubMenu.ref))
       }
@@ -154,7 +166,7 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
     newContent.addTo(newContentRef.ref)
     menusInput.foreach(e => e.menu.addTo(addMainMenu.ref))
 
-    itemsView.map(createNavigation).foreach(e => e.addTo(sideMdenu.ref))
+    itemsView.map(e => {e.addTo(sideMdenu.ref);e}).foreach(createNavigation)
 
 
   }
@@ -174,13 +186,10 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
 
     DomShell.deb()
     itemsView = model.items.map(ManiMenuItemView.apply)
-    itemsView.map(createNavigation).foreach(e => e.addTo(sideMdenu.ref))
+    itemsView.map(e => {e.addTo(sideMdenu.ref);e}).foreach(createNavigation)
   }
 
-  override def updateView(): Unit = {
 
-
-  }
 }
 
 

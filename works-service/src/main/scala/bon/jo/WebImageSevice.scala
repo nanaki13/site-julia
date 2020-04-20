@@ -42,7 +42,7 @@ trait WebImageSevice extends ImageService {
   override def readEntity(m: Int): Future[Option[RawImpl.ImageRawExport]] = {
     val selectAndMap = images.filter(_.id === m).map(t => (t.id, t.contentType, t.name, t.base)).result.headOption.map(ee =>
       ee map { e =>
-        RawImpl.ImageRawExport(e._1, e._1 + "." + e._2.substring(e._2.lastIndexOf('/') + 1), e._4)
+        RawImpl.ImageRawExport(e._1, s"${e._1}.${e._2.substring(e._2.lastIndexOf('/') + 1)}", e._4)
       }
     )
     db.run(selectAndMap)
@@ -51,7 +51,7 @@ trait WebImageSevice extends ImageService {
   override def readAll: Future[IterableOnce[RawImpl.ImageRawExport]] = {
     val selectAndMap = images.map(t => (t.id, t.contentType, t.name, t.base)).result.map(ee =>
       ee map { e =>
-        RawImpl.ImageRawExport(e._1, e._1 + "." + e._2.substring(e._2.lastIndexOf('/') + 1), e._4)
+        RawImpl.ImageRawExport(e._1, s"${e._1}.${e._2.substring(e._2.lastIndexOf('/') + 1)}", e._4)
       }
     )
     db.run(selectAndMap)

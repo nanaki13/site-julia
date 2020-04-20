@@ -34,13 +34,14 @@ lazy val ws = (project in file(wsName)).settings(
     "ch.qos.logback" % "logback-classic" % "1.2.3",
     "org.json4s" %% "json4s-native" % "3.6.7",
     "com.auth0" % "java-jwt"  % "3.3.0",
+    "com.typesafe" % "config" % "1.4.0",
     "org.bouncycastle" % "bcprov-ext-jdk16" % "1.46"),
   
   // other settings
 ).dependsOn(wr)
 lazy val root = (project in file(".")).aggregate(wr, ws).settings(
-  commonSettings,
-  watchSources ++= (baseDirectory.value / "public/ui" ** "*").get
+  commonSettings
+  //watchSources ++= (baseDirectory.value / "public/ui" ** "*").get
 ).enablePlugins(JavaAppPackaging)
   //.enablePlugins(PlayScala)
 

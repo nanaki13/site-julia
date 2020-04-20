@@ -11,8 +11,8 @@ class MyExport(id: Int, text: String, link: String, image: Option[Int], parent: 
       id = id,
       text = text,
       link = link,
-      children = js.Array(children: _ *),
-      oeuvres = js.Array(oeuvres: _ *)
+      children = js.Array(children.toIndexedSeq),
+      oeuvres = js.Array(oeuvres.toIndexedSeq)
     )
     parent match {
       case Some(value) => {

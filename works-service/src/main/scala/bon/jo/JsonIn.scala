@@ -18,19 +18,5 @@ trait JsonIn {
 
   import CustomJs._
 
-  def unMarsh[Ok <: OkResponse](implicit manifest: Manifest[Ok], ex: ExecutionContext, m: Materializer): FromEntityUnmarshaller[Ok] = {
-    def toJson(s: HttpEntity)(implicit ex: ExecutionContext, m: Materializer): Future[Ok] = {
-      s.dataBytes.runReduce(_ ++ _).map(e => {
-        try{
-          println(e.utf8String)
-          read[Ok](e.utf8String)
-        }catch {
-          case e : Exception => println(e);e.printStackTrace();throw e
-        }
 
-      })
-    }
-
-    Unmarshaller.withMaterializer(_ => _ => toJson)
-  }
 }

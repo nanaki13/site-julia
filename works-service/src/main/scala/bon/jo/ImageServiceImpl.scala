@@ -3,6 +3,7 @@ package bon.jo
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Route
 import akka.stream.Materializer
+import bon.jo.SiteModel.ImgLink
 import bon.jo.juliasite.pers.{RepositoryContext, SiteRepository}
 
 import scala.concurrent.duration._
@@ -48,8 +49,8 @@ class ImageServiceImpl(override val dbContext: RepositoryContext with SiteReposi
               val (data, ct) = parsedMap("file").asInstanceOf[(Array[Byte], String)]
               val name = parsedMap("image_name").toString
               val id = parsedMap("id").toString
-              saveImage(Some(data), id.toInt, ct, name, "").map(e => {
-                e.map { t => RawImpl.ImageRawExport(t._1, t._3 + "." + t._2, t._4) }
+              saveImage(Some(data), id.toInt, ct, name, ReadConf.conf.baseApiUrlImage).map(e => {
+                e.map { t => RawImpl.ImageRawExport(t._1, ImgLink(t._1,t._2), t._4) }
               })
             })
             implicit val okStatus = StatusCodes.Created

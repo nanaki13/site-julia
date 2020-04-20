@@ -3,12 +3,11 @@ package bon.jo.view
 import bon.jo.SiteModel.MenuItem
 import bon.jo.app.service.DistantService
 import bon.jo.html.DomShell.inputXml
-import bon.jo.html.{DomShell, OnClick, ValueView}
-import bon.jo.html.OnClick.BaseClick
 import bon.jo.html.Types.{FinalComponent, ParentComponent}
+import bon.jo.html.ValueView
 import bon.jo.service.SiteService
 import org.scalajs.dom.html.{Div, Input, Link}
-import org.scalajs.dom.raw.{Event, HTMLElement}
+import org.scalajs.dom.raw.HTMLElement
 
 import scala.xml.Node
 
@@ -40,13 +39,6 @@ abstract class MenuItemView(val menuItem: MenuItem)(implicit val siteService: Si
   }
 
 
-  override def removeFromView(): Unit = {
-
-    link.removeFromView()
-    super.removeFromView()
-
-  }
-
   override def xml(): Node =
     <div id={id}>
       <a class={cssClass} id={"btn-mi-" + id}>
@@ -58,10 +50,10 @@ abstract class MenuItemView(val menuItem: MenuItem)(implicit val siteService: Si
     </div>
 
 
-  val link: BaseClick[Link] = OnClick[Link]("btn-mi-" + id)
+  val link: Ref[Link] = Ref[Link]("btn-mi-" + id)
 
   override def init(p: HTMLElement): Unit = {
-    link.init(me)
+
     initAdminEvent()
 
   }

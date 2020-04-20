@@ -173,6 +173,7 @@ class Routes(services: List[RootCreator[_]]) extends Directives with RouteHandle
 
   def allRoutes(implicit ec: ExecutionContext): Route = {
 
+    val conf = ReadConf.read()
     val static =
       concat(pathPrefix("julia") {
         getFromDirectory("html")
@@ -210,7 +211,7 @@ class Routes(services: List[RootCreator[_]]) extends Directives with RouteHandle
 
           }
         })
-    concat(static, pathPrefix("api") {
+    concat(static, pathPrefix(conf.baseApiUrl) {
       extractRequestContext { ctx => {
         doWithContext(ctx)
       }

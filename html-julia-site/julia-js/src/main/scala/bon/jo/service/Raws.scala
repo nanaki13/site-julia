@@ -5,6 +5,11 @@ import scala.scalajs.js
 object Raws {
 
   @js.native
+  trait WithId extends js.Object {
+    val id: Int
+  }
+
+  @js.native
   trait OeuvreRaw extends js.Object {
     val date: String
     val description: String
@@ -35,7 +40,7 @@ object Raws {
 
 
   @js.native
-  trait ImageRawExport extends js.Object {
+  trait ImageRawExport extends WithId {
     val id: Int
     val link: String
     val base:String
@@ -43,7 +48,7 @@ object Raws {
 
 
   @js.native
-  trait ItemRawExport extends js.Object {
+  trait ItemRawExport extends WithId {
     val id: Int
     val text: String
     val link: String
@@ -62,7 +67,7 @@ object Raws {
   }
 
   @js.native
-  trait OeuvreRawExport extends js.Object {
+  trait OeuvreRawExport extends WithId {
     val id: Int
     val image: Int
     val name: String

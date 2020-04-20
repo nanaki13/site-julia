@@ -7,7 +7,9 @@ import org.scalajs.dom.raw.HTMLElement
 trait Ref[Element <: HTMLElement] {
   val id: String
 
+
   lazy val ref: Element = DomShell.$(id)
+
 
   def value: String = {
 

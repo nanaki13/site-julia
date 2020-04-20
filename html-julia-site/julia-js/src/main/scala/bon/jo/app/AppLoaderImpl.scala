@@ -29,7 +29,7 @@ object AppLoaderImpl extends App with AppLoader {
   org.scalajs.dom.window.addEventListener("load", (_: Event) => {
     Logger.log("loading apps")
     loadWithAuth(apps).map(e => {
-      Logger.log(e.map(_.getClass) + " loaded")
+      Logger.log(e.map(_.getClass).toString() + " loaded")
     }).onComplete {
       case Failure(exception) => exception.printStackTrace()
       case Success(value) => println("OK : may have application future  after ")

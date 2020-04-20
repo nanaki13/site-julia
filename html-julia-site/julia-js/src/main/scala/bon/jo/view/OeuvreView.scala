@@ -1,29 +1,44 @@
 package bon.jo.view
 
-import bon.jo.Logger
+import bon.jo.{Logger, SiteModel}
 import bon.jo.SiteModel.{MenuItem, Oeuvre}
+import bon.jo.app.Response
 import bon.jo.app.service.DistantService
 import bon.jo.html.DomShell.inputXml
 import bon.jo.html.Types.FinalComponent
-import bon.jo.html.{Types, ValueView}
+import bon.jo.html.{InDom, Types, ValueView}
 import bon.jo.service.Raws.OeuvreRawExport
-import bon.jo.service.SiteService
+import bon.jo.service.{Raws, SiteService}
 import org.scalajs.dom.html.{Div, Image, Input}
 import org.scalajs.dom.raw.{Event, HTMLElement}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
+import scala.scalajs.js
 import scala.scalajs.js.Promise
 import scala.xml.Node
 
-case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) extends FinalComponent[Div] with AdminControl[Oeuvre] {
+case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) extends
+  FinalComponent[Div]
+  with AdminControl[Oeuvre]
+  with intOnce
+  with WithImage[Div, Oeuvre] {
 
-  override val service: DistantService[Oeuvre,OeuvreRawExport] = siteService.oeuvreService
+  override val service: DistantService[Oeuvre, OeuvreRawExport] = siteService.oeuvreService
 
   private val nomForm = Ref[Input](id + "nom")
   private val dateForm = Ref[Input](id + "date")
   private val descrpitionForm = Ref[Input](id + "description")
   private val xForm = Ref[Input](id + "x")
   private val yForm = Ref[Input](id + "y")
+
+  implicit val executionContext: ExecutionContext = siteService.executionContext
+
+  override def imageFor(e: Raws.ImageRawExport): Unit = {
+    oeuvre.image = siteService.siteModel.allImages.find(_.id == e.id).get
+    service.update(value).foreach(e => {
+      updateSrc(oeuvre.image)
+    })
+  }
 
   def extract: Oeuvre = oeuvre.copy(name = nomForm.ref.value, date = dateForm.ref.value.toInt, dimension = oeuvre.dimension.copy(xForm.ref.value.toFloat, yForm.ref.value.toFloat), description = descrpitionForm.ref.value.toString)
 
@@ -37,6 +52,7 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
     siteService.move(oeuvre, v)
     choose.removeFromView()
   })
+
   override def chooseMenuView: ValueView[MenuItem] with Types.ParentComponent[Div] = choose
 
   def modifyView: Node = {
@@ -60,60 +76,39 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
         {oeuvre.date}
       </div>
       <div class="text">
-        {oeuvre.dimension.x} cm x {oeuvre.dimension.y} cm
+        {oeuvre.dimension.x}
+        cm x
+        {oeuvre.dimension.y}
+        cm
       </div>
       <div class="text">
         {oeuvre.description}
       </div>
     </div>
     <div class="img-cont">
-        <div class="fore-ground"></div>
-      <!--span class="btn btn-primary" id={"save-i-" + oeuvre.image.id}>save</span>
-        <span class="btn btn-primary" id={"delete-i-" + oeuvre.image.id}>delete</span-->
-      <img id={"img-"+ oeuvre.image.id} class="oeuvre-img" ></img>
+      <div class="fore-ground"></div>
+      <img id={"img-" + oeuvre.image.id} class="oeuvre-img"></img>
     </div>
   </div>
 
   override def id: String = "o-" + oeuvre.id
 
-  override def updateView(): Unit = {}
-
-  private val imgRef = Ref[Image]("img-"+ oeuvre.image.id)
-  private val saveImageDiv = Ref[Div]("save-i-" + oeuvre.image.id)
-
-  private val deleteImageDiv = Ref[Div]("delete-i-" + oeuvre.image.id)
 
 
-  override def initAdminEvent(): Unit = {
-    super.initAdminEvent()
-//    saveImageDiv.ref.addEventListener("click", (e: Event) => {
-//      siteService.imageService.save(oeuvre.image) foreach (_ => {
-//        saveImageDiv.ref.style.display = "none"
-//      })
-//    })
-//    deleteImageDiv.ref.addEventListener("click", (e: Event) => {
-//      siteService.imageService.delete(oeuvre.image.id) foreach (_ => {
-//        saveImageDiv.ref.style.display = "none"
-//      })
-//    })
 
-  }
 
-  var whenImageLoad :Future[Oeuvre] = Future.failed(new Exception("not started"))
+  override def factory: Ref[Image] = Ref[Image]("img-" + oeuvre.image.id)
+
+  override val image: Option[SiteModel.Image] = Some(oeuvre.image)
+
   override def init(parent: HTMLElement): Unit = {
-//    parent.appendChild(html())
+    initImg(parent)
     initAdminEvent()
-    whenImageLoad = new Promise[Oeuvre]((accepet,reject)=>{
-      imgRef.ref.addEventListener("load", (e : Event) => {
-        Logger.log("Image loaded");
-        imgRef.ref.classList.remove("loader")
-        accepet(oeuvre)
-      });
-    }).toFuture
-
-    imgRef.ref.classList.add("loader")
-    imgRef.ref.src = oeuvre.image.base + oeuvre.image.link
   }
+
 
 
 }
+
+
+
