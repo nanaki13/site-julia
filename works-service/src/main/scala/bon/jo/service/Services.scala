@@ -1,6 +1,7 @@
-package bon.jo
+package bon.jo.service
 
 import bon.jo.juliasite.model.Schema
+import bon.jo.{RawImpl, js}
 
 import scala.collection.compat.Factory
 import scala.collection.mutable
@@ -56,6 +57,3 @@ object Services {
 
 
 }
-
-
-

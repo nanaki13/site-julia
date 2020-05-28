@@ -2,7 +2,7 @@ package bon.jo.app
 
 import bon.jo.app.RequestHttp.GET
 import bon.jo.game.html.Template
-import bon.jo.html.{ButtonHtml, DomShell}
+import bon.jo.html.{ DomShell, OnClick}
 import bon.jo.view.Ref
 import org.scalajs.dom.html.{Div, Input}
 import org.scalajs.dom.raw.HTMLElement
@@ -24,7 +24,7 @@ class LoginTemplate(override val user: User) extends Template {
 
   val l = Ref[Input]("login")
   val p = Ref[Input]("password")
-  val commt = ButtonHtml("ok-btn", "ok")
+  val commt = OnClick("ok-btn", "ok")
 
 
 

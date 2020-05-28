@@ -1,7 +1,7 @@
 package bon.jo.service
 
 import bon.jo.SiteModel
-import bon.jo.SiteModel.{Image, MenuItem, Oeuvre}
+import bon.jo.SiteModel.{Image, Oeuvre, Text, ThemeMenuItem}
 import bon.jo.service.Raws._
 
 import scala.scalajs.js
@@ -18,6 +18,15 @@ object RawsObject {
   }
 
 
+  object TextExport  {
+    def apply(text: Text): TextExport = js.Dynamic.literal(
+        id = js.Dynamic.literal(
+        uid = text.id.uid,
+      index = text.id.index),
+      text = text.text
+
+    ).asInstanceOf[TextExport]
+  }
   object ImageRawExport {
     def apply(image: Image): ImageRawExport = js.Dynamic.literal(
       id = image.id,
@@ -29,7 +38,7 @@ object RawsObject {
   object ItemRawExport {
 
 
-    def apply(m: MenuItem): ItemRawExport = {
+    def apply(m: ThemeMenuItem): ItemRawExport = {
       val ret = js.Dynamic.literal(
         id = m.id,
         text = m.text,
@@ -69,7 +78,7 @@ object RawsObject {
 
       val ret = js.Dynamic.literal(
         id = oeuvre.id,
-        image = oeuvre.image.id,
+
         name = oeuvre.name,
         dimension = DimemsionExport(oeuvre.dimension),
         date = oeuvre.date,
@@ -77,6 +86,7 @@ object RawsObject {
 
 
       )
+      oeuvre.image.foreach(e=> ret.image = e.id)
       oeuvre.theme match {
         case Some(value) => ret.theme = value.id
         case None =>

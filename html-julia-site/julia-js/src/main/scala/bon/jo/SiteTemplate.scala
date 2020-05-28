@@ -4,7 +4,7 @@ import bon.jo.app.User
 import bon.jo.game.html.Template
 import bon.jo.html.DomShell.{$, ExtendedElement}
 import bon.jo.html.Types.FinalComponent
-import bon.jo.html.{ButtonHtml, DomShell}
+import bon.jo.html.{ DomShell, OnClick}
 import bon.jo.service.SiteService
 import bon.jo.view.SiteModelView
 import org.scalajs.dom.html.{Div, Link}
@@ -56,8 +56,8 @@ class SiteTemplate(override val user: User) extends Template {
     implicit val t: SiteTemplate = this
     if (admin) {
       val importModel = new ReadImportFile
-      val button = ButtonHtml("btn-export", "export")
-      val buttonSaveAll = ButtonHtml("save-all", "Sauvegarder tout")
+      val button = OnClick("btn-export", "export")
+      val buttonSaveAll = OnClick("save-all", "Sauvegarder tout")
       button.obsClick().suscribe(_ => {
         DomShell.log("click export")
         val s: String = JSON.stringify(service.`export`)

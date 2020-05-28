@@ -1,23 +1,25 @@
 package bon.jo.view
 
 import bon.jo.Logger
-import bon.jo.html.DomShell.{$, Obs}
-import bon.jo.html.{DomShell, InDom}
+import bon.jo.html.DomShell.$
 import bon.jo.html.Types.ParentComponent
+import bon.jo.html.{DomShell, InDom}
+import bon.jo.phy.Obs
+import bon.jo.service.Raws.ImageRawExport
 import bon.jo.service.SiteService
 import org.scalajs.dom.File
 import org.scalajs.dom.html.{Div, Form, Input, Label}
 import org.scalajs.dom.raw.{Event, FormData, HTMLElement}
 
-import scala.concurrent.Future
-import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
-import scala.xml.Node
+import scala.concurrent.{ExecutionContext, Future}
 import scala.language.dynamics
 import scala.scalajs.js
+import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
+import scala.xml.Node
 
 @JSExportTopLevel("SendImage")
 @JSExportAll
-class SendImage(override val id: String, imageService: ImageService) extends ParentComponent[Form] {
+class SendImage(override val id: String, imageService: ImageService)(implicit  ex : ExecutionContext) extends ParentComponent[Form] {
   override def xml(): Node = {
     <form id={id} class="container">
       <div class="file-send btn">
@@ -28,6 +30,7 @@ class SendImage(override val id: String, imageService: ImageService) extends Par
 
   def myHtml(): Form = html()
 
+  val result : Obs[ImageRawExport] =Obs.get[ImageRawExport](id+"-result")
 
   var fileData: Option[File] = None
 
@@ -73,7 +76,7 @@ class SendImage(override val id: String, imageService: ImageService) extends Par
         formData.append("file", theFile);
         formData.append("image_name", theFile.name);
       js.special.debugger()
-        this.imageService(formData)
+        this.imageService(formData).foreach(result.newValue)
         $[Div]("img-send-arrow").classList.remove("mirror")
         $[Label]("l-img-send").innerText = "+"
     }
@@ -93,10 +96,10 @@ class SendImage(override val id: String, imageService: ImageService) extends Par
   }
 
 }
-class SendImageImpl(override val id : String,siteService: SiteService) extends SendImage(id,(fd)=> {
-  import siteService.executionContext
+class SendImageImpl(override val id : String,siteService: SiteService)(implicit  ex : ExecutionContext) extends SendImage(id,(fd)=> {
+
   fd.append("id",siteService.imageService.newId)
-  siteService.imageService.post(fd).map(_.status)
+  siteService.imageService.post(fd)
 })
 
-trait ImageService extends (FormData => Future[Int])
+trait ImageService extends (FormData => Future[ImageRawExport])

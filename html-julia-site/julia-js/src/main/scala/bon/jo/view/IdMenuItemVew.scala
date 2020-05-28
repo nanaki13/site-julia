@@ -1,13 +1,13 @@
 package bon.jo.view
 
-import bon.jo.SiteModel.MenuItem
+import bon.jo.SiteModel.ThemeMenuItem
 import bon.jo.html.Types.FinalComponent
 import org.scalajs.dom.html.Div
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.xml.Node
 
-case class IdMenuItemVew(  id: String,  menuItem : MenuItem)
+case class IdMenuItemVew(  id: String,  menuItem : ThemeMenuItem)
 
   extends FinalComponent[Div] {
   override def init(parent: HTMLElement): Unit = {}

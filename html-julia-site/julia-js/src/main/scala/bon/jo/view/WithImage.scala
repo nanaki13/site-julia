@@ -1,24 +1,24 @@
 package bon.jo.view
 
 import bon.jo.SiteModel.SiteElement
-import bon.jo.html.{DomShell, IdView, InDom}
+import bon.jo.html.{IdView, InDom}
 import bon.jo.service.Raws.ImageRawExport
+import bon.jo.view.Lists.PagChooseList
 import bon.jo.{Logger, SiteModel}
 import org.scalajs.dom.html.{Image, Span}
 import org.scalajs.dom.raw.{Event, HTMLElement}
 
 import scala.concurrent.ExecutionContext
-import scala.scalajs.js
 import scala.xml.NodeBuffer
 
-trait WithImage[A <: HTMLElement, B <: SiteElement] extends InDom[A] with AdminControl[B] with intOnce with IdView {
+trait WithImage[A <: HTMLElement, B <: SiteElement[ID],ID] extends InDom[A] with AdminControl[B,ID] with intOnce with IdView {
 
   implicit val executionContext: ExecutionContext
-  private var _imgRef: Option[Ref[Image]] = None
+  protected var _imgRef: Option[Ref[Image]] = None
 
   def imgRef :  Option[Ref[Image]] = {
     if (_imgRef.isEmpty){
-      _imgRef = Some(factory)
+      _imgRef = factory
     }
     _imgRef
   }
@@ -26,7 +26,7 @@ trait WithImage[A <: HTMLElement, B <: SiteElement] extends InDom[A] with AdminC
     super.notInDom()
     _imgRef = None
   }
-  def factory: Ref[Image]
+  def factory: Option[Ref[Image]]
 
   def image: Option[SiteModel.Image]
   def imageFor(e: ImageRawExport):Unit
@@ -39,19 +39,24 @@ trait WithImage[A <: HTMLElement, B <: SiteElement] extends InDom[A] with AdminC
   }
 
 
-  def updateSrc(e : SiteModel.Image): Unit ={ imgRef.get.ref.src = e.base + e.link}
+  def updateSrc(e : SiteModel.Image): Unit = imgRef.foreach(_.ref.src = e.base + e.link)
+  def updateSrc(e : String): Unit = imgRef.foreach(_.ref.src = e)
 
+  def choiceIsDone(listImg : PagChooseList[ImageRawExport, ImgView] ,imageRawExport: ImageRawExport)={
+    listImg.removeFromView()
+    siteService.showAll
+    imageFor(imageRawExport)
+  }
   def initImg(parent: HTMLElement): Unit = {
 
     if(admin){
       imgDiv.ref.addEventListener("click", (e: Event) => {
-        val listImg = Lists.PagChooseList[ImageRawExport, ImgView]("img-List-" + id, "container", _.imageRawExport)
-        listImg.obs.suscribe(e => {
-          listImg.removeFromView()
-          siteService.showAll
-          imageFor(e)
+        val listImg: PagChooseList[ImageRawExport, ImgView] = Lists.PagChooseList[ImageRawExport, ImgView]("img-List-" + id, "container", _.imageRawExport,rebuildp =
+          e => ImgView(e)
 
-        })
+          ,addElementp = None)
+        def choiceDon(e : ImageRawExport ): Unit = choiceIsDone(listImg,e)
+        listImg.obs.suscribe(choiceDon)
 
         siteService.hideAll
         siteService.root(listImg)
@@ -67,25 +72,25 @@ trait WithImage[A <: HTMLElement, B <: SiteElement] extends InDom[A] with AdminC
             listImg.clearAndAddAll(elts)
               val send = new SendImageImpl("img-send-test",siteService )
             listImg.addAtEnd(send)
+            send.result.suscribe(choiceDon)
 
 
         }
       })
     }
 
-    image.foreach(e => {
-//      if (notInit) {
-        notInit = false
+    image match {
+      case Some(value) =>
+
         imgRef.get.ref.addEventListener("load", (e: Event) => {
           Logger.log("Image loaded");
           imgRef.get.ref.classList.remove("loader")
 
         });
         imgRef.get.ref.classList.add("loader")
-//      }
-      updateSrc(e)
-    })
 
-
+        updateSrc(value)
+      case None =>  updateSrc("/julia/assets/image/configure.svg")
+    }
   }
 }

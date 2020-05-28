@@ -1,8 +1,9 @@
 package bon.jo
 
+import java.util.Date
 import java.util.concurrent.atomic.AtomicInteger
 
-import bon.jo.SiteModel.{Image, MenuItem, Oeuvre, SiteElement, SiteTitle}
+import bon.jo.SiteModel._
 
 import scala.annotation.tailrec
 import scala.collection.mutable
@@ -49,34 +50,35 @@ object SiteModel {
 
 
   @JSExportAll
-  abstract class SiteElement(val id: Int) {
-    implicit def toKeyValue: (Int, this.type) = id -> this
+  abstract class SiteElement[ID](val id: ID) {
+    implicit def toKeyValue: (ID, this.type) = id -> this
 
 
   }
 
-
-  @JSExportTopLevel("SiteTitle")
+  case class  TextId( uid: String,index : Int)
+  @JSExportTopLevel("Text")
   @JSExportAll
-  case class SiteTitle(override val id: Int, text: String) extends SiteElement(id)
+  case class  Text(override val id: TextId,
+   text:String) extends SiteElement[TextId](id)
 
   @JSExportTopLevel("Image")
   @JSExportAll
-  case class Image(override val id: Int, link: String, base: String) extends SiteElement(id)
+  case class Image(override val id: Int, link: String, base: String) extends SiteElement[Int](id)
 
   object Image {
 
-    trait Ev[R <: SiteElement] extends (R => (Int, R)) {
-      override def apply(v1: R): (Int, R) = v1.id -> v1
+    trait Ev[R <: SiteElement[B],B] extends (R => (B, R)) {
+      override def apply(v1: R): (B, R) = v1.id -> v1
     }
 
-    implicit object imageConv extends Ev[Image]
+    implicit object imageConv extends Ev[Image,Int]
 
   }
 
   @JSExportTopLevel("Oeuvre")
   @JSExportAll
-  case class Oeuvre(override val id: Int,var image: Image, name: String, description: String, dimension: Dimension, date: Int, theme: Option[MenuItem] = None) extends SiteElement(id) {
+  case class Oeuvre(override val id: Int, var image: Option[Image] = None, name: String = "A remplir", description: String = "A remplir", dimension: Dimension = Dimension(0,0), date: Int = (new Date()).getYear, theme: Option[ThemeMenuItem] = None) extends SiteElement(id) {
     override def toString: String = s"oeuvre:$id"
   }
 
@@ -96,14 +98,15 @@ object SiteModel {
   @JSExportAll
   case class Dimension(x: Float, y: Float)
 
+   class BaseMenuItem(override val id: Int, val text: String,val link: String) extends SiteElement(id)
   @JSExportTopLevel("MenuItem")
   @JSExportAll
-  case class MenuItem(override val id: Int, text: String, link: String, var image: Option[Image], var parent: Option[MenuItem]
-                      , var items: List[MenuItem] = List[MenuItem](),
-                      var oeuvres: List[Oeuvre] = List[Oeuvre]()) extends SiteElement(id) {
+  case class ThemeMenuItem(override val id: Int,override val  text: String,override val  link: String, var image: Option[Image], var parent: Option[ThemeMenuItem]
+                           , var items: List[ThemeMenuItem] = List[ThemeMenuItem](),
+                           var oeuvres: List[Oeuvre] = List[Oeuvre]()) extends BaseMenuItem(id,text,link) {
     def this(id: Int) = this(id, "", "", None, None)
 
-    def this(text: String, link: String, parent: Option[MenuItem]) = this(0, text, link, None, parent)
+    def this(text: String, link: String, parent: Option[ThemeMenuItem]) = this(0, text, link, None, parent)
 
 
     def randomOeuvre(size: Int): Unit = {
@@ -111,11 +114,11 @@ object SiteModel {
     }
 
     def flatten[R](implicit c: ClassTag[R]): List[R] = {
-      (if (c == ClassTag(classOf[MenuItem])) {
+      (if (c == ClassTag(classOf[ThemeMenuItem])) {
         this :: items
       } else if (c == ClassTag(classOf[Image])) {
         val fromItem: List[Option[Image]] = this.items.flatMap(e => e.flatten[Image]).map(e => Some(e))
-        val l: List[Option[Image]] = (this.image :: this.oeuvres.map(e => Some(e.image))) ++ fromItem
+        val l: List[Option[Image]] = (this.image :: this.oeuvres.map(e => e.image)) ++ fromItem
         l.flatten
       } else {
         oeuvres ++ items.flatMap(e => e.flatten[Oeuvre])
@@ -126,35 +129,35 @@ object SiteModel {
   def rs: String = Random.nextString(5)
 
   def randomOeuvre(size: Int): Seq[Oeuvre] = for (_ <- 0 until size) yield {
-    Oeuvre(0, Image(0, rs, ""), rs, "", Dimension(10, 10), 2020)
+    Oeuvre(0, Some(Image(0, rs, "")), rs, "", Dimension(10, 10), 2020)
   }
 }
 
 object Remover {
 
 
-  def removeFromChild(toRmeove: MenuItem, parent: MenuItem) = {
+  def removeFromChild(toRmeove: ThemeMenuItem, parent: ThemeMenuItem) = {
     parent.items = parent.items.filter(_.id != toRmeove.id)
   }
 
-  def replaceFromChild(toReplace: Oeuvre, parent: MenuItem) = {
+  def replaceFromChild(toReplace: Oeuvre, parent: ThemeMenuItem) = {
     val elAndId = parent.oeuvres.zipWithIndex.find(_._1.id == toReplace.id).get
     val nListArray = mutable.ArrayBuffer(parent.oeuvres: _ *)
     nListArray(elAndId._2) = toReplace
     parent.oeuvres = nListArray.toList
   }
 
-  def removeFromChild(toRmeove: Oeuvre, parent: MenuItem) = {
+  def removeFromChild(toRmeove: Oeuvre, parent: ThemeMenuItem) = {
     parent.oeuvres = parent.oeuvres.filter(_.id != toRmeove.id)
   }
 
   @tailrec
-  final def removeRec(toRmeove: MenuItem, newxr: List[MenuItem]): Unit = {
+  final def removeRec(toRmeove: ThemeMenuItem, newxr: List[ThemeMenuItem]): Unit = {
     if (newxr.isEmpty) {
       ()
     } else {
       removeRec(toRmeove, if (newxr.nonEmpty) {
-        val rem = removeFromChild(toRmeove, _: MenuItem)
+        val rem = removeFromChild(toRmeove, _: ThemeMenuItem)
         newxr.foreach(rem)
         newxr.flatMap(_.items)
       } else {
@@ -164,12 +167,12 @@ object Remover {
   }
 
   @tailrec
-  final def removeRec(toRmeove: Oeuvre, newxr: List[MenuItem]): Unit = {
+  final def removeRec(toRmeove: Oeuvre, newxr: List[ThemeMenuItem]): Unit = {
     if (newxr.isEmpty) {
       return ()
     } else {
       removeRec(toRmeove, if (newxr.nonEmpty) {
-        val rem = removeFromChild(toRmeove, _: MenuItem)
+        val rem = removeFromChild(toRmeove, _: ThemeMenuItem)
         newxr.foreach(rem)
         newxr.flatMap(_.items)
       } else {
@@ -181,21 +184,23 @@ object Remover {
 
 @JSExportTopLevel("SiteModel")
 @JSExportAll
-case class SiteModel(title: SiteTitle = SiteTitle(0, "Julia le Corre artiste")) {
+case class SiteModel() {
+
+
   def replace(mod: Oeuvre): Unit = {
 
   }
 
 
-  def remove(siteElement: SiteElement): Unit = {
+  def remove(siteElement: SiteElement[_]): Unit = {
     siteElement match {
       case a: Image => remove(a)
-      case a: MenuItem => remove(a)
+      case a: ThemeMenuItem => remove(a)
       case a: Oeuvre => remove(a)
     }
   }
 
-  def remove(menuItem: MenuItem): Unit = Remover.removeRec(menuItem, items)
+  def remove(menuItem: ThemeMenuItem): Unit = Remover.removeRec(menuItem, items)
 
   def remove(o: Oeuvre): Unit = Remover.removeRec(o, items)
 
@@ -206,18 +211,18 @@ case class SiteModel(title: SiteTitle = SiteTitle(0, "Julia le Corre artiste")) 
   def allOeuvres: List[Oeuvre] = items.flatMap(_.flatten[Oeuvre])
 
 
-  var items: List[MenuItem] = List[MenuItem]()
+  var items: List[ThemeMenuItem] = List[ThemeMenuItem]()
 
-  def add(menuItem: MenuItem): Unit = {
+  def add(menuItem: ThemeMenuItem): Unit = {
     items = items :+ menuItem
   }
 
-  def allItem: Seq[MenuItem] = items.flatMap(_.flatten[MenuItem])
+  def allItem: Seq[ThemeMenuItem] = items.flatMap(_.flatten[ThemeMenuItem])
 
 
   def fake(): Unit = {
-    val m1 = new MenuItem("Les a", "", None)
-    m1.items = List(new MenuItem("Les a1", "", None), new MenuItem("Les a2", "", None), new MenuItem("Les a4", "", None))
+    val m1 = new ThemeMenuItem("Les a", "", None)
+    m1.items = List(new ThemeMenuItem("Les a1", "", None), new ThemeMenuItem("Les a2", "", None), new ThemeMenuItem("Les a4", "", None))
     m1.items.foreach(_.randomOeuvre(Random.nextInt(5)))
     val mainMenu = List(
       AcceuilMenuItem,
@@ -230,6 +235,6 @@ case class SiteModel(title: SiteTitle = SiteTitle(0, "Julia le Corre artiste")) 
 
 }
 
-object ContactMenuItem extends MenuItem(-1, "Contact", "/contact", None, None)
+object ContactMenuItem extends ThemeMenuItem(-1, "Contact", "/contact", None, None)
 
-object AcceuilMenuItem extends MenuItem(-1, "Acceil", "/contact", None, None)
+object AcceuilMenuItem extends ThemeMenuItem(-1, "Acceil", "/contact", None, None)

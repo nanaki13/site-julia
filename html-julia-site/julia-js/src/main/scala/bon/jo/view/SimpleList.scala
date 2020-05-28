@@ -1,17 +1,15 @@
 package bon.jo.view
 
-import bon.jo.Logger
-import bon.jo.html.DomShell.{$, ExtendedElement}
+import bon.jo.html.DomShell.ExtendedElement
 import bon.jo.html.Types.{FinalComponent, ParentComponent}
-import org.scalajs.dom.html.{Div, Span}
-import org.scalajs.dom.raw.{HTMLElement, MouseEvent}
+import org.scalajs.dom.html.Div
+import org.scalajs.dom.raw.HTMLElement
 
-import scala.concurrent.ExecutionContext
-import scala.scalajs.js
-import scala.xml.{Group, Node, NodeBuffer, NodeSeq}
+import scala.collection.mutable
+import scala.xml.Node
 
 case class OptionScroll(maxByView: Int,  var currentPage: Int = 1){
-  def offset = (currentPage -1)* maxByView
+  def offset: Int = (currentPage -1)* maxByView
 }
 
 
@@ -31,7 +29,7 @@ trait SimpleList[Finalp <: FinalComponent[_ <: HTMLElement]]
   def cssClass: String
 
 
-  var currentView: List[Finalp] = Nil
+  var currentView: mutable.ArrayBuffer[Finalp] = mutable.ArrayBuffer()
 
   def addAtEnd(cpnt : ParentComponent[_]): Unit ={
     contentRef.ref.addChild(cpnt.xml())
@@ -43,19 +41,19 @@ trait SimpleList[Finalp <: FinalComponent[_ <: HTMLElement]]
   </div>
 
 
-  val contentRef = Ref[Div]("content" + id)
-
+  val contentRef: Ref[Div] = Ref[Div]("content" + id)
+  def clear(): Unit =  contentRef.ref.clear();
 
   def clearAndAddAll(cps: List[Finalp]): List[Finalp] = {
     contentRef.ref.clear();
-
+    addAll(cps)
+  }
+  def addAll(cps: List[Finalp]): List[Finalp] = {
     cps.foreach(e => {
       e.addTo(contentRef.ref);
       e
     })
     cps
-
-
   }
 
   override def init(parentp: HTMLElement): Unit = {

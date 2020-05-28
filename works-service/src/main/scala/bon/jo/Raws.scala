@@ -1,9 +1,14 @@
 package bon.jo
 
+import bon.jo.Raws.TextId
 import bon.jo.SiteModel.OkResponse
 
 object Raws {
 
+  @js.native
+  trait WithId extends js.Object {
+    val id: Int
+  }
   @js.native
   trait OeuvreRaw extends js.Object {
     val date: String
@@ -41,6 +46,18 @@ object Raws {
     val base:String
   }
 
+  @js.native
+  trait TextId extends js.Object {
+    val uid: String
+    val index: Int
+  }
+  @js.native
+  trait TextExport extends js.Object  {
+    val id : TextId
+    //val id: Int
+    val text:String
+  }
+
 
   @js.native
   trait ItemRawExport extends js.Object {
@@ -64,7 +81,7 @@ object Raws {
   @js.native
   trait OeuvreRawExport extends js.Object {
     val id: Int
-    val image: Int
+    val image: js.BigInt
     val name: String
     val dimension: DimemsionExport
     val date: Int
@@ -84,6 +101,11 @@ object Raws {
 
 object RawImpl {
 
+  case class TextId(uid : String,index : Int) extends Raws.TextId
+  case class TextExport(
+                         //id: Int,
+                         id: TextId,
+                         text: String) extends Raws.TextExport
   case class ItemRawExport(id: Int,
                            text: String,
                            link: String,
@@ -115,7 +137,7 @@ object ItemRawExport{
 
   case class OeuvreRawExport(
                               id: Int,
-                              image: Int,
+                              image: js.BigInt,
                               name: String,
                               dimension: DimemsionExport,
                               date: Int,

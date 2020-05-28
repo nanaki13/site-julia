@@ -1,16 +1,17 @@
-package bon.jo
+package bon.jo.service
 
 import bon.jo.SiteModel.OkResponse
 import bon.jo.juliasite.pers.{RepositoryContext, SiteRepository}
 import slick.dbio.{DBIOAction, NoStream}
 import slick.lifted.TableQuery
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 trait Service[WebMessage <: OkResponse] {
 
 
   val dbContext: RepositoryContext with SiteRepository
+
 
   def oeuvres = dbContext.oeuvres
 
@@ -25,6 +26,8 @@ trait Service[WebMessage <: OkResponse] {
   def themesOeuvres = dbContext.themesOeuvres
 
   def themeImages = dbContext.themeImages
+
+  def texts = dbContext.texts
 
   def run[R](a: DBIOAction[R, NoStream, Nothing]): Future[R] = dbContext.run(a)
 

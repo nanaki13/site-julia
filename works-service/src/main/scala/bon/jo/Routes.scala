@@ -147,7 +147,7 @@ object ReadKey {
 
 case class Login(login: String, name: String, mdp: String = "test")
 
-class Routes(services: List[RootCreator[_]]) extends Directives with RouteHandle {
+class Routes(services: List[RootCreator[_,_]]) extends Directives with RouteHandle {
 
 
   def doWithContext(ctx: RequestContext): Route = {

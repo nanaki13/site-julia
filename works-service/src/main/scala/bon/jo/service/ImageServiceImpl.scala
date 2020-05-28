@@ -1,20 +1,23 @@
-package bon.jo
+package bon.jo.service
 
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Route
 import akka.stream.Materializer
-import bon.jo.SiteModel.ImgLink
 import bon.jo.juliasite.pers.{RepositoryContext, SiteRepository}
+import bon.jo.{MyFailure, RawImpl, ReadConf, RouteHandle}
 
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
 
-class ImageServiceImpl(override val dbContext: RepositoryContext with SiteRepository)(implicit val manifest: Manifest[RawImpl.ImageRawExport]) extends ImageService with WebImageSevice with RouteHandle {
+class ImageServiceImpl(override val dbContext: RepositoryContext with SiteRepository
 
-  override def before(implicit executionContext: ExecutionContext, m: Materializer): Option[Route] = Some {
+                      )(implicit val manifest: Manifest[RawImpl.ImageRawExport], val exe: ExecutionContext) extends ImageService with WebImageSevice with RouteHandle {
+
+  override def before(implicit   m: Materializer): Option[Route] = Some {
     concat(get {
+
       pathSuffix(Segment) { filenameOrId =>
         onComplete(
           for (fStart <- getImage(filenameOrId.substring(0, filenameOrId.lastIndexOf('.')))
@@ -49,7 +52,7 @@ class ImageServiceImpl(override val dbContext: RepositoryContext with SiteReposi
               val (data, ct) = parsedMap("file").asInstanceOf[(Array[Byte], String)]
               val name = parsedMap("image_name").toString
               val id = parsedMap("id").toString
-              saveImage(Some(data), id.toInt, ct, name, ReadConf.conf.baseApiUrlImage).map(e => {
+              saveImage(Some(data), id.toInt, ct, name, "/"+ReadConf.conf.baseApiUrlImage).map(e => {
                 e.map { t => RawImpl.ImageRawExport(t._1, ImgLink(t._1,t._2), t._4) }
               })
             })

@@ -1,16 +1,18 @@
-package bon.jo
+package bon.jo.service
 
-import bon.jo.SiteModel.{ImgLink, ImgLinkOb}
+import bon.jo.SiteModel.ImgLinkOb
+import bon.jo.{RawImpl, ReadConf}
 import slick.dbio.Effect.Write
 import slick.sql.FixedSqlAction
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
+
 
 trait WebImageSevice extends ImageService {
 
 
-  import dbContext.ctx
   import dbContext.profile.api._
+  implicit val exe: ExecutionContext
 
   val contentTypeIs: PartialFunction[String, String] = {
     case "jpg" => "image/jpeg"
@@ -42,7 +44,7 @@ trait WebImageSevice extends ImageService {
   override def readEntity(m: Int): Future[Option[RawImpl.ImageRawExport]] = {
     val selectAndMap = images.filter(_.id === m).map(t => (t.id, t.contentType, t.name, t.base)).result.headOption.map(ee =>
       ee map { e =>
-        RawImpl.ImageRawExport(e._1, s"${e._1}.${e._2.substring(e._2.lastIndexOf('/') + 1)}", e._4)
+        RawImpl.ImageRawExport(e._1, ImgLink(e._1,e._2), e._4)
       }
     )
     db.run(selectAndMap)
@@ -51,7 +53,7 @@ trait WebImageSevice extends ImageService {
   override def readAll: Future[IterableOnce[RawImpl.ImageRawExport]] = {
     val selectAndMap = images.map(t => (t.id, t.contentType, t.name, t.base)).result.map(ee =>
       ee map { e =>
-        RawImpl.ImageRawExport(e._1, s"${e._1}.${e._2.substring(e._2.lastIndexOf('/') + 1)}", e._4)
+        RawImpl.ImageRawExport(e._1, ImgLink(e._1,e._2), e._4)
       }
     )
     db.run(selectAndMap)

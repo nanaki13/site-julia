@@ -4,6 +4,7 @@ import akka.http.scaladsl.model.HttpResponse
 import akka.http.scaladsl.model.StatusCodes.InternalServerError
 import akka.http.scaladsl.server.{ExceptionHandler, HttpApp, Route}
 import bon.jo.juliasite.pers.RepoFactory
+import bon.jo.service.ServicesFactory
 
 import scala.concurrent.ExecutionContextExecutor
 

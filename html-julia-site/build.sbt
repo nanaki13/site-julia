@@ -35,7 +35,8 @@ lazy val `julia-js` =
     .crossType(CrossType.Pure) // [Pure, Full, Dummy], default: CrossType.Full
     .settings(sharedSettings)
     .settings(libraryDependencies ++= Seq("org.scala-js" %%% "scalajs-dom" % "1.0.0", "org.scala-lang.modules" %%% "scala-xml" % "2.0.0-M1"
-      , "bon.jo" %%% "html-app" % "0.1.1-SNAPSHOT"
+      , "bon.jo" %%% "html-app" % "0.1.1-SNAPSHOT",
+      "bon.jo" %%% "phy-shared" % "0.1.1-SNAPSHOT"
 
     ))
 

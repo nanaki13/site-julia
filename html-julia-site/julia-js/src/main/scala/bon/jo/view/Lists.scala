@@ -1,42 +1,58 @@
 package bon.jo.view
 
-import bon.jo.html.DomShell.{$, ExtendedElement, Obs, OnceObs}
+import bon.jo.Logger
+import bon.jo.html.DomShell.ExtendedElement
 import bon.jo.html.Types.FinalComponent
-import org.scalajs.dom.html.{Div, Span}
+import bon.jo.phy.Obs
 import org.scalajs.dom.raw.{HTMLElement, MouseEvent}
 
-import scala.scalajs.js
-import scala.xml.Node
+import scala.concurrent.{ExecutionContext, Future}
 
 object Lists {
 
   object PagList {
     def apply[Finalp <: FinalComponent[_ <: HTMLElement]](
                                                            idp: String,
-                                                           cssClassp: String
-                                                        ,deletep : Finalp=>Unit ): PagList[Finalp] = new SimpleList[Finalp] with PaginableList[Finalp] {
+                                                           cssClassp: String ,
+                                                           addElementp: Option[() => Future[Finalp]],
+                                                           deletep : Finalp=>Unit,
+                                                           rebuildp : Finalp=>Finalp )
+                                                         (implicit executionContext: ExecutionContext): PagList[Finalp] =
+      new PaginableList[Finalp] {
+      override implicit val ex: ExecutionContext =executionContext
       override def cssClass: String = cssClassp
 
       override def id: String = idp
 
       override def addedInView(el: Finalp): Unit = {}
       override def deletedInView(e : Finalp): Unit = deletep(e)
-    }
+      override var addElement: Option[() => Future[Finalp]] = addElementp
+
+        override def rebuild(finalp: Finalp): Finalp = rebuildp(finalp)
+      }
   }
 
   object PagChooseList {
     def apply[A, Finalp <: FinalComponent[_ <: HTMLElement]](
                                                               idp: String,
-                                                              cssClassp: String
-                                                              , mappingp: Finalp => A
+                                                              cssClassp: String,
+                                                               mappingp: Finalp => A,
+                                                              rebuildp : Finalp=>Finalp,
+                                                              addElementp:  Option[() => Future[Finalp]],
+                                                              deletep : Finalp=>Unit = (e : Finalp )=> {}
 
-                                                              ,deletep : Finalp=>Unit = (e : Finalp )=> {} ): PagChooseList[A, Finalp] = new PaginableList[Finalp] with ChooseList[A, Finalp] {
+                                                            )(implicit executionContext: ExecutionContext): PagChooseList[A, Finalp] = new PaginableList[Finalp] with ChooseList[A, Finalp] {
+      override implicit val ex: ExecutionContext =executionContext
       override def cssClass: String = cssClassp
 
       override def id: String = idp
 
       override def mapping(p: Finalp): A = mappingp(p)
       override def deletedInView(e : Finalp): Unit = deletep(e)
+
+      override var addElement: Option[() => Future[Finalp]] = addElementp
+
+      override def rebuild(finalp: Finalp): Finalp = rebuildp(finalp)
     }
   }
 
@@ -48,12 +64,13 @@ object Lists {
 
 
     override def addedInView(e: Finalp): Unit = {
+      Logger.log(""+e.id)
       e.me.clkOnce().suscribe((ev: MouseEvent) => obs.newValue(mapping(e)))
     }
 
     override def clearAndAddAll(cps: List[Finalp]): List[Finalp] = {
       val fromSup = super.clearAndAddAll(cps)
-      fromSup foreach addedInView
+      fromSup.filter(_.isInDom) foreach addedInView
       fromSup
     }
 

@@ -9,11 +9,13 @@ import org.json4s.native.Serialization.read
 
 import scala.concurrent.{ExecutionContext, Future}
 import CustomJs._
-trait RootCreator[WebMessage <: OkResponse] extends Directives with JsonParsing with RouteHandle {
+import akka.http.scaladsl.model.Uri.Path
+trait RootCreator[WebMessage <: OkResponse,ID] extends Directives with JsonParsing with RouteHandle {
 
-  self: WebServiceCrud[WebMessage] =>
+  self: WebServiceCrud[WebMessage,ID] =>
   implicit val manifest: Manifest[WebMessage]
 
+  def stringToId(id:  List[String]) : ID
 
 
   def stadard(
@@ -21,12 +23,11 @@ trait RootCreator[WebMessage <: OkResponse] extends Directives with JsonParsing 
                m: Materializer
              ): Route = {
 
-    def unMarsh[WebMessage](implicit manifest: Manifest[WebMessage],  m: Materializer): FromEntityUnmarshaller[WebMessage] = {
-      def toJson(s: HttpEntity): Future[WebMessage] = {
+    def unMarsh[All](implicit manifest: Manifest[All],  m: Materializer): FromEntityUnmarshaller[All] = {
+      def toJson(s: HttpEntity): Future[All] = {
         s.dataBytes.runReduce(_ ++ _).map(e => {
           try{
-            println(e.utf8String)
-            read[WebMessage](e.utf8String)
+            read[All](e.utf8String)
           }catch {
             case e : Exception => println(e);e.printStackTrace();throw e
           }
@@ -36,15 +37,16 @@ trait RootCreator[WebMessage <: OkResponse] extends Directives with JsonParsing 
 
       Unmarshaller.withMaterializer(_ => _ => toJson)
     }
-    concat(pathSuffix(IntNumber) { id: Int =>
+    concat(pathPrefix(RemainingPath) { id: Path =>
       concat(get {
+
         implicit val st = StatusCodes.OK
-        handle(self.readEntity(id), s"error when getting ${ressourceName}")
+        handle(self.readEntity(stringToId(readPath(id))), s"error when getting ${ressourceName}")
       },
         delete {
           implicit val st = StatusCodes.NoContent
 
-          handle(self.deleteEntity(id).map(Operation.apply), s"error when delete  ${ressourceName}")
+          handle(self.deleteEntity(stringToId(readPath(id))).map(Operation.apply), s"error when delete  ${ressourceName}")
         })
     },
       get {
@@ -75,6 +77,17 @@ trait RootCreator[WebMessage <: OkResponse] extends Directives with JsonParsing 
       })
   }
 
+  def readPath(p : Path): List[String] = {
+    var cr = p
+    var ps : List[String] =   Nil
+    for(_ <- 0 until p.length) {
+      if(!cr.startsWithSlash){
+        ps = ps :+ cr.head.toString
+      }
+      cr = cr.tail
+    }
+    ps
+  }
   def crudRoot(
                 implicit executionContext: ExecutionContext,
                 m: Materializer
@@ -92,5 +105,5 @@ trait RootCreator[WebMessage <: OkResponse] extends Directives with JsonParsing 
     }
   }
 
-  def before(implicit executionContext: ExecutionContext, m: Materializer): Option[Route]
+  def before(implicit m: Materializer): Option[Route]
 }

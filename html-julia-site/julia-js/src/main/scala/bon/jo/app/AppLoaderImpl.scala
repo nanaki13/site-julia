@@ -1,7 +1,6 @@
 package bon.jo.app
 
 import bon.jo._
-import bon.jo.app.RequestHttp.GET
 import bon.jo.game.html.Template
 import org.scalajs.dom.Event
 import org.scalajs.dom.html.Div

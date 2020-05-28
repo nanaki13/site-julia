@@ -9,7 +9,7 @@ import org.scalajs.dom.html.Div
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class JuliaApp(app: Div, template: Template) extends HtmlApp[SiteTemplate](app: Div, template: Template) {
+class JuliaApp(app: Div, template: Template) extends HtmlApp[SiteTemplate]( template: Template) {
 
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.global
   implicit val u: User = user

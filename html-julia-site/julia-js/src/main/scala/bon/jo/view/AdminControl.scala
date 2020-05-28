@@ -1,25 +1,24 @@
 package bon.jo.view
 
+import java.util.concurrent.TimeUnit
+
 import bon.jo.Logger
-import bon.jo.SiteModel.{MenuItem, SiteElement}
-import bon.jo.app.Response
+import bon.jo.SiteModel.{Oeuvre, SiteElement, ThemeMenuItem}
 import bon.jo.app.service.DistantService
+import bon.jo.html.DomShell.{$, ExtendedElement}
 import bon.jo.html.Types.ParentComponent
 import bon.jo.html.ValueView
-import bon.jo.html.DomShell.ExtendedElement
-import bon.jo.service.Raws.ImageRawExport
 import bon.jo.service.SiteService
 import org.scalajs.dom.html.{Div, Span}
 import org.scalajs.dom.raw.Event
 
-import scala.concurrent.Future
-import scala.scalajs.js
+import scala.concurrent.duration.FiniteDuration
 import scala.xml.{Node, NodeBuffer}
 
-trait AdminControl[A <: SiteElement] extends ValueView[A] {
+trait AdminControl[A <: SiteElement[ID],ID] extends ValueView[A] {
   type Conc = A
 
-  def service: DistantService[A, _]
+  def service: DistantService[A, _, ID]
 
   val siteService: SiteService
 
@@ -27,7 +26,7 @@ trait AdminControl[A <: SiteElement] extends ValueView[A] {
 
   val admin = siteService.user.role.admin
 
-  def chooseMenuView: ValueView[MenuItem] with ParentComponent[Div]
+  def chooseMenuView: ValueView[ThemeMenuItem] with ParentComponent[Div]
 
   def id: String
 
@@ -109,31 +108,65 @@ trait AdminControl[A <: SiteElement] extends ValueView[A] {
     updateCtx()
     if (admin) {
       saveDiv.ref.addEventListener("click", (e: Event) => {
-        service.update(value) map (_ => {
-          saveDiv.ref.style.display = "none"
+        val v = value
+        Logger.log(v.asInstanceOf[Oeuvre].image.toString + "--- ")
+        Logger.log(asInstanceOf[WithImage[_, _,_]].image.toString + "--- ")
+        service.update(v) map (_ => {
+
+          obs.newValue(v)
+          // saveDiv.ref.style.display = "none"
         })
 
 
       })
       deleteDiv.ref.addEventListener("click", (e: Event) => {
-        service.delete(value.id) map (_ => {
-          siteService.siteModel.remove(value)
+        val v = value
+        service.delete(v.id) map (_ => {
+          siteService.siteModel.remove(v)
           removeFromView()
         })
 
       })
 
 
-      aShow.ref.style.display = "none"
+
       val click = adminDef.ref.clkOnce();
       var in = true
       click.suscribe(e => {
         if (in) {
+        //  $[Div]("admin-"+id).classList.add("admin-clicked" )
+          $[Div]("admin-"+id).style.top="15em";
+          $[Div]("admin-"+id).style.left="20%";
+          $[Div]("admin-"+id).style.position="fixed";
+          $[Div]("admin-"+id).style.zIndex="1000";
+         // aShow.ref.style.display = "inline-block"
+       //   adminDef.ref.classList.add("img-configure-clicked")
+       //   adminDef.ref.classList.remove("img-configure")
+
+          adminDef.ref.style.top="-2em";
           aShow.ref.style.display = "inline-block"
+          aShow.ref.style.opacity = "1"
+          aShow.ref.style.width = "35em"
+          aShow.ref.style.height = "auto"
           in = false
         } else {
           in = true
-          aShow.ref.style.display = "none"
+      //    $[Div]("admin-"+id).classList.remove("admin-clicked" )
+          $[Div]("admin-"+id).style.top=null;
+          $[Div]("admin-"+id).style.left=null
+          $[Div]("admin-"+id).style.position="absolute";
+          $[Div]("admin-"+id).style.zIndex="1000";
+
+          adminDef.ref.style.top="0";
+
+       //   adminDef.ref.classList.remove("img-configure-clicked")
+ //         adminDef.ref.classList.add("img-configure")
+          aShow.ref.style.opacity = "0"
+          aShow.ref.style.width = "0"
+          aShow.ref.style.height = "0"
+          scalajs.js.timers.setTimeout(FiniteDuration(750,TimeUnit.MILLISECONDS)){
+            aShow.ref.style.display = "none"
+          }
         }
 
       })

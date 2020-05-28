@@ -1,14 +1,10 @@
 package bon.jo.view
 
-import bon.jo.SiteModel.Oeuvre
-import bon.jo.html.DomShell.$
 import bon.jo.html.Types.FinalComponent
 import bon.jo.service.Raws.ImageRawExport
 import org.scalajs.dom.html.{Div, Image}
 import org.scalajs.dom.raw.{Event, HTMLElement}
 
-import scala.scalajs.js
-import scala.scalajs.js.Promise
 import scala.xml.Node
 
 case class ImgView(id: String, src: String, alt: String, divCss: String,imageRawExport: ImageRawExport) extends FinalComponent[Div] {
@@ -33,4 +29,7 @@ case class ImgView(id: String, src: String, alt: String, divCss: String,imageRaw
     }
     img.ref.src = src
   }
+}
+object ImgView{
+  def apply(other : ImgView): ImgView = other.copy()
 }

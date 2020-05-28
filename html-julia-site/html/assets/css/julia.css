@@ -1,22 +1,87 @@
 
 .img-configure{
     vertical-align: top;
+    position:absolute;
     width:1em ;
     height:1em;
+  /*   opacity:0;*/
+        width:1em;
+        margin-left:1em;
+        z-index: 1001;
+}
+.img-configure-clicked{
+position: absolute;
+    top: -2em;
+    opacity: 1;
+    width: 1em;
+    cursor: pointer;
+     z-index: 1001;
+
+}
+.para{
+    width : 50em;
+}
+
+.admin-clicked{
+      top: 15em;
+         left: 20%;
+         position: fixed;
+         z-index: 1000;
 }
 
 .admin{
-   float:left;
-    z-index:1000;
+transition: .75s ease-in-out;
+      position: absolute;
+      z-index: 1000;
 }
 .admin-show{
     position : absolute;
-    background : black;
+    width : 0;
+    height: 0;
+    opacity : 0;
+    display: none;
+    top : -1em;
+    background : #e7e0af;
+    padding:1em;
+     z-index:999;
+      transition: .75s ease-in-out;
+}
+.hide-no-over{
+    opacity:0;
+    transition: .75s ease-in-out;
+    display:inline-block;
+    position:absolute;
+     color: #771919;
+    border: 0.1em solid #1e1e01;
+    background-color: #fff703;
+    border-radius: .25em;
+    padding:0.2em;
+    margin-left:14em;
+
+}
+.title-para{
+transition: .75s ease-in-out;
+}
+.over-handle{
+min-height: 3em;
+}
+
+.over-handle:hover>.hide-no-over{
+    opacity:1;
+    z-index:1000;
+    cursor:pointer;
+
+
+}
+.configurable:hover>.admin>.img-configure{
+    opacity:1;
+    width:1em;
+    cursor:pointer;
 }
 .oeuvre{
  margin: auto;
     display: inline-flex;
-   width: 20em;
+ /*  width: 20em;*/
 }
 .column-display{
     column-width: 20em;
@@ -38,6 +103,7 @@
  width: 20em;
 }
 #side-menu{
+    text-align: center;
     position: fixed;
         top: 0;
         left: 0;
@@ -119,6 +185,15 @@
  color: #771919;
     background-color: #fff70357;
     border-color: #1e1e01;
+    display: block;
+        /* font-size: 20px; */
+        margin: 15% 0 0 0;
+        color: black;
+        text-decoration: none;
+        line-height: 15px;
+        font-size: 11px;
+        letter-spacing: 6px;
+        font-weight: 700;
 }
 .btn {
     color: #771919;
@@ -150,9 +225,12 @@
 
     border-color: #005cbf;
 }
+body{
+  font-family: Lato, sans-serif;
+}
 .oeuvre-text{
     position: absolute;
-    font-family: Lato, sans-serif;
+
     text-align: left;
     color: gold;
     width: inherit;

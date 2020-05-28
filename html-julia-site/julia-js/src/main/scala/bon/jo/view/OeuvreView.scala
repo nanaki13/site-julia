@@ -1,29 +1,26 @@
 package bon.jo.view
 
 import bon.jo.{Logger, SiteModel}
-import bon.jo.SiteModel.{MenuItem, Oeuvre}
-import bon.jo.app.Response
+import bon.jo.SiteModel.{Oeuvre, ThemeMenuItem}
 import bon.jo.app.service.DistantService
-import bon.jo.html.DomShell.inputXml
+import bon.jo.html.DomShell.{$, ExtendedElement, inputXml}
 import bon.jo.html.Types.FinalComponent
-import bon.jo.html.{InDom, Types, ValueView}
+import bon.jo.html.{Types, ValueView}
 import bon.jo.service.Raws.OeuvreRawExport
 import bon.jo.service.{Raws, SiteService}
 import org.scalajs.dom.html.{Div, Image, Input}
-import org.scalajs.dom.raw.{Event, HTMLElement}
+import org.scalajs.dom.raw.HTMLElement
 
-import scala.concurrent.{ExecutionContext, Future}
-import scala.scalajs.js
-import scala.scalajs.js.Promise
-import scala.xml.Node
+import scala.concurrent.ExecutionContext
+import scala.xml.{Group, Node, NodeBuffer, NodeSeq}
 
-case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) extends
+case class OeuvreView(var oeuvre: Oeuvre)(implicit val siteService: SiteService) extends
   FinalComponent[Div]
-  with AdminControl[Oeuvre]
+  with AdminControl[Oeuvre,Int]
   with intOnce
-  with WithImage[Div, Oeuvre] {
+  with WithImage[Div, Oeuvre,Int] {
 
-  override val service: DistantService[Oeuvre, OeuvreRawExport] = siteService.oeuvreService
+  override val service: DistantService[Oeuvre, OeuvreRawExport,Int] = siteService.oeuvreService
 
   private val nomForm = Ref[Input](id + "nom")
   private val dateForm = Ref[Input](id + "date")
@@ -34,26 +31,36 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
   implicit val executionContext: ExecutionContext = siteService.executionContext
 
   override def imageFor(e: Raws.ImageRawExport): Unit = {
-    oeuvre.image = siteService.siteModel.allImages.find(_.id == e.id).get
+    oeuvre.image = siteService.siteModel.allImages.find(_.id == e.id)
+
     service.update(value).foreach(e => {
-      updateSrc(oeuvre.image)
+      oeuvre.image.foreach(updateSrc)
+      obs.newValue(oeuvre)
     })
   }
 
-  def extract: Oeuvre = oeuvre.copy(name = nomForm.ref.value, date = dateForm.ref.value.toInt, dimension = oeuvre.dimension.copy(xForm.ref.value.toFloat, yForm.ref.value.toFloat), description = descrpitionForm.ref.value.toString)
+
 
   override def value: Oeuvre = {
-    extract
+    Logger.log(oeuvre.image+" In value of oezuver")
+    oeuvre.copy(name = nomForm.ref.value,
+      date = dateForm.ref.value.toInt,
+      dimension = oeuvre.dimension.copy(xForm.ref.value.toFloat,
+        yForm.ref.value.toFloat),
+      description = descrpitionForm.ref.value)
   }
 
 
-  lazy val choose: ChoooseMenuItem = new ChoooseMenuItem((v) => {
+  lazy val choose: ChoooseMenuItem = new ChoooseMenuItem("theme-for" + id, (v) => {
 
-    siteService.move(oeuvre, v)
-    choose.removeFromView()
+    siteService.move(oeuvre, v).foreach(e => {
+
+      removeFromView()
+    })
+
   })
 
-  override def chooseMenuView: ValueView[MenuItem] with Types.ParentComponent[Div] = choose
+  override def chooseMenuView: ValueView[ThemeMenuItem] with Types.ParentComponent[Div] = choose
 
   def modifyView: Node = {
     <form>
@@ -64,48 +71,73 @@ case class OeuvreView(oeuvre: Oeuvre)(implicit val siteService: SiteService) ext
 
   }
 
-  override def xml(): Node = <div class="oeuvre" id={id}>
-    {adminXmlOption match {
-      case Some(value) => value
-      case None =>
-    }}<div class="oeuvre-text">
-      <div class="text oeuvre-title">
-        {oeuvre.name}
+  def inMe: Node = {
+
+    <div id={id + "-disp"}>
+
+      <div class="oeuvre-text">
+        <div class="text oeuvre-title">
+          {oeuvre.name}
+        </div>
+        <div class="text">
+          {oeuvre.date}
+        </div>
+        <div class="text">
+          {oeuvre.dimension.x}
+          cm x
+          {oeuvre.dimension.y}
+          cm
+        </div>
+        <div class="text">
+          {oeuvre.description}
+        </div>
       </div>
-      <div class="text">
-        {oeuvre.date}
-      </div>
-      <div class="text">
-        {oeuvre.dimension.x}
-        cm x
-        {oeuvre.dimension.y}
-        cm
-      </div>
-      <div class="text">
-        {oeuvre.description}
+      <div class="img-cont">
+        <div class="fore-ground"></div>
+        <img id={idImage} class="oeuvre-img"></img>
       </div>
     </div>
-    <div class="img-cont">
-      <div class="fore-ground"></div>
-      <img id={"img-" + oeuvre.image.id} class="oeuvre-img"></img>
+
+  }
+
+  override def xml(): Node = {
+    val l = adminXmlOption match {
+      case Some(value) => List(inMe, value)
+      case None => List(inMe)
+    }
+    val n = NodeSeq.fromSeq(l)
+    <div class="oeuvre configurable" id={id}>
+      {Group(n)}
     </div>
-  </div>
+  }
 
   override def id: String = "o-" + oeuvre.id
 
 
+  def idImage: String = s"img-$id-" + oeuvre.image.map(_.id).getOrElse("undef")
 
 
+  override def factory: Option[Ref[Image]] = Some(Ref[Image](idImage))
 
-  override def factory: Ref[Image] = Ref[Image]("img-" + oeuvre.image.id)
-
-  override val image: Option[SiteModel.Image] = Some(oeuvre.image)
+  override def image: Option[SiteModel.Image] =
+    oeuvre.image
 
   override def init(parent: HTMLElement): Unit = {
     initImg(parent)
     initAdminEvent()
-  }
 
+    obs.suscribe(o => {
+
+
+      Logger.log(o.name)
+      oeuvre = o
+      val getDisp = $[Div](id + "-disp")
+      getDisp.clear
+      getDisp.addChild(inMe)
+      _imgRef = None
+      initImg(parent)
+    })
+  }
 
 
 }

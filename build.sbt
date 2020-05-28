@@ -11,6 +11,7 @@ lazy val commonSettings = Seq(
 
 lazy val wsName = "works-service"
 lazy val wrName = "works-repository"
+lazy val csName = "console"
 lazy val wr = (project in file(wrName))
   .settings(
     name := wrName,
@@ -24,7 +25,7 @@ lazy val wr = (project in file(wrName))
 lazy val ws = (project in file(wsName)).settings(
   name := wsName,
   commonSettings,
-  mainClass in Compile := Some("Main"),
+  mainClass in Compile := Some("bon.jo.Main"),
   libraryDependencies ++= Seq(
     scalaTest % Test,
     "com.typesafe.akka" %% "akka-http" % "10.1.11",
@@ -38,9 +39,15 @@ lazy val ws = (project in file(wsName)).settings(
     "org.bouncycastle" % "bcprov-ext-jdk16" % "1.46"),
   
   // other settings
-).dependsOn(wr)
+).dependsOn(wr).enablePlugins(JavaAppPackaging)
+lazy val console = (project in file(csName)).settings(
+  name := csName,
+  commonSettings,
+  mainClass in Compile := Some("bon.jo.ConsoleSend")
+).dependsOn(ws).enablePlugins(JavaAppPackaging)
 lazy val root = (project in file(".")).aggregate(wr, ws).settings(
-  commonSettings
+  commonSettings,
+
   //watchSources ++= (baseDirectory.value / "public/ui" ** "*").get
 ).enablePlugins(JavaAppPackaging)
   //.enablePlugins(PlayScala)
