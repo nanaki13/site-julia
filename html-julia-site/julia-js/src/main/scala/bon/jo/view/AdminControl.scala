@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit
 
 import bon.jo.Logger
 import bon.jo.SiteModel.{Oeuvre, SiteElement, ThemeMenuItem}
+import bon.jo.app.Response
 import bon.jo.app.service.DistantService
 import bon.jo.html.DomShell.{$, ExtendedElement}
 import bon.jo.html.Types.ParentComponent
@@ -12,25 +13,29 @@ import bon.jo.service.SiteService
 import org.scalajs.dom.html.{Div, Span}
 import org.scalajs.dom.raw.Event
 
+import scala.concurrent.Future
 import scala.concurrent.duration.FiniteDuration
+import scala.util.{Failure, Success}
 import scala.xml.{Node, NodeBuffer}
 
-trait AdminControl[A <: SiteElement[ID],ID] extends ValueView[A] {
-  type Conc = A
+trait AdminControl[Entity <: SiteElement[ID],ID] extends ValueView[Entity] {
 
-  def service: DistantService[A, _, ID]
+
+
+
+  def service: DistantService[Entity, _, ID]
 
   val siteService: SiteService
 
   import siteService.executionContext
 
-  val admin = siteService.user.role.admin
+  val admin: Boolean = siteService.user.role.admin
 
   def chooseMenuView: ValueView[ThemeMenuItem] with ParentComponent[Div]
 
   def id: String
 
-  def value: A
+  def value: Entity
 
 
   case class AdminCtx(
@@ -78,7 +83,7 @@ trait AdminControl[A <: SiteElement[ID],ID] extends ValueView[A] {
 
   def inAdmin: NodeBuffer = <span id={"move-" + id} class="btn">Move</span> <span id={"choice-" + id}></span>
     <span id={"save-" + id} class="btn save-span">
-      <img width="50em" src="/julia/assets/image/save.png" alt="save"/>
+     <button type="submit"><img width="50em" src="/julia/assets/image/save.png" alt="save"/></button>
     </span>
     <span id={"delete-" + id} class="btn">
       <img alt="delete"/>
@@ -103,28 +108,38 @@ trait AdminControl[A <: SiteElement[ID],ID] extends ValueView[A] {
       currentCtx = createCtx
     }
   }
+  implicit class FutureAfter(val f : Future[_]){
+    def popupMessage(ok : String = "Opération réussit", ko : String = "Opération échoué")={
+      f.onComplete {
+        case Failure(exception) => PopUp(ko);Logger.log(exception)
+        case Success(_) =>  PopUp(ok)
+      }
+    }
+  }
 
   def initAdminEvent(): Unit = {
     updateCtx()
     if (admin) {
       saveDiv.ref.addEventListener("click", (e: Event) => {
         val v = value
-        Logger.log(v.asInstanceOf[Oeuvre].image.toString + "--- ")
-        Logger.log(asInstanceOf[WithImage[_, _,_]].image.toString + "--- ")
-        service.update(v) map (_ => {
+        def f: Future[Response] = service.update(v) map ( r => {
 
           obs.newValue(v)
+          r
           // saveDiv.ref.style.display = "none"
         })
+        f.popupMessage()
 
 
       })
       deleteDiv.ref.addEventListener("click", (e: Event) => {
         val v = value
-        service.delete(v.id) map (_ => {
+        def f: Future[Response] = service.delete(v.id) map { r  => {
           siteService.siteModel.remove(v)
           removeFromView()
-        })
+          r
+        }}
+        f.popupMessage()
 
       })
 
@@ -138,7 +153,7 @@ trait AdminControl[A <: SiteElement[ID],ID] extends ValueView[A] {
           $[Div]("admin-"+id).style.top="15em";
           $[Div]("admin-"+id).style.left="20%";
           $[Div]("admin-"+id).style.position="fixed";
-          $[Div]("admin-"+id).style.zIndex="1000";
+          $[Div]("admin-"+id).style.zIndex="10000";
          // aShow.ref.style.display = "inline-block"
        //   adminDef.ref.classList.add("img-configure-clicked")
        //   adminDef.ref.classList.remove("img-configure")
@@ -155,7 +170,8 @@ trait AdminControl[A <: SiteElement[ID],ID] extends ValueView[A] {
           $[Div]("admin-"+id).style.top=null;
           $[Div]("admin-"+id).style.left=null
           $[Div]("admin-"+id).style.position="absolute";
-          $[Div]("admin-"+id).style.zIndex="1000";
+          $[Div]("admin-"+id).style.zIndex="999";
+
 
           adminDef.ref.style.top="0";
 

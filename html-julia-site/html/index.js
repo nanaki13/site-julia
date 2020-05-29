@@ -1480,7 +1480,7 @@ class $c_Lbon_jo_html_DomShell$ extends $c_O {
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
     return new $c_s_xml_Elem(null, "form", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
   };
-  inputXml__T__T__O__T__T__sci_Map__s_xml_Elem(name, label, value, _type, inputClasses, dataSet) {
+  inputXml__T__T__O__T__T__sci_Map__s_xml_Elem(id, labelAndName, value, _type, inputClasses, dataSet) {
     const metaDataAgg = $m_s_xml_Null$();
     let result = metaDataAgg;
     const it = dataSet.iterator__sc_Iterator();
@@ -1501,23 +1501,23 @@ class $c_Lbon_jo_html_DomShell$ extends $c_O {
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
     let \u03b4md$2 = $m_s_xml_Null$();
     \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("form-label"), \u03b4md$2);
-    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "for", ("" + name), \u03b4md$2);
-    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("l-" + name), \u03b4md$2);
+    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "for", ("" + labelAndName), \u03b4md$2);
+    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("l-" + id), \u03b4md$2);
     const $$x2 = \u03b4md$2;
     const $$x1 = $m_s_xml_TopScope$();
     $m_s_xml_NodeSeq$();
     const \u03b4buf$2 = new $c_s_xml_NodeBuffer();
     \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n        "));
-    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(label);
+    \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(labelAndName);
     \u03b4buf$2.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "label", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$2)));
     const class_ = ("form-control" + ((inputClasses !== "") ? (" " + inputClasses) : ""));
     let \u03b4md$3 = $m_s_xml_Null$();
     \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "type", _type, \u03b4md$3);
     \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "value", ("" + value), \u03b4md$3);
-    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "placeholder", ("" + label), \u03b4md$3);
-    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("" + name), \u03b4md$3);
-    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "name", ("" + name), \u03b4md$3);
+    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "placeholder", ("" + labelAndName), \u03b4md$3);
+    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("" + id), \u03b4md$3);
+    \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "name", ("" + labelAndName), \u03b4md$3);
     \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", class_, \u03b4md$3);
     const $$x4 = \u03b4md$3;
     const $$x3 = $m_s_xml_TopScope$();
@@ -1716,7 +1716,7 @@ class $c_Lbon_jo_phy_Obs$ extends $c_O {
   get__T__Lbon_jo_phy_Obs(id) {
     const ret = this.Lbon_jo_phy_Obs$__f_alls.get__O__s_Option(id);
     if (ret.isEmpty__Z()) {
-      const n = new $c_Lbon_jo_phy_StackObs($m_sci_Nil$());
+      const n = $ct_Lbon_jo_phy_StackObs__sci_List__(new $c_Lbon_jo_phy_StackObs(), $m_sci_Nil$());
       const this$2 = this.Lbon_jo_phy_Obs$__f_alls;
       $p_scm_HashMap__put0__O__O__Z__s_Some(this$2, id, n, false);
       return n
@@ -2818,6 +2818,8 @@ class $c_Lbon_jo_service_SiteService$services$ extends $c_O {
     this.Lbon_jo_service_SiteService$services$__f_readIDOeuvre = null;
     this.Lbon_jo_service_SiteService$services$__f_readIDImae = null;
     this.Lbon_jo_service_SiteService$services$__f_readIDText = null;
+    this.Lbon_jo_service_SiteService$services$__f_idToStr = null;
+    this.Lbon_jo_service_SiteService$services$__f_id2ToStr = null;
     this.Lbon_jo_service_SiteService$services$__f_orderTextId = null;
     this.Lbon_jo_service_SiteService$services$__f_$outer = null;
     if ((outer === null)) {
@@ -2829,13 +2831,27 @@ class $c_Lbon_jo_service_SiteService$services$ extends $c_O {
     this.Lbon_jo_service_SiteService$services$__f_readIDOeuvre = new $c_sjsr_AnonFunction1(((this$2) => ((x$11$2) => $uI(x$11$2.id)))(this));
     this.Lbon_jo_service_SiteService$services$__f_readIDImae = new $c_sjsr_AnonFunction1(((this$3) => ((x$12$2) => $uI(x$12$2.id)))(this));
     this.Lbon_jo_service_SiteService$services$__f_readIDText = new $c_sjsr_AnonFunction1(((this$4) => ((x$13$2) => x$13$2.id))(this));
+    this.Lbon_jo_service_SiteService$services$__f_idToStr = new $c_sjsr_AnonFunction1(((this$5) => ((e$2) => {
+      const this$11 = $m_sci_List$();
+      const $$x1 = $as_T(e$2.uid);
+      const this$6 = $uI(e$2.index);
+      const array = [$$x1, ("" + this$6)];
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
+      return this$11.from__sc_IterableOnce__sci_List(elems)
+    }))(this));
+    this.Lbon_jo_service_SiteService$services$__f_id2ToStr = new $c_sjsr_AnonFunction1(((this$6$1) => ((e$3$2) => {
+      const e$3 = $uI(e$3$2);
+      const rassoc$1 = ("" + e$3);
+      const this$13 = $m_sci_Nil$();
+      return new $c_sci_$colon$colon(rassoc$1, this$13)
+    }))(this));
     $m_s_package$();
-    const f = new $c_sjsr_AnonFunction1(((this$5) => ((x$14$2) => $as_T(x$14$2.uid)))(this));
+    const f = new $c_sjsr_AnonFunction1(((this$7$1) => ((x$14$2) => $as_T(x$14$2.uid)))(this));
     const ord = $m_s_math_Ordering$String$();
-    const this$7 = new $c_s_math_Ordering$$anon$5(ord, f);
-    const f$1 = new $c_sjsr_AnonFunction1(((this$6$1) => ((x$15$2) => $uI(x$15$2.index)))(this));
+    const this$15 = new $c_s_math_Ordering$$anon$5(ord, f);
+    const f$1 = new $c_sjsr_AnonFunction1(((this$8$1) => ((x$15$2) => $uI(x$15$2.index)))(this));
     const ord$1 = $m_s_math_Ordering$Int$();
-    this.Lbon_jo_service_SiteService$services$__f_orderTextId = new $c_s_math_Ordering$$anonfun$orElseBy$2(this$7, ord$1, f$1)
+    this.Lbon_jo_service_SiteService$services$__f_orderTextId = new $c_s_math_Ordering$$anonfun$orElseBy$2(this$15, ord$1, f$1)
   };
   menuService__Lbon_jo_service_SiteService$services$menuService$() {
     if ((this.Lbon_jo_service_SiteService$services$__f_menuService$module === null)) {
@@ -2876,6 +2892,44 @@ const $f_Lbon_jo_service_mId__newId__O = (function($thiz) {
   $thiz.Lbon_jo_service_KeepId__f_mid = $thiz.incId__O__O($thiz.Lbon_jo_service_KeepId__f_mid);
   return $thiz.Lbon_jo_service_KeepId__f_mid
 });
+class $c_Lbon_jo_view_AdminControl$FutureAfter extends $c_O {
+  constructor(outer, f) {
+    super();
+    this.Lbon_jo_view_AdminControl$FutureAfter__f_f = null;
+    this.Lbon_jo_view_AdminControl$FutureAfter__f_$outer = null;
+    this.Lbon_jo_view_AdminControl$FutureAfter__f_f = f;
+    if ((outer === null)) {
+      throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
+    } else {
+      this.Lbon_jo_view_AdminControl$FutureAfter__f_$outer = outer
+    }
+  };
+  popupMessage__T__T__V(ok, ko) {
+    this.Lbon_jo_view_AdminControl$FutureAfter__f_f.onComplete__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1(((this$1, ko$1, ok$1) => ((x0$1$2) => {
+      const x0$1 = $as_s_util_Try(x0$1$2);
+      if ((x0$1 instanceof $c_s_util_Failure)) {
+        const x2 = $as_s_util_Failure(x0$1);
+        const exception = x2.s_util_Failure__f_exception;
+        new $c_Lbon_jo_view_PopUp(ko$1);
+        if ((!$uZ(conf.prod))) {
+          $m_Lbon_jo_html_DomShell$().log__O__V(exception)
+        };
+        return (void 0)
+      } else if ((x0$1 instanceof $c_s_util_Success)) {
+        return new $c_Lbon_jo_view_PopUp(ok$1)
+      } else {
+        throw new $c_s_MatchError(x0$1)
+      }
+    }))(this, ko, ok)), this.Lbon_jo_view_AdminControl$FutureAfter__f_$outer.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_executionContext)
+  };
+}
+const $d_Lbon_jo_view_AdminControl$FutureAfter = new $TypeData().initClass({
+  Lbon_jo_view_AdminControl$FutureAfter: 0
+}, false, "bon.jo.view.AdminControl$FutureAfter", {
+  Lbon_jo_view_AdminControl$FutureAfter: 1,
+  O: 1
+});
+$c_Lbon_jo_view_AdminControl$FutureAfter.prototype.$classData = $d_Lbon_jo_view_AdminControl$FutureAfter;
 class $c_Lbon_jo_view_Lists$PagChooseList$ extends $c_O {
   apply$default$6__F1() {
     return new $c_sjsr_AnonFunction1(((this$1) => ((e$2) => {
@@ -9449,7 +9503,7 @@ class $c_Lbon_jo_JuliaApp extends $c_Lbon_jo_app_HtmlApp {
       this$3.Lbon_jo_SiteTemplate__f__site = site;
       $as_Lbon_jo_SiteTemplate(this$1.Lbon_jo_app_HtmlApp__f_typedTemplate).Lbon_jo_SiteTemplate__f_service = this$1.Lbon_jo_JuliaApp__f_service;
       const $$x1 = this$1.Lbon_jo_JuliaApp__f_app;
-      const _1 = site.xml__s_xml_Node();
+      const _1 = site.xml__s_xml_Elem();
       $$x1.appendChild($m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", "")))
     }))(this)), this.Lbon_jo_JuliaApp__f_ec)
   };
@@ -9802,6 +9856,9 @@ const $d_Lbon_jo_html_DomShell$ExtendedElement = new $TypeData().initClass({
   O: 1
 });
 $c_Lbon_jo_html_DomShell$ExtendedElement.prototype.$classData = $d_Lbon_jo_html_DomShell$ExtendedElement;
+const $f_Lbon_jo_html_GenId__$init$__V = (function($thiz) {
+  $thiz.Lbon_jo_view_Acceuil__f_id = $m_ju_UUID$().randomUUID__ju_UUID().toString__T()
+});
 class $c_Lbon_jo_phy_EventContext$ extends $c_O {
   obsFact__Lbon_jo_phy_ObsFact() {
     return new $c_Lbon_jo_phy_EventContext$$$Lambda$1(((this$1) => (() => $m_Lbon_jo_phy_Obs$().once__Lbon_jo_phy_OnceObs().toMany__Lbon_jo_phy_StackObs()))(this))
@@ -9860,15 +9917,12 @@ class $c_Lbon_jo_phy_OnceObs extends $c_O {
     }
   };
   toMany__Lbon_jo_phy_StackObs() {
-    let $$x1;
-    if ((this.Lbon_jo_phy_OnceObs__f_client !== null)) {
-      const rassoc$1 = this.Lbon_jo_phy_OnceObs__f_client;
-      const this$1 = $m_sci_Nil$();
-      $$x1 = new $c_sci_$colon$colon(rassoc$1, this$1)
-    } else {
-      $$x1 = $m_sci_Nil$()
-    };
-    return new $c_Lbon_jo_phy_StackObs($$x1)
+    const n = $ct_Lbon_jo_phy_StackObs__sci_List__(new $c_Lbon_jo_phy_StackObs(), $m_sci_Nil$());
+    const clientp = new $c_sjsr_AnonFunction1(((this$2, n$1) => ((a$2) => {
+      n$1.newValue__O__V(a$2)
+    }))(this, n));
+    this.Lbon_jo_phy_OnceObs__f_client = clientp;
+    return n
   };
 }
 class $c_Lbon_jo_view_APropos$cv$ extends $c_O {
@@ -9913,6 +9967,21 @@ const $d_Lbon_jo_view_APropos$cv$ = new $TypeData().initClass({
   Lbon_jo_view_PartAbs$Factory: 1
 });
 $c_Lbon_jo_view_APropos$cv$.prototype.$classData = $d_Lbon_jo_view_APropos$cv$;
+const $p_Lbon_jo_view_AdminControl__f$1__Lbon_jo_SiteModel$SiteElement__s_concurrent_Future = (function($thiz, v$1) {
+  return $thiz.service__Lbon_jo_app_service_DistantService().update__O__s_concurrent_Future(v$1).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$1, v$1$1) => ((r$2) => {
+    const r = $as_Lbon_jo_app_Response(r$2);
+    this$1.obs__Lbon_jo_phy_Obs().newValue__O__V(v$1$1);
+    return r
+  }))($thiz, v$1)), $thiz.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_executionContext)
+});
+const $p_Lbon_jo_view_AdminControl__f$2__Lbon_jo_SiteModel$SiteElement__s_concurrent_Future = (function($thiz, v$2) {
+  return $thiz.service__Lbon_jo_app_service_DistantService().delete__O__s_concurrent_Future(v$2.id__O()).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$1, v$2$1) => ((r$2) => {
+    const r = $as_Lbon_jo_app_Response(r$2);
+    this$1.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_siteModel.remove__Lbon_jo_SiteModel$SiteElement__V(v$2$1);
+    $f_Lbon_jo_html_InDom__removeFromView__V(this$1);
+    return r
+  }))($thiz, v$2)), $thiz.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_executionContext)
+});
 const $f_Lbon_jo_view_AdminControl__createCtx__Lbon_jo_view_AdminControl$AdminCtx = (function($thiz) {
   const idp = ("move-" + $thiz.id__T());
   const $$x6 = new $c_Lbon_jo_view_Ref$$anon$1(idp);
@@ -9952,37 +10021,44 @@ const $f_Lbon_jo_view_AdminControl__inAdmin__s_xml_NodeBuffer = (function($thiz)
   let \u03b4md$3 = $m_s_xml_Null$();
   \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("btn save-span"), \u03b4md$3);
   \u03b4md$3 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("save-" + $thiz.id__T()), \u03b4md$3);
-  const $$x8 = \u03b4md$3;
-  const $$x7 = $m_s_xml_TopScope$();
+  const $$x10 = \u03b4md$3;
+  const $$x9 = $m_s_xml_TopScope$();
   $m_s_xml_NodeSeq$();
   const \u03b4buf$3 = new $c_s_xml_NodeBuffer();
-  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n     "));
   let \u03b4md$4 = $m_s_xml_Null$();
-  \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "alt", new $c_s_xml_Text("save"), \u03b4md$4);
-  \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "src", new $c_s_xml_Text("/julia/assets/image/save.png"), \u03b4md$4);
-  \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "width", new $c_s_xml_Text("50em"), \u03b4md$4);
-  const $$x6 = \u03b4md$4;
-  const $$x5 = $m_s_xml_TopScope$();
-  const array$1 = [];
-  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x6, $$x5, true, $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1)));
-  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
-  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x8, $$x7, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$3)));
-  let \u03b4md$5 = $m_s_xml_Null$();
-  \u03b4md$5 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("btn"), \u03b4md$5);
-  \u03b4md$5 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("delete-" + $thiz.id__T()), \u03b4md$5);
-  const $$x12 = \u03b4md$5;
-  const $$x11 = $m_s_xml_TopScope$();
+  \u03b4md$4 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "type", new $c_s_xml_Text("submit"), \u03b4md$4);
+  const $$x8 = \u03b4md$4;
+  const $$x7 = $m_s_xml_TopScope$();
   $m_s_xml_NodeSeq$();
   const \u03b4buf$4 = new $c_s_xml_NodeBuffer();
-  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  let \u03b4md$5 = $m_s_xml_Null$();
+  \u03b4md$5 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "alt", new $c_s_xml_Text("save"), \u03b4md$5);
+  \u03b4md$5 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "src", new $c_s_xml_Text("/julia/assets/image/save.png"), \u03b4md$5);
+  \u03b4md$5 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "width", new $c_s_xml_Text("50em"), \u03b4md$5);
+  const $$x6 = \u03b4md$5;
+  const $$x5 = $m_s_xml_TopScope$();
+  const array$1 = [];
+  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x6, $$x5, true, $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1)));
+  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "button", $$x8, $$x7, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$4)));
+  \u03b4buf$3.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x10, $$x9, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$3)));
   let \u03b4md$6 = $m_s_xml_Null$();
-  \u03b4md$6 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "alt", new $c_s_xml_Text("delete"), \u03b4md$6);
-  const $$x10 = \u03b4md$6;
-  const $$x9 = $m_s_xml_TopScope$();
+  \u03b4md$6 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("btn"), \u03b4md$6);
+  \u03b4md$6 = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", ("delete-" + $thiz.id__T()), \u03b4md$6);
+  const $$x14 = \u03b4md$6;
+  const $$x13 = $m_s_xml_TopScope$();
+  $m_s_xml_NodeSeq$();
+  const \u03b4buf$5 = new $c_s_xml_NodeBuffer();
+  \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
+  let \u03b4md$7 = $m_s_xml_Null$();
+  \u03b4md$7 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "alt", new $c_s_xml_Text("delete"), \u03b4md$7);
+  const $$x12 = \u03b4md$7;
+  const $$x11 = $m_s_xml_TopScope$();
   const array$2 = [];
-  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x10, $$x9, true, $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$2)));
-  \u03b4buf$4.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
-  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x12, $$x11, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$4)));
+  \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "img", $$x12, $$x11, true, $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$2)));
+  \u03b4buf$5.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
+  \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Elem(null, "span", $$x14, $$x13, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf$5)));
   return \u03b4buf
 });
 const $f_Lbon_jo_view_AdminControl__adminXml__s_xml_Node = (function($thiz) {
@@ -10027,11 +10103,15 @@ const $f_Lbon_jo_view_AdminControl__initAdminEvent__V = (function($thiz) {
   $f_Lbon_jo_view_AdminControl__updateCtx__V($thiz);
   if ($thiz.admin__Z()) {
     const qual$1 = $thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_saveDiv.ref__Lorg_scalajs_dom_raw_HTMLElement();
-    const x$2 = ((arg$outer) => ((arg1$2) => $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$1__Lorg_scalajs_dom_raw_Event__s_concurrent_Future(arg$outer, arg1$2)))($thiz);
-    qual$1.addEventListener("click", x$2);
-    const qual$2 = $thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_deleteDiv.ref__Lorg_scalajs_dom_raw_HTMLElement();
-    const x$5 = ((arg$outer$1) => ((arg1$2$1) => $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$3__Lorg_scalajs_dom_raw_Event__s_concurrent_Future(arg$outer$1, arg1$2$1)))($thiz);
-    qual$2.addEventListener("click", x$5);
+    const x$4 = ((arg$outer) => ((arg1$2) => {
+      $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$1__Lorg_scalajs_dom_raw_Event__V(arg$outer, arg1$2)
+    }))($thiz);
+    qual$1.addEventListener("click", x$4);
+    const qual$3 = $thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_deleteDiv.ref__Lorg_scalajs_dom_raw_HTMLElement();
+    const x$9 = ((arg$outer$1) => ((arg1$2$1) => {
+      $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$3__Lorg_scalajs_dom_raw_Event__V(arg$outer$1, arg1$2$1)
+    }))($thiz);
+    qual$3.addEventListener("click", x$9);
     const element = $thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_adminDef.ref__Lorg_scalajs_dom_raw_HTMLElement();
     const click = new $c_Lbon_jo_html_DomShell$ExtendedElement(element).clkOnce__Lbon_jo_phy_OnceObs();
     const in$1 = new $c_sr_BooleanRef(true);
@@ -10040,7 +10120,7 @@ const $f_Lbon_jo_view_AdminControl__initAdminEvent__V = (function($thiz) {
         $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(("admin-" + this$3.id__T())).style.top = "15em";
         $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(("admin-" + this$3.id__T())).style.left = "20%";
         $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(("admin-" + this$3.id__T())).style.position = "fixed";
-        $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(("admin-" + this$3.id__T())).style.zIndex = "1000";
+        $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(("admin-" + this$3.id__T())).style.zIndex = "10000";
         this$3.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_adminDef.ref__Lorg_scalajs_dom_raw_HTMLElement().style.top = "-2em";
         this$3.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_aShow.ref__Lorg_scalajs_dom_raw_HTMLElement().style.display = "inline-block";
         this$3.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_aShow.ref__Lorg_scalajs_dom_raw_HTMLElement().style.opacity = "1";
@@ -10052,7 +10132,7 @@ const $f_Lbon_jo_view_AdminControl__initAdminEvent__V = (function($thiz) {
         $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(("admin-" + this$3.id__T())).style.top = null;
         $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(("admin-" + this$3.id__T())).style.left = null;
         $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(("admin-" + this$3.id__T())).style.position = "absolute";
-        $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(("admin-" + this$3.id__T())).style.zIndex = "1000";
+        $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(("admin-" + this$3.id__T())).style.zIndex = "999";
         this$3.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_adminDef.ref__Lorg_scalajs_dom_raw_HTMLElement().style.top = "0";
         this$3.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_aShow.ref__Lorg_scalajs_dom_raw_HTMLElement().style.opacity = "0";
         this$3.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_aShow.ref__Lorg_scalajs_dom_raw_HTMLElement().style.width = "0";
@@ -10065,35 +10145,24 @@ const $f_Lbon_jo_view_AdminControl__initAdminEvent__V = (function($thiz) {
       }
     }))($thiz, in$1));
     click.Lbon_jo_phy_OnceObs__f_client = clientp;
-    const qual$3 = $thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_moveDiv.ref__Lorg_scalajs_dom_raw_HTMLElement();
-    const x$8 = ((arg$outer$2) => ((arg1$2$2) => {
+    const qual$5 = $thiz.currentCtx__Lbon_jo_view_AdminControl$AdminCtx().Lbon_jo_view_AdminControl$AdminCtx__f_moveDiv.ref__Lorg_scalajs_dom_raw_HTMLElement();
+    const x$12 = ((arg$outer$2) => ((arg1$2$2) => {
       $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$7__Lorg_scalajs_dom_raw_Event__V(arg$outer$2, arg1$2$2)
     }))($thiz);
-    qual$3.addEventListener("click", x$8)
+    qual$5.addEventListener("click", x$12)
   }
 });
-const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$1__Lorg_scalajs_dom_raw_Event__s_concurrent_Future = (function($thiz, e) {
+const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$1__Lorg_scalajs_dom_raw_Event__V = (function($thiz, e) {
   const v = $thiz.value__Lbon_jo_SiteModel$SiteElement();
-  const any = ($as_Lbon_jo_SiteModel$Oeuvre(v).Lbon_jo_SiteModel$Oeuvre__f_image.toString__T() + "--- ");
-  if ((!$uZ(conf.prod))) {
-    $m_Lbon_jo_html_DomShell$().log__O__V(any)
-  };
-  const any$1 = ($as_Lbon_jo_view_WithImage($thiz).image__s_Option().toString__T() + "--- ");
-  if ((!$uZ(conf.prod))) {
-    $m_Lbon_jo_html_DomShell$().log__O__V(any$1)
-  };
-  return $thiz.service__Lbon_jo_app_service_DistantService().update__O__s_concurrent_Future(v).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$3, v$1) => ((x$1$2) => {
-    $as_Lbon_jo_app_Response(x$1$2);
-    this$3.obs__Lbon_jo_phy_Obs().newValue__O__V(v$1)
-  }))($thiz, v)), $thiz.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_executionContext)
+  const f = $p_Lbon_jo_view_AdminControl__f$1__Lbon_jo_SiteModel$SiteElement__s_concurrent_Future($thiz, v);
+  const qual$2 = new $c_Lbon_jo_view_AdminControl$FutureAfter($thiz, f);
+  qual$2.popupMessage__T__T__V("Op\u00e9ration r\u00e9ussit", "Op\u00e9ration \u00e9chou\u00e9")
 });
-const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$3__Lorg_scalajs_dom_raw_Event__s_concurrent_Future = (function($thiz, e) {
+const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$3__Lorg_scalajs_dom_raw_Event__V = (function($thiz, e) {
   const v = $thiz.value__Lbon_jo_SiteModel$SiteElement();
-  return $thiz.service__Lbon_jo_app_service_DistantService().delete__O__s_concurrent_Future(v.id__O()).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$1, v$1) => ((x$2$2) => {
-    $as_Lbon_jo_app_Response(x$2$2);
-    this$1.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_siteModel.remove__Lbon_jo_SiteModel$SiteElement__V(v$1);
-    $f_Lbon_jo_html_InDom__removeFromView__V(this$1)
-  }))($thiz, v)), $thiz.siteService__Lbon_jo_service_SiteService().Lbon_jo_service_SiteService__f_executionContext)
+  const f = $p_Lbon_jo_view_AdminControl__f$2__Lbon_jo_SiteModel$SiteElement__s_concurrent_Future($thiz, v);
+  const qual$4 = new $c_Lbon_jo_view_AdminControl$FutureAfter($thiz, f);
+  qual$4.popupMessage__T__T__V("Op\u00e9ration r\u00e9ussit", "Op\u00e9ration \u00e9chou\u00e9")
 });
 const $f_Lbon_jo_view_AdminControl__bon$jo$view$AdminControl$$$anonfun$initAdminEvent$7__Lorg_scalajs_dom_raw_Event__V = (function($thiz, e) {
   const this$1 = $thiz.choose__Lbon_jo_view_ChoooseMenuItem();
@@ -11997,6 +12066,49 @@ function $m_ju_Random$() {
     $n_ju_Random$ = new $c_ju_Random$()
   };
   return $n_ju_Random$
+}
+const $p_ju_UUID$__rng$lzycompute__ju_Random = (function($thiz) {
+  if ((!$thiz.ju_UUID$__f_bitmap$0)) {
+    $thiz.ju_UUID$__f_rng = $ct_ju_Random__(new $c_ju_Random());
+    $thiz.ju_UUID$__f_bitmap$0 = true
+  };
+  return $thiz.ju_UUID$__f_rng
+});
+const $p_ju_UUID$__rng__ju_Random = (function($thiz) {
+  return ((!$thiz.ju_UUID$__f_bitmap$0) ? $p_ju_UUID$__rng$lzycompute__ju_Random($thiz) : $thiz.ju_UUID$__f_rng)
+});
+class $c_ju_UUID$ extends $c_O {
+  constructor() {
+    super();
+    this.ju_UUID$__f_rng = null;
+    this.ju_UUID$__f_bitmap$0 = false
+  };
+  randomUUID__ju_UUID() {
+    const this$1 = $p_ju_UUID$__rng__ju_Random(this);
+    const i1 = this$1.next__I__I(32);
+    const this$2 = $p_ju_UUID$__rng__ju_Random(this);
+    const i2 = (16384 | ((-61441) & this$2.next__I__I(32)));
+    const this$3 = $p_ju_UUID$__rng__ju_Random(this);
+    const i3 = ((-2147483648) | (1073741823 & this$3.next__I__I(32)));
+    const this$4 = $p_ju_UUID$__rng__ju_Random(this);
+    const i4 = this$4.next__I__I(32);
+    return new $c_ju_UUID(i1, i2, i3, i4, null, null)
+  };
+}
+const $d_ju_UUID$ = new $TypeData().initClass({
+  ju_UUID$: 0
+}, false, "java.util.UUID$", {
+  ju_UUID$: 1,
+  O: 1,
+  Ljava_io_Serializable: 1
+});
+$c_ju_UUID$.prototype.$classData = $d_ju_UUID$;
+let $n_ju_UUID$ = (void 0);
+function $m_ju_UUID$() {
+  if ((!$n_ju_UUID$)) {
+    $n_ju_UUID$ = new $c_ju_UUID$()
+  };
+  return $n_ju_UUID$
 }
 class $c_ju_concurrent_TimeUnit$ extends $c_O {
   constructor() {
@@ -14677,6 +14789,78 @@ function $m_Ljava_nio_charset_UTF\uff3f8$() {
   };
   return $n_Ljava_nio_charset_UTF\uff3f8$
 }
+class $c_ju_UUID extends $c_O {
+  constructor(i1, i2, i3, i4, l1, l2) {
+    super();
+    this.ju_UUID__f_i1 = 0;
+    this.ju_UUID__f_i2 = 0;
+    this.ju_UUID__f_i3 = 0;
+    this.ju_UUID__f_i4 = 0;
+    this.ju_UUID__f_l1 = null;
+    this.ju_UUID__f_l2 = null;
+    this.ju_UUID__f_i1 = i1;
+    this.ju_UUID__f_i2 = i2;
+    this.ju_UUID__f_i3 = i3;
+    this.ju_UUID__f_i4 = i4;
+    this.ju_UUID__f_l1 = l1;
+    this.ju_UUID__f_l2 = l2
+  };
+  toString__T() {
+    const i = this.ju_UUID__f_i1;
+    const s = $as_T($uD((i >>> 0)).toString(16));
+    const beginIndex = $uI(s.length);
+    const $$x5 = $as_T("00000000".substring(beginIndex));
+    const i$1 = ((this.ju_UUID__f_i2 >>> 16) | 0);
+    const s$1 = $as_T($uD((i$1 >>> 0)).toString(16));
+    const beginIndex$1 = $uI(s$1.length);
+    const $$x4 = $as_T("0000".substring(beginIndex$1));
+    const i$2 = (65535 & this.ju_UUID__f_i2);
+    const s$2 = $as_T($uD((i$2 >>> 0)).toString(16));
+    const beginIndex$2 = $uI(s$2.length);
+    const $$x3 = $as_T("0000".substring(beginIndex$2));
+    const i$3 = ((this.ju_UUID__f_i3 >>> 16) | 0);
+    const s$3 = $as_T($uD((i$3 >>> 0)).toString(16));
+    const beginIndex$3 = $uI(s$3.length);
+    const $$x2 = $as_T("0000".substring(beginIndex$3));
+    const i$4 = (65535 & this.ju_UUID__f_i3);
+    const s$4 = $as_T($uD((i$4 >>> 0)).toString(16));
+    const beginIndex$4 = $uI(s$4.length);
+    const $$x1 = $as_T("0000".substring(beginIndex$4));
+    const i$5 = this.ju_UUID__f_i4;
+    const s$5 = $as_T($uD((i$5 >>> 0)).toString(16));
+    const beginIndex$5 = $uI(s$5.length);
+    return ((((((((((("" + $$x5) + s) + "-") + (("" + $$x4) + s$1)) + "-") + (("" + $$x3) + s$2)) + "-") + (("" + $$x2) + s$3)) + "-") + (("" + $$x1) + s$4)) + (("" + $as_T("00000000".substring(beginIndex$5))) + s$5))
+  };
+  hashCode__I() {
+    return (((this.ju_UUID__f_i1 ^ this.ju_UUID__f_i2) ^ this.ju_UUID__f_i3) ^ this.ju_UUID__f_i4)
+  };
+  equals__O__Z(that) {
+    if ((that instanceof $c_ju_UUID)) {
+      const x2 = $as_ju_UUID(that);
+      return ((((this.ju_UUID__f_i1 === x2.ju_UUID__f_i1) && (this.ju_UUID__f_i2 === x2.ju_UUID__f_i2)) && (this.ju_UUID__f_i3 === x2.ju_UUID__f_i3)) && (this.ju_UUID__f_i4 === x2.ju_UUID__f_i4))
+    } else {
+      return false
+    }
+  };
+}
+function $as_ju_UUID(obj) {
+  return (((obj instanceof $c_ju_UUID) || (obj === null)) ? obj : $throwClassCastException(obj, "java.util.UUID"))
+}
+function $isArrayOf_ju_UUID(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.ju_UUID)))
+}
+function $asArrayOf_ju_UUID(obj, depth) {
+  return (($isArrayOf_ju_UUID(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Ljava.util.UUID;", depth))
+}
+const $d_ju_UUID = new $TypeData().initClass({
+  ju_UUID: 0
+}, false, "java.util.UUID", {
+  ju_UUID: 1,
+  O: 1,
+  Ljava_io_Serializable: 1,
+  jl_Comparable: 1
+});
+$c_ju_UUID.prototype.$classData = $d_ju_UUID;
 const $ct_ju_concurrent_atomic_AtomicInteger__I__ = (function($thiz, value) {
   $thiz.ju_concurrent_atomic_AtomicInteger__f_java$util$concurrent$atomic$AtomicInteger$$value = value;
   return $thiz
@@ -18867,9 +19051,10 @@ const $d_Lbon_jo_app_User = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lbon_jo_app_User.prototype.$classData = $d_Lbon_jo_app_User;
-const $ct_Lbon_jo_app_service_DistantService__T__F1__F1__Lbon_jo_app_User__s_concurrent_ExecutionContext__ = (function($thiz, url, read, write, user, ex) {
+const $ct_Lbon_jo_app_service_DistantService__T__F1__F1__F1__Lbon_jo_app_User__s_concurrent_ExecutionContext__ = (function($thiz, url, read, idToPath, write, user, ex) {
   $thiz.Lbon_jo_app_service_DistantService__f_url = url;
   $thiz.Lbon_jo_app_service_DistantService__f_read = read;
+  $thiz.Lbon_jo_app_service_DistantService__f_idToPath = idToPath;
   $thiz.Lbon_jo_app_service_DistantService__f_write = write;
   $thiz.Lbon_jo_app_service_DistantService__f_ex = ex;
   return $thiz
@@ -18879,6 +19064,7 @@ class $c_Lbon_jo_app_service_DistantService extends $c_O {
     super();
     this.Lbon_jo_app_service_DistantService__f_url = null;
     this.Lbon_jo_app_service_DistantService__f_read = null;
+    this.Lbon_jo_app_service_DistantService__f_idToPath = null;
     this.Lbon_jo_app_service_DistantService__f_write = null;
     this.Lbon_jo_app_service_DistantService__f_ex = null
   };
@@ -18922,13 +19108,15 @@ class $c_Lbon_jo_app_service_DistantService extends $c_O {
     }))(this)), this.Lbon_jo_app_service_DistantService__f_ex)
   };
   delete__O__s_concurrent_Future(id) {
-    const $$x3 = $m_Lbon_jo_app_RequestHttp$DELETE$();
-    const $$x2 = this.Lbon_jo_app_service_DistantService__f_url;
+    const $$x4 = $m_Lbon_jo_app_RequestHttp$DELETE$();
+    const $$x3 = this.Lbon_jo_app_service_DistantService__f_url;
+    const this$1 = $as_sc_IterableOnceOps(this.Lbon_jo_app_service_DistantService__f_idToPath.apply__O__O(id));
+    const $$x2 = $f_sc_IterableOnceOps__mkString__T__T__T__T(this$1, "", "/", "");
     $m_Lbon_jo_app_RequestHttp$DELETE$();
     $m_Lbon_jo_app_RequestHttp$DELETE$();
     const $$x1 = $m_sci_Nil$();
-    const this$3 = $m_s_$less$colon$less$();
-    return $$x3.send__T__O__sci_List__F1__s_concurrent_Future((($$x2 + "/") + id), null, $$x1, this$3.s_$less$colon$less$__f_singleton)
+    const this$4 = $m_s_$less$colon$less$();
+    return $$x4.send__T__O__sci_List__F1__s_concurrent_Future((($$x3 + "/") + $$x2), null, $$x1, this$4.s_$less$colon$less$__f_singleton)
   };
   productPrefix__T() {
     return "DistantService"
@@ -19341,7 +19529,7 @@ class $c_Lbon_jo_view_PopUp extends $c_O {
     const this$1 = $m_Lbon_jo_view_PopUp$();
     if ((!$f_Lbon_jo_html_InDom__isInDom__Z(this$1))) {
       const this$2 = $m_Lbon_jo_view_PopUp$();
-      const _1 = this$2.xml__s_xml_Node();
+      const _1 = this$2.xml__s_xml_Elem();
       const html = $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""));
       this.buildCss__Lorg_scalajs_dom_raw_HTMLElement__V(html);
       $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.appendChild(html)
@@ -22870,11 +23058,14 @@ const $d_Lbon_jo_app_Role$$anonfun$1 = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lbon_jo_app_Role$$anonfun$1.prototype.$classData = $d_Lbon_jo_app_Role$$anonfun$1;
+const $ct_Lbon_jo_phy_StackObs__sci_List__ = (function($thiz, clients) {
+  $thiz.Lbon_jo_phy_StackObs__f_clients = clients;
+  return $thiz
+});
 class $c_Lbon_jo_phy_StackObs extends $c_O {
-  constructor(clients) {
+  constructor() {
     super();
-    this.Lbon_jo_phy_StackObs__f_clients = null;
-    this.Lbon_jo_phy_StackObs__f_clients = clients
+    this.Lbon_jo_phy_StackObs__f_clients = null
   };
   suscribe__F1__V(client) {
     const this$1 = this.Lbon_jo_phy_StackObs__f_clients;
@@ -27459,6 +27650,16 @@ const $d_Lbon_jo_SiteModel$ThemeMenuItem = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lbon_jo_SiteModel$ThemeMenuItem.prototype.$classData = $d_Lbon_jo_SiteModel$ThemeMenuItem;
+const $f_Lbon_jo_html_AutoId__xml__s_xml_Elem = (function($thiz) {
+  const ret = $thiz.idXml__s_xml_Elem();
+  const x$1 = $m_s_xml_MetaData$().concatenate__s_xml_MetaData__s_xml_MetaData__s_xml_MetaData(ret.s_xml_Elem__f_attributes, $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", $thiz.Lbon_jo_view_Acceuil__f_id, $m_s_xml_Null$()));
+  const x$2 = ret.s_xml_Elem__f_prefix;
+  const x$3 = ret.s_xml_Elem__f_label;
+  const x$4 = ret.s_xml_Elem__f_scope;
+  const x$5 = ret.s_xml_Elem__f_minimizeEmpty;
+  const this$1 = ret.s_xml_Elem__f_child;
+  return ret.copy__T__T__s_xml_MetaData__s_xml_NamespaceBinding__Z__sc_Seq__s_xml_Elem(x$2, x$3, x$1, x$4, x$5, this$1)
+});
 class $c_Lbon_jo_html_DomShell$ExtendedHTMLCollection extends $c_O {
   constructor(e) {
     super();
@@ -27651,11 +27852,55 @@ const $d_Lbon_jo_html_OnClick$$anon$1 = new $TypeData().initClass({
   Lbon_jo_html_Clickable: 1
 });
 $c_Lbon_jo_html_OnClick$$anon$1.prototype.$classData = $d_Lbon_jo_html_OnClick$$anon$1;
-const $ct_Lbon_jo_service_KeepId__T__F1__F1__F1__Lbon_jo_app_User__s_math_Ordering__s_concurrent_ExecutionContext__ = (function($thiz, url, read, write, readId, user, orderId, executionContext) {
+class $c_Lbon_jo_phy_MemoObs extends $c_Lbon_jo_phy_StackObs {
+  constructor() {
+    super();
+    this.Lbon_jo_phy_MemoObs__f_keeps = null;
+    $ct_Lbon_jo_phy_StackObs__sci_List__(this, $m_sci_Nil$());
+    this.Lbon_jo_phy_MemoObs__f_keeps = $m_sci_Nil$()
+  };
+  keep__O__V(a) {
+    const this$1 = this.Lbon_jo_phy_MemoObs__f_keeps;
+    this.Lbon_jo_phy_MemoObs__f_keeps = $as_sci_List($f_sc_StrictOptimizedSeqOps__appended__O__O(this$1, a))
+  };
+  suscribe__F1__V(client) {
+    const this$1 = this.Lbon_jo_phy_MemoObs__f_keeps;
+    if ((!this$1.isEmpty__Z())) {
+      const this$2 = this.Lbon_jo_phy_MemoObs__f_keeps;
+      let these = this$2;
+      while ((!these.isEmpty__Z())) {
+        client.apply__O__O(these.head__O());
+        these = $as_sci_List(these.tail__O())
+      }
+    };
+    this.Lbon_jo_phy_MemoObs__f_keeps = $m_sci_Nil$();
+    $c_Lbon_jo_phy_StackObs.prototype.suscribe__F1__V.call(this, client)
+  };
+  newValue__O__V(a) {
+    if (this.Lbon_jo_phy_StackObs__f_clients.isEmpty__Z()) {
+      this.keep__O__V(a)
+    } else {
+      $c_Lbon_jo_phy_StackObs.prototype.newValue__O__V.call(this, a)
+    }
+  };
+}
+const $d_Lbon_jo_phy_MemoObs = new $TypeData().initClass({
+  Lbon_jo_phy_MemoObs: 0
+}, false, "bon.jo.phy.MemoObs", {
+  Lbon_jo_phy_MemoObs: 1,
+  Lbon_jo_phy_StackObs: 1,
+  O: 1,
+  Lbon_jo_phy_Obs: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbon_jo_phy_MemoObs.prototype.$classData = $d_Lbon_jo_phy_MemoObs;
+const $ct_Lbon_jo_service_KeepId__T__F1__F1__F1__F1__Lbon_jo_app_User__s_math_Ordering__s_concurrent_ExecutionContext__ = (function($thiz, url, read, write, readId, idToSring, user, orderId, executionContext) {
   $thiz.Lbon_jo_service_KeepId__f_readId = readId;
   $thiz.Lbon_jo_service_KeepId__f_orderId = orderId;
   $thiz.Lbon_jo_service_KeepId__f_executionContext = executionContext;
-  $ct_Lbon_jo_app_service_DistantService__T__F1__F1__Lbon_jo_app_User__s_concurrent_ExecutionContext__($thiz, url, read, write, user, executionContext);
+  $ct_Lbon_jo_app_service_DistantService__T__F1__F1__F1__Lbon_jo_app_User__s_concurrent_ExecutionContext__($thiz, url, read, idToSring, write, user, executionContext);
   $thiz.Lbon_jo_service_KeepId__f_mid = null;
   $thiz.Lbon_jo_service_KeepId__f_r = read;
   return $thiz
@@ -27709,7 +27954,7 @@ class $c_Lbon_jo_view_APropos extends $c_O {
     this.Lbon_jo_view_APropos__f_maxIndexTitle = 0
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   cv__Lbon_jo_view_APropos$cv$() {
@@ -27769,7 +28014,7 @@ class $c_Lbon_jo_view_APropos extends $c_O {
       }))(this$1)), this$1.Lbon_jo_view_APropos__f_executionContext)
     }))(this)), this.Lbon_jo_view_APropos__f_executionContext)
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", "A propos", \u03b4md);
     const $$x2 = \u03b4md;
@@ -28158,7 +28403,7 @@ const $p_Lbon_jo_view_WithImage__elts$1__sjs_js_Array__sci_List = (function($thi
     const $$x1 = i;
     const arg1 = e$3[i];
     const this$3 = $uI(arg1.id);
-    res[$$x1] = new $c_Lbon_jo_view_ImgView(("img-sm-" + ("" + this$3)), (($as_T(arg1.base) + "/") + $as_T(arg1.link)), ("img-" + $uI(arg1.id)), "img-sm", arg1);
+    res[$$x1] = new $c_Lbon_jo_view_ImgView(("img-sm-" + ("" + this$3)), "img-sm", arg1);
     i = ((1 + i) | 0)
   };
   const this$6 = $ct_sjs_js_WrappedArray__sjs_js_Array__(new $c_sjs_js_WrappedArray(), res);
@@ -28245,16 +28490,14 @@ const $f_Lbon_jo_view_WithImage__bon$jo$view$WithImage$$$anonfun$initImg$1__Lorg
   const idp = ("img-List-" + $thiz.id__T());
   const mappingp = new $c_sjsr_AnonFunction1(((this$1) => ((x$3$2) => {
     const x$3 = $as_Lbon_jo_view_ImgView(x$3$2);
-    return x$3.Lbon_jo_view_ImgView__f_imageRawExport
+    return x$3.Lbon_jo_view_ImgView__f_iRaw
   }))($thiz));
   const rebuildp = new $c_sjsr_AnonFunction1(((this$2) => ((e$2$2) => {
     const e$2 = $as_Lbon_jo_view_ImgView(e$2$2);
     const id = e$2.Lbon_jo_view_ImgView__f_id;
-    const src = e$2.Lbon_jo_view_ImgView__f_src;
-    const alt = e$2.Lbon_jo_view_ImgView__f_alt;
     const divCss = e$2.Lbon_jo_view_ImgView__f_divCss;
-    const imageRawExport = e$2.Lbon_jo_view_ImgView__f_imageRawExport;
-    return new $c_Lbon_jo_view_ImgView(id, src, alt, divCss, imageRawExport)
+    const iRaw = e$2.Lbon_jo_view_ImgView__f_iRaw;
+    return new $c_Lbon_jo_view_ImgView(id, divCss, iRaw)
   }))($thiz));
   const addElementp = $m_s_None$();
   const deletep = $m_Lbon_jo_view_Lists$PagChooseList$().apply$default$6__F1();
@@ -28289,18 +28532,6 @@ const $f_Lbon_jo_view_WithImage__$init$__V = (function($thiz) {
   const idp = ("img-" + $thiz.id__T());
   $thiz.bon$jo$view$WithImage$_setter_$imgDiv_$eq__Lbon_jo_view_Ref__V(new $c_Lbon_jo_view_Ref$$anon$1(idp))
 });
-function $is_Lbon_jo_view_WithImage(obj) {
-  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lbon_jo_view_WithImage)))
-}
-function $as_Lbon_jo_view_WithImage(obj) {
-  return (($is_Lbon_jo_view_WithImage(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "bon.jo.view.WithImage"))
-}
-function $isArrayOf_Lbon_jo_view_WithImage(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbon_jo_view_WithImage)))
-}
-function $asArrayOf_Lbon_jo_view_WithImage(obj, depth) {
-  return (($isArrayOf_Lbon_jo_view_WithImage(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbon.jo.view.WithImage;", depth))
-}
 const $ct_jl_ArrayIndexOutOfBoundsException__T__ = (function($thiz, s) {
   $ct_jl_Throwable__T__jl_Throwable__Z__Z__($thiz, s, null, true, true);
   return $thiz
@@ -30260,7 +30491,7 @@ class $c_Lbon_jo_service_SiteService$services$menuService$ extends $c_Lbon_jo_se
     } else {
       this.Lbon_jo_service_SiteService$services$menuService$__f_$outer = outer
     };
-    $ct_Lbon_jo_service_KeepId__T__F1__F1__F1__Lbon_jo_app_User__s_math_Ordering__s_concurrent_ExecutionContext__(this, $m_Lbon_jo_app_ConfParam$().apiMenu__T(), outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegMenuItem, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trMenuItem, outer.Lbon_jo_service_SiteService$services$__f_readIDItem, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user, $m_s_math_Ordering$Int$(), outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_executionContext)
+    $ct_Lbon_jo_service_KeepId__T__F1__F1__F1__F1__Lbon_jo_app_User__s_math_Ordering__s_concurrent_ExecutionContext__(this, $m_Lbon_jo_app_ConfParam$().apiMenu__T(), outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegMenuItem, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trMenuItem, outer.Lbon_jo_service_SiteService$services$__f_readIDItem, outer.Lbon_jo_service_SiteService$services$__f_id2ToStr, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user, $m_s_math_Ordering$Int$(), outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_executionContext)
   };
   incId__I__I(ID) {
     return this.Lbon_jo_service_SiteService$services$menuService$__f_$outer.Lbon_jo_service_SiteService$services$__f_$outer.services__Lbon_jo_service_SiteService$services$().incId__I__I(ID)
@@ -30291,7 +30522,7 @@ class $c_Lbon_jo_service_SiteService$services$oeuvreService$ extends $c_Lbon_jo_
     } else {
       this.Lbon_jo_service_SiteService$services$oeuvreService$__f_$outer = outer
     };
-    $ct_Lbon_jo_service_KeepId__T__F1__F1__F1__Lbon_jo_app_User__s_math_Ordering__s_concurrent_ExecutionContext__(this, $m_Lbon_jo_app_ConfParam$().apiOeuvre__T(), outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegOeuvre, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trOeuvre, outer.Lbon_jo_service_SiteService$services$__f_readIDOeuvre, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user, $m_s_math_Ordering$Int$(), outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_executionContext)
+    $ct_Lbon_jo_service_KeepId__T__F1__F1__F1__F1__Lbon_jo_app_User__s_math_Ordering__s_concurrent_ExecutionContext__(this, $m_Lbon_jo_app_ConfParam$().apiOeuvre__T(), outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegOeuvre, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trOeuvre, outer.Lbon_jo_service_SiteService$services$__f_readIDOeuvre, outer.Lbon_jo_service_SiteService$services$__f_id2ToStr, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user, $m_s_math_Ordering$Int$(), outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_executionContext)
   };
   incId__I__I(ID) {
     return this.Lbon_jo_service_SiteService$services$oeuvreService$__f_$outer.Lbon_jo_service_SiteService$services$__f_$outer.services__Lbon_jo_service_SiteService$services$().incId__I__I(ID)
@@ -30313,9 +30544,9 @@ const $d_Lbon_jo_service_SiteService$services$oeuvreService$ = new $TypeData().i
   Lbon_jo_service_mId: 1
 });
 $c_Lbon_jo_service_SiteService$services$oeuvreService$.prototype.$classData = $d_Lbon_jo_service_SiteService$services$oeuvreService$;
-const $ct_Lbon_jo_service_TextService__F1__F1__Lbon_jo_app_User__s_concurrent_ExecutionContext__F1__s_math_Ordering__ = (function($thiz, read, write, user, executionContext, tId, orderId) {
+const $ct_Lbon_jo_service_TextService__F1__F1__Lbon_jo_app_User__s_concurrent_ExecutionContext__F1__s_math_Ordering__F1__ = (function($thiz, read, write, user, executionContext, tId, orderId, idToStr) {
   $thiz.Lbon_jo_service_TextService__f_executionContext = executionContext;
-  $ct_Lbon_jo_service_KeepId__T__F1__F1__F1__Lbon_jo_app_User__s_math_Ordering__s_concurrent_ExecutionContext__($thiz, $m_Lbon_jo_app_ConfParam$().apiText__T(), read, write, tId, user, orderId, executionContext);
+  $ct_Lbon_jo_service_KeepId__T__F1__F1__F1__F1__Lbon_jo_app_User__s_math_Ordering__s_concurrent_ExecutionContext__($thiz, $m_Lbon_jo_app_ConfParam$().apiText__T(), read, write, tId, idToStr, user, orderId, executionContext);
   return $thiz
 });
 class $c_Lbon_jo_service_TextService extends $c_Lbon_jo_service_KeepId {
@@ -31973,7 +32204,7 @@ class $c_Lbon_jo_ReadImportFile extends $c_O {
     this.Lbon_jo_ReadImportFile__f_template = template
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   me__Lorg_scalajs_dom_raw_HTMLInputElement() {
@@ -31985,7 +32216,7 @@ class $c_Lbon_jo_ReadImportFile extends $c_O {
     reader.readAsText(file, "UTF-8");
     reader.onload = ((arg$outer, reader$1) => ((arg1$2) => arg$outer.bon$jo$ReadImportFile$$$anonfun$read$1__Lorg_scalajs_dom_raw_UIEvent__Lorg_scalajs_dom_raw_FileReader__O(arg1$2, reader$1)))(this, reader)
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "value", new $c_s_xml_Text("Import"), \u03b4md);
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "type", new $c_s_xml_Text("file"), \u03b4md);
@@ -32042,7 +32273,7 @@ class $c_Lbon_jo_service_SiteService$services$imageService$ extends $c_Lbon_jo_s
     } else {
       this.Lbon_jo_service_SiteService$services$imageService$__f_$outer = outer
     };
-    $ct_Lbon_jo_service_KeepId__T__F1__F1__F1__Lbon_jo_app_User__s_math_Ordering__s_concurrent_ExecutionContext__(this, $m_Lbon_jo_app_ConfParam$().apiImage__T(), outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegImage, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trImage, outer.Lbon_jo_service_SiteService$services$__f_readIDImae, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user, $m_s_math_Ordering$Int$(), outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_executionContext);
+    $ct_Lbon_jo_service_KeepId__T__F1__F1__F1__F1__Lbon_jo_app_User__s_math_Ordering__s_concurrent_ExecutionContext__(this, $m_Lbon_jo_app_ConfParam$().apiImage__T(), outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegImage, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trImage, outer.Lbon_jo_service_SiteService$services$__f_readIDImae, outer.Lbon_jo_service_SiteService$services$__f_id2ToStr, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user, $m_s_math_Ordering$Int$(), outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_executionContext);
     this.Lbon_jo_service_SiteService$services$imageService$__f_ex = outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_executionContext
   };
   incId__I__I(ID) {
@@ -32069,7 +32300,7 @@ $c_Lbon_jo_service_SiteService$services$imageService$.prototype.$classData = $d_
 class $c_Lbon_jo_service_SiteService$services$textService$ extends $c_Lbon_jo_service_TextService {
   constructor(outer) {
     super();
-    $ct_Lbon_jo_service_TextService__F1__F1__Lbon_jo_app_User__s_concurrent_ExecutionContext__F1__s_math_Ordering__(this, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegTxt, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trTxt, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_executionContext, outer.Lbon_jo_service_SiteService$services$__f_readIDText, outer.Lbon_jo_service_SiteService$services$__f_orderTextId)
+    $ct_Lbon_jo_service_TextService__F1__F1__Lbon_jo_app_User__s_concurrent_ExecutionContext__F1__s_math_Ordering__F1__(this, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_reversegTxt, outer.Lbon_jo_service_SiteService$services$__f_$outer.ReqBridge__Lbon_jo_service_SiteService$ReqBridge$().Lbon_jo_service_SiteService$ReqBridge$__f_trTxt, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_user, outer.Lbon_jo_service_SiteService$services$__f_$outer.Lbon_jo_service_SiteService__f_executionContext, outer.Lbon_jo_service_SiteService$services$__f_readIDText, outer.Lbon_jo_service_SiteService$services$__f_orderTextId, outer.Lbon_jo_service_SiteService$services$__f_idToStr)
   };
   incId__Lbon_jo_service_Raws$TextId__Lbon_jo_service_Raws$TextId(ID) {
     throw $ct_jl_IllegalStateException__T__(new $c_jl_IllegalStateException(), "cant increment text id")
@@ -32119,7 +32350,7 @@ class $c_Lbon_jo_view_MenuItemView extends $c_O {
     this.Lbon_jo_view_MenuItemView__f_bitmap$0 = false
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   me__Lorg_scalajs_dom_raw_HTMLDivElement() {
@@ -32242,7 +32473,7 @@ class $c_Lbon_jo_view_SendImage extends $c_O {
     this.Lbon_jo_view_SendImage__f_bitmap$0 = false
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   inDoms__scm_ListBuffer() {
@@ -32257,7 +32488,7 @@ class $c_Lbon_jo_view_SendImage extends $c_O {
   id__T() {
     return this.Lbon_jo_view_SendImage__f_id
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("container"), \u03b4md);
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", this.id__T(), \u03b4md);
@@ -32323,10 +32554,10 @@ class $c_Lbon_jo_view_SendImage extends $c_O {
     return this.id__T()
   };
   $js$exported$meth$xml__O() {
-    return this.xml__s_xml_Node()
+    return this.xml__s_xml_Elem()
   };
   $js$exported$meth$myHtml__O() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   $js$exported$prop$result__O() {
@@ -32396,10 +32627,10 @@ const $d_Lbon_jo_view_SendImage = new $TypeData().initClass({
 $c_Lbon_jo_view_SendImage.prototype.$classData = $d_Lbon_jo_view_SendImage;
 const $f_Lbon_jo_view_SimpleList__addAtEnd__Lbon_jo_html_Types$ParentComponent__V = (function($thiz, cpnt) {
   const element = $thiz.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
-  new $c_Lbon_jo_html_DomShell$ExtendedElement(element).addChild__s_xml_Node__V(cpnt.xml__s_xml_Node());
+  new $c_Lbon_jo_html_DomShell$ExtendedElement(element).addChild__s_xml_Node__V(cpnt.xml__s_xml_Elem());
   cpnt.init__Lorg_scalajs_dom_raw_HTMLElement__V($thiz.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement())
 });
-const $f_Lbon_jo_view_SimpleList__xml__s_xml_Node = (function($thiz) {
+const $f_Lbon_jo_view_SimpleList__xml__s_xml_Elem = (function($thiz) {
   let \u03b4md = $m_s_xml_Null$();
   \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("list"), \u03b4md);
   \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", $thiz.id__T(), \u03b4md);
@@ -32904,7 +33135,7 @@ const $f_Lbon_jo_view_PaginableList__scrollContext__Lbon_jo_view_PaginableList$S
   const prev = $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(($thiz.id__T() + "-prev"));
   return new $c_Lbon_jo_view_PaginableList$ScrollContext($thiz, prev, next, $m_Lbon_jo_html_DomShell$$$().apply__T__Lorg_scalajs_dom_raw_Element(($thiz.id__T() + "-info-scroll")))
 });
-const $f_Lbon_jo_view_PaginableList__xml__s_xml_Node = (function($thiz) {
+const $f_Lbon_jo_view_PaginableList__xml__s_xml_Elem = (function($thiz) {
   let \u03b4md = $m_s_xml_Null$();
   \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("list"), \u03b4md);
   \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", $thiz.id__T(), \u03b4md);
@@ -33254,7 +33485,7 @@ const $f_Lbon_jo_view_PaginableList__clearAndAddAll__sci_List__sci_List = (funct
       $as_s_concurrent_Future(getEleemnt$1.apply__O()).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1(((this$19) => ((cpnt$2) => {
         const cpnt = $as_Lbon_jo_html_Types$FinalComponent(cpnt$2);
         const $$x3 = this$19.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
-        const _1 = cpnt.xml__s_xml_Node();
+        const _1 = cpnt.xml__s_xml_Elem();
         $$x3.appendChild($m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", "")));
         cpnt.init__Lorg_scalajs_dom_raw_HTMLElement__V(this$19.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement())
       }))(this$18)), this$18.ex__s_concurrent_ExecutionContext())
@@ -33295,13 +33526,13 @@ class $c_Lbon_jo_view_PopUp$ extends $c_O {
     this.Lbon_jo_view_PopUp$__f_bitmap$0 = false
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   me__Lorg_scalajs_dom_raw_HTMLDivElement() {
     return ((!this.Lbon_jo_view_PopUp$__f_bitmap$0) ? $p_Lbon_jo_view_PopUp$__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_PopUp$__f_me)
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", new $c_s_xml_Text("popup"), \u03b4md);
     const $$x2 = \u03b4md;
@@ -33387,8 +33618,8 @@ class $c_Lbon_jo_view_SimpleList$$anon$1 extends $c_O {
     this.Lbon_jo_view_SimpleList$$anon$1__f_idp$1 = idp$1;
     $f_Lbon_jo_view_SimpleList__$init$__V(this)
   };
-  xml__s_xml_Node() {
-    return $f_Lbon_jo_view_SimpleList__xml__s_xml_Node(this)
+  xml__s_xml_Elem() {
+    return $f_Lbon_jo_view_SimpleList__xml__s_xml_Elem(this)
   };
   clear__V() {
     $f_Lbon_jo_view_SimpleList__clear__V(this)
@@ -33400,7 +33631,7 @@ class $c_Lbon_jo_view_SimpleList$$anon$1 extends $c_O {
     /*<skip>*/
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = $f_Lbon_jo_view_SimpleList__xml__s_xml_Node(this);
+    const _1 = $f_Lbon_jo_view_SimpleList__xml__s_xml_Elem(this);
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   currentView_$eq__scm_ArrayBuffer__V(x$1) {
@@ -33967,8 +34198,8 @@ class $c_Lbon_jo_view_Lists$PagList$$anon$1 extends $c_O {
     this.Lbon_jo_view_Lists$PagList$$anon$1__f_ex = executionContext$1;
     this.Lbon_jo_view_Lists$PagList$$anon$1__f_addElement = addElementp$1
   };
-  xml__s_xml_Node() {
-    return $f_Lbon_jo_view_PaginableList__xml__s_xml_Node(this)
+  xml__s_xml_Elem() {
+    return $f_Lbon_jo_view_PaginableList__xml__s_xml_Elem(this)
   };
   clear__V() {
     $f_Lbon_jo_view_PaginableList__clear__V(this)
@@ -33981,7 +34212,7 @@ class $c_Lbon_jo_view_Lists$PagList$$anon$1 extends $c_O {
     $f_Lbon_jo_view_PaginableList__initEvent__Lbon_jo_view_PaginableList$ScrollContext__V(this, ctx)
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = $f_Lbon_jo_view_PaginableList__xml__s_xml_Node(this);
+    const _1 = $f_Lbon_jo_view_PaginableList__xml__s_xml_Elem(this);
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   option__Lbon_jo_view_OptionScroll() {
@@ -34080,7 +34311,7 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     this.Lbon_jo_view_SiteModelView__f_addMainMenu = null;
     this.Lbon_jo_view_SiteModelView__f_pageTitle = null;
     this.Lbon_jo_view_SiteModelView__f_itemsView = null;
-    this.Lbon_jo_view_SiteModelView__f_newContent = null;
+    this.Lbon_jo_view_SiteModelView__f_mainContent = null;
     this.Lbon_jo_view_SiteModelView__f_newContentRef = null;
     this.Lbon_jo_view_SiteModelView__f__currentItem = null;
     this.Lbon_jo_view_SiteModelView__f_choseItem = null;
@@ -34099,12 +34330,12 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     this.Lbon_jo_view_SiteModelView__f_addMainMenu = new $c_Lbon_jo_view_Ref$$anon$1("addMainMenu");
     this.Lbon_jo_view_SiteModelView__f_pageTitle = new $c_Lbon_jo_view_Ref$$anon$1("page-title");
     this.Lbon_jo_view_SiteModelView__f_itemsView = this.baseItem__sci_List();
-    this.Lbon_jo_view_SiteModelView__f_newContent = new $c_Lbon_jo_view_SiteModelView$MainContent(this);
+    this.Lbon_jo_view_SiteModelView__f_mainContent = new $c_Lbon_jo_view_SiteModelView$MainContent(this);
     this.Lbon_jo_view_SiteModelView__f_newContentRef = new $c_Lbon_jo_view_Ref$$anon$1("current-view");
     this.Lbon_jo_view_SiteModelView__f_choseItem = new $c_Lbon_jo_view_Ref$$anon$1("choseItem")
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   inDoms__scm_ListBuffer() {
@@ -34199,15 +34430,15 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
         const $$x1 = $as_Lbon_jo_SiteModel$ThemeMenuItem(t.menuItem__Lbon_jo_SiteModel$BaseMenuItem());
         const this$3 = $as_Lbon_jo_SiteModel$ThemeMenuItem(t.menuItem__Lbon_jo_SiteModel$BaseMenuItem()).Lbon_jo_SiteModel$ThemeMenuItem__f_items;
         $$x1.Lbon_jo_SiteModel$ThemeMenuItem__f_items = $as_sci_List($f_sc_StrictOptimizedSeqOps__appended__O__O(this$3, newItem$1));
-        const element = this$2.Lbon_jo_view_SiteModelView__f_newContent.Lbon_jo_view_SiteModelView$MainContent__f_itemList.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
-        new $c_Lbon_jo_html_DomShell$ExtendedElement(element).addChild__s_xml_Node__V(newItemView.xml__s_xml_Node());
-        newItemView.init__Lorg_scalajs_dom_raw_HTMLElement__V(this$2.Lbon_jo_view_SiteModelView__f_newContent.Lbon_jo_view_SiteModelView$MainContent__f_itemList.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement());
+        const element = this$2.Lbon_jo_view_SiteModelView__f_mainContent.Lbon_jo_view_SiteModelView$MainContent__f_itemList.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement();
+        new $c_Lbon_jo_html_DomShell$ExtendedElement(element).addChild__s_xml_Node__V(newItemView.xml__s_xml_Elem());
+        newItemView.init__Lorg_scalajs_dom_raw_HTMLElement__V(this$2.Lbon_jo_view_SiteModelView__f_mainContent.Lbon_jo_view_SiteModelView$MainContent__f_itemList.contentRef__Lbon_jo_view_Ref().ref__Lorg_scalajs_dom_raw_HTMLElement());
         return this$2.createNavigation__Lbon_jo_view_MenuItemView__Lbon_jo_view_MenuItemView(newItemView)
       }))(this$1, newItem, this$1)), this$1.Lbon_jo_view_SiteModelView__f_bon$jo$view$SiteModelView$$executionContext)
     }))(this, makeNewItem));
     this$5.Lbon_jo_phy_OnceObs__f_client = clientp
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", new $c_s_xml_Text("sm-view"), \u03b4md);
     const $$x12 = \u03b4md;
@@ -34262,7 +34493,7 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     return "sm-view"
   };
   updateMainContent__Lbon_jo_view_MenuItemView__O(i) {
-    this.Lbon_jo_view_SiteModelView__f_newContent.load__Lbon_jo_view_MenuItemView__Z__V(i, false)
+    this.Lbon_jo_view_SiteModelView__f_mainContent.load__Lbon_jo_view_MenuItemView__Z__V(i, false)
   };
   createNavigation__Lbon_jo_view_MenuItemView__Lbon_jo_view_MenuItemView(i) {
     const element = i.Lbon_jo_view_MenuItemView__f_link.ref__Lorg_scalajs_dom_raw_HTMLElement();
@@ -34294,37 +34525,36 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     };
     this.Lbon_jo_view_SiteModelView__f_makeNewSubItem = $$x1;
     $f_Lbon_jo_html_NodeView__init__Lorg_scalajs_dom_raw_HTMLElement__V(this, parent);
-    const this$1 = this.Lbon_jo_view_SiteModelView__f_newContent;
+    const this$1 = this.Lbon_jo_view_SiteModelView__f_mainContent;
     const el = this.Lbon_jo_view_SiteModelView__f_newContentRef.ref__Lorg_scalajs_dom_raw_HTMLElement();
     $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(this$1, el);
-    if ((!menusInput.isEmpty__Z())) {
-      const arg1$1 = menusInput.get__O();
-      const e = $as_Lbon_jo_view_SiteModelView$MenusAdd(arg1$1);
-      const this$2 = e.Lbon_jo_view_SiteModelView$MenusAdd__f_menu;
-      const el$1 = this.Lbon_jo_view_SiteModelView__f_addMainMenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
-      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(this$2, el$1)
-    };
     const title = new $c_Lbon_jo_view_SiteTitle(this.Lbon_jo_view_SiteModelView__f_siteService.Lbon_jo_service_SiteService__f_textService, this.Lbon_jo_view_SiteModelView__f_bon$jo$view$SiteModelView$$executionContext, this.Lbon_jo_view_SiteModelView__f_user);
-    const el$2 = this.Lbon_jo_view_SiteModelView__f_sideMdenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
-    $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(title, el$2);
+    const el$1 = this.Lbon_jo_view_SiteModelView__f_sideMdenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
+    $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(title, el$1);
+    const element = title.me__Lorg_scalajs_dom_raw_HTMLDivElement();
+    const this$3 = new $c_Lbon_jo_html_DomShell$ExtendedElement(element).clkOnce__Lbon_jo_phy_OnceObs();
+    const clientp = new $c_sjsr_AnonFunction1(((this$2$1) => ((e$2) => {
+      this$2$1.Lbon_jo_view_SiteModelView__f_mainContent.loadAcceuil__V()
+    }))(this));
+    this$3.Lbon_jo_phy_OnceObs__f_client = clientp;
     const this$4 = this.Lbon_jo_view_SiteModelView__f_itemsView;
-    const f = ((this$3) => ((e$3$2) => {
+    const f = ((this$3$1) => ((e$3$2) => {
       const e$3 = $as_Lbon_jo_view_MenuItemView(e$3$2);
-      const el$3 = this$3.Lbon_jo_view_SiteModelView__f_sideMdenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
-      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(e$3, el$3);
+      const el$2 = this$3$1.Lbon_jo_view_SiteModelView__f_sideMdenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
+      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(e$3, el$2);
       return e$3
     }))(this);
     let this$5;
     if ((this$4 === $m_sci_Nil$())) {
       this$5 = $m_sci_Nil$()
     } else {
-      const arg1$2 = this$4.head__O();
-      const h = new $c_sci_$colon$colon(f(arg1$2), $m_sci_Nil$());
+      const arg1$1 = this$4.head__O();
+      const h = new $c_sci_$colon$colon(f(arg1$1), $m_sci_Nil$());
       let t = h;
       let rest = $as_sci_List(this$4.tail__O());
       while ((rest !== $m_sci_Nil$())) {
-        const arg1$3 = rest.head__O();
-        const nx = new $c_sci_$colon$colon(f(arg1$3), $m_sci_Nil$());
+        const arg1$2 = rest.head__O();
+        const nx = new $c_sci_$colon$colon(f(arg1$2), $m_sci_Nil$());
         t.sci_$colon$colon__f_next = nx;
         t = nx;
         rest = $as_sci_List(rest.tail__O())
@@ -34333,10 +34563,17 @@ class $c_Lbon_jo_view_SiteModelView extends $c_O {
     };
     let these = this$5;
     while ((!these.isEmpty__Z())) {
-      const arg1$4 = these.head__O();
-      const i = $as_Lbon_jo_view_MenuItemView(arg1$4);
+      const arg1$3 = these.head__O();
+      const i = $as_Lbon_jo_view_MenuItemView(arg1$3);
       this.createNavigation__Lbon_jo_view_MenuItemView__Lbon_jo_view_MenuItemView(i);
       these = $as_sci_List(these.tail__O())
+    };
+    if ((!menusInput.isEmpty__Z())) {
+      const arg1$4 = menusInput.get__O();
+      const e$4 = $as_Lbon_jo_view_SiteModelView$MenusAdd(arg1$4);
+      const this$6 = e$4.Lbon_jo_view_SiteModelView$MenusAdd__f_menu;
+      const el$3 = this.Lbon_jo_view_SiteModelView__f_addMainMenu.ref__Lorg_scalajs_dom_raw_HTMLElement();
+      $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(this$6, el$3)
     }
   };
   mainRemove__Lbon_jo_SiteModel$ThemeMenuItem__V(me) {
@@ -35195,7 +35432,7 @@ class $c_Lbon_jo_SiteTemplate$Dowload extends $c_O {
     }
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   me__Lorg_scalajs_dom_raw_HTMLLinkElement() {
@@ -35209,7 +35446,7 @@ class $c_Lbon_jo_SiteTemplate$Dowload extends $c_O {
     const this$5 = $m_jl_String$();
     return this$5.new__AB__Ljava_nio_charset_Charset__T(bytes, $m_Ljava_nio_charset_UTF\uff3f8$())
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "href", ("data:application/json;charset=utf-8;base64," + this.sBase64__T()), \u03b4md);
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "download", new $c_s_xml_Text("site.json"), \u03b4md);
@@ -35286,6 +35523,95 @@ const $d_Lbon_jo_SiteTemplate$Dowload = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lbon_jo_SiteTemplate$Dowload.prototype.$classData = $d_Lbon_jo_SiteTemplate$Dowload;
+const $p_Lbon_jo_view_Acceuil__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
+  if ((!$thiz.Lbon_jo_view_Acceuil__f_bitmap$0)) {
+    $thiz.Lbon_jo_view_Acceuil__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
+    $thiz.Lbon_jo_view_Acceuil__f_bitmap$0 = true
+  };
+  return $thiz.Lbon_jo_view_Acceuil__f_me
+});
+class $c_Lbon_jo_view_Acceuil extends $c_O {
+  constructor(imageService, executionContext) {
+    super();
+    this.Lbon_jo_view_Acceuil__f_e = null;
+    this.Lbon_jo_view_Acceuil__f_id = null;
+    this.Lbon_jo_view_Acceuil__f_me = null;
+    this.Lbon_jo_view_Acceuil__f_bitmap$0 = false;
+    $f_Lbon_jo_html_GenId__$init$__V(this);
+    this.Lbon_jo_view_Acceuil__f_e = new $c_Lbon_jo_phy_MemoObs();
+    imageService.getAll__s_concurrent_Future().map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$1) => ((e$2) => {
+      const len = $uI(e$2.length);
+      const res = new Array(len);
+      let i = 0;
+      while ((i < len)) {
+        const $$x1 = i;
+        const arg1 = e$2[i];
+        const this$4 = $uI(arg1.id);
+        res[$$x1] = new $c_Lbon_jo_view_ImgView(("" + this$4), "img-acc", arg1);
+        i = ((1 + i) | 0)
+      };
+      const this$7 = $ct_sjs_js_WrappedArray__sjs_js_Array__(new $c_sjs_js_WrappedArray(), res);
+      return $m_sci_List$().from__sc_IterableOnce__sci_List(this$7)
+    }))(this)), executionContext).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$2$1) => ((a$2) => {
+      const a = $as_sci_List(a$2);
+      this$2$1.Lbon_jo_view_Acceuil__f_e.newValue__O__V(a)
+    }))(this)), executionContext)
+  };
+  xml__s_xml_Elem() {
+    return $f_Lbon_jo_html_AutoId__xml__s_xml_Elem(this)
+  };
+  html__Lorg_scalajs_dom_raw_HTMLElement() {
+    const _1 = $f_Lbon_jo_html_AutoId__xml__s_xml_Elem(this);
+    return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
+  };
+  id__T() {
+    return this.Lbon_jo_view_Acceuil__f_id
+  };
+  me__Lorg_scalajs_dom_raw_HTMLDivElement() {
+    return ((!this.Lbon_jo_view_Acceuil__f_bitmap$0) ? $p_Lbon_jo_view_Acceuil__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement(this) : this.Lbon_jo_view_Acceuil__f_me)
+  };
+  init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
+    this.Lbon_jo_view_Acceuil__f_e.suscribe__F1__V(new $c_sjsr_AnonFunction1(((this$1) => ((x$1$2) => {
+      const x$1 = $as_sci_List(x$1$2);
+      let these = x$1;
+      while ((!these.isEmpty__Z())) {
+        const arg1 = these.head__O();
+        const x$2 = $as_Lbon_jo_view_ImgView(arg1);
+        const el = this$1.me__Lorg_scalajs_dom_raw_HTMLDivElement();
+        $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(x$2, el);
+        these = $as_sci_List(these.tail__O())
+      }
+    }))(this)))
+  };
+  idXml__s_xml_Elem() {
+    const $$x2 = $m_s_xml_Null$();
+    const $$x1 = $m_s_xml_TopScope$();
+    $m_s_xml_NodeSeq$();
+    const \u03b4buf = new $c_s_xml_NodeBuffer();
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n\n  "));
+    return new $c_s_xml_Elem(null, "div", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
+  };
+  me__Lorg_scalajs_dom_raw_HTMLElement() {
+    return this.me__Lorg_scalajs_dom_raw_HTMLDivElement()
+  };
+}
+const $d_Lbon_jo_view_Acceuil = new $TypeData().initClass({
+  Lbon_jo_view_Acceuil: 0
+}, false, "bon.jo.view.Acceuil", {
+  Lbon_jo_view_Acceuil: 1,
+  O: 1,
+  Lbon_jo_html_Types$\uff3fDiv: 1,
+  Lbon_jo_html_Types$FinalComponent: 1,
+  Lbon_jo_html_XmlHtmlView: 1,
+  Lbon_jo_html_BridgedView: 1,
+  Lbon_jo_html_\uff3fView: 1,
+  Lbon_jo_html_InDom: 1,
+  Lbon_jo_html_IdView: 1,
+  Lbon_jo_html_LeaveView: 1,
+  Lbon_jo_html_GenId: 1,
+  Lbon_jo_html_AutoId: 1
+});
+$c_Lbon_jo_view_Acceuil.prototype.$classData = $d_Lbon_jo_view_Acceuil;
 const $p_Lbon_jo_view_IdMenuItemVew__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElement = (function($thiz) {
   if ((!$thiz.Lbon_jo_view_IdMenuItemVew__f_bitmap$0)) {
     $thiz.Lbon_jo_view_IdMenuItemVew__f_me = $f_Lbon_jo_html_InDom__me__Lorg_scalajs_dom_raw_HTMLElement($thiz);
@@ -35304,7 +35630,7 @@ class $c_Lbon_jo_view_IdMenuItemVew extends $c_O {
     this.Lbon_jo_view_IdMenuItemVew__f_menuItem = menuItem
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   me__Lorg_scalajs_dom_raw_HTMLDivElement() {
@@ -35316,7 +35642,7 @@ class $c_Lbon_jo_view_IdMenuItemVew extends $c_O {
   init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
     /*<skip>*/
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", this.Lbon_jo_view_IdMenuItemVew__f_id, \u03b4md);
     const $$x4 = \u03b4md;
@@ -35424,28 +35750,28 @@ const $p_Lbon_jo_view_ImgView__me$lzycompute__Lorg_scalajs_dom_raw_HTMLDivElemen
   return $thiz.Lbon_jo_view_ImgView__f_me
 });
 class $c_Lbon_jo_view_ImgView extends $c_O {
-  constructor(id, src, alt, divCss, imageRawExport) {
+  constructor(id, divCss, iRaw) {
     super();
     this.Lbon_jo_view_ImgView__f_id = null;
+    this.Lbon_jo_view_ImgView__f_divCss = null;
+    this.Lbon_jo_view_ImgView__f_iRaw = null;
     this.Lbon_jo_view_ImgView__f_src = null;
     this.Lbon_jo_view_ImgView__f_alt = null;
-    this.Lbon_jo_view_ImgView__f_divCss = null;
-    this.Lbon_jo_view_ImgView__f_imageRawExport = null;
     this.Lbon_jo_view_ImgView__f_img = null;
     this.Lbon_jo_view_ImgView__f_loaded = false;
     this.Lbon_jo_view_ImgView__f_me = null;
     this.Lbon_jo_view_ImgView__f_bitmap$0 = false;
     this.Lbon_jo_view_ImgView__f_id = id;
-    this.Lbon_jo_view_ImgView__f_src = src;
-    this.Lbon_jo_view_ImgView__f_alt = alt;
     this.Lbon_jo_view_ImgView__f_divCss = divCss;
-    this.Lbon_jo_view_ImgView__f_imageRawExport = imageRawExport;
+    this.Lbon_jo_view_ImgView__f_iRaw = iRaw;
+    this.Lbon_jo_view_ImgView__f_src = (($as_T(iRaw.base) + "/") + $as_T(iRaw.link));
+    this.Lbon_jo_view_ImgView__f_alt = ("img-" + $uI(iRaw.id));
     const idp = ("mg" + id);
     this.Lbon_jo_view_ImgView__f_img = new $c_Lbon_jo_view_Ref$$anon$1(idp);
     this.Lbon_jo_view_ImgView__f_loaded = false
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   me__Lorg_scalajs_dom_raw_HTMLDivElement() {
@@ -35454,7 +35780,7 @@ class $c_Lbon_jo_view_ImgView extends $c_O {
   id__T() {
     return this.Lbon_jo_view_ImgView__f_id
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", this.Lbon_jo_view_ImgView__f_divCss, \u03b4md);
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", this.Lbon_jo_view_ImgView__f_id, \u03b4md);
@@ -35491,7 +35817,7 @@ class $c_Lbon_jo_view_ImgView extends $c_O {
     return "ImgView"
   };
   productArity__I() {
-    return 5
+    return 3
   };
   productElement__I__O(x$1) {
     switch (x$1) {
@@ -35500,19 +35826,11 @@ class $c_Lbon_jo_view_ImgView extends $c_O {
         break
       }
       case 1: {
-        return this.Lbon_jo_view_ImgView__f_src;
-        break
-      }
-      case 2: {
-        return this.Lbon_jo_view_ImgView__f_alt;
-        break
-      }
-      case 3: {
         return this.Lbon_jo_view_ImgView__f_divCss;
         break
       }
-      case 4: {
-        return this.Lbon_jo_view_ImgView__f_imageRawExport;
+      case 2: {
+        return this.Lbon_jo_view_ImgView__f_iRaw;
         break
       }
       default: {
@@ -35535,9 +35853,9 @@ class $c_Lbon_jo_view_ImgView extends $c_O {
       return true
     } else if ((x$1 instanceof $c_Lbon_jo_view_ImgView)) {
       const ImgView$1 = $as_Lbon_jo_view_ImgView(x$1);
-      if (((((this.Lbon_jo_view_ImgView__f_id === ImgView$1.Lbon_jo_view_ImgView__f_id) && (this.Lbon_jo_view_ImgView__f_src === ImgView$1.Lbon_jo_view_ImgView__f_src)) && (this.Lbon_jo_view_ImgView__f_alt === ImgView$1.Lbon_jo_view_ImgView__f_alt)) && (this.Lbon_jo_view_ImgView__f_divCss === ImgView$1.Lbon_jo_view_ImgView__f_divCss))) {
-        const x = this.Lbon_jo_view_ImgView__f_imageRawExport;
-        const y = ImgView$1.Lbon_jo_view_ImgView__f_imageRawExport;
+      if (((this.Lbon_jo_view_ImgView__f_id === ImgView$1.Lbon_jo_view_ImgView__f_id) && (this.Lbon_jo_view_ImgView__f_divCss === ImgView$1.Lbon_jo_view_ImgView__f_divCss))) {
+        const x = this.Lbon_jo_view_ImgView__f_iRaw;
+        const y = ImgView$1.Lbon_jo_view_ImgView__f_iRaw;
         return $m_sr_BoxesRunTime$().equals__O__O__Z(x, y)
       } else {
         return false
@@ -35701,7 +36019,7 @@ class $c_Lbon_jo_view_SimpleInput extends $c_O {
     this.Lbon_jo_view_SimpleInput__f_confirm = new $c_Lbon_jo_html_OnClick$$anon$1(idp, "ok")
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   me__Lorg_scalajs_dom_raw_HTMLDivElement() {
@@ -35710,7 +36028,7 @@ class $c_Lbon_jo_view_SimpleInput extends $c_O {
   id__T() {
     return this.Lbon_jo_view_SimpleInput__f_id
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", this.Lbon_jo_view_SimpleInput__f_id, \u03b4md);
     const $$x5 = \u03b4md;
@@ -35868,7 +36186,7 @@ class $c_Lbon_jo_view_SimpleTree extends $c_O {
     $f_Lbon_jo_html_NodeView__init__Lorg_scalajs_dom_raw_HTMLElement__V(this, parent)
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   inDoms__scm_ListBuffer() {
@@ -35894,7 +36212,7 @@ class $c_Lbon_jo_view_SimpleTree extends $c_O {
     $m_s_xml_NodeSeq$();
     const \u03b4buf = new $c_s_xml_NodeBuffer();
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n      "));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(e.xml__s_xml_Node());
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(e.xml__s_xml_Elem());
     const c = $as_sci_List(this.Lbon_jo_view_SimpleTree__f_children.apply__O__O(e));
     let $$x1;
     if ((!c.isEmpty__Z())) {
@@ -35937,7 +36255,7 @@ class $c_Lbon_jo_view_SimpleTree extends $c_O {
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
     return new $c_s_xml_Elem(null, "div", $$x8, $$x7, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", this.Lbon_jo_view_SimpleTree__f_id, \u03b4md);
     const $$x3 = \u03b4md;
@@ -36131,7 +36449,7 @@ class $c_Lbon_jo_view_SiteModelView$MainContent extends $c_O {
     $f_Lbon_jo_html_NodeView__add__Lbon_jo_html_InDom__Lbon_jo_html_InDom(this, inDom$1)
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   inDoms__scm_ListBuffer() {
@@ -36149,11 +36467,11 @@ class $c_Lbon_jo_view_SiteModelView$MainContent extends $c_O {
   init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
     const $$x1 = this.me__Lorg_scalajs_dom_raw_HTMLDivElement();
     const this$1 = this.Lbon_jo_view_SiteModelView$MainContent__f_itemList;
-    const _1 = this$1.xml__s_xml_Node();
+    const _1 = this$1.xml__s_xml_Elem();
     $$x1.appendChild($m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", "")));
     const $$x2 = this.me__Lorg_scalajs_dom_raw_HTMLDivElement();
     const this$3 = this.Lbon_jo_view_SiteModelView$MainContent__f_eouvreList;
-    const _1$1 = this$3.xml__s_xml_Node();
+    const _1$1 = this$3.xml__s_xml_Elem();
     $$x2.appendChild($m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1$1, "", "", "")));
     $f_Lbon_jo_html_NodeView__init__Lorg_scalajs_dom_raw_HTMLElement__V(this, parent);
     $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().addEventListener("popstate", ((arg$outer) => ((arg1$2) => arg$outer.bon$jo$view$SiteModelView$MainContent$$$anonfun$init$1__Lorg_scalajs_dom_raw_PopStateEvent__s_Option(arg1$2)))(this))
@@ -36164,11 +36482,17 @@ class $c_Lbon_jo_view_SiteModelView$MainContent extends $c_O {
     const element = this.custom__Lorg_scalajs_dom_raw_HTMLDivElement();
     new $c_Lbon_jo_html_DomShell$ExtendedElement(element).clear__V()
   };
+  loadAcceuil__V() {
+    this.clearAllContent__V();
+    const acceuil = new $c_Lbon_jo_view_Acceuil(this.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_siteService.Lbon_jo_service_SiteService__f_imageService, this.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_bon$jo$view$SiteModelView$$executionContext);
+    const el = this.custom__Lorg_scalajs_dom_raw_HTMLDivElement();
+    $f_Lbon_jo_html_\uff3fView__addTo__Lorg_scalajs_dom_raw_HTMLElement__V(acceuil, el)
+  };
   load__Lbon_jo_view_APropos$ContactMenuItem__V(contactMenuItem) {
     this.clearAllContent__V();
     const c = new $c_Lbon_jo_view_APropos(this.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_siteService.Lbon_jo_service_SiteService__f_textService, this.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_bon$jo$view$SiteModelView$$executionContext, this.Lbon_jo_view_SiteModelView$MainContent__f_$outer.Lbon_jo_view_SiteModelView__f_user);
     const element = this.custom__Lorg_scalajs_dom_raw_HTMLDivElement();
-    new $c_Lbon_jo_html_DomShell$ExtendedElement(element).addChild__s_xml_Node__V(c.xml__s_xml_Node());
+    new $c_Lbon_jo_html_DomShell$ExtendedElement(element).addChild__s_xml_Node__V(c.xml__s_xml_Elem());
     c.init__Lorg_scalajs_dom_raw_HTMLElement__V(this.custom__Lorg_scalajs_dom_raw_HTMLDivElement())
   };
   load__Lbon_jo_SiteModel$ThemeMenuItem__V(t) {
@@ -36254,7 +36578,7 @@ class $c_Lbon_jo_view_SiteModelView$MainContent extends $c_O {
       this.load__Lbon_jo_SiteModel$ThemeMenuItem__V(x3)
     }
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", "main-content", \u03b4md);
     const $$x4 = \u03b4md;
@@ -36412,7 +36736,7 @@ class $c_Lbon_jo_view_SiteTitle extends $c_O {
     }))(this)))
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   me__Lorg_scalajs_dom_raw_HTMLDivElement() {
@@ -36454,7 +36778,7 @@ class $c_Lbon_jo_view_SiteTitle extends $c_O {
       }
     }))(this)), this.Lbon_jo_view_SiteTitle__f_executionContext)
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", "site-title", \u03b4md);
     const $$x6 = \u03b4md;
@@ -36463,6 +36787,7 @@ class $c_Lbon_jo_view_SiteTitle extends $c_O {
     const \u03b4buf = new $c_s_xml_NodeBuffer();
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
     let \u03b4md$2 = $m_s_xml_Null$();
+    \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "class", new $c_s_xml_Text("title_main"), \u03b4md$2);
     \u03b4md$2 = $ct_s_xml_UnprefixedAttribute__T__sc_Seq__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", new $c_s_xml_Text("title"), \u03b4md$2);
     const $$x2 = \u03b4md$2;
     const $$x1 = $m_s_xml_TopScope$();
@@ -36691,7 +37016,7 @@ class $c_Lbon_jo_view_ThemeMenuItemView extends $c_Lbon_jo_view_MenuItemView {
   choose__Lbon_jo_view_ChoooseMenuItem() {
     return ((!this.Lbon_jo_view_ThemeMenuItemView__f_bitmap$0) ? $p_Lbon_jo_view_ThemeMenuItemView__choose$lzycompute__Lbon_jo_view_ChoooseMenuItem(this) : this.Lbon_jo_view_ThemeMenuItemView__f_choose)
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     return this.commonXml__s_Option__s_xml_Elem($f_Lbon_jo_view_AdminControl__adminXmlOption__s_Option(this))
   };
   init__Lorg_scalajs_dom_raw_HTMLElement__V(p) {
@@ -36801,7 +37126,7 @@ class $c_Lbon_jo_view_APropos$AProposItemView extends $c_Lbon_jo_view_MenuItemVi
   init__Lorg_scalajs_dom_raw_HTMLElement__V(parent) {
     /*<skip>*/
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     return this.commonXml__s_Option__s_xml_Elem($m_s_None$())
   };
   productPrefix__T() {
@@ -36958,7 +37283,7 @@ class $c_Lbon_jo_view_ChoooseMenuItem extends $c_O {
     }))(this)))
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   obs_$eq__Lbon_jo_phy_Obs__V(x$1) {
@@ -36988,7 +37313,7 @@ class $c_Lbon_jo_view_ChoooseMenuItem extends $c_O {
       these = $as_sci_List(these.tail__O())
     }
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     let \u03b4md = $m_s_xml_Null$();
     \u03b4md = $ct_s_xml_UnprefixedAttribute__T__T__s_xml_MetaData__(new $c_s_xml_UnprefixedAttribute(), "id", this.Lbon_jo_view_ChoooseMenuItem__f_id, \u03b4md);
     const $$x2 = \u03b4md;
@@ -36996,7 +37321,7 @@ class $c_Lbon_jo_view_ChoooseMenuItem extends $c_O {
     $m_s_xml_NodeSeq$();
     const \u03b4buf = new $c_s_xml_NodeBuffer();
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
-    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_ChoooseMenuItem__f_listens.xml__s_xml_Node());
+    \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(this.Lbon_jo_view_ChoooseMenuItem__f_listens.xml__s_xml_Elem());
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n  "));
     return new $c_s_xml_Elem(null, "div", $$x2, $$x1, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
   };
@@ -37137,8 +37462,8 @@ class $c_Lbon_jo_view_Lists$PagChooseList$$anon$2 extends $c_O {
   newValue__O__V(a) {
     this.Lbon_jo_view_Lists$PagChooseList$$anon$2__f_obs.newValue__O__V(a)
   };
-  xml__s_xml_Node() {
-    return $f_Lbon_jo_view_PaginableList__xml__s_xml_Node(this)
+  xml__s_xml_Elem() {
+    return $f_Lbon_jo_view_PaginableList__xml__s_xml_Elem(this)
   };
   clear__V() {
     $f_Lbon_jo_view_PaginableList__clear__V(this)
@@ -37148,7 +37473,7 @@ class $c_Lbon_jo_view_Lists$PagChooseList$$anon$2 extends $c_O {
     $f_Lbon_jo_view_PaginableList__initEvent__Lbon_jo_view_PaginableList$ScrollContext__V(this, ctx)
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = $f_Lbon_jo_view_PaginableList__xml__s_xml_Node(this);
+    const _1 = $f_Lbon_jo_view_PaginableList__xml__s_xml_Elem(this);
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   option__Lbon_jo_view_OptionScroll() {
@@ -38211,7 +38536,7 @@ class $c_Lbon_jo_view_OeuvreView extends $c_O {
     return $f_Lbon_jo_view_WithImage__inAdmin__s_xml_NodeBuffer(this)
   };
   html__Lorg_scalajs_dom_raw_HTMLElement() {
-    const _1 = this.xml__s_xml_Node();
+    const _1 = this.xml__s_xml_Elem();
     return $m_Lbon_jo_html_DomShell$$c$().apply__T__Lorg_scalajs_dom_raw_Element($f_sc_IterableOnceOps__mkString__T__T__T__T(_1, "", "", ""))
   };
   _imgRef__s_Option() {
@@ -38423,7 +38748,7 @@ class $c_Lbon_jo_view_OeuvreView extends $c_O {
     \u03b4buf.$amp$plus__O__s_xml_NodeBuffer(new $c_s_xml_Text("\n    "));
     return new $c_s_xml_Elem(null, "div", $$x18, $$x17, false, new $c_s_xml_NodeSeq$$anon$1(\u03b4buf))
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     const x1 = $f_Lbon_jo_view_AdminControl__adminXmlOption__s_Option(this);
     let l;
     if ((x1 instanceof $c_s_Some)) {
@@ -39148,7 +39473,7 @@ class $c_Lbon_jo_view_SubMenuItemView extends $c_Lbon_jo_view_ThemeMenuItemView 
       $f_Lbon_jo_view_WithImage__updateSrc__Lbon_jo_SiteModel$Image__V(this$2$1, e$1)
     }))(this)), this.Lbon_jo_view_SubMenuItemView__f_executionContext)
   };
-  xml__s_xml_Node() {
+  xml__s_xml_Elem() {
     const this$1 = $p_Lbon_jo_view_SubMenuItemView__l__sci_List(this);
     const elem = $p_Lbon_jo_view_SubMenuItemView__img__s_xml_Elem(this);
     return this.commonXml__s_Option__s_xml_Elem(new $c_s_Some(new $c_s_xml_Group($as_sci_List($f_sc_StrictOptimizedSeqOps__appended__O__O(this$1, elem)))))

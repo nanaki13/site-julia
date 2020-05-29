@@ -8,7 +8,7 @@ import org.scalajs.dom.Event
 import org.scalajs.dom.html.Div
 import org.scalajs.dom.raw.HTMLElement
 
-import scala.xml.Node
+import scala.xml.{Elem, Node}
 
 case class ChoooseMenuItem(  id:String,valueConsumer: ValueConsumer[ThemeMenuItem])
                      (implicit val siteService: SiteService)
@@ -35,7 +35,7 @@ case class ChoooseMenuItem(  id:String,valueConsumer: ValueConsumer[ThemeMenuIte
     }
   )
 
-  override def xml(): Node = <div id={id}>
+  override def xml(): Elem = <div id={id}>
     {listens.xml()}
   </div>
 

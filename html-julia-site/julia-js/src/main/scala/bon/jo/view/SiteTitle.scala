@@ -3,8 +3,7 @@ package bon.jo.view
 import bon.jo.Logger
 import bon.jo.SiteModel.{Text, TextId}
 import bon.jo.app.User
-import bon.jo.html.DomShell.$
-import bon.jo.html.DomShell.ExtendedElement
+import bon.jo.html.DomShell.{$, ExtendedElement}
 import bon.jo.html.Types.FinalComponent
 import bon.jo.phy.Obs
 import bon.jo.service.TextService
@@ -13,7 +12,7 @@ import org.scalajs.dom.raw.HTMLElement
 
 import scala.concurrent.ExecutionContext
 import scala.util.Failure
-import scala.xml.Node
+import scala.xml.Elem
 
 case class SiteTitle(textService: TextService)(implicit val executionContext: ExecutionContext, user: User) extends FinalComponent[Div] {
 
@@ -46,8 +45,8 @@ case class SiteTitle(textService: TextService)(implicit val executionContext: Ex
   }
 
 
-  override def xml(): Node = <div id={id}>
-    <div id="title"></div>
+  override def xml(): Elem = <div id={id}>
+    <div id="title" class="title_main"></div>
     <div id="sub-title"></div>
   </div>
 

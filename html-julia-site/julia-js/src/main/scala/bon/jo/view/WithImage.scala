@@ -51,7 +51,7 @@ trait WithImage[A <: HTMLElement, B <: SiteElement[ID],ID] extends InDom[A] with
 
     if(admin){
       imgDiv.ref.addEventListener("click", (e: Event) => {
-        val listImg: PagChooseList[ImageRawExport, ImgView] = Lists.PagChooseList[ImageRawExport, ImgView]("img-List-" + id, "container", _.imageRawExport,rebuildp =
+        val listImg: PagChooseList[ImageRawExport, ImgView] = Lists.PagChooseList[ImageRawExport, ImgView]("img-List-" + id, "container", _.iRaw,rebuildp =
           e => ImgView(e)
 
           ,addElementp = None)
@@ -66,7 +66,7 @@ trait WithImage[A <: HTMLElement, B <: SiteElement[ID],ID] extends InDom[A] with
         siteService.imageService.getAll.foreach {
           e =>
             def elts: List[ImgView] = e.map { iRaw =>
-              ImgView("img-sm-" + iRaw.id.toString, iRaw.base + "/" + iRaw.link, "img-" + iRaw.id, "img-sm", iRaw)
+              ImgView("img-sm-" + iRaw.id.toString, "img-sm", iRaw)
             }.toList
 
             listImg.clearAndAddAll(elts)

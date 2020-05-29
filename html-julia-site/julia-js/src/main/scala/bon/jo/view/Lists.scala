@@ -63,6 +63,8 @@ object Lists {
   trait ChooseList[A, Finalp <: FinalComponent[_ <: HTMLElement]] extends Obs[A] with SimpleList[Finalp] with PaginableList[Finalp] {
 
 
+    override def toMany: Obs[A] = obs.toMany
+
     override def addedInView(e: Finalp): Unit = {
       Logger.log(""+e.id)
       e.me.clkOnce().suscribe((ev: MouseEvent) => obs.newValue(mapping(e)))

@@ -7,7 +7,7 @@
   /*   opacity:0;*/
         width:1em;
         margin-left:1em;
-        z-index: 1001;
+        z-index: 999;
 }
 .img-configure-clicked{
 position: absolute;
@@ -15,11 +15,21 @@ position: absolute;
     opacity: 1;
     width: 1em;
     cursor: pointer;
-     z-index: 1001;
+     z-index: 1002;
 
 }
 .para{
     width : 50em;
+}
+
+.title_main {
+    text-transform: uppercase;
+    letter-spacing: 1.5em;
+    font-size: 2em;
+    font-weight: 600;
+    margin: 0.5em 1.5em 0 1.5em;
+    line-height: 3em;
+    text-align: center;
 }
 
 .admin-clicked{
@@ -32,7 +42,7 @@ position: absolute;
 .admin{
 transition: .75s ease-in-out;
       position: absolute;
-      z-index: 1000;
+      z-index: 1001;
 }
 .admin-show{
     position : absolute;
@@ -43,7 +53,7 @@ transition: .75s ease-in-out;
     top : -1em;
     background : #e7e0af;
     padding:1em;
-     z-index:999;
+     z-index:1001;
       transition: .75s ease-in-out;
 }
 .hide-no-over{

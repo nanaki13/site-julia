@@ -8,7 +8,7 @@ import org.scalajs.dom.html.{Div, Span}
 import org.scalajs.dom.raw.{HTMLElement, MouseEvent}
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.xml.Node
+import scala.xml.{Elem, Node}
 
 trait PaginableList[Finalp <: FinalComponent[_ <: HTMLElement]] extends SimpleList[Finalp] {
 
@@ -86,7 +86,7 @@ trait PaginableList[Finalp <: FinalComponent[_ <: HTMLElement]] extends SimpleLi
     )
   }
 
-  override def xml(): Node = <div id={id} class="list">
+  override def xml(): Elem = <div id={id} class="list">
     {scrollElemn}{if (cssClass.isEmpty) <div id={"content" + id}></div> else <div id={"content" + id} class={cssClass}></div>}
   </div>
 

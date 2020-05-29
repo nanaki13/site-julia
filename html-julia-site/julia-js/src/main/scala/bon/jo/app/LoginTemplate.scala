@@ -15,7 +15,7 @@ class LoginTemplate(override val user: User) extends Template {
       <div class="container  bg-primary rounded p-2 mw-50">
         {DomShell.form(
         DomShell.inputXml("login", "login"),
-        DomShell.inputXml(name = "password", label = "password", _type = "password")
+        DomShell.inputXml(id = "password", labelAndName = "password", _type = "password")
       )}<div id="ok"></div>
       </div>
 

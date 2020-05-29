@@ -8,7 +8,7 @@ import org.scalajs.dom.html.Input
 import org.scalajs.dom.raw.{Event, FileReader, HTMLElement, UIEvent}
 
 import scala.scalajs.js.JSON
-import scala.xml.Node
+import scala.xml.Elem
 
 class ReadImportFile(implicit val siteService: SiteService, val template: SiteTemplate) extends FinalComponent[Input] {
 
@@ -27,7 +27,7 @@ class ReadImportFile(implicit val siteService: SiteService, val template: SiteTe
     }
   }
 
-  override def xml(): Node = <input id={id} type="file" value="Import"></input>
+  override def xml(): Elem = <input id={id} type="file" value="Import"></input>
 
   override def id: String = "import"
 

@@ -12,7 +12,7 @@ import org.scalajs.dom.html.{Div, Image, Input}
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.concurrent.ExecutionContext
-import scala.xml.{Group, Node, NodeBuffer, NodeSeq}
+import scala.xml.{Elem, Group, Node, NodeBuffer, NodeSeq}
 
 case class OeuvreView(var oeuvre: Oeuvre)(implicit val siteService: SiteService) extends
   FinalComponent[Div]
@@ -100,7 +100,7 @@ case class OeuvreView(var oeuvre: Oeuvre)(implicit val siteService: SiteService)
 
   }
 
-  override def xml(): Node = {
+  override def xml(): Elem = {
     val l = adminXmlOption match {
       case Some(value) => List(inMe, value)
       case None => List(inMe)

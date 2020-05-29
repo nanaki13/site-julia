@@ -82,7 +82,7 @@ class SiteTemplate(override val user: User) extends Template {
   case class Dowload(s: String) extends FinalComponent[Link] {
     def sBase64: String = new String(java.util.Base64.getEncoder.encode(s.getBytes))
 
-    override def xml(): Node = <a download="site.json" href={s"data:application/json;charset=utf-8;base64,$sBase64"}>text file</a>
+    override def xml(): Elem = <a download="site.json" href={s"data:application/json;charset=utf-8;base64,$sBase64"}>text file</a>
 
     override def id: String = s.hashCode.toString
 

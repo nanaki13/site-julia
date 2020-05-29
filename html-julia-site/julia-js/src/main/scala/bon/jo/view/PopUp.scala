@@ -5,10 +5,10 @@ import org.scalajs.dom.html.Div
 import org.scalajs.dom.raw.{CSSStyleDeclaration, HTMLElement}
 import org.w3c.dom.css.{CSSStyleDeclaration, CSSStyleRule}
 
-import scala.xml.Node
+import scala.xml.{Elem, Node}
 
 object PopUp extends FinalComponent[Div] {
-  override def xml(): Node = <div id="popup">
+  override def xml(): Elem = <div id="popup">
 
   </div>
 

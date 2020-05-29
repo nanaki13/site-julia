@@ -6,7 +6,7 @@ import org.scalajs.dom.html.Div
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.collection.mutable
-import scala.xml.Node
+import scala.xml.Elem
 
 case class OptionScroll(maxByView: Int,  var currentPage: Int = 1){
   def offset: Int = (currentPage -1)* maxByView
@@ -36,7 +36,7 @@ trait SimpleList[Finalp <: FinalComponent[_ <: HTMLElement]]
     cpnt.init( contentRef.ref)
   }
 
-  override def xml(): Node = <div id={id} class="list">
+  override def xml(): Elem = <div id={id} class="list">
     {if (cssClass.isEmpty) <div id={"content" + id}></div> else <div id={"content" + id} class={cssClass}></div>}
   </div>
 

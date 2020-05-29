@@ -5,10 +5,14 @@ import bon.jo.service.Raws.ImageRawExport
 import org.scalajs.dom.html.{Div, Image}
 import org.scalajs.dom.raw.{Event, HTMLElement}
 
-import scala.xml.Node
+import scala.xml.{Elem, Node}
 
-case class ImgView(id: String, src: String, alt: String, divCss: String,imageRawExport: ImageRawExport) extends FinalComponent[Div] {
-  override def xml(): Node = <div id={id} class={divCss}>
+case class ImgView(id: String, divCss: String,iRaw: ImageRawExport) extends FinalComponent[Div] {
+
+  val src: String = iRaw.base + "/" + iRaw.link
+  val alt: String = "img-" + iRaw.id
+
+  override def xml(): Elem = <div id={id} class={divCss}>
     <img id={"mg" + id} alt={alt}/>
   </div>
 

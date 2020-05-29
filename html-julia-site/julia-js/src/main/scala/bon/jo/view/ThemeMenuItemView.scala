@@ -8,7 +8,7 @@ import bon.jo.service.SiteService
 import org.scalajs.dom.html.Div
 import org.scalajs.dom.raw.HTMLElement
 
-import scala.xml.Node
+import scala.xml.Elem
 
 abstract class ThemeMenuItemView( menuItem: ThemeMenuItem)(implicit  siteService: SiteService)  extends MenuItemView[ThemeMenuItem]( menuItem)(siteService) with   AdminControl[ThemeMenuItem,Int]{
   override def service: DistantService[ThemeMenuItem,_,Int] = siteService.menuService
@@ -22,7 +22,7 @@ abstract class ThemeMenuItemView( menuItem: ThemeMenuItem)(implicit  siteService
   override def chooseMenuView: ValueView[ThemeMenuItem] with ParentComponent[Div] = choose
 
 
-  override def xml(): Node =
+  override def xml(): Elem =
     commonXml(adminXmlOption)
 
   override def init(p: HTMLElement): Unit = {

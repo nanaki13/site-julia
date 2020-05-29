@@ -15,15 +15,15 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.language.dynamics
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
-import scala.xml.Node
+import scala.xml.Elem
 
 @JSExportTopLevel("SendImage")
 @JSExportAll
 class SendImage(override val id: String, imageService: ImageService)(implicit  ex : ExecutionContext) extends ParentComponent[Form] {
-  override def xml(): Node = {
+  override def xml(): Elem = {
     <form id={id} class="container">
       <div class="file-send btn">
-        {DomShell.inputXml(name = "img-send", label = "+", _type = "file")}
+        {DomShell.inputXml(id = "img-send", labelAndName = "+", _type = "file")}
       </div>
     </form>
   }

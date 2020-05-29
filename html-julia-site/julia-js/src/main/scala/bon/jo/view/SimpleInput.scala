@@ -4,11 +4,11 @@ import bon.jo.Logger
 import bon.jo.html.OnClick.ButtonType
 import bon.jo.html.DomShell.$
 import bon.jo.html.Types.FinalComponent
-import bon.jo.html.{ DomShell, OnClick}
+import bon.jo.html.{DomShell, OnClick}
 import org.scalajs.dom.html.{Div, Input}
 import org.scalajs.dom.raw.HTMLElement
 
-import scala.xml.Node
+import scala.xml.{Elem, Node}
 
 case class SimpleInput(id: String, label: String, valueIni: String = "",title : Option[String] = None) extends FinalComponent[Div] {
   private val inputXml = DomShell.inputXml(id+"-input", label, valueIni)
@@ -16,7 +16,7 @@ case class SimpleInput(id: String, label: String, valueIni: String = "",title : 
 
   var inputHtml: Input = _
 
-  override def xml(): Node = <div  id={id} >
+  override def xml(): Elem = <div  id={id} >
     {title match {
       case Some(s) =>s
       case _ =>

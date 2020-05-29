@@ -101,6 +101,8 @@ class SiteService(implicit val user: User, val executionContext: ExecutionContex
     implicit val readIDOeuvre : OeuvreRawExport => Int = _.id
     implicit val readIDImae : ImageRawExport => Int = _.id
     implicit val readIDText : TextExport => Raws.TextId = _.id
+    implicit val idToStr : Raws.TextId => List[String] = e => List(e.uid,e.index.toString)
+    implicit val id2ToStr : Int => List[String] = e => e.toString :: Nil
     import ReqBridge._
 
 
@@ -280,8 +282,9 @@ trait PostForm {
 
 abstract class TextService(implicit read: js.Any => TextExport, write: Text => String, user: User,
                            executionContext: ExecutionContext,tId : TextExport => Raws.TextId,
-                           orderId: Ordering[Raws.TextId])
+                           orderId: Ordering[Raws.TextId],idToStr : Raws.TextId => List[String] )
   extends KeepId[Text, TextExport, Raws.TextId](ConfParam.apiText()) {
+
   def getByUid(str: String): Future[List[TextExport]] = {
     GET.get(s"$url?uid=$str").map(_.body[js.Array[TextExport]].map(_.toList).getOrElse(Nil))
   }
@@ -303,6 +306,7 @@ trait mId[ID] {
 abstract class KeepId[C, A, ID ](url: String)(implicit read: js.Any => A,
                                                        write: C => String,
                                                        readId: A => ID,
+                                                       idToSring : ID => List[String],
                                                        user: User,
                                                        orderId: Ordering[ID],
                                                        executionContext: ExecutionContext)

@@ -7,7 +7,7 @@ import org.scalajs.dom.html.{Div, Image}
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.concurrent.ExecutionContext
-import scala.xml.{Group, Node}
+import scala.xml.{Elem, Group, Node}
 
 case class SubMenuItemView(override val menuItem: ThemeMenuItem)(implicit override val siteService: SiteService, val siteModelView: SiteModelView)
   extends ThemeMenuItemView(menuItem: ThemeMenuItem) with intOnce
@@ -32,7 +32,7 @@ case class SubMenuItemView(override val menuItem: ThemeMenuItem)(implicit overri
   private def l = adminXmlOption.foldLeft(List[Node]())(_ :+ _)
   private def img = value.image.map(i => <img id={"img-m-" + id} class="oeuvre-img"></img>).getOrElse(<img id={"img-m-" + id} class="oeuvre-img" alt="Choisi moi une image"></img>)
   private def all = l :+ img
-  override def xml(): Node = {
+  override def xml(): Elem = {
     commonXml(Some(Group(all)))
   }
 

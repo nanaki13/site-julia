@@ -12,7 +12,7 @@ import org.scalajs.dom.raw.HTMLElement
 import bon.jo.phy.EventContext._
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.xml.Node
+import scala.xml.{Elem, Node}
 
 object APropos {
 
@@ -26,7 +26,7 @@ object APropos {
 
     }
 
-    override def xml(): Node = commonXml(None)
+    override def xml(): Elem = commonXml(None)
   }
 
   case class ContactMenuItem(override val id: Int, override val text: String, override val link: String) extends BaseMenuItem(id, text, link)
@@ -79,7 +79,7 @@ class APropos(val textService: TextService)(implicit executionContext: Execution
   }
 
 
-  override def xml(): Node = <div id={id}></div>
+  override def xml(): Elem = <div id={id}></div>
 
   override def id: String = "A propos"
 

@@ -14,7 +14,7 @@ import org.scalajs.dom.{Event, PopStateEvent}
 
 import scala.concurrent.ExecutionContext
 import scala.scalajs.js.Date
-import scala.xml.Node
+import scala.xml.Elem
 
 
 case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService, executionContext: ExecutionContext) extends XmlHtmlView[Div] with InDom[Div] with NodeView[Div] {
@@ -49,7 +49,7 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
   var itemsView: List[MenuItemView[_ <: BaseMenuItem]] = baseItem
 
 
-  val newContent: MainContent = MainContent()
+  val mainContent: MainContent = MainContent()
   val newContentRef: Ref[Div] = Ref("current-view")
 
 
@@ -85,14 +85,14 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
       val newItemView = SubMenuItemView(newItem)
       val t = currentItem.asInstanceOf[MenuItemView[ThemeMenuItem]]
       t.menuItem.items = t.menuItem.items :+ newItem
-      newContent.itemList.contentRef.ref.addChild(newItemView.xml())
-      newItemView.init(newContent.itemList.contentRef.ref)
+      mainContent.itemList.contentRef.ref.addChild(newItemView.xml())
+      newItemView.init(mainContent.itemList.contentRef.ref)
       createNavigation(newItemView)
     })
 
   })
 
-  override def xml(): Node = <div id="sm-view">
+  override def xml(): Elem = <div id="sm-view">
     <div id="side-menu">
       <div id="addMainMenu" class="simple-input"></div>
     </div>
@@ -161,6 +161,12 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
       custom.clear()
     }
 
+    def loadAcceuil()={
+      clearAllContent()
+      val acceuil = new Acceuil(siteService.imageService)
+      acceuil.addTo(custom)
+    }
+
     def load(contactMenuItem: ContactMenuItem): Unit = {
 
       clearAllContent()
@@ -204,7 +210,7 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
     }
 
 
-    override def xml(): Node
+    override def xml(): Elem
 
     = <div id={id}>
       <div id={id + "-c"}></div>
@@ -221,7 +227,7 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
 
   def updateMainContent(i: MenuItemView[_ <: BaseMenuItem]): Any = {
 
-    newContent.load(i)
+    mainContent.load(i)
   }
 
   def createNavigation(i: MenuItemView[_ <: BaseMenuItem]): MenuItemView[_ <: BaseMenuItem] = {
@@ -243,14 +249,20 @@ case class SiteModelView(model: SiteModel)(implicit val siteService: SiteService
     val menusInput = createMenuAdd
     makeNewSubItem = menusInput.map(_.subMenu)
     super.init(parent)
-    newContent.addTo(newContentRef.ref)
-    menusInput.foreach(e => e.menu.addTo(addMainMenu.ref))
+    mainContent.addTo(newContentRef.ref)
+
     val title : SiteTitle = SiteTitle(siteService.textService)
     title.addTo(sideMdenu.ref)
+    title.me.clkOnce.suscribe{e=>
+      mainContent.loadAcceuil()
+    }
     itemsView.map(e => {
       e.addTo(sideMdenu.ref);
       e
-    }).foreach(createNavigation)
+    }
+
+    ).foreach(createNavigation)
+    menusInput.foreach(e => e.menu.addTo(addMainMenu.ref))
 
 
   }

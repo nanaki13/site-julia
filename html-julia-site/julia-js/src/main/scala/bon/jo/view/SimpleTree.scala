@@ -3,7 +3,7 @@ package bon.jo.view
 import bon.jo.html.Types.{FinalComponent, ParentComponent}
 import org.scalajs.dom.html.Div
 
-import scala.xml.{Group, Node}
+import scala.xml.{Elem, Group, Node}
 
 case class SimpleTree[Finalp <: FinalComponent[_]](override val id: String, cps: List[Finalp], children: Finalp => List[Finalp]) extends ParentComponent[Div] {
 
@@ -27,7 +27,7 @@ case class SimpleTree[Finalp <: FinalComponent[_]](override val id: String, cps:
     </div>
   }
 
-  override def xml(): Node = <div id={id}>
+  override def xml(): Elem = <div id={id}>
     {if (cps.nonEmpty) {
       cps.map(xml)
     }}
