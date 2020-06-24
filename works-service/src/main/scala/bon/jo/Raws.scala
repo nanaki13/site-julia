@@ -9,6 +9,7 @@ object Raws {
   trait WithId extends js.Object {
     val id: Int
   }
+
   @js.native
   trait OeuvreRaw extends js.Object {
     val date: String
@@ -43,7 +44,7 @@ object Raws {
   trait ImageRawExport extends js.Object {
     val id: Int
     val link: String
-    val base:String
+    val base: String
   }
 
   @js.native
@@ -51,13 +52,21 @@ object Raws {
     val uid: String
     val index: Int
   }
+
   @js.native
-  trait TextExport extends js.Object  {
-    val id : TextId
+  trait TextExport extends js.Object {
+    val id: TextId
     //val id: Int
-    val text:String
+    val text: String
   }
 
+  @js.native
+  trait SiteElementExport extends js.Object {
+    val id: Int
+    val imageId: js.BigInt
+    val desc: Int
+    val order: Int
+  }
 
   @js.native
   trait ItemRawExport extends js.Object {
@@ -88,6 +97,7 @@ object Raws {
     val theme: Int
     val description: String
   }
+
   @js.native
   trait GlobalExport extends js.Object {
     val items: js.Array[ItemRawExport] = js.native
@@ -96,16 +106,22 @@ object Raws {
   }
 
 
-
 }
 
 object RawImpl {
 
-  case class TextId(uid : String,index : Int) extends Raws.TextId
+  case class SiteElementExport(id: Int,
+                               imageId: js.BigInt,
+                               desc: Int,
+                               order: Int) extends Raws.SiteElementExport
+
+  case class TextId(uid: String, index: Int) extends Raws.TextId
+
   case class TextExport(
                          //id: Int,
                          id: TextId,
                          text: String) extends Raws.TextExport
+
   case class ItemRawExport(id: Int,
                            text: String,
                            link: String,
@@ -118,22 +134,23 @@ object RawImpl {
 
   }
 
-object ItemRawExport{
-  def apply(id: Int,
-           text: String,
-           link: String,
-           image: Int,
-           parent: Int,
-           x: Int,
-           y: Int):ItemRawExport = ItemRawExport(id,
-    text,
-    link,
-    js.BigInt(image),
-    js.BigInt(parent),
-    js.BigInt(x),
-    js.BigInt(y))
-}
-  case class ImageRawExport(id: Int, link: String,base:String) extends Raws.ImageRawExport
+  object ItemRawExport {
+    def apply(id: Int,
+              text: String,
+              link: String,
+              image: Int,
+              parent: Int,
+              x: Int,
+              y: Int): ItemRawExport = ItemRawExport(id,
+      text,
+      link,
+      js.BigInt(image),
+      js.BigInt(parent),
+      js.BigInt(x),
+      js.BigInt(y))
+  }
+
+  case class ImageRawExport(id: Int, link: String, base: String) extends Raws.ImageRawExport
 
   case class OeuvreRawExport(
                               id: Int,
@@ -189,7 +206,7 @@ trait jsInterface {
 
   def native[R]: R
 
-  trait Object extends Product with OkResponse{
+  trait Object extends Product with OkResponse {
     override def canEqual(that: Any): Boolean = true
   }
 

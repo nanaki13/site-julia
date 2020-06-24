@@ -8,5 +8,6 @@ class ServicesFactory(repo : RepositoryContext with  SiteRepository)(implicit v 
    object imageService extends ImageServiceImpl(repo)
    object oeuvreService extends OeuvreServiceImpl(repo)
    object textService extends TextService(repo)
+   object siteElementService extends SiteElementService(repo)
    val servies:List[RootCreator[_,_]] = List(menuService,imageService,oeuvreService,textService)
 }

@@ -21,7 +21,17 @@ position: absolute;
 .para{
     width : 50em;
 }
+.img-acc-img{
+position: absolute;
+    margin: auto;
+    width: auto;
+    /*vertical-align: middle;*/
+}
+.img-acc{
+ overflow-y: hidden;
+     position: absolute;
 
+}
 .title_main {
     text-transform: uppercase;
     letter-spacing: 1.5em;

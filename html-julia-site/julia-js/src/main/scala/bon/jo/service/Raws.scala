@@ -1,10 +1,8 @@
 package bon.jo.service
 
 import scala.scalajs.js
-import scala.scalajs.js.|
 
 object Raws {
-
 
 
   @js.native
@@ -31,12 +29,21 @@ object Raws {
     val uid: String
     val index: Int
   }
+
   @js.native
-  trait TextExport extends js.Object   {
+  trait TextExport extends js.Object {
     val id: TextId
-   // val uid: String
+    // val uid: String
     //val index: Int
-    val text:String
+    val text: String
+  }
+
+  @js.native
+  trait SiteElementExport extends js.Object {
+    val id: Int
+    val imageId: js.BigInt
+    val desc: Int
+    val order: Int
   }
 
   @js.native
@@ -50,10 +57,10 @@ object Raws {
 
 
   @js.native
-  trait ImageRawExport extends js.Object  {
+  trait ImageRawExport extends js.Object {
     val id: Int
     val link: String
-    val base:String
+    val base: String
   }
 
 
@@ -79,13 +86,14 @@ object Raws {
   @js.native
   trait OeuvreRawExport extends js.Object {
     val id: Int
-    val image:  js.BigInt
+    val image: js.BigInt
     val name: String
     val dimension: DimemsionExport
     val date: Int
     val theme: Int
     val description: String
   }
+
   @js.native
   trait GlobalExport extends js.Object {
     val items: js.Array[ItemRawExport] = js.native
